@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<ScrollPane id="root" fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MainWindowController">
+   <content>
+      <BorderPane fx:id="mainBorder" minHeight="-Infinity" minWidth="-Infinity" prefHeight="632.0" prefWidth="800.0">
+         <top>
+            <GridPane prefHeight="98.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <AnchorPane prefHeight="96.0" prefWidth="800.0" />
+                  <fx:include fx:id="loadFileComponent" source="loadFileComponent.fxml" />
+               </children>
+            </GridPane>
+         </top>
+         <center>
+            <TabPane fx:id="mainTabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="526.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+              <tabs>
+                <Tab id="TabButton" fx:id="machineTabButton" text="Machine">
+                     <content>
+                        <GridPane prefHeight="531.0" prefWidth="796.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <fx:include fx:id="machineTab" source="MachineTab.fxml" />
+                           </children>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                        </GridPane>
+                     </content>
+                </Tab>
+                <Tab id="TabButton" fx:id="encryptDecryptTabButton" onSelectionChanged="#encryptDecryptTabButtonSelectionListener" text="Encrypt/Decrypt">
+                     <content>
+                        <GridPane prefHeight="531.0" prefWidth="796.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <fx:include fx:id="encryptDecryptTab" source="EncryptDecryptTab.fxml" />
+                           </children>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                        </GridPane>
+                     </content>
+                </Tab>
+                  <Tab id="TabButton" fx:id="bruteForceTab" onSelectionChanged="#bruteForceTabButtonOnListener" text="Brute Force">
+                     <content>
+                        <GridPane prefHeight="710.0" prefWidth="796.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <fx:include fx:id="bruteForceTabPane" source="BruteForceTab.fxml" />
+                           </children>
+                        </GridPane>
+                     </content>
+                  </Tab>
+              </tabs>
+               <padding>
+                  <Insets left="2.0" right="2.0" top="5.0" />
+               </padding>
+               <BorderPane.margin>
+                  <Insets top="8.0" />
+               </BorderPane.margin>
+            </TabPane>
+         </center>
+      </BorderPane>
+   </content>
+</ScrollPane>

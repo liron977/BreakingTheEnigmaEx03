@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<Pane id="singleWordTile" prefHeight="159.0" prefWidth="279.0" styleClass="singleWordTile" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.SingleDecryptionInfo.SingleDecryptionInfoController">
+   <children>
+      <ScrollPane id="singleWordTile" layoutX="8.0" layoutY="9.0" prefHeight="144.0" prefWidth="262.0" styleClass="singleDecryptionScroller">
+         <content>
+            <VBox id="singleWordTile" alignment="CENTER">
+               <children>
+                  <Label id="userInputBruteForce" fx:id="decryptionLabel" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" textAlignment="CENTER" underline="true">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label id="userInputBruteForce" fx:id="codeConfigurationLabel" alignment="CENTER" VBox.vgrow="ALWAYS">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label id="userInputBruteForce" fx:id="agentIdLabel" alignment="CENTER">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </children>
+</Pane>

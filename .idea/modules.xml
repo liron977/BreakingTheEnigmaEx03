@@ -4,6 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BreakingTheEnigmaEx03.iml" filepath="$PROJECT_DIR$/BreakingTheEnigmaEx03.iml" />
       <module fileurl="file://$PROJECT_DIR$/DTOObjects/DTOObjects.iml" filepath="$PROJECT_DIR$/DTOObjects/DTOObjects.iml" />
+      <module fileurl="file://$PROJECT_DIR$/EngimaEngine/EngimaEngine.iml" filepath="$PROJECT_DIR$/EngimaEngine/EngimaEngine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/EnigmaUI/EnigmaUI.iml" filepath="$PROJECT_DIR$/EnigmaUI/EnigmaUI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JavafxUI/JavafxUI.iml" filepath="$PROJECT_DIR$/JavafxUI/JavafxUI.iml" />
     </modules>
   </component>
 </project>
