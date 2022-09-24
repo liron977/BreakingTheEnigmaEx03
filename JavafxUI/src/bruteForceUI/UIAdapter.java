@@ -1,6 +1,6 @@
 package bruteForceUI;
 
-import BruteForceLogic.UiAdapterInterface;
+import bruteForceLogic.UiAdapterInterface;
 import bruteForce.DecryptionInfoDTO;
 import javafx.application.Platform;
 

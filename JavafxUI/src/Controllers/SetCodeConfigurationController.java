@@ -1,6 +1,5 @@
 package Controllers;
 
-import BruteForceLogic.TheMission;
 import engineManager.EngineManager;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;

@@ -1,7 +1,7 @@
-package DecryptionManager;
+package decryptionManager;
 
-import BruteForceLogic.TheMission;
-import BruteForceLogic.UiAdapterInterface;
+import bruteForceLogic.TheMission;
+import bruteForceLogic.UiAdapterInterface;
 import bruteForce.DecryptionInfoDTO;
 import engine.theEnigmaEngine.Agent;
 import engine.theEnigmaEngine.Agents;

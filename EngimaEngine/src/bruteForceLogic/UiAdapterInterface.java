@@ -1,4 +1,4 @@
-package BruteForceLogic;
+package bruteForceLogic;
 
 import bruteForce.DecryptionInfoDTO;
 

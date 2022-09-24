@@ -1,8 +1,7 @@
 package bruteForceUI;
 
-import BruteForceLogic.UiAdapterInterface;
-import DecryptionManager.DecryptionManager;
-import bruteForce.DecryptionInfoDTO;
+import bruteForceLogic.UiAdapterInterface;
+import decryptionManager.DecryptionManager;
 import engineManager.EngineManager;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.concurrent.Task;
