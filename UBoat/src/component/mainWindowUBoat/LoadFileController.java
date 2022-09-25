@@ -4,6 +4,7 @@ import engineManager.EngineManagerInterface;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
@@ -58,6 +59,7 @@ public class LoadFileController {
         isEnableAnimationsProperty =new SimpleBooleanProperty(false);
         EngineManagerInterface engineManager=new EngineManager();
          this.mediator=new Mediator(engineManager);
+
         //enableAnimationsCheckBox.selectedProperty().setValue(false);
         //styleRadioButtonTg = new ToggleGroup();
         //blueStyleRadioButton.setToggleGroup(styleRadioButtonTg);

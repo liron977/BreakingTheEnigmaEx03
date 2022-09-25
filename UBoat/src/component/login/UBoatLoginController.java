@@ -10,6 +10,7 @@ import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -126,6 +127,7 @@ public class UBoatLoginController {
             sControllerScene = new Scene(root1);
             primaryStage.setMinHeight(300f);
             primaryStage.setMinWidth(400f);
+            sControllerScene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
         }
         catch (IOException ignore) {
             ignore.printStackTrace();}
