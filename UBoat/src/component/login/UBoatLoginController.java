@@ -1,6 +1,7 @@
 package component.login;
 
 import com.sun.istack.internal.NotNull;
+import component.mainWindowUBoat.LoadFileController;
 import component.mainWindowUBoat.MainWindowUBoatController;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -20,6 +21,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.Response;
+import uiMediator.Mediator;
 import utils.Constants;
 import utils.http.HttpClientUtil;
 
@@ -43,6 +45,8 @@ public class UBoatLoginController {
     private Stage primaryStage;
     private Scene sControllerScene;
     private SimpleDoubleProperty amountOfThreadsProperty;
+    private Mediator mediator;
+    private LoadFileController loadFileController;
 
     public UBoatLoginController() {
         errorMessageProperty = new SimpleStringProperty("");
@@ -52,6 +56,7 @@ public class UBoatLoginController {
     @FXML public void initialize() {
         loginErrorLabel.textProperty().bind(errorMessageProperty);
         uBoatNameTextField.clear();
+        //loadFileController=new LoadFileController();
     }
 
     @FXML private void loginButtonClicked(ActionEvent event) {
@@ -101,6 +106,7 @@ public class UBoatLoginController {
                         }
                         primaryStage.setScene(sControllerScene);
                         primaryStage.show();
+                       // loadFileController.setMediator(mediator);
                     });
                 }
                 Objects.requireNonNull(response.body()).close();
@@ -134,5 +140,9 @@ public class UBoatLoginController {
     public void setPrimaryStageAndLoadInTheBackgroundSuperScreen(Stage primaryStageIn){
         primaryStage=primaryStageIn;
        loadSuperScreen();
+    }
+    public void setMediator(Mediator mediator) throws Exception {
+        this.mediator = mediator;
+       // loadFileComponentController.setMediator(mediator);
     }
 }

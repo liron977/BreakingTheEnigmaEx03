@@ -43,6 +43,8 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     private List<String> possibleStartingPositionList;
     private Agents usedAgents;
 
+    private BattleField battleField;
+
 
     @Override
     public ListOfExceptionsDTO load(String filePath) throws Exception {
@@ -50,14 +52,14 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         Validator xmlReflectorValidator = new XmlReflectorValidator(cteEnigma);
         Validator xmlRotorValidator = new XmlRotorValidator((cteEnigma));
         Validator xmlKeyboardValidator = new XmlKeyboardValidator(cteEnigma);
-        Validator xmlAgentsValidator = new XmlAgentValidator(cteEnigma);
+       // Validator xmlAgentsValidator = new XmlAgentValidator(cteEnigma);
         Validator xmlDictionaryValidator = new XmlDictionaryValidator(cteEnigma);
 
         List<Validator> validators = new ArrayList<>();
         validators.add(xmlKeyboardValidator);
         validators.add(xmlReflectorValidator);
         validators.add((xmlRotorValidator));
-        validators.add(xmlAgentsValidator);
+        //validators.add(xmlAgentsValidator);
         validators.add(xmlDictionaryValidator);
         ValidatorRunner validatorRunner = new ValidatorRunner(validators);
         List<Exception> exceptions = validatorRunner.run();
@@ -90,7 +92,8 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         CTEEnigma cteEnigma = readFromXmlFile(filePath);
         SchemaGenerated schemaGenerated = new SchemaGenerated(cteEnigma);
         TheMachineEngine theMachineEngine = new TheMachineEngine(schemaGenerated.createRotorsSet(), schemaGenerated.createReflectorsSet(), schemaGenerated.createKeyboard(), schemaGenerated.getAmountOfUsedRotors(), schemaGenerated.createDictionary());
-        this.agents=schemaGenerated.createAgents();
+        //this.agents=schemaGenerated.createAgents();
+        this.battleField=schemaGenerated.createBattleField();
         return theMachineEngine;
     }
 
@@ -862,10 +865,11 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         return usedAgents;
 
     }
-
     public Agents getUsedAgents() {
         return usedAgents;
     }
-
+    public BattleField getBattleField() {
+        return battleField;
+    }
 
 }

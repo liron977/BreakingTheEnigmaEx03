@@ -15,9 +15,13 @@ public class SchemaGenerated implements Serializable {
         this.keyboardInput = enigmaDescriptor.getCTEMachine().getABC().trim();
 
     }
-    public Agents createAgents(){
+ /*   public Agents createAgents(){
         Agents agents=new Agents(enigmaDescriptor.getCTEDecipher().getAgents());
         return agents;
+    }*/
+    public BattleField createBattleField(){
+        BattleField battleField=new BattleField(enigmaDescriptor.getCTEBattlefield().getBattleName(),enigmaDescriptor.getCTEBattlefield().getAllies(),enigmaDescriptor.getCTEBattlefield().getLevel());
+        return battleField;
     }
     public Dictionary createDictionary(){
         String [] dict;

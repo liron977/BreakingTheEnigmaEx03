@@ -13,7 +13,7 @@ public class XmlAgentValidator implements Validator{
 
     @Override
     public void validate() {
-        isNumberOfAgentsValid();
+       // isNumberOfAgentsValid();
 
     }
 
@@ -21,7 +21,7 @@ public class XmlAgentValidator implements Validator{
        this.cteDecipher=cteEnigma.getCTEDecipher();
        errors=new ArrayList<>();
     }
-    public void isNumberOfAgentsValid(){
+ /*   public void isNumberOfAgentsValid(){
         int numberOfAgents=cteDecipher.getAgents();
         if(numberOfAgents<2){
             errors.add(new Exception("The number of agents should 2 and more"));
@@ -30,7 +30,7 @@ public class XmlAgentValidator implements Validator{
         else if(numberOfAgents>50){
             errors.add(new Exception("The number of agents cant be more than 50"));
         }
-    }
+    }*/
 
 
 

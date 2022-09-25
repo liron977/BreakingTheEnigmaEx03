@@ -1,4 +1,6 @@
 package component.mainWindowUBoat;
+import engineManager.EngineManager;
+import engineManager.EngineManagerInterface;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -48,11 +50,14 @@ public class LoadFileController {
         isXmlLoaded= new SimpleBooleanProperty(false);
         alert = new Alert(Alert.AlertType.ERROR);
         handlers = new ArrayList<>();
+
     }
     public SimpleBooleanProperty isXmlLoadedProperty(){return isXmlLoaded;}
     @FXML
     public void initialize() {
         isEnableAnimationsProperty =new SimpleBooleanProperty(false);
+        EngineManagerInterface engineManager=new EngineManager();
+         this.mediator=new Mediator(engineManager);
         //enableAnimationsCheckBox.selectedProperty().setValue(false);
         //styleRadioButtonTg = new ToggleGroup();
         //blueStyleRadioButton.setToggleGroup(styleRadioButtonTg);
@@ -105,8 +110,6 @@ public class LoadFileController {
 
     public void setMediator(Mediator mediator) {
         this.mediator = mediator;
-
-
     }
 
     public void addHandler(EventsHandler handler) {
