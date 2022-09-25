@@ -51,7 +51,6 @@
                 </Tab>
               </tabs>
             </TabPane>
-            <fx:include source="loadFileComponent.fxml" />
          </children>
       </VBox>
   </content>
