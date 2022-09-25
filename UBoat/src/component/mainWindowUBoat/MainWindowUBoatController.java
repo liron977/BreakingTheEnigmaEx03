@@ -1,8 +1,8 @@
-package component.Super;
+package component.mainWindowUBoat;
 
 import javafx.stage.Stage;
 
-public class UBoatSuperController {
+public class MainWindowUBoatController {
     private Stage primaryStage;
     public void setPrimaryStage(Stage primaryStageIn) {
         primaryStage = primaryStageIn;

@@ -1,6 +1,6 @@
 package main;
 
-import component.Login.UBoatLoginController;
+import component.login.UBoatLoginController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,12 +12,12 @@ import java.net.URL;
 public class UBoatMain extends Application {
         @Override public void start(Stage primaryStage) throws Exception {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = getClass().getResource("/component/Login/Login.fxml");
+            URL url = getClass().getResource("/component/login/Login.fxml");
             fxmlLoader.setLocation(url);
             Parent root = fxmlLoader.load(url.openStream());
             UBoatLoginController workerLoginController = fxmlLoader.getController();
             workerLoginController.setPrimaryStageAndLoadInTheBackgroundSuperScreen(primaryStage);
-            primaryStage.setTitle("Worker");
+            primaryStage.setTitle("UBoat");
             Scene scene = new Scene(root);
             primaryStage.setMinHeight(300f);
             primaryStage.setMinWidth(400f);

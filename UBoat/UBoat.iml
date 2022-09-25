@@ -11,5 +11,16 @@
     <orderEntry type="module" module-name="clientUtils" />
     <orderEntry type="library" name="google-gson-2" level="project" />
     <orderEntry type="library" name="okHttp" level="project" />
+    <orderEntry type="module" module-name="DTOObjects" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../3rd/AnimateFX-1.2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module" module-name="EngimaEngine" />
   </component>
 </module>

@@ -27,7 +27,7 @@
                <children>
                   <fx:include fx:id="statistics" minHeight="-Infinity" minWidth="-Infinity" source="Statistics.fxml" HBox.hgrow="ALWAYS" />
                   <Separator orientation="VERTICAL" prefHeight="239.0" prefWidth="9.0" />
-                  <fx:include fx:id="codeConfigurationVbox" minHeight="-Infinity" minWidth="-Infinity" source="ConfigurationDisplay.fxml" HBox.hgrow="ALWAYS" />
+                  <fx:include fx:id="codeConfigurationVbox" minHeight="-Infinity" minWidth="-Infinity" source="../../../UBoat/src/component/uBoatMachineTab/machineTab/ConfigurationDisplay.fxml" HBox.hgrow="ALWAYS" />
                </children>
                <VBox.margin>
                   <Insets bottom="10.0" left="5.0" />

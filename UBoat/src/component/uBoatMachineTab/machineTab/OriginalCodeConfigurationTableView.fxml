@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<ScrollPane fx:id="originalCodeConfigurationScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="76.0" prefWidth="424.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.OriginalCodeConfigurationController">
+<ScrollPane fx:id="originalCodeConfigurationScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="76.0" prefWidth="424.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.uBoatMachineTab.machineTab.OriginalCodeConfigurationController">
    <content>
       <GridPane fx:id="originalCodeConfigurationGridPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
          <columnConstraints>

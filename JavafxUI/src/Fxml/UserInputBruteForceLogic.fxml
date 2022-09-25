@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fx:id="userInputBruteForceLogic" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="503.0" prefWidth="857.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.UserInputBruteForceLogicTabController">
+<ScrollPane fx:id="userInputBruteForceLogic" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="503.0" prefWidth="857.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <content>
       <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="253.0" minWidth="700.0" prefHeight="500.0">
          <columnConstraints>
@@ -90,7 +90,7 @@
                         <Label id="GeneralLabel" fx:id="currentConfigurationLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="286.0" text="The current configuration:" />
                         <HBox minHeight="80.0" minWidth="200.0" prefHeight="104.0" prefWidth="425.0">
                            <children>
-                              <fx:include fx:id="currentCodeConfiguration" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" source="CodeConfigurationTableView.fxml" HBox.hgrow="ALWAYS" />
+                              <fx:include fx:id="currentCodeConfiguration" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" source="../../../UBoat/src/component/uBoatMachineTab/machineTab/CodeConfigurationTableView.fxml" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                         <Button id="saveSettingsButton" fx:id="resetButton" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#resetButtonOnAction" prefHeight="25.0" prefWidth="131.0" text="Reset Configuration">

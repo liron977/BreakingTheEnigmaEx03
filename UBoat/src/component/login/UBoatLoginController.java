@@ -1,7 +1,7 @@
-package component.Login;
+package component.login;
 
 import com.sun.istack.internal.NotNull;
-import component.Super.UBoatSuperController;
+import component.mainWindowUBoat.MainWindowUBoatController;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -39,7 +39,7 @@ public class UBoatLoginController {
     private Label loginErrorLabel;
 
     private final StringProperty errorMessageProperty;
-    private UBoatSuperController sController;
+    private MainWindowUBoatController sController;
     private Stage primaryStage;
     private Scene sControllerScene;
     private SimpleDoubleProperty amountOfThreadsProperty;
@@ -110,7 +110,7 @@ public class UBoatLoginController {
     }
     private void loadSuperScreen(){
         FXMLLoader fxmlLoader = new FXMLLoader();
-        URL superScreenUrl = getClass().getResource("/component/Super/SuperComponent.fxml");
+        URL superScreenUrl = getClass().getResource("/component/mainWindowUBoat/MainWindowUBoat.fxml");
         fxmlLoader.setLocation(superScreenUrl);
         try {
             Parent root1 = fxmlLoader.load(superScreenUrl.openStream());

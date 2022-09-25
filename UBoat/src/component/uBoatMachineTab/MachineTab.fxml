@@ -2,13 +2,14 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<ScrollPane id="MainWindow" fx:id="machineTab" fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MachineTabController">
+<ScrollPane id="MainWindow" fx:id="machineTab" fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.uBoatMachineTab.UBoatMachineTabController">
    <content>
       <GridPane minHeight="300.0" minWidth="850.0">
          <columnConstraints>
@@ -25,8 +26,8 @@
                <bottom>
                   <HBox id="presentInfoSection" fx:id="bottomHbox" alignment="CENTER" prefHeight="333.0" prefWidth="879.0" spacing="5.0" BorderPane.alignment="TOP_CENTER">
                      <children>
-                        <fx:include fx:id="setCodeConfiguration" minHeight="-Infinity" minWidth="-Infinity" source="SetCodeConfigurations.fxml" HBox.hgrow="ALWAYS" />
-                        <fx:include fx:id="codeConfiguration" minHeight="-Infinity" minWidth="-Infinity" source="ConfigurationDisplay.fxml" HBox.hgrow="ALWAYS" />
+                        <fx:include source="machineTab/SetCodeConfigurations.fxml" />
+                        <fx:include source="machineTab/ConfigurationDisplay.fxml" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="50.0" />
@@ -45,11 +46,12 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="ALWAYS" />
                     </rowConstraints>
                      <children>
-                        <fx:include fx:id="machineDetails" minHeight="250.0" minWidth="250.0" source="machineDetails.fxml" BorderPane.alignment="CENTER" />
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+                        <fx:include source="machineTab/machineDetails.fxml" />
                      </children>
                   </GridPane>
                </top>
-      
+
             </BorderPane>
          </children>
       </GridPane>

@@ -23,7 +23,7 @@
               </rowConstraints>
                <children>
                   <AnchorPane prefHeight="96.0" prefWidth="800.0" />
-                  <fx:include fx:id="loadFileComponent" source="loadFileComponent.fxml" />
+                  <fx:include fx:id="loadFileComponent" source="../../../UBoat/src/component/mainWindowUBoat/loadFileComponent.fxml" />
                </children>
             </GridPane>
          </top>
@@ -40,7 +40,7 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <fx:include fx:id="machineTab" source="MachineTab.fxml" />
+                              <fx:include fx:id="machineTab" source="../../../UBoat/src/component/uBoatMachineTab/MachineTab.fxml" />
                            </children>
                            <padding>
                               <Insets left="10.0" right="10.0" />
