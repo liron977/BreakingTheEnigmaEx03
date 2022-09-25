@@ -65,7 +65,7 @@ public class UBoatLoginController {
                 .parse(Constants.LOGIN_PAGE)
                 .newBuilder()
                 .addQueryParameter("username", userName)
-                .addQueryParameter("role", "worker")
+                .addQueryParameter("role", "uboat")
                 .build()
                 .toString();
 
@@ -116,12 +116,13 @@ public class UBoatLoginController {
             Parent root1 = fxmlLoader.load(superScreenUrl.openStream());
            sController=fxmlLoader.getController();
             sController.setPrimaryStage(primaryStage);
-            primaryStage.setTitle("G.P.U.P-worker");
+            primaryStage.setTitle("Enigma-UBoat");
             sControllerScene = new Scene(root1);
             primaryStage.setMinHeight(300f);
             primaryStage.setMinWidth(400f);
         }
-        catch (IOException ignore){ignore.printStackTrace();}
+        catch (IOException ignore) {
+            ignore.printStackTrace();}
     }
     @FXML  private void userNameKeyTyped(KeyEvent event) {
         errorMessageProperty.set("");

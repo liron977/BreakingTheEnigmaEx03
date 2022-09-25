@@ -9,6 +9,9 @@
           <element id="module-output" name="EngimaEngine" />
           <element id="module-output" name="DTOObjects" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="google-gson-2" />
+        </element>
       </element>
     </root>
   </artifact>

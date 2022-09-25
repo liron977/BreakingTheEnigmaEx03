@@ -54,11 +54,11 @@ public class LoadFileController {
     public void initialize() {
         isEnableAnimationsProperty =new SimpleBooleanProperty(false);
         //enableAnimationsCheckBox.selectedProperty().setValue(false);
-        styleRadioButtonTg = new ToggleGroup();
-        blueStyleRadioButton.setToggleGroup(styleRadioButtonTg);
-        blueStyleRadioButton.selectedProperty().set(true);
-        pinkStyleRadioButton.setToggleGroup(styleRadioButtonTg);
-        darkStyleRadioButton.setToggleGroup(styleRadioButtonTg);
+        //styleRadioButtonTg = new ToggleGroup();
+        //blueStyleRadioButton.setToggleGroup(styleRadioButtonTg);
+       // blueStyleRadioButton.selectedProperty().set(true);
+        //pinkStyleRadioButton.setToggleGroup(styleRadioButtonTg);
+        //darkStyleRadioButton.setToggleGroup(styleRadioButtonTg);
     }
     @FXML
     void enableAnimationsCheckBoxActionListener(ActionEvent event) {
@@ -69,7 +69,7 @@ public class LoadFileController {
           isEnableAnimationsProperty.setValue(false);
       }
     }
-  /*      @FXML
+/*    @FXML
     private void setStyle(ActionEvent event) {
         Scene scene= mainWindowUBoatController.mainBorder.getScene();;
 

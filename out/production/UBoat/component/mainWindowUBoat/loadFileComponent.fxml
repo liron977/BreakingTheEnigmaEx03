@@ -4,12 +4,11 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane id="loadFileComponent" fx:id="loadFileComponent" prefHeight="103.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.mainWindowUBoat.LoadFileController">
+<AnchorPane id="loadFileComponent" fx:id="loadFileComponent" prefHeight="103.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.mainWindowUBoat.LoadFileController">
    <children>
       <HBox alignment="CENTER_RIGHT" layoutX="135.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="585.0" AnchorPane.leftAnchor="135.0" AnchorPane.rightAnchor="0.0">
          <children>
@@ -31,13 +30,7 @@
             </Label>
          </content>
       </ScrollPane>
-      <HBox alignment="CENTER" layoutY="68.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="729.0" spacing="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <children>
-            <RadioButton fx:id="blueStyleRadioButton" mnemonicParsing="false" onAction="#setStyle" text="Blue Style" />
-            <RadioButton fx:id="pinkStyleRadioButton" mnemonicParsing="false" onAction="#setStyle" text="Pink Style" />
-            <RadioButton fx:id="darkStyleRadioButton" mnemonicParsing="false" onAction="#setStyle" text="Dark Style" />
-         </children>
-      </HBox>
+      <HBox alignment="CENTER" layoutY="68.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="729.0" spacing="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
    </children>
    <opaqueInsets>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
