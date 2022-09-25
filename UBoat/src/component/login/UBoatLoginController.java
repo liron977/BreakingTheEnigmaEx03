@@ -3,6 +3,8 @@ package component.login;
 import com.sun.istack.internal.NotNull;
 import component.mainWindowUBoat.LoadFileController;
 import component.mainWindowUBoat.MainWindowUBoatController;
+import engineManager.EngineManager;
+import engineManager.EngineManagerInterface;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -128,9 +130,14 @@ public class UBoatLoginController {
             primaryStage.setMinHeight(300f);
             primaryStage.setMinWidth(400f);
             sControllerScene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
+            EngineManagerInterface engineManager=new EngineManager();
+            Mediator mediator=new Mediator(engineManager);
+            sController.setMediator(mediator);
         }
         catch (IOException ignore) {
-            ignore.printStackTrace();}
+            ignore.printStackTrace();} catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     @FXML  private void userNameKeyTyped(KeyEvent event) {
         errorMessageProperty.set("");

@@ -9,14 +9,14 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="865.0" styleClass="clientUtils/src/utils/CSS/BlueStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.mainWindowUBoat.MainWindowUBoatController">
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="865.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.mainWindowUBoat.MainWindowUBoatController">
   <content>
       <VBox prefHeight="632.0" prefWidth="800.0">
          <children>
-            <fx:include source="loadFileComponent.fxml" />
-            <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="527.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
+            <fx:include fx:id="loadFileComponent" source="loadFileComponent.fxml" />
+            <TabPane fx:id="uBoatMainTabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="527.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab text="Machine">
+                <Tab fx:id="uBoatMachineTabButton" text="Machine">
                   <content>
                         <GridPane>
                            <columnConstraints>
@@ -27,13 +27,13 @@
                            </rowConstraints>
                            <children>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                              <fx:include source="../uBoatMachineTab/MachineTab.fxml" />
+                              <fx:include fx:id="machineTab" source="../uBoatMachineTab/MachineTab.fxml" />
                               <!--<fx:include source="../../../../JavafxUI/src/Fxml/MachineTab.fxml" />-->
                            </children>
                         </GridPane>
                   </content>
                 </Tab>
-                <Tab text="Contest">
+                <Tab fx:id="uBoatContestButton" text="Contest">
                   <content>
                         <GridPane>
                            <columnConstraints>

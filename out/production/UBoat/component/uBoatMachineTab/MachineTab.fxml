@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<ScrollPane id="MainWindow" fx:id="machineTab" fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.uBoatMachineTab.UBoatMachineTabController">
+<ScrollPane id="MainWindow" fx:id="machineTab" fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.uBoatMachineTab.UBoatMachineTabController">
    <content>
       <GridPane minHeight="300.0" minWidth="850.0">
          <columnConstraints>
@@ -47,7 +47,7 @@
                     </rowConstraints>
                      <children>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" />
-                        <fx:include source="machineTab/machineDetails.fxml" />
+                        <fx:include fx:id="machineDetails" source="machineTab/machineDetails.fxml" />
                      </children>
                   </GridPane>
                </top>

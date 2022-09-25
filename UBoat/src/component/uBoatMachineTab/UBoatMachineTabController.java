@@ -63,7 +63,7 @@ public class UBoatMachineTabController implements EventsHandler {
         this.mediator = mediator;
 
         machineDetailsController.setMediator(mediator);
-        setCodeConfigurationController.setMediator(mediator);
+        //setCodeConfigurationController.setMediator(mediator);
         // displayCodeConfigurationController.setMediator(mediator);
       //  codeConfigurationController.setMediator(mediator);
         // bruteForceController.setMediator(mediator);

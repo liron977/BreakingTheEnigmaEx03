@@ -22,7 +22,7 @@ public class LoadFileController {
     Mediator mediator;
     private boolean isFileLoadSuccessfully;
     private boolean isFileNameValid;
-    private List<EventsHandler> handlers = new ArrayList<>();
+    private List<EventsHandler> handlers=new ArrayList<>();
     @FXML
     public Button loadFileButton;
     @FXML
@@ -51,11 +51,11 @@ public class LoadFileController {
         isXmlLoaded= new SimpleBooleanProperty(false);
         alert = new Alert(Alert.AlertType.ERROR);
         handlers = new ArrayList<>();
-
     }
     public SimpleBooleanProperty isXmlLoadedProperty(){return isXmlLoaded;}
     @FXML
     public void initialize() {
+        handlers = new ArrayList<>();
         isEnableAnimationsProperty =new SimpleBooleanProperty(false);
         EngineManagerInterface engineManager=new EngineManager();
          this.mediator=new Mediator(engineManager);
@@ -113,7 +113,6 @@ public class LoadFileController {
     public void setMediator(Mediator mediator) {
         this.mediator = mediator;
     }
-
     public void addHandler(EventsHandler handler) {
         if (handler != null && !handlers.contains(handler)) {
             handlers.add(handler);
@@ -146,14 +145,15 @@ public class LoadFileController {
     public void loadNewFileButtonActionListener(ActionEvent event) throws Exception {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         String message = "";
-       FileChooser fileChooser = new FileChooser();
+/*       FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select the xml file");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML files", "*.xml"));
         File selectedFile = fileChooser.showOpenDialog(primaryStage);
         if (selectedFile == null) {
             return;
         }
-        String absolutePath = selectedFile.getAbsolutePath();
+        String absolutePath = selectedFile.getAbsolutePath();*/
+        String absolutePath="C:\\Users\\97254\\IdeaProjects\\BreakingTheEnigmaEx03\\EngimaEngine\\src\\resources\\ex3-basic.xml";
         List<Exception> exceptionList = new ArrayList<>();
         if (mediator.fileNameValidation(absolutePath)) {
 
