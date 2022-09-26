@@ -1,8 +1,9 @@
 package constants;
 
-public class Constants {
+public class ParametersConstants {
     public static final String USERNAME = "username";
     public static final String BATTLE_FIELD = "battlefield";
+    public static final String CONFIGURATION_SELECTION_TYPE = "configurationSelectionType";
     public static final String USER_NAME_ERROR = "username_error";
 
     public static final String CHAT_PARAMETER = "userstring";

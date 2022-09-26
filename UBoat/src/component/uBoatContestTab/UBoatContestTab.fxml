@@ -30,9 +30,9 @@
       </VBox>
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="477.0" prefWidth="421.0">
          <children>
-            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="216.0" prefViewportHeight="240.0" prefViewportWidth="600.0" prefWidth="389.0">
+            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="216.0" prefViewportHeight="240.0" prefViewportWidth="600.0" prefWidth="421.0">
                <content>
-                  <TableView fx:id="activeTeamsDetailsTableView" prefHeight="213.0" prefWidth="407.0">
+                  <TableView fx:id="activeTeamsDetailsTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="419.0">
                      <columns>
                         <TableColumn prefWidth="75.0" text="C1" />
                         <TableColumn prefWidth="75.0" text="C2" />
@@ -40,6 +40,12 @@
                   </TableView>
                </content>
             </ScrollPane>
+            <TableView fx:id="currentConfigurationTableView" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="C1" />
+                <TableColumn prefWidth="75.0" text="C2" />
+              </columns>
+            </TableView>
             <Label id="GeneralLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="331.0" text="Please select words from the dictionary">
                <VBox.margin>
                   <Insets top="20.0" />
