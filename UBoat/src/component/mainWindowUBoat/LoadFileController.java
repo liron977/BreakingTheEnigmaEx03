@@ -56,11 +56,13 @@ public class LoadFileController {
     ToggleGroup styleRadioButtonTg;
     private SimpleBooleanProperty isEnableAnimationsProperty;
     private String uBoatUserName;
+    private SimpleBooleanProperty isMachineDefined;
 
     public LoadFileController(){
         isXmlLoaded= new SimpleBooleanProperty(false);
         alert = new Alert(Alert.AlertType.ERROR);
         handlers = new ArrayList<>();
+        isMachineDefined=new SimpleBooleanProperty(false);
     }
     public SimpleBooleanProperty isXmlLoadedProperty(){return isXmlLoaded;}
     @FXML
@@ -69,7 +71,6 @@ public class LoadFileController {
         isEnableAnimationsProperty =new SimpleBooleanProperty(false);
         EngineManagerInterface engineManager=new EngineManager();
          this.mediator=new Mediator(engineManager);
-
         //enableAnimationsCheckBox.selectedProperty().setValue(false);
         //styleRadioButtonTg = new ToggleGroup();
         //blueStyleRadioButton.setToggleGroup(styleRadioButtonTg);
@@ -141,6 +142,7 @@ public class LoadFileController {
 
     public void setMainWindowUBoatController(MainWindowUBoatController mainWindowUBoatController) {
         this.mainWindowUBoatController = mainWindowUBoatController;
+        bindIsMachineDefinedProperty();
     }
 
     private void fireEvent() throws Exception {
@@ -221,6 +223,7 @@ public class LoadFileController {
         Call call= HttpClientUtil.getOkHttpClient().newCall(request);
         Response response=call.execute();
         if(response.code()==200){
+            isMachineDefined.set(true);
             battleName=response.body().string();
             mainWindowUBoatController.setBattleName(battleName);
             Platform.runLater(() -> {
@@ -234,6 +237,7 @@ public class LoadFileController {
 
             });}
         else{
+            isMachineDefined.set(false);
             Platform.runLater(() -> {
                 try {
                      String message = "Load status: error loading " +response.body().string();
@@ -250,6 +254,9 @@ public class LoadFileController {
         mainWindowUBoatController.setMachineDetails();
     }
 
+    public void bindIsMachineDefinedProperty(){
+      mainWindowUBoatController.getIsMachineDefined().bind(isMachineDefined);
+    }
 
 
 /*    @FXML private void loadNewFileButtonActionListener(ActionEvent event) {

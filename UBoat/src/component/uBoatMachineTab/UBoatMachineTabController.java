@@ -3,6 +3,7 @@ package component.uBoatMachineTab;
 import component.mainWindowUBoat.LoadFileController;
 import component.mainWindowUBoat.MainWindowUBoatController;
 import component.uBoatMachineTab.machineTab.*;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
@@ -85,7 +86,9 @@ public void setMachineDetails(){
         border.setMaxWidth(Double.MAX_VALUE);
     }
 
-
+    public SimpleBooleanProperty getIsMachineDefined() {
+        return setCodeConfigurationController.getIsMachineDefined();
+    }
     public Mediator getMediator() {
         return mediator;
     }

@@ -57,6 +57,7 @@ public class SetCodeConfigurationController implements EventsHandler {
     int plugBoardPairCounter;
     private SimpleBooleanProperty isInitNeeded;
     private SimpleBooleanProperty isCodeDefined;
+    private SimpleBooleanProperty isMachineDefined;
     @FXML
     public void initialize() {
         clearButton.setDisable(true);
@@ -71,12 +72,14 @@ public class SetCodeConfigurationController implements EventsHandler {
         startingPositionListComboBox = new ArrayList<>();
         plugBoardPairsListComboBox = new ArrayList<>();
         isInitNeeded = new SimpleBooleanProperty(false);
+        isMachineDefined=new SimpleBooleanProperty(false);
     }
-
     public SimpleBooleanProperty isCodeDefinedProperty() {
         return isCodeDefined;
     }
-
+    public SimpleBooleanProperty getIsMachineDefined() {
+        return isMachineDefined;
+    }
     public void setMediator(Mediator mediator) {
         this.mediator = mediator;
 
@@ -167,74 +170,78 @@ public class SetCodeConfigurationController implements EventsHandler {
     }
 */
 
-    public void setConfiguration(String configurationSelectionType, CodeConfigurationTableViewDTO codeConfigurationTableViewDTO){
-        Gson gson = new Gson();
-        String gsonCodeConfigurationTableViewDTO = gson.toJson(codeConfigurationTableViewDTO);
-        RequestBody body =
-                new MultipartBody.Builder()
-                        .addFormDataPart("gsonCodeConfigurationTableViewDTO", gsonCodeConfigurationTableViewDTO)
-                        .build();
-        String finalUrl = HttpUrl
-                .parse(Constants.SET_CODE_CONFIGURATION)
-                .newBuilder()
-                .addQueryParameter("battlefield", battleName.trim())
-                .addQueryParameter("configurationSelectionType", configurationSelectionType)
-                .build()
-                .toString();
-        Request request = new Request.Builder()
-                .url(finalUrl)
-                .post(body)
-                .build();
-        Call call = HttpClientUtil.getOkHttpClient().newCall(request);
-        try {
-            Response response = call.execute();
-            if (response.code() != 200) {
-                Platform.runLater(() -> {{
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    try {
-                        alert.setContentText(response.body().string());
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    alert.getDialogPane().setExpanded(true);
-                    alert.showAndWait();}
-                });
-            }
-            else{
-                Platform.runLater(() -> {
-                    {
+    public void setConfiguration(String configurationSelectionType, CodeConfigurationTableViewDTO codeConfigurationTableViewDTO) {
+        if (isMachineDefined.getValue() == true) {
+            Gson gson = new Gson();
+            String gsonCodeConfigurationTableViewDTO = gson.toJson(codeConfigurationTableViewDTO);
+            RequestBody body =
+                    new MultipartBody.Builder()
+                            .addFormDataPart("gsonCodeConfigurationTableViewDTO", gsonCodeConfigurationTableViewDTO)
+                            .build();
+            String finalUrl = HttpUrl
+                    .parse(Constants.SET_CODE_CONFIGURATION)
+                    .newBuilder()
+                    .addQueryParameter("battlefield", battleName.trim())
+                    .addQueryParameter("configurationSelectionType", configurationSelectionType)
+                    .build()
+                    .toString();
+            Request request = new Request.Builder()
+                    .url(finalUrl)
+                    .post(body)
+                    .build();
+            Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+            try {
+                Response response = call.execute();
+                if (response.code() != 200) {
+                    Platform.runLater(() -> {
+                        {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            try {
+                                alert.setContentText(response.body().string());
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            alert.getDialogPane().setExpanded(true);
+                            alert.showAndWait();
+                        }
+                    });
+                } else {
+                    Platform.runLater(() -> {
+                        {
 
-                    }
-                });
+                        }
+                    });
+                }
+            } catch (IOException e) {
             }
         }
-        catch (IOException e) {}
+        else {
+            displayErrors("Please insert xml file");
+        }
     }
     @FXML
     void setRandomCodeButtonActionListener(ActionEvent event) throws Exception {
-        setConfiguration("Random",null);
-/*        isInitNeeded.setValue(true);
-        listOfExceptionsDTO = mediator.isMachineWasDefined();
-        List<Exception> listOfExceptions = listOfExceptionsDTO.getListOfException();
-        if (listOfExceptions.size() == 0) {
-            mediator.initCodeConfigurationAutomatically();
-            isCodeDefinedProperty().set(true);
-            fireEvent();
-            EngineManager engineManager = mediator.getEngineManger();
-
-        } else {
-            printListOfExceptions(listOfExceptions);
-        }*/
+            setConfiguration("Random", null);
     }
-
+private void displayErrors(String text) {
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setContentText(text);
+    alert.getDialogPane().setExpanded(true);
+    alert.showAndWait();
+}
     @FXML
     void setManuallyCodeButtonActionListener(ActionEvent event) throws Exception {
-        String rotorsId = getRotorsId();
-        String startingPosition = getStartingPosition();
-        String reflector = getReflector();
-        String plugBoardPairs = getPlugBoardPairs();
-        CodeConfigurationTableViewDTO codeConfigurationTableViewDTO=new CodeConfigurationTableViewDTO(rotorsId,startingPosition,reflector,plugBoardPairs);
-        setConfiguration("Manually",codeConfigurationTableViewDTO);
+        if (isMachineDefined.getValue()) {
+            String rotorsId = getRotorsId();
+            String startingPosition = getStartingPosition();
+            String reflector = getReflector();
+            String plugBoardPairs = getPlugBoardPairs();
+            CodeConfigurationTableViewDTO codeConfigurationTableViewDTO = new CodeConfigurationTableViewDTO(rotorsId, startingPosition, reflector, plugBoardPairs);
+            setConfiguration("Manually", codeConfigurationTableViewDTO);
+        } else {
+            displayErrors("Please insert xml file");
+        }
+    }
        /* Gson gson = new Gson();
         String gsonCodeConfigurationTableViewDTO = gson.toJson(codeConfigurationTableViewDTO);
         RequestBody body =
@@ -257,14 +264,10 @@ public class SetCodeConfigurationController implements EventsHandler {
             Response response = call.execute();
             if (response.code() != 200) {
                 Platform.runLater(() -> {{
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    try {
-                        alert.setContentText(response.body().string());
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    alert.getDialogPane().setExpanded(true);
-                    alert.showAndWait();}
+
+
+
+
                 });
             }
             else{
@@ -277,7 +280,6 @@ public class SetCodeConfigurationController implements EventsHandler {
         }
         catch (IOException e) {}
 */
-}
         public String getStartingPosition() {
         String startingPosition = "";
         for (int i = 0; i < startingPositionListComboBox.size(); i++) {

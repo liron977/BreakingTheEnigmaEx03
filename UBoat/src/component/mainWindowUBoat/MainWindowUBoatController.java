@@ -68,9 +68,10 @@ public class MainWindowUBoatController implements EventsHandler {
     public void setPrimaryStage(Stage primaryStageIn) {
         primaryStage = primaryStageIn;
         //scene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
-
     }
-
+    public SimpleBooleanProperty getIsMachineDefined(){
+        return machineTabController.getIsMachineDefined();
+    }
        @FXML
         public void initialize() {
             if (machineTabController != null) {
