@@ -60,7 +60,8 @@ public class SetCodeConfigurationController implements EventsHandler {
     private SimpleBooleanProperty isMachineDefined;
     @FXML
     public void initialize() {
-        clearButton.setDisable(true);
+        clearButton.disableProperty().bind(isMachineDefined.not());
+       // clearButton.setDisable(true);
     }
     public SetCodeConfigurationController() {
         isCodeDefined = new SimpleBooleanProperty(false);
@@ -103,7 +104,9 @@ public class SetCodeConfigurationController implements EventsHandler {
         }
     }
 
+
     public void setCodeCalibration()  {
+       // clearButton.setDisable(false);
         rotorsIdListComboBox = new ArrayList<>();
         startingPositionListComboBox = new ArrayList<>();
         plugBoardPairsListComboBox = new ArrayList<>();
@@ -208,7 +211,7 @@ public class SetCodeConfigurationController implements EventsHandler {
                 } else {
                     Platform.runLater(() -> {
                         {
-
+                            displayErrors("The configuration saved successfully");
                         }
                     });
                 }
@@ -423,7 +426,7 @@ private void displayErrors(String text) {
     @Override
     public void eventHappened(EventObject event) throws Exception {
         setCodeCalibration();
-        clearButton.setDisable(false);
+      //  clearButton.setDisable(false);
     }
 
     @FXML
