@@ -8,7 +8,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="188.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.uBoatMachineTab.machineTab.MachineDetailsController">
    <children>
-      <VBox layoutX="74.0" layoutY="40.0" prefHeight="137.0" prefWidth="465.0" AnchorPane.leftAnchor="74.0" AnchorPane.rightAnchor="61.0">
+      <VBox layoutX="74.0" layoutY="40.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="137.0" prefWidth="465.0" AnchorPane.leftAnchor="74.0" AnchorPane.rightAnchor="61.0">
          <children>
             <Pane id="paneDetail" prefHeight="52.0" prefWidth="223.0">
                <children>
@@ -43,7 +43,7 @@
             </Pane>
          </children>
       </VBox>
-      <Label id="MachineDetailsTitle" alignment="CENTER" contentDisplay="TOP" layoutX="20.0" prefHeight="43.0" prefWidth="572.0" text="Machine Details:" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="0.0">
+      <Label id="MachineDetailsTitle" alignment="CENTER" contentDisplay="TOP" layoutX="20.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="43.0" prefWidth="572.0" text="Machine Details:" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="0.0">
          <padding>
             <Insets top="10.0" />
          </padding></Label>
