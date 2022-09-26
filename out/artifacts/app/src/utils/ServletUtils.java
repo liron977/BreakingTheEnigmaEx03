@@ -5,7 +5,7 @@ import engineManager.MediatorForEngineManager;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 
-import static constants.Constants.INT_PARAMETER_ERROR;
+import static constants.ParametersConstants.INT_PARAMETER_ERROR;
 
 public class ServletUtils {
 
