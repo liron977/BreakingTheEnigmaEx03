@@ -43,6 +43,8 @@ public class UBoatLoginController {
     @FXML
     private Label loginErrorLabel;
 
+    String userName;
+
     private final StringProperty errorMessageProperty;
     private MainWindowUBoatController sController;
     private Stage primaryStage;
@@ -63,7 +65,8 @@ public class UBoatLoginController {
     }
 
     @FXML private void loginButtonClicked(ActionEvent event) {
-        String userName = uBoatNameTextField.getText();
+        userName = uBoatNameTextField.getText();
+
         if (userName.isEmpty()) {
             errorMessageProperty.set("User name is empty. You can't login with empty user name");
             return;
@@ -98,15 +101,8 @@ public class UBoatLoginController {
                         threadsAmount = (response.body()).string();
                     }
                     catch (IOException ignore){}
-                    String finalThreadsAmount = threadsAmount;
+                    sController.setUserName(userName);
                     Platform.runLater(() -> {
-                        if(finalThreadsAmount !=null&&!finalThreadsAmount.equals("null")&&!finalThreadsAmount.equals("")) {
-                            int threadsAmountInteger= Integer.parseInt(finalThreadsAmount);
-                            //sController.updateUserNameAndRoleAndThreads(userName, threadsAmountInteger);
-                        }
-                        else{
-                           // sController.updateUserNameAndRoleAndThreads(userName,amountOfThreadsProperty.getValue());
-                        }
                         primaryStage.setScene(sControllerScene);
                         primaryStage.show();
                        // loadFileController.setMediator(mediator);
@@ -133,6 +129,7 @@ public class UBoatLoginController {
             EngineManagerInterface engineManager=new EngineManager();
             Mediator mediator=new Mediator(engineManager);
             sController.setMediator(mediator);
+
         }
         catch (IOException ignore) {
             ignore.printStackTrace();} catch (Exception e) {

@@ -12,4 +12,31 @@
         <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>UploadXmlFile</servlet-name>
+        <servlet-class>servlets.UploadXmlFile</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UploadXmlFile</servlet-name>
+        <url-pattern>/UploadXmlFile</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>MachineDetailsServlet</servlet-name>
+        <servlet-class>servlets.MachineDetailsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MachineDetailsServlet</servlet-name>
+        <url-pattern>/MachineDetailsServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>setConfigurationsServlet</servlet-name>
+        <servlet-class>servlets.setConfigurationsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>setConfigurationsServlet</servlet-name>
+        <url-pattern>/setConfigurationsServlet</url-pattern>
+    </servlet-mapping>
+
 </web-app>

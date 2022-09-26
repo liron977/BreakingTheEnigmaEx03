@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import machineDTO.TheMachineSettingsDTO;
 import okhttp3.*;
 import uiMediator.Mediator;
 import utils.Constants;
@@ -47,6 +48,7 @@ public class LoadFileController {
     private EncryptDecryptTabController encryptDecryptTabController;
   */  @FXML
     private  CheckBox enableAnimationsCheckBox;
+  String battleName;
 
     private Stage primaryStage;
     private Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -59,7 +61,6 @@ public class LoadFileController {
         isXmlLoaded= new SimpleBooleanProperty(false);
         alert = new Alert(Alert.AlertType.ERROR);
         handlers = new ArrayList<>();
-        uBoatUserName="";
     }
     public SimpleBooleanProperty isXmlLoadedProperty(){return isXmlLoaded;}
     @FXML
@@ -200,7 +201,13 @@ public class LoadFileController {
         loadXmlFileAndSendFileToServer(selectedFile);
     } catch (IOException ignore) {}
 }
+
+    public void setUserName(String uBoatUserName){
+        this.uBoatUserName=uBoatUserName;
+    }
     public Boolean loadXmlFileAndSendFileToServer(File selectedFile) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+       // String message="";
         RequestBody body =
                 new MultipartBody.Builder()
                         .addFormDataPart(uBoatUserName,selectedFile.getName(), RequestBody.create(selectedFile,
@@ -214,16 +221,33 @@ public class LoadFileController {
         Call call= HttpClientUtil.getOkHttpClient().newCall(request);
         Response response=call.execute();
         if(response.code()==200){
+            battleName=response.body().string();
+            mainWindowUBoatController.setBattleName(battleName);
             Platform.runLater(() -> {
-                loadFileLabel.setText("Load status: Successfully");
+                loadFileLabel.setText(/*"Load status: Successfully"*/selectedFile.getPath());
+               String message = "The xml was uploaded successfully";
+               setMachineDetails();
+                alert.setContentText(message);
+                alert.getDialogPane().setExpanded(true);
+                alert.showAndWait();
+
+
             });}
         else{
             Platform.runLater(() -> {
                 try {
-                    loadFileLabel.setText("Load status: error loading " +response.body().string());
+                     String message = "Load status: error loading " +response.body().string();
+                    alert.setContentText(message);
+                    alert.getDialogPane().setExpanded(true);
+                    alert.showAndWait();
+
                 } catch (IOException e) {}
             });}
         return (response.code()==200);
+    }
+
+    public void setMachineDetails(){
+        mainWindowUBoatController.setMachineDetails();
     }
 
 

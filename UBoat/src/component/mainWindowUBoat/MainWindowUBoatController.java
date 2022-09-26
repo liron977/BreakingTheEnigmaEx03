@@ -11,6 +11,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import machineDTO.TheMachineSettingsDTO;
 import uiMediator.Mediator;
 import utils.EventsHandler;
 
@@ -33,6 +34,8 @@ public class MainWindowUBoatController implements EventsHandler {
         private Tab uBoatMachineTabButton;
          @FXML
          private Tab uBoatContestButton;
+
+
 
 //        @FXML
 //        private BruteForceTabController bruteForceTabPaneController;
@@ -117,7 +120,9 @@ public class MainWindowUBoatController implements EventsHandler {
                 bruteForceTab.disableProperty().bind(machineTabController.getSetCodeConfigurationController().isCodeDefinedProperty().not());*/
             }
         }
-
+public void setTheMachineSettingsDTO(TheMachineSettingsDTO theMachineSettingsDTO){
+        machineTabController.setTheMachineSettingsDTO(theMachineSettingsDTO);
+}
   /*      @FXML
         void encryptDecryptTabButtonSelectionListener() throws Exception {
             encryptDecryptTabController.initDisplayConfiguration();
@@ -127,11 +132,22 @@ public class MainWindowUBoatController implements EventsHandler {
             machineTabController.setMachineValues();
         }*/
         public void setMediator(Mediator mediator) throws Exception {
-            this.mediator = mediator;
-            machineTabController.setMediator(mediator);
+           // this.mediator = mediator;
+           // machineTabController.setMediator(mediator);
            // encryptDecryptTabController.setMediator(mediator);
            // bruteForceTabPaneController.setMediator(mediator);
-            loadFileComponentController.setMediator(mediator);
+          //  loadFileComponentController.setMediator(mediator);
+        }
+        public void setUserName(String uBoatUserName){
+
+            loadFileComponentController.setUserName(uBoatUserName);
+        }
+    public void setMachineDetails(){
+        machineTabController.setMachineDetails();
+    }
+        public void setBattleName(String battleName){
+
+            machineTabController.setBattleName(battleName);
         }
 //        public void bruteForceTabButtonOnListener() {
 //            SimpleBooleanProperty isInitNeeded=machineTabController.getSetCodeConfigurationController().getIsInitNeeded();

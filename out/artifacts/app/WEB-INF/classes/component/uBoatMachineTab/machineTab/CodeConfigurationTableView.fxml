@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<ScrollPane fx:id="codeConfigurationScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="76.0" prefWidth="424.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.uBoatMachineTab.machineTab.CurrentConfigurationTableViewController">
+   <content>
+      <GridPane fx:id="codeConfigurationGridPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="56.666656494140625" minHeight="10.0" prefHeight="48.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="50.33334541320801" minHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <TableView fx:id="codeConfigurationTableView" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+              <columns>
+                <TableColumn fx:id="rotorsColumn" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="77.33331310749054" text="Rotors" />
+                <TableColumn fx:id="positionsAndNotchColumn" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="127.3333740234375" text="Positions and Notch" />
+                  <TableColumn fx:id="chosenReflectorColumn" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="122.6666259765625" text="Chosen Reflector" />
+                  <TableColumn fx:id="plugBoardColumn" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="91.99998982747394" text="PlugBoard" />
+              </columns>
+            </TableView>
+            <Label id="lighterLabel" fx:id="currentCodeConfigurationLabel" alignment="CENTER" contentDisplay="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
+         </children>
+      </GridPane>
+   </content>
+</ScrollPane>

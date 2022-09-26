@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<ScrollPane id="MainWindow" fx:id="machineTab" fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.uBoatMachineTab.UBoatMachineTabController">
+<ScrollPane id="MainWindow" fx:id="machineTab" fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.uBoatMachineTab.UBoatMachineTabController">
    <content>
       <GridPane minHeight="300.0" minWidth="850.0">
          <columnConstraints>
@@ -26,7 +26,7 @@
                <bottom>
                   <HBox id="presentInfoSection" fx:id="bottomHbox" alignment="CENTER" prefHeight="333.0" prefWidth="879.0" spacing="5.0" BorderPane.alignment="TOP_CENTER">
                      <children>
-                        <fx:include source="machineTab/SetCodeConfigurations.fxml" />
+                        <fx:include fx:id="setCodeConfiguration" source="machineTab/SetCodeConfigurations.fxml" />
                         <fx:include source="machineTab/ConfigurationDisplay.fxml" />
                      </children>
                      <padding>

@@ -100,6 +100,16 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         return theMachineEngine;
     }
 
+    public TheMachineEngine buildTheMachineEngineUboat( CTEEnigma cteEnigma) throws Exception {
+       // CTEEnigma cteEnigma = readFromXmlFile(filePath);
+        SchemaGenerated schemaGenerated = new SchemaGenerated(cteEnigma);
+        this.battleField=schemaGenerated.createBattleField();
+        TheMachineEngine theMachineEngine = new TheMachineEngine(schemaGenerated.createRotorsSet(), schemaGenerated.createReflectorsSet(), schemaGenerated.createKeyboard(), schemaGenerated.getAmountOfUsedRotors(), schemaGenerated.createDictionary(),battleField);
+        //this.agents=schemaGenerated.createAgents();
+
+        return theMachineEngine;
+    }
+
     public Agents getAgents() {
         return agents;
     }
@@ -882,7 +892,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         List<Exception> exceptionList=fileValidator(cteEnigma);
       if(exceptionList.size()==0) {
           machineHistoryAndStatistics = new MachineHistoryAndStatistics();
-          theMachineEngine = buildTheMachineEngine();
+          theMachineEngine = buildTheMachineEngineUboat(cteEnigma);
           theLastStartingPos = getInitialStartingPosition();
       }
           listOfExceptionsDTO = new ListOfExceptionsDTO(exceptionList);
