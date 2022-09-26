@@ -1,8 +1,7 @@
 package servlets;
 
 import clientServer.users.UserManager;
-import constants.Constants;
-import jakarta.servlet.ServletException;
+import constants.ParametersConstants;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,19 +10,17 @@ import utils.SessionUtils;
 
 import java.io.IOException;
 
-import static constants.Constants.USERNAME;
-
 public class LoginServlet extends HttpServlet {
 
 
     @Override protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/plain;charset=UTF-8");
         String usernameFromSession = SessionUtils.getUsername(request);//check if the user exists- returns null if not
-        String roleFromSession = request.getParameter(Constants.ROLE);
+        String roleFromSession = request.getParameter(ParametersConstants.ROLE);
         UserManager userManager = ServletUtils.getUserManager(getServletContext());// return the user manager (one instance for all)
 
         if (usernameFromSession == null) { //user is not logged in yet
-            String usernameFromParameter = request.getParameter(Constants.USERNAME);
+            String usernameFromParameter = request.getParameter(ParametersConstants.USERNAME);
             if (usernameFromParameter == null || usernameFromParameter.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_CONFLICT);
             }
@@ -38,7 +35,7 @@ public class LoginServlet extends HttpServlet {
                     else {
                         //add the new user to the users list
                         userManager.addUser(usernameFromParameter,roleFromSession);
-                        request.getSession(true).setAttribute(Constants.USERNAME, usernameFromParameter);
+                        request.getSession(true).setAttribute(ParametersConstants.USERNAME, usernameFromParameter);
                         response.setStatus(HttpServletResponse.SC_OK);
                     }
                 }

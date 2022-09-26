@@ -1,7 +1,7 @@
 package servlets;
 
 import com.google.gson.Gson;
-import constants.Constants;
+import constants.ParametersConstants;
 import engineManager.EngineManager;
 import engineManager.MediatorForEngineManager;
 import jakarta.servlet.http.HttpServlet;
@@ -21,7 +21,7 @@ public class MachineDetailsServlet extends HttpServlet {
             response.setContentType("application/json");
             MediatorForEngineManager mediatorsManager = ServletUtils.getMediatorForEngineManager(getServletContext());
             Map<String, EngineManager> mediatorsForEngineManagerMap = mediatorsManager.getEngineManagersMap();
-            String theBattleFieldName=request.getParameter(Constants.BATTLE_FIELD);
+            String theBattleFieldName=request.getParameter(ParametersConstants.BATTLE_FIELD);
             EngineManager engineManager= mediatorsForEngineManagerMap.get(theBattleFieldName);
             if(engineManager!=null) {
                 TheMachineSettingsDTO dto = engineManager.getTheMachineSettingsDTO();

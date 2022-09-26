@@ -86,6 +86,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         return menuValidator.getMachineDefined();
     }
 
+
     public List<String> getNotchList() {
         return theMachineEngine.getListOfNotch();
     }
@@ -251,8 +252,6 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         createCurrentCodeDescriptionDTO();
         machineHistoryAndStatistics.addNewMachineSettings(codeDescriptionDTO);
         return codeDescriptionDTO;
-
-
     }
 
     private void chooseAutomaticallyRotors(TheMachineEngine theMachineEngine) {
@@ -894,6 +893,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
           machineHistoryAndStatistics = new MachineHistoryAndStatistics();
           theMachineEngine = buildTheMachineEngineUboat(cteEnigma);
           theLastStartingPos = getInitialStartingPosition();
+          menuValidator.setTrueValueToIsMachineDefined();
       }
           listOfExceptionsDTO = new ListOfExceptionsDTO(exceptionList);
           amountOfPossibleStartingPositionList = 0L;

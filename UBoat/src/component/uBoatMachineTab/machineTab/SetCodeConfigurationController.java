@@ -167,18 +167,9 @@ public class SetCodeConfigurationController implements EventsHandler {
     }
 */
 
-    @FXML
-    void setManuallyCodeButtonActionListener(ActionEvent event) throws Exception {
-        String rotorsId = getRotorsId();
-        String startingPosition = getStartingPosition();
-        String reflector = getReflector();
-        String plugBoardPairs = getPlugBoardPairs();
-
-        CodeConfigurationTableViewDTO codeConfigurationTableViewDTO=new CodeConfigurationTableViewDTO(rotorsId,startingPosition,reflector,plugBoardPairs);
+    public void setConfiguration(String configurationSelectionType, CodeConfigurationTableViewDTO codeConfigurationTableViewDTO){
         Gson gson = new Gson();
         String gsonCodeConfigurationTableViewDTO = gson.toJson(codeConfigurationTableViewDTO);
-
-
         RequestBody body =
                 new MultipartBody.Builder()
                         .addFormDataPart("gsonCodeConfigurationTableViewDTO", gsonCodeConfigurationTableViewDTO)
@@ -187,6 +178,7 @@ public class SetCodeConfigurationController implements EventsHandler {
                 .parse(Constants.SET_CODE_CONFIGURATION)
                 .newBuilder()
                 .addQueryParameter("battlefield", battleName.trim())
+                .addQueryParameter("configurationSelectionType", configurationSelectionType)
                 .build()
                 .toString();
         Request request = new Request.Builder()
@@ -197,26 +189,94 @@ public class SetCodeConfigurationController implements EventsHandler {
         try {
             Response response = call.execute();
             if (response.code() != 200) {
-                Platform.runLater(() -> {
-                    {
-                       // uniqueTaskNameErrorLabel.setText("Task name already exists!");
+                Platform.runLater(() -> {{
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    try {
+                        alert.setContentText(response.body().string());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
+                    alert.getDialogPane().setExpanded(true);
+                    alert.showAndWait();}
                 });
             }
             else{
                 Platform.runLater(() -> {
                     {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setContentText(response.body().toString());
-                        alert.getDialogPane().setExpanded(true);
-                        alert.showAndWait();
+
                     }
                 });
             }
         }
         catch (IOException e) {}
+    }
+    @FXML
+    void setRandomCodeButtonActionListener(ActionEvent event) throws Exception {
+        setConfiguration("Random",null);
+/*        isInitNeeded.setValue(true);
+        listOfExceptionsDTO = mediator.isMachineWasDefined();
+        List<Exception> listOfExceptions = listOfExceptionsDTO.getListOfException();
+        if (listOfExceptions.size() == 0) {
+            mediator.initCodeConfigurationAutomatically();
+            isCodeDefinedProperty().set(true);
+            fireEvent();
+            EngineManager engineManager = mediator.getEngineManger();
 
+        } else {
+            printListOfExceptions(listOfExceptions);
+        }*/
+    }
 
+    @FXML
+    void setManuallyCodeButtonActionListener(ActionEvent event) throws Exception {
+        String rotorsId = getRotorsId();
+        String startingPosition = getStartingPosition();
+        String reflector = getReflector();
+        String plugBoardPairs = getPlugBoardPairs();
+        CodeConfigurationTableViewDTO codeConfigurationTableViewDTO=new CodeConfigurationTableViewDTO(rotorsId,startingPosition,reflector,plugBoardPairs);
+        setConfiguration("Manually",codeConfigurationTableViewDTO);
+       /* Gson gson = new Gson();
+        String gsonCodeConfigurationTableViewDTO = gson.toJson(codeConfigurationTableViewDTO);
+        RequestBody body =
+                new MultipartBody.Builder()
+                        .addFormDataPart("gsonCodeConfigurationTableViewDTO", gsonCodeConfigurationTableViewDTO)
+                        .build();
+        String finalUrl = HttpUrl
+                .parse(Constants.SET_CODE_CONFIGURATION)
+                .newBuilder()
+                .addQueryParameter("battlefield", battleName.trim())
+                .addQueryParameter("configurationSelectionType", "Manually")
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrl)
+                .post(body)
+                .build();
+        Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+        try {
+            Response response = call.execute();
+            if (response.code() != 200) {
+                Platform.runLater(() -> {{
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    try {
+                        alert.setContentText(response.body().string());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    alert.getDialogPane().setExpanded(true);
+                    alert.showAndWait();}
+                });
+            }
+            else{
+                Platform.runLater(() -> {
+                    {
+
+                    }
+                });
+            }
+        }
+        catch (IOException e) {}
+*/
 }
         public String getStartingPosition() {
         String startingPosition = "";
@@ -346,21 +406,6 @@ public class SetCodeConfigurationController implements EventsHandler {
         return isInitNeeded;
     }
 
-    @FXML
-    void setRandomCodeButtonActionListener(ActionEvent event) throws Exception {
-        isInitNeeded.setValue(true);
-        listOfExceptionsDTO = mediator.isMachineWasDefined();
-        List<Exception> listOfExceptions = listOfExceptionsDTO.getListOfException();
-        if (listOfExceptions.size() == 0) {
-            mediator.initCodeConfigurationAutomatically();
-            isCodeDefinedProperty().set(true);
-            fireEvent();
-            EngineManager engineManager = mediator.getEngineManger();
-
-        } else {
-            printListOfExceptions(listOfExceptions);
-        }
-    }
 
     private void printListOfExceptions(List<Exception> exceptionList) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
