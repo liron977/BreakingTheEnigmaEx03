@@ -1,18 +1,25 @@
 package component.uBoatMachineTab.machineTab;
 
+import com.google.gson.Gson;
 import component.uBoatMachineTab.UBoatMachineTabController;
 import engineManager.EngineManager;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import machineDTO.CodeConfigurationTableViewDTO;
 import machineDTO.ListOfExceptionsDTO;
 import machineDTO.TheMachineSettingsDTO;
 
+import okhttp3.*;
 import uiMediator.Mediator;
+import utils.Constants;
 import utils.EventsHandler;
+import utils.http.HttpClientUtil;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
@@ -42,6 +49,7 @@ public class SetCodeConfigurationController implements EventsHandler {
     List<ComboBox> plugBoardPairsListComboBox;
     ToggleGroup reflectorTg;
     ListOfExceptionsDTO listOfExceptionsDTO;
+    String battleName;
     TheMachineSettingsDTO theMachineSettingsDTO;
     private List<EventsHandler> handlers;
     boolean isMachineWasDefine;
@@ -73,6 +81,10 @@ public class SetCodeConfigurationController implements EventsHandler {
         this.mediator = mediator;
 
     }
+    public void setBattleName(String battleName){
+        this.battleName=battleName;
+
+    }
 
     public void addHandler(EventsHandler handler) {
         if (handler != null && !handlers.contains(handler)) {
@@ -88,11 +100,10 @@ public class SetCodeConfigurationController implements EventsHandler {
         }
     }
 
-    public void setCodeCalibration() throws Exception {
+    public void setCodeCalibration()  {
         rotorsIdListComboBox = new ArrayList<>();
         startingPositionListComboBox = new ArrayList<>();
         plugBoardPairsListComboBox = new ArrayList<>();
-        theMachineSettingsDTO = mediator.getTheMachineSettingsDTO();
         int amountOfUsedRotors = theMachineSettingsDTO.getAmountOfUsedRotors();
         setRotorsIdHBox(amountOfUsedRotors);
         setStartingPositionHBox(amountOfUsedRotors);
@@ -107,8 +118,14 @@ public class SetCodeConfigurationController implements EventsHandler {
         });
         //plugBoardHBox.setHgrow(addPlugBoardPairButton, Priority.NEVER);
     }
-
-    @FXML
+    public void setTheMachineSettingsDTO(TheMachineSettingsDTO theMachineSettingsDTO){
+       this.theMachineSettingsDTO=theMachineSettingsDTO;
+        setCodeCalibration();
+    }
+    public void setUBoatMachineTabController(UBoatMachineTabController uBoatMachineTabController){
+        this.uBoatMachineTabController=uBoatMachineTabController;
+    }
+ /*   @FXML
     void setManuallyCodeButtonActionListener(ActionEvent event) throws Exception {
         isInitNeeded.setValue(true);
         listOfExceptionsDTO = mediator.isMachineWasDefined();
@@ -136,20 +153,72 @@ public class SetCodeConfigurationController implements EventsHandler {
                     isCodeDefinedProperty().set(true);
 
                     fireEvent();
-                   /*DecryptionManager decryptionManager=new DecryptionManager(mediator.getEngineManger());
+                   *//*DecryptionManager decryptionManager=new DecryptionManager(mediator.getEngineManger());
                    List<String> listOfOptionalStartingPosition=decryptionManager.createPossibleStartingPositionList();
                    List<ConvertedStringDTO>  convertedStringDTOList= decryptionManager.getAgentConvertedStringFoundedHighLevel(listOfOptionalStartingPosition,"PYEJZCFMXMYB'JMSMKAZFCBHBHJR?SEKXQYDYCQBPGUXOH G?DORMCFQQUDHOBLMP");
                    for (ConvertedStringDTO con:convertedStringDTOList) {
                        System.out.println(con.getConvertedString());
-                   }*/
+                   }*//*
                 } else {
                     printListOfExceptions(listOfExceptions);
                 }
             }
         }
     }
+*/
 
-    public String getStartingPosition() {
+    @FXML
+    void setManuallyCodeButtonActionListener(ActionEvent event) throws Exception {
+        String rotorsId = getRotorsId();
+        String startingPosition = getStartingPosition();
+        String reflector = getReflector();
+        String plugBoardPairs = getPlugBoardPairs();
+
+        CodeConfigurationTableViewDTO codeConfigurationTableViewDTO=new CodeConfigurationTableViewDTO(rotorsId,startingPosition,reflector,plugBoardPairs);
+        Gson gson = new Gson();
+        String gsonCodeConfigurationTableViewDTO = gson.toJson(codeConfigurationTableViewDTO);
+
+
+        RequestBody body =
+                new MultipartBody.Builder()
+                        .addFormDataPart("gsonCodeConfigurationTableViewDTO", gsonCodeConfigurationTableViewDTO)
+                        .build();
+        String finalUrl = HttpUrl
+                .parse(Constants.SET_CODE_CONFIGURATION)
+                .newBuilder()
+                .addQueryParameter("battlefield", battleName.trim())
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrl)
+                .post(body)
+                .build();
+        Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+        try {
+            Response response = call.execute();
+            if (response.code() != 200) {
+                Platform.runLater(() -> {
+                    {
+                       // uniqueTaskNameErrorLabel.setText("Task name already exists!");
+                    }
+                });
+            }
+            else{
+                Platform.runLater(() -> {
+                    {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setContentText(response.body().toString());
+                        alert.getDialogPane().setExpanded(true);
+                        alert.showAndWait();
+                    }
+                });
+            }
+        }
+        catch (IOException e) {}
+
+
+}
+        public String getStartingPosition() {
         String startingPosition = "";
         for (int i = 0; i < startingPositionListComboBox.size(); i++) {
             startingPosition = startingPosition + startingPositionListComboBox.get(i).getValue();

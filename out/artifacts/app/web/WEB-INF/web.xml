@@ -30,4 +30,13 @@
         <url-pattern>/MachineDetailsServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>setConfigurationsServlet</servlet-name>
+        <servlet-class>servlets.setConfigurationsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>setConfigurationsServlet</servlet-name>
+        <url-pattern>/setConfigurationsServlet</url-pattern>
+    </servlet-mapping>
+
 </web-app>

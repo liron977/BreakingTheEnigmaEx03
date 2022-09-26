@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import machineDTO.TheMachineSettingsDTO;
 import okhttp3.*;
 import uiMediator.Mediator;
 import utils.Constants;

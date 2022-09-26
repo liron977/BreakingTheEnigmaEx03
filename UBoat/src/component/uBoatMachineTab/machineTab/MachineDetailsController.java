@@ -89,12 +89,14 @@ public class MachineDetailsController implements EventsHandler {
                     try {
                         TheMachineSettingsDTO theMachineSettingsDTOFromGson =Constants.GSON_INSTANCE.fromJson(response.body().string(),TheMachineSettingsDTO.class);
                         theMachineSettingsDTO=theMachineSettingsDTOFromGson;
+
                         System.out.println("amount "+theMachineSettingsDTO.getMaxAmountOfRotors());
                     }
                     catch (IOException ignore){}
                     Platform.runLater(() -> {
                         try {
                             setValues();
+                            setTheMachineSettingsDTO(theMachineSettingsDTO);
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
@@ -104,6 +106,12 @@ public class MachineDetailsController implements EventsHandler {
             }
         });
 
+    }
+    public void setUBoatMachineTabController(UBoatMachineTabController uBoatMachineTabController){
+        this.uBoatMachineTabController=uBoatMachineTabController;
+    }
+    public void setTheMachineSettingsDTO(TheMachineSettingsDTO theMachineSettingsDTO){
+        uBoatMachineTabController.setTheMachineSettingsDTO(theMachineSettingsDTO);
     }
     private void showAlertMessage(String message){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

@@ -10,6 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import machineDTO.TheMachineSettingsDTO;
 import uiMediator.Mediator;
 import utils.EventsHandler;
 
@@ -62,6 +63,7 @@ String battleName;
 
     public void setBattleName(String battleName){
         machineDetailsController.setBattleName(battleName);
+        setCodeConfigurationController.setBattleName(battleName);
     }
 public void setMachineDetails(){
     machineDetailsController.setMachineDetailsValues();
@@ -70,7 +72,10 @@ public void setMachineDetails(){
         this.mediator = mediator;
 
         machineDetailsController.setMediator(mediator);
-        //setCodeConfigurationController.setMediator(mediator);
+        setCodeConfigurationController.setUBoatMachineTabController(this);
+        setCodeConfigurationController.setMediator(mediator);
+        machineDetailsController.setUBoatMachineTabController(this);
+
         // displayCodeConfigurationController.setMediator(mediator);
       //  codeConfigurationController.setMediator(mediator);
         // bruteForceController.setMediator(mediator);
@@ -88,6 +93,8 @@ public void setMachineDetails(){
     @FXML
     public void initialize() {
         if (machineDetailsController!=null) {
+            machineDetailsController.setUBoatMachineTabController(this);
+            setCodeConfigurationController.setUBoatMachineTabController(this);
 
             //machineDetailsController.setMainController(this);
             //encryptDecryptWindowController.setMainController(this);
@@ -117,7 +124,9 @@ public void setMachineDetails(){
     public MachineDetailsController getMachineDetailsController() {
         return machineDetailsController;
     }
-
+    public void setTheMachineSettingsDTO(TheMachineSettingsDTO theMachineSettingsDTO){
+        setCodeConfigurationController.setTheMachineSettingsDTO(theMachineSettingsDTO);
+    }
 
     public void setMachineValues() throws Exception{
         machineDetailsController.setValues();
