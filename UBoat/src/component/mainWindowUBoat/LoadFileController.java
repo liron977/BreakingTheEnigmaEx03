@@ -59,7 +59,7 @@ public class LoadFileController {
         isXmlLoaded= new SimpleBooleanProperty(false);
         alert = new Alert(Alert.AlertType.ERROR);
         handlers = new ArrayList<>();
-        uBoatUserName="";
+        uBoatUserName="rr";
     }
     public SimpleBooleanProperty isXmlLoadedProperty(){return isXmlLoaded;}
     @FXML
@@ -201,6 +201,8 @@ public class LoadFileController {
     } catch (IOException ignore) {}
 }
     public Boolean loadXmlFileAndSendFileToServer(File selectedFile) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+       // String message="";
         RequestBody body =
                 new MultipartBody.Builder()
                         .addFormDataPart(uBoatUserName,selectedFile.getName(), RequestBody.create(selectedFile,
@@ -215,12 +217,21 @@ public class LoadFileController {
         Response response=call.execute();
         if(response.code()==200){
             Platform.runLater(() -> {
-                loadFileLabel.setText("Load status: Successfully");
+                loadFileLabel.setText(/*"Load status: Successfully"*/selectedFile.getPath());
+               String message = "The xml was uploaded successfully";
+                alert.setContentText(message);
+                alert.getDialogPane().setExpanded(true);
+                alert.showAndWait();
+
             });}
         else{
             Platform.runLater(() -> {
                 try {
-                    loadFileLabel.setText("Load status: error loading " +response.body().string());
+                     String message = "Load status: error loading " +response.body().string();
+                    alert.setContentText(message);
+                    alert.getDialogPane().setExpanded(true);
+                    alert.showAndWait();
+
                 } catch (IOException e) {}
             });}
         return (response.code()==200);

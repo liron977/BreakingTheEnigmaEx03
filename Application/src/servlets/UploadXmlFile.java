@@ -14,11 +14,12 @@ import utils.ServletUtils;
 import java.io.IOException;
 import java.io.InputStream;
 
+
 import static java.lang.System.out;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class UploadXmlFile extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Part xmlFile = request.getParts().stream().findFirst().get();
         try {
             checkIfXmlFileIsValidAndIfValidAddMachine(xmlFile.getInputStream(),xmlFile.getName());
