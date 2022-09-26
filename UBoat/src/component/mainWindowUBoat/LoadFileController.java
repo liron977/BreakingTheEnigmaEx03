@@ -1,6 +1,8 @@
 package component.mainWindowUBoat;
+import com.sun.istack.internal.NotNull;
 import engineManager.EngineManager;
 import engineManager.EngineManagerInterface;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,13 +12,18 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import okhttp3.*;
 import uiMediator.Mediator;
+import utils.Constants;
 import utils.EventsHandler;
+import utils.http.HttpClientUtil;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
+import java.util.Objects;
 
 public class LoadFileController {
     Mediator mediator;
@@ -46,11 +53,13 @@ public class LoadFileController {
     private SimpleBooleanProperty isXmlLoaded;
     ToggleGroup styleRadioButtonTg;
     private SimpleBooleanProperty isEnableAnimationsProperty;
+    private String uBoatUserName;
 
     public LoadFileController(){
         isXmlLoaded= new SimpleBooleanProperty(false);
         alert = new Alert(Alert.AlertType.ERROR);
         handlers = new ArrayList<>();
+        uBoatUserName="";
     }
     public SimpleBooleanProperty isXmlLoadedProperty(){return isXmlLoaded;}
     @FXML
@@ -141,18 +150,18 @@ public class LoadFileController {
         }
     }
 
-    @FXML
+/*    @FXML
     public void loadNewFileButtonActionListener(ActionEvent event) throws Exception {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         String message = "";
-/*       FileChooser fileChooser = new FileChooser();
+*//*       FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select the xml file");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML files", "*.xml"));
         File selectedFile = fileChooser.showOpenDialog(primaryStage);
         if (selectedFile == null) {
             return;
         }
-        String absolutePath = selectedFile.getAbsolutePath();*/
+        String absolutePath = selectedFile.getAbsolutePath();*//*
         String absolutePath="C:\\Users\\97254\\IdeaProjects\\BreakingTheEnigmaEx03\\EngimaEngine\\src\\resources\\ex3-basic.xml";
         List<Exception> exceptionList = new ArrayList<>();
         if (mediator.fileNameValidation(absolutePath)) {
@@ -162,9 +171,9 @@ public class LoadFileController {
                 if (exceptionList.size() == 0) {
                     loadFileLabel.setText(absolutePath);
                     isXmlLoaded.set(true);
-                   /* this.encryptDecryptTabController.getStatisticsController().resetStatisticsController();
+                   *//* this.encryptDecryptTabController.getStatisticsController().resetStatisticsController();
                     this.encryptDecryptTabController.getEncryptDecryptController().reset();
-                  */  isFileLoadSuccessfully = true;
+                  *//*  isFileLoadSuccessfully = true;
                     message = "The xml was uploaded successfully";
                     alert.setContentText(message);
                     alert.getDialogPane().setExpanded(true);
@@ -177,5 +186,106 @@ public class LoadFileController {
                 printListOfExceptions(exceptionList,"The file is not valid");
             }
         }
+
+    }*/
+@FXML private void loadNewFileButtonActionListener(ActionEvent event) {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Select the xml file");
+    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML files", "*.xml"));
+    File selectedFile = fileChooser.showOpenDialog(primaryStage);
+    if (selectedFile == null) {
+        return;
     }
+    try {
+        loadXmlFileAndSendFileToServer(selectedFile);
+    } catch (IOException ignore) {}
+}
+    public Boolean loadXmlFileAndSendFileToServer(File selectedFile) throws IOException {
+        RequestBody body =
+                new MultipartBody.Builder()
+                        .addFormDataPart(uBoatUserName,selectedFile.getName(), RequestBody.create(selectedFile,
+                                MediaType.parse("text/plain"))).build();
+
+        Request request = new Request.Builder()
+                .url(Constants.UPLOAD_XML_FILE)
+                .post(body)
+                .build();
+
+        Call call= HttpClientUtil.getOkHttpClient().newCall(request);
+        Response response=call.execute();
+        if(response.code()==200){
+            Platform.runLater(() -> {
+                loadFileLabel.setText("Load status: Successfully");
+            });}
+        else{
+            Platform.runLater(() -> {
+                try {
+                    loadFileLabel.setText("Load status: error loading " +response.body().string());
+                } catch (IOException e) {}
+            });}
+        return (response.code()==200);
+    }
+
+
+
+/*    @FXML private void loadNewFileButtonActionListener(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        String message = "";
+       FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select the xml file");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML files", "*.xml"));
+        File selectedFile = fileChooser.showOpenDialog(primaryStage);
+        if (selectedFile == null) {
+            return;
+        }
+        String absolutePath = selectedFile.getAbsolutePath();
+
+        String finalUrl = HttpUrl
+                .parse(Constants.LOGIN_PAGE)
+                .newBuilder()
+                .addQueryParameter("username", userName)
+                .addQueryParameter("role", "uboat")
+                .build()
+                .toString();
+
+        HttpClientUtil.runAsync(finalUrl, new Callback() { //todo i guess it should be sync no?
+
+            @Override public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Platform.runLater(() ->
+                        errorMessageProperty.set("Something went wrong: " + e.getMessage())
+                );
+            }
+
+            @Override public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.code() != 200) {
+                    String responseBody = response.body().string();
+                    Platform.runLater(() ->
+                            errorMessageProperty.set("Something went wrong: " + responseBody)
+                    );
+                }
+                else {
+                    String threadsAmount=null;
+                    try {
+                        threadsAmount = (response.body()).string();
+                    }
+                    catch (IOException ignore){}
+                    String finalThreadsAmount = threadsAmount;
+                    Platform.runLater(() -> {
+                        if(finalThreadsAmount !=null&&!finalThreadsAmount.equals("null")&&!finalThreadsAmount.equals("")) {
+                            int threadsAmountInteger= Integer.parseInt(finalThreadsAmount);
+                            //sController.updateUserNameAndRoleAndThreads(userName, threadsAmountInteger);
+                        }
+                        else{
+                            // sController.updateUserNameAndRoleAndThreads(userName,amountOfThreadsProperty.getValue());
+                        }
+                        primaryStage.setScene(sControllerScene);
+                        primaryStage.show();
+                        // loadFileController.setMediator(mediator);
+                    });
+                }
+                Objects.requireNonNull(response.body()).close();
+            }
+        });
+
+    }*/
 }

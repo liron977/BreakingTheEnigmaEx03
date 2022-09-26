@@ -6,5 +6,6 @@ public class Constants {
     public final static String CONTEXT_PATH = "/app";
     public final static String FULL_SERVER_PATH = BASE_URL + CONTEXT_PATH;// http://localhost:8080/Application_Web_exploded
     public final static String LOGIN_PAGE = FULL_SERVER_PATH + "/LoginServlet";// http://localhost:8080/Application_Web_exploded/LoginServlet
+    public static final String UPLOAD_XML_FILE = "http://localhost:8080/app/UploadXmlFile";
 
 }

@@ -11,5 +11,13 @@
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>UploadXmlFile</servlet-name>
+        <servlet-class>servlets.UploadXmlFile</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UploadXmlFile</servlet-name>
+        <url-pattern>/UploadXmlFile</url-pattern>
+    </servlet-mapping>
 
 </web-app>

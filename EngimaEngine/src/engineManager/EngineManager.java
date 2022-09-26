@@ -44,12 +44,13 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     private Agents usedAgents;
 
     private BattleField battleField;
+    private String uploadedBy;
 
 
     @Override
     public ListOfExceptionsDTO load(String filePath) throws Exception {
-        CTEEnigma cteEnigma = readFromXmlFile(filePath);
-        Validator xmlReflectorValidator = new XmlReflectorValidator(cteEnigma);
+      CTEEnigma cteEnigma = readFromXmlFile(filePath);
+     /*     Validator xmlReflectorValidator = new XmlReflectorValidator(cteEnigma);
         Validator xmlRotorValidator = new XmlRotorValidator((cteEnigma));
         Validator xmlKeyboardValidator = new XmlKeyboardValidator(cteEnigma);
        // Validator xmlAgentsValidator = new XmlAgentValidator(cteEnigma);
@@ -62,7 +63,8 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         //validators.add(xmlAgentsValidator);
         validators.add(xmlDictionaryValidator);
         ValidatorRunner validatorRunner = new ValidatorRunner(validators);
-        List<Exception> exceptions = validatorRunner.run();
+        List<Exception> exceptions = validatorRunner.run();*/
+        List<Exception> exceptions =fileValidator(cteEnigma);
         if (exceptions.size() == 0) {
             this.filePath = filePath;
             menuValidator.reset();
@@ -91,9 +93,10 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     public TheMachineEngine buildTheMachineEngine() throws Exception {
         CTEEnigma cteEnigma = readFromXmlFile(filePath);
         SchemaGenerated schemaGenerated = new SchemaGenerated(cteEnigma);
-        TheMachineEngine theMachineEngine = new TheMachineEngine(schemaGenerated.createRotorsSet(), schemaGenerated.createReflectorsSet(), schemaGenerated.createKeyboard(), schemaGenerated.getAmountOfUsedRotors(), schemaGenerated.createDictionary());
-        //this.agents=schemaGenerated.createAgents();
         this.battleField=schemaGenerated.createBattleField();
+        TheMachineEngine theMachineEngine = new TheMachineEngine(schemaGenerated.createRotorsSet(), schemaGenerated.createReflectorsSet(), schemaGenerated.createKeyboard(), schemaGenerated.getAmountOfUsedRotors(), schemaGenerated.createDictionary(),battleField);
+        //this.agents=schemaGenerated.createAgents();
+
         return theMachineEngine;
     }
 
@@ -870,6 +873,47 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     }
     public BattleField getBattleField() {
         return battleField;
+    }
+    public void setUploadedBy(String uploadedBy) {
+        this.uploadedBy = uploadedBy;
+    }
+    public ListOfExceptionsDTO loadFileByInputStream(InputStream inputStream) throws Exception {
+        CTEEnigma cteEnigma = this.deserializeFrom(inputStream);
+        List<Exception> exceptionList=fileValidator(cteEnigma);
+      if(exceptionList.size()==0) {
+          machineHistoryAndStatistics = new MachineHistoryAndStatistics();
+          theMachineEngine = buildTheMachineEngine();
+          theLastStartingPos = getInitialStartingPosition();
+      }
+          listOfExceptionsDTO = new ListOfExceptionsDTO(exceptionList);
+          amountOfPossibleStartingPositionList = 0L;
+          possibleStartingPositionList = new ArrayList<>();
+
+        return listOfExceptionsDTO;
+       // this.OriginalTargetsGraph = new Graph(descriptor);
+    }
+    private List<Exception> fileValidator(CTEEnigma cteEnigma){
+        Validator xmlReflectorValidator = new XmlReflectorValidator(cteEnigma);
+        Validator xmlRotorValidator = new XmlRotorValidator((cteEnigma));
+        Validator xmlKeyboardValidator = new XmlKeyboardValidator(cteEnigma);
+        Validator xmlDictionaryValidator = new XmlDictionaryValidator(cteEnigma);
+        List<Validator> validators = new ArrayList<>();
+        validators.add(xmlKeyboardValidator);
+        validators.add(xmlReflectorValidator);
+        validators.add((xmlRotorValidator));
+        //validators.add(xmlAgentsValidator);
+        validators.add(xmlDictionaryValidator);
+        ValidatorRunner validatorRunner = new ValidatorRunner(validators);
+        List<Exception> exceptions = validatorRunner.run();
+        return exceptions;
+    }
+    private CTEEnigma deserializeFrom(InputStream in) throws JAXBException {
+        JAXBContext jc = JAXBContext.newInstance("schemaGenerated");
+        Unmarshaller u = jc.createUnmarshaller();
+        return (CTEEnigma)u.unmarshal(in);
+    }
+    public String getBattleName() {
+        return this.theMachineEngine.getBattleFieldName();
     }
 
 }

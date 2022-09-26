@@ -9,4 +9,13 @@ public class BattleField {
        this.allies=allies;
        this.level=level;
    }
+    public String getLevel() {
+        return level;
+    }
+    public String getBattleName() {
+        return battleName;
+    }
+    public int getAllies() {
+        return allies;
+    }
 }

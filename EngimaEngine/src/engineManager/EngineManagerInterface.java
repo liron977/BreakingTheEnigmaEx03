@@ -5,6 +5,7 @@ import engine.theEnigmaEngine.TheMachineEngine;
 import machineDTO.*;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
 
@@ -90,4 +91,6 @@ public interface EngineManagerInterface extends Serializable {
     public String getCodeDescription(CodeDescriptionDTO codeDescriptionDTO, List<String> notchPosition, String startingPosition);
     public Long getAmountOfPossibleStartingPositionList();
     public List<String> getPossibleStartingPositionList();
-}
+    public ListOfExceptionsDTO loadFileByInputStream(InputStream inputStream) throws Exception;
+    public String getBattleName();
+    }

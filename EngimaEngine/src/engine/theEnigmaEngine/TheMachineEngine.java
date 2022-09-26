@@ -17,22 +17,34 @@ public class TheMachineEngine implements Serializable {
     private int amountOfUsedRotors;
     private Dictionary dictionary;
      // private Agents agents;
-
-
+    private BattleField battleField;
 
     public Reflector getReflector() {
         return reflector;
     }
 
-    public TheMachineEngine(RotorsSet rotorsSet, ReflectorsSet reflectorsSet, Keyboard keyboard, int amountOfUsedRotors,Dictionary dictionary){
+    public TheMachineEngine(RotorsSet rotorsSet, ReflectorsSet reflectorsSet, Keyboard keyboard, int amountOfUsedRotors,Dictionary dictionary,BattleField battleField){
         this.rotorsSet=rotorsSet;
         this.keyboard=keyboard;
         this.reflectorsSet=reflectorsSet;
         this.amountOfUsedRotors=amountOfUsedRotors;
         this.dictionary=dictionary;
+        this.battleField=battleField;
         //this.agents=agents;
     }
 
+    public BattleField getBattleField() {
+        return battleField;
+    }
+    public String getBattleFieldName(){
+        return battleField.getBattleName();
+    }
+    public String getBattleFieldLevel(){
+        return battleField.getLevel();
+    }
+    public int getBattleFieldAllies(){
+        return battleField.getAllies();
+    }
     public List<String> getReflectorsId(){
        return reflectorsSet.getReflectorsId();
     }

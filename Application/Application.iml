@@ -23,5 +23,6 @@
     <orderEntry type="library" exported="" scope="PROVIDED" name="Tomcat 10.0.23" level="application_server_libraries" />
     <orderEntry type="module" module-name="EngimaEngine" />
     <orderEntry type="library" name="google-gson-2" level="project" />
+    <orderEntry type="module" module-name="DTOObjects" />
   </component>
 </module>
