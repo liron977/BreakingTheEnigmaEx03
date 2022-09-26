@@ -13,6 +13,7 @@ import utils.ServletUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 
 
 import static java.lang.System.out;
@@ -21,8 +22,9 @@ import static java.lang.System.out;
 public class UploadXmlFile extends HttpServlet {
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Part xmlFile = request.getParts().stream().findFirst().get();
+       PrintWriter out = response.getWriter();
         try {
-            checkIfXmlFileIsValidAndIfValidAddMachine(xmlFile.getInputStream(),xmlFile.getName());
+            checkIfXmlFileIsValidAndIfValidAddMachine(out,xmlFile.getInputStream(),xmlFile.getName());
             response.setStatus(HttpServletResponse.SC_OK);
         }
         catch (Exception e){
@@ -32,19 +34,21 @@ public class UploadXmlFile extends HttpServlet {
         }
     }
 
-    private void checkIfXmlFileIsValidAndIfValidAddMachine(InputStream inputStream, String userName) throws Exception {
-        out.println("im here");
+    private void checkIfXmlFileIsValidAndIfValidAddMachine(PrintWriter out,InputStream inputStream, String userName) throws Exception {
+
         EngineManager engineManager = new EngineManager();
         engineManager.setUploadedBy(userName);
         ListOfExceptionsDTO listOfExceptionsDTO=engineManager.loadFileByInputStream(inputStream);
         if (listOfExceptionsDTO.getListOfException().size()==0) {
             MediatorForEngineManager mediatorsManager = ServletUtils.getMediatorForEngineManager(getServletContext());
-            String battleName = engineManager.getBattleName();
+            String battleName = engineManager.getBattleName().trim();
             if (mediatorsManager.isBattleExists(battleName)) {
                 throw new Exception("The battle name already exists");
             }
             // med.updateGraphForTaskOnlyToNullAfterLoadXml(); //todo see how to change the way we use it, now we have map of mission its diffrent
             mediatorsManager.addEngineManger(battleName, engineManager);
+            out.println(battleName.trim());
+            out.flush();
         }
         else {
             for (Exception exception : listOfExceptionsDTO.getListOfException()) {

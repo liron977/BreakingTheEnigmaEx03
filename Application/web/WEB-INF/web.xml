@@ -21,4 +21,13 @@
         <url-pattern>/UploadXmlFile</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>MachineDetailsServlet</servlet-name>
+        <servlet-class>servlets.MachineDetailsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MachineDetailsServlet</servlet-name>
+        <url-pattern>/MachineDetailsServlet</url-pattern>
+    </servlet-mapping>
+
 </web-app>

@@ -34,6 +34,7 @@ public class MainWindowUBoatController implements EventsHandler {
          @FXML
          private Tab uBoatContestButton;
 
+
 //        @FXML
 //        private BruteForceTabController bruteForceTabPaneController;
 //
@@ -132,6 +133,17 @@ public class MainWindowUBoatController implements EventsHandler {
            // encryptDecryptTabController.setMediator(mediator);
            // bruteForceTabPaneController.setMediator(mediator);
             loadFileComponentController.setMediator(mediator);
+        }
+        public void setUserName(String uBoatUserName){
+
+            loadFileComponentController.setUserName(uBoatUserName);
+        }
+    public void setMachineDetails(){
+        machineTabController.setMachineDetails();
+    }
+        public void setBattleName(String battleName){
+
+            machineTabController.setBattleName(battleName);
         }
 //        public void bruteForceTabButtonOnListener() {
 //            SimpleBooleanProperty isInitNeeded=machineTabController.getSetCodeConfigurationController().getIsInitNeeded();

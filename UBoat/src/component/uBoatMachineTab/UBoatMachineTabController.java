@@ -54,11 +54,18 @@ public class UBoatMachineTabController implements EventsHandler {
     private EncryptDecryptTabController encryptDecryptTabController;
 */    @FXML
     private MainWindowUBoatController mainWindowUBoatController;
+String battleName;
 
   /*  @FXML
     private BruteForceTabController bruteForceTabController;
 */
 
+    public void setBattleName(String battleName){
+        machineDetailsController.setBattleName(battleName);
+    }
+public void setMachineDetails(){
+    machineDetailsController.setMachineDetailsValues();
+}
     public void setMediator(Mediator mediator) {
         this.mediator = mediator;
 
