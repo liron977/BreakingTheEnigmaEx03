@@ -3,7 +3,7 @@ package servlets;
 import com.google.gson.Gson;
 import constants.ParametersConstants;
 import engineManager.EngineManager;
-import engineManager.MediatorForEngineManager;
+import managers.MediatorForEngineManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
+//@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class setConfigurationsServlet extends HttpServlet {
 
     @Override
@@ -30,13 +30,15 @@ public class setConfigurationsServlet extends HttpServlet {
         String theBattleFieldName = request.getParameter(ParametersConstants.BATTLE_FIELD);
         String configurationSelectionType= request.getParameter(ParametersConstants.CONFIGURATION_SELECTION_TYPE);
         EngineManager engineManager = mediatorsForEngineManagerMap.get(theBattleFieldName);
-        Collection<Part> parts = request.getParts();
+     /*   Collection<Part> parts = request.getParts();*/
         BufferedReader streamReader;
         StringBuilder responseStrBuilder;
         String jsonTargetStatusDuringTaskDto = null;
         LimitedCodeConfigurationDTO dto = null;
-        Gson gson;
-        for (Part part : parts) {
+        Gson gson= new Gson();
+        LimitedCodeConfigurationDTO dtoFromGson=gson.fromJson(request.getReader(),LimitedCodeConfigurationDTO.class);
+        dto=dtoFromGson;
+       /* for (Part part : parts) {
             InputStream in = part.getInputStream();
             streamReader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
             responseStrBuilder = new StringBuilder();
@@ -49,7 +51,7 @@ public class setConfigurationsServlet extends HttpServlet {
                 LimitedCodeConfigurationDTO dtoFromGson = gson.fromJson(jsonTargetStatusDuringTaskDto, LimitedCodeConfigurationDTO.class);
                 dto = dtoFromGson;
             }
-        }
+        }*/
         String error="";
         if(configurationSelectionType.equals("Manually")) {
             error = setManuallyCodeConfiguration(response.getWriter(), engineManager, dto);

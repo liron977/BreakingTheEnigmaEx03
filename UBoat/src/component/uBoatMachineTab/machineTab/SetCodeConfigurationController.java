@@ -175,10 +175,13 @@ public class SetCodeConfigurationController implements EventsHandler {
         if (isMachineDefined.getValue() == true) {
             Gson gson = new Gson();
             String gsonLimitedCodeConfigurationDTO = gson.toJson(limitedCodeConfigurationDTO);
-            RequestBody body =
+            /*RequestBody body =
                     new MultipartBody.Builder()
                             .addFormDataPart("gsonLimitedCodeConfigurationDTO", gsonLimitedCodeConfigurationDTO)
-                            .build();
+                            .build();*/
+            RequestBody body = RequestBody.create(
+                    MediaType.parse("application/json"), gsonLimitedCodeConfigurationDTO);
+
             String finalUrl = HttpUrl
                     .parse(Constants.SET_CODE_CONFIGURATION)
                     .newBuilder()

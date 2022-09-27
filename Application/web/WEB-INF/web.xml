@@ -64,4 +64,14 @@
         <servlet-name>EncryptServlet</servlet-name>
         <url-pattern>/EncryptServlet</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AgentsInfoServlet</servlet-name>
+        <servlet-class>servlets.AgentsInfoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AgentsInfoServlet</servlet-name>
+        <url-pattern>/AgentsInfoServlet</url-pattern>
+    </servlet-mapping>
+
 </web-app>

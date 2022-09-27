@@ -3,11 +3,10 @@ package servlets;
 import com.google.gson.Gson;
 import constants.ParametersConstants;
 import engineManager.EngineManager;
-import engineManager.MediatorForEngineManager;
+import managers.MediatorForEngineManager;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import machineDTO.TheMachineSettingsDTO;
 import utils.ServletUtils;
 
 import java.io.IOException;

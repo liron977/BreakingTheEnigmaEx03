@@ -5,7 +5,7 @@ import constants.ParametersConstants;
 import engine.theEnigmaEngine.Pair;
 import engine.theEnigmaEngine.PlugsBoard;
 import engineManager.EngineManager;
-import engineManager.MediatorForEngineManager;
+import managers.MediatorForEngineManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
@@ -109,4 +109,3 @@ public class EncryptServlet extends HttpServlet {
         return isStringToConvertIsLegal;
     }
 }
-

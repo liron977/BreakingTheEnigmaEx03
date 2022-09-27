@@ -1,6 +1,6 @@
 package servlets;
 
-import clientServer.users.UserManager;
+import managers.users.UserManager;
 import constants.ParametersConstants;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
