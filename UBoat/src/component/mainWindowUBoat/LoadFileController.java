@@ -230,6 +230,7 @@ public class LoadFileController {
                 loadFileLabel.setText(/*"Load status: Successfully"*/selectedFile.getPath());
                String message = "The xml was uploaded successfully";
                setMachineDetails();
+               mainWindowUBoatController.getIsCodeDefined().setValue(false);
                 alert.setContentText(message);
                 alert.getDialogPane().setExpanded(true);
                 alert.showAndWait();

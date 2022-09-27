@@ -69,6 +69,9 @@ String battleName;
 public void setMachineDetails(){
     machineDetailsController.setMachineDetailsValues();
 }
+public SimpleBooleanProperty getIsCodeDefined(){
+        return setCodeConfigurationController.isCodeDefinedProperty();
+}
     public void setMediator(Mediator mediator) {
         this.mediator = mediator;
 

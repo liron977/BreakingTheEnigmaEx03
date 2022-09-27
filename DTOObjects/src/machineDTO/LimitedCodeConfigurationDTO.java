@@ -6,11 +6,18 @@ public class LimitedCodeConfigurationDTO {
     String reflector;
     String plugBoardPairs;
 
-    public LimitedCodeConfigurationDTO(String rotors, String positionsAndNotch, String reflector, String plugBoardPairs){
+    String formatCodeConfiguration;
+
+    public LimitedCodeConfigurationDTO(String rotors, String positionsAndNotch, String reflector, String plugBoardPairs,String formatCodeConfiguration){
         this.plugBoardPairs=plugBoardPairs;
         this.positionsAndNotch=positionsAndNotch;
         this.rotors=rotors;
         this.reflector=reflector;
+        this.formatCodeConfiguration=formatCodeConfiguration;
+    }
+
+    public String getFormatCodeConfiguration() {
+        return formatCodeConfiguration;
     }
 
     public String getPlugBoardPairs() {

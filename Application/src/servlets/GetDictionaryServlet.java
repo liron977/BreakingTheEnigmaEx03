@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
 
-public class MachineDetailsServlet extends HttpServlet {
+public class GetDictionaryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try (PrintWriter out = response.getWriter()) {
@@ -24,9 +24,9 @@ public class MachineDetailsServlet extends HttpServlet {
             String theBattleFieldName=request.getParameter(ParametersConstants.BATTLE_FIELD);
             EngineManager engineManager= mediatorsForEngineManagerMap.get(theBattleFieldName);
             if(engineManager!=null) {
-                TheMachineSettingsDTO dto = engineManager.getTheMachineSettingsDTO();
+                String[] dictionary = engineManager.getTheMachineEngine().getDictionary().getDictionary();
                 Gson gson = new Gson();
-                String json = gson.toJson(dto);
+                String json = gson.toJson(dictionary);
                 out.println(json);
                 out.flush();
             }

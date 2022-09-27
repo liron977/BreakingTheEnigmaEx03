@@ -39,4 +39,22 @@
         <url-pattern>/setConfigurationsServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>CurrentCodeServlet</servlet-name>
+        <servlet-class>servlets.CurrentCodeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CurrentCodeServlet</servlet-name>
+        <url-pattern>/CurrentCodeServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetDictionaryServlet</servlet-name>
+        <servlet-class>servlets.GetDictionaryServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetDictionaryServlet</servlet-name>
+        <url-pattern>/GetDictionaryServlet</url-pattern>
+    </servlet-mapping>
+
 </web-app>
