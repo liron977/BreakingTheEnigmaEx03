@@ -6,15 +6,15 @@
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="javaee-facet-classes" facet="Application/web/Web" />
-          <element id="module-output" name="EngimaEngine" />
           <element id="module-output" name="DTOObjects" />
+          <element id="module-output" name="EngimaEngine" />
           <element id="module-output" name="clientUtils" />
           <element id="module-output" name="UBoat" />
           <element id="module-output" name="Application" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="google-gson-2" />
           <element id="library" level="project" name="okHttp" />
+          <element id="library" level="project" name="google-gson-2" />
           <element id="file-copy" path="$PROJECT_DIR$/3rd/AnimateFX-1.2.0.jar" />
         </element>
       </element>
