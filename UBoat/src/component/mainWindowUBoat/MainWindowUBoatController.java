@@ -26,6 +26,8 @@ public class MainWindowUBoatController implements EventsHandler {
         @FXML
         private ScrollPane contestTab;
         @FXML
+        private UBoatContestTabController contestTabController;
+        @FXML
         private UBoatMachineTabController machineTabController;
         @FXML
         private AnchorPane loadFileComponent;
@@ -37,13 +39,16 @@ public class MainWindowUBoatController implements EventsHandler {
         private Tab uBoatMachineTabButton;
          @FXML
          private Tab uBoatContestButton;
-         private UBoatContestTabController contestTabController;
+
     public void setPrimaryStage(Stage primaryStageIn) {
         primaryStage = primaryStageIn;
         //scene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
     }
     public SimpleBooleanProperty getIsMachineDefined(){
         return machineTabController.getIsMachineDefined();
+    }
+    public SimpleBooleanProperty getIsCodeDefined(){
+        return machineTabController.getIsCodeDefined();
     }
        @FXML
         public void initialize() {
@@ -85,7 +90,8 @@ public class MainWindowUBoatController implements EventsHandler {
                     }
                 }); */
                /* encryptDecryptTabButton.disableProperty().bind(machineTabController.getSetCodeConfigurationController().isCodeDefinedProperty().not());
-                bruteForceTab.disableProperty().bind(machineTabController.getSetCodeConfigurationController().isCodeDefinedProperty().not());*/
+              bruteForceTab.disableProperty().bind(machineTabController.getSetCodeConfigurationController().isCodeDefinedProperty().not());*/
+                uBoatContestButton.disableProperty().bind(getIsCodeDefined().not());
                 uBoatContestButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
                     try {
                         uBoatContestButtonOnListener();
@@ -133,7 +139,10 @@ public void setTheMachineSettingsDTO(TheMachineSettingsDTO theMachineSettingsDTO
 //        }
 
     public void uBoatContestButtonOnListener() throws Exception {
-        contestTabController.initDisplayConfiguration();
+
+                contestTabController.initDisplayConfiguration();
+                contestTabController.initValues();
+
     }
 
     @Override

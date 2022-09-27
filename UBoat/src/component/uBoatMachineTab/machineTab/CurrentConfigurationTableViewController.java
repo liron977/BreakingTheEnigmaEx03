@@ -97,7 +97,7 @@ public class CurrentConfigurationTableViewController implements EventsHandler {
                         codeConfigurationTableView.setItems(limitedCodeConfigurationDTOList);
                         codeConfigurationTableView.getColumns().clear();
                         codeConfigurationTableView.getColumns().addAll(rotorsColumn, chosenReflectorColumn, positionsAndNotchColumn, plugBoardColumn);
-                        currentCodeConfigurationLabel.setText(mediator.getEngineManger().getCurrentCodeDescription());
+                        currentCodeConfigurationLabel.setText(limitedCodeConfigurationDTO.getFormatCodeConfiguration());
                     }
                 });
             }

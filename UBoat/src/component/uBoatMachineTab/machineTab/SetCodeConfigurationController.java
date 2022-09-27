@@ -209,6 +209,7 @@ public class SetCodeConfigurationController implements EventsHandler {
                 } else {
                     Platform.runLater(() -> {
                         {
+                            isCodeDefined.setValue(true);
                             displayErrors("The configuration saved successfully");
                         }
                     });
@@ -237,7 +238,7 @@ private void displayErrors(String text) {
             String startingPosition = getStartingPosition();
             String reflector = getReflector();
             String plugBoardPairs = getPlugBoardPairs();
-            LimitedCodeConfigurationDTO limitedCodeConfigurationDTO = new LimitedCodeConfigurationDTO(rotorsId, startingPosition, reflector, plugBoardPairs);
+            LimitedCodeConfigurationDTO limitedCodeConfigurationDTO = new LimitedCodeConfigurationDTO(rotorsId, startingPosition, reflector, plugBoardPairs,null);
             setConfiguration("Manually", limitedCodeConfigurationDTO);
         } else {
             displayErrors("Please insert xml file");

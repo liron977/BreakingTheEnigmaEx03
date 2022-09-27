@@ -804,7 +804,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         String positionsAndNotch=getWindowInfoId(startingPositionRevers, getNotchList());
         String reflector= fullCodeDescriptionDTO.getReflectorId();
         String plugBoardPairs=getPairsOfSwappingCharacter(fullCodeDescriptionDTO.getPairsOfSwappingCharacter());
-        LimitedCodeConfigurationDTO limitedCodeConfigurationDTO =new LimitedCodeConfigurationDTO(rotors,positionsAndNotch,reflector,plugBoardPairs);
+        LimitedCodeConfigurationDTO limitedCodeConfigurationDTO =new LimitedCodeConfigurationDTO(rotors,positionsAndNotch,reflector,plugBoardPairs,getCurrentCodeDescription());
         return limitedCodeConfigurationDTO;
     }
     public LimitedCodeConfigurationDTO createOriginalCodeConfigurationTableViewDTO() throws Exception {
@@ -818,7 +818,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         String positionsAndNotch=getWindowInfoId(startingPositionRevers, theMachineSettingsDTO.getCurrentCodeDescriptionDTO().getOriginalNotchPosition());
         String reflector= fullCodeDescriptionDTO.getReflectorId();
         String plugBoardPairs=getPairsOfSwappingCharacter(theMachineSettingsDTO.getCurrentCodeDescriptionDTO().getPairsOfSwappingCharacter());
-        LimitedCodeConfigurationDTO limitedCodeConfigurationDTO =new LimitedCodeConfigurationDTO(rotors,positionsAndNotch,reflector,plugBoardPairs);
+        LimitedCodeConfigurationDTO limitedCodeConfigurationDTO =new LimitedCodeConfigurationDTO(rotors,positionsAndNotch,reflector,plugBoardPairs,getOriginalCodeDescription());
         return limitedCodeConfigurationDTO;
     }
     private String getPairsOfSwappingCharacter(List<String> pairsOfSwappingCharacter) {

@@ -1,20 +1,31 @@
 package component.uBoatContestTab;
 
 import bruteForce.BruteForceSettingsDTO;
+import com.google.gson.Gson;
 import component.mainWindowUBoat.MainWindowUBoatController;
 import component.uBoatMachineTab.machineTab.CurrentConfigurationTableViewController;
 import engine.theEnigmaEngine.Pair;
 import engine.theEnigmaEngine.PlugsBoard;
 import engineManager.EngineManager;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import machineDTO.LimitedCodeConfigurationDTO;
+import okhttp3.Call;
+import okhttp3.HttpUrl;
+import okhttp3.Request;
+import okhttp3.Response;
 import uiMediator.Mediator;
+import utils.Constants;
 import utils.EventsHandler;
+import utils.http.HttpClientUtil;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EventObject;
@@ -37,6 +48,7 @@ public class UBoatContestTabController implements EventsHandler{
    // private BruteForceResultsTabController bruteForceResultsTabController;
     @FXML
     private CurrentConfigurationTableViewController currentCodeConfigurationController ;
+
     @FXML
     private ScrollPane currentCodeConfiguration;
     @FXML
@@ -47,6 +59,7 @@ public class UBoatContestTabController implements EventsHandler{
     private Button resetButton;
     */@FXML
     private Label currentConfigurationLabel;
+    String battleName;
     @FXML
     private TextArea currentConfigurationValueTextArea;
     @FXML
@@ -59,14 +72,7 @@ public class UBoatContestTabController implements EventsHandler{
     private List<String> dictionary;
     @FXML
     private MainWindowUBoatController mainWindowUBoatController;
-   /* @FXML
-    private Button saveSettingsButton;
-  */  /*   @FXML
-       private DisplayCodeConfigurationController displayCodeConfigurationController;
-       @FXML
-       private ScrollPane displayCodeConfiguration;*/
-//    @FXML
-//    BruteForceTabController bruteForceTabController;
+
 
     BruteForceSettingsDTO bruteForceSettingsDTO;
     Mediator mediator;
@@ -164,15 +170,52 @@ public class UBoatContestTabController implements EventsHandler{
     }
     public void initValues() {
         //engineManager=mediator.getEngineManger().cloneEngineManager();
-        engineManager=mediator.getEngineManger();
+      /*  engineManager=mediator.getEngineManger();
         List<Exception> listOfExceptionsCode=(mediator.isCodeWasDefined().getListOfException());
         if(listOfExceptionsCode.size()==0) {
-            initUserInputBruteForceLogicTabController();
-        }
+       */     initUserInputBruteForceLogicTabController();
+
     }
     private void initListOfStringOfDictionary() {
-        List<String> listOfStringOfDictionary = Arrays.asList(engineManager.getTheMachineEngine().getDictionary().getDictionary());
-        this.dictionary = listOfStringOfDictionary;
+        /*List<String> listOfStringOfDictionary = Arrays.asList(engineManager.getTheMachineEngine().getDictionary().getDictionary());
+        this.dictionary = listOfStringOfDictionary;*/
+        Gson gson = new Gson();
+        String finalUrl = HttpUrl
+                .parse(Constants.GET_DICTIONARY)
+                .newBuilder()
+                .addQueryParameter("battlefield", battleName.trim())
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrl)
+                .build();
+        Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+        try {
+            Response response = call.execute();
+            if (response.code() != 200) {
+                Platform.runLater(() -> {
+                    {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        try {
+                            alert.setContentText(response.body().string());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        alert.getDialogPane().setExpanded(true);
+                        alert.showAndWait();
+                    }
+                });
+            } else {
+                try {
+                    String[] dictionaryArray =Constants.GSON_INSTANCE.fromJson(response.body().string(),String[].class);
+                    this.dictionary = Arrays.asList(dictionaryArray);
+
+                }
+                catch (IOException ignore){}
+
+            }
+        } catch (IOException e) {
+        }
     }
     private List<String> searchList(String searchWords, List<String> listOfStrings) {
 
@@ -222,15 +265,15 @@ public class UBoatContestTabController implements EventsHandler{
 
     }*/
     public void initUserInputBruteForceLogicTabController(){
-        engineManager=mediator.getEngineManger();
+      /*  engineManager=mediator.getEngineManger();*/
         initListOfStringOfDictionary();
         listView.getItems().clear();
         listView.getItems().addAll(dictionary);
-        initSlider();
-        initDifficultyLevelComboBox();
+       // initSlider();
+        //initDifficultyLevelComboBox();
         //bruteForceResultsTabController.setMediator(mediator);
-        difficultyLevelComboBox.getSelectionModel().clearSelection();
-        amountOfAgentsSlider.setValue(1);
+       // difficultyLevelComboBox.getSelectionModel().clearSelection();
+      //  amountOfAgentsSlider.setValue(1);
        // sizeOfMission.setText("");
         stringToConvertTextArea.setText("");
         convertedStringTextArea.setText("");
@@ -428,6 +471,7 @@ public class UBoatContestTabController implements EventsHandler{
         }
     }*/
     public void initDisplayConfiguration() throws Exception {
+
             currentCodeConfigurationController.setCurrentCodeConfiguration();
     }
     private void fireEvent () throws Exception {
@@ -447,6 +491,7 @@ public class UBoatContestTabController implements EventsHandler{
     }
     public void setBattleName(String battleName){
         currentCodeConfigurationController.setBattleName(battleName);
+        this.battleName=battleName;
     }
 
 }
