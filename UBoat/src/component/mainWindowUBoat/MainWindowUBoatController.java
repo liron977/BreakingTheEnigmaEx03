@@ -39,6 +39,7 @@ public class MainWindowUBoatController implements EventsHandler {
         private Tab uBoatMachineTabButton;
          @FXML
          private Tab uBoatContestButton;
+         private SimpleBooleanProperty isMachineDefined;
 
     public void setPrimaryStage(Stage primaryStageIn) {
         primaryStage = primaryStageIn;
@@ -56,6 +57,7 @@ public class MainWindowUBoatController implements EventsHandler {
                 loadFileComponentController.setMainWindowUBoatController(this);
                 machineTabController.setMainController(this);
                 contestTabController.setMainController(this);
+                isMachineDefined=new SimpleBooleanProperty(false);
                /* encryptDecryptTabController.setMainWindowController(this);
                 encryptDecryptTabController.setMachineTabController(machineTabController);
                 encryptDecryptTabController.addMachineHandler();
@@ -99,6 +101,13 @@ public class MainWindowUBoatController implements EventsHandler {
                         throw new RuntimeException(e);
                     }
                 });
+                uBoatMachineTabButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                    try {
+                        setMachineDetails();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
             }
         }
 public void setTheMachineSettingsDTO(TheMachineSettingsDTO theMachineSettingsDTO){
@@ -124,7 +133,9 @@ public void setTheMachineSettingsDTO(TheMachineSettingsDTO theMachineSettingsDTO
             loadFileComponentController.setUserName(uBoatUserName);
         }
     public void setMachineDetails(){
-        machineTabController.setMachineDetails();
+            if(loadFileComponentController.getIsMachineDefinedProperty().getValue()) {
+                machineTabController.setMachineDetails();
+            }
     }
         public void setBattleName(String battleName){
             contestTabController.setBattleName(battleName);

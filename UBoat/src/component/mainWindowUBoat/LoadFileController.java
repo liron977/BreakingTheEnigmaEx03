@@ -258,6 +258,9 @@ public class LoadFileController {
     public void bindIsMachineDefinedProperty(){
       mainWindowUBoatController.getIsMachineDefined().bind(isMachineDefined);
     }
+    public SimpleBooleanProperty getIsMachineDefinedProperty(){
+    return isMachineDefined;
+    }
 
 
 /*    @FXML private void loadNewFileButtonActionListener(ActionEvent event) {

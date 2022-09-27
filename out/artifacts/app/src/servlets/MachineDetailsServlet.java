@@ -25,8 +25,6 @@ public class MachineDetailsServlet extends HttpServlet {
             EngineManager engineManager= mediatorsForEngineManagerMap.get(theBattleFieldName);
             if(engineManager!=null) {
                 TheMachineSettingsDTO dto = engineManager.getTheMachineSettingsDTO();
-
-                //todo we have map inside
                 Gson gson = new Gson();
                 String json = gson.toJson(dto);
                 out.println(json);

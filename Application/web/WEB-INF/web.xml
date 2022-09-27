@@ -56,5 +56,12 @@
         <servlet-name>GetDictionaryServlet</servlet-name>
         <url-pattern>/GetDictionaryServlet</url-pattern>
     </servlet-mapping>
-
+    <servlet>
+        <servlet-name>EncryptServlet</servlet-name>
+        <servlet-class>servlets.EncryptServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EncryptServlet</servlet-name>
+        <url-pattern>/EncryptServlet</url-pattern>
+    </servlet-mapping>
 </web-app>
