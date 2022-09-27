@@ -15,11 +15,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import machineDTO.ConvertedStringProcessDTO;
 import machineDTO.LimitedCodeConfigurationDTO;
-import okhttp3.Call;
-import okhttp3.HttpUrl;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 import uiMediator.Mediator;
 import utils.Constants;
 import utils.EventsHandler;
@@ -32,7 +30,7 @@ import java.util.EventObject;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class UBoatContestTabController implements EventsHandler{
+public class UBoatContestTabController implements EventsHandler {
 
     @FXML
     private ListView<String> listView;
@@ -45,19 +43,20 @@ public class UBoatContestTabController implements EventsHandler{
     private TextArea stringToConvertTextArea;
     @FXML
     private TextArea convertedStringTextArea;
-   // private BruteForceResultsTabController bruteForceResultsTabController;
+    // private BruteForceResultsTabController bruteForceResultsTabController;
     @FXML
-    private CurrentConfigurationTableViewController currentCodeConfigurationController ;
+    private CurrentConfigurationTableViewController currentCodeConfigurationController;
 
     @FXML
     private ScrollPane currentCodeConfiguration;
     @FXML
     private Button decryptButton;
-   /* @FXML
-    private Label amountOfMissions;
-  */  /*@FXML
+    /* @FXML
+     private Label amountOfMissions;
+   */  /*@FXML
     private Button resetButton;
-    */@FXML
+    */
+    @FXML
     private Label currentConfigurationLabel;
     String battleName;
     @FXML
@@ -66,9 +65,10 @@ public class UBoatContestTabController implements EventsHandler{
     private Slider amountOfAgentsSlider;
     @FXML
     private ComboBox<String> difficultyLevelComboBox;
-  /*  @FXML
-    private TextField sizeOfMission;
-*/    @FXML
+    /*  @FXML
+      private TextField sizeOfMission;
+  */
+    @FXML
     private List<String> dictionary;
     @FXML
     private MainWindowUBoatController mainWindowUBoatController;
@@ -83,18 +83,20 @@ public class UBoatContestTabController implements EventsHandler{
     private boolean isDifficultyLevelwasChosen;
     private boolean isConvertedStringIsLegal;
     public SimpleBooleanProperty isBruteForceSettingDefined;
-    private List<EventsHandler> handlers=new ArrayList<>();
+    private List<EventsHandler> handlers = new ArrayList<>();
+    ConvertedStringProcessDTO convertedStringProcessDTO;
 
-    public UBoatContestTabController (){
+    public UBoatContestTabController() {
         alert = new Alert(Alert.AlertType.ERROR);
     }
+
     public void initialize() {
         //currentCodeConfigurationController.setUserInputBruteForceLogicTabController(this);
         addHandler(currentCodeConfigurationController);
-        this.isStringToConvertIsLegal=true;
-        this.isMissionSizeIsValid=true;
-        this.isConvertedStringIsLegal=true;
-        this.isBruteForceSettingDefined=new SimpleBooleanProperty(false);
+        this.isStringToConvertIsLegal = true;
+        this.isMissionSizeIsValid = true;
+        this.isConvertedStringIsLegal = true;
+        this.isBruteForceSettingDefined = new SimpleBooleanProperty(false);
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 searchTextFieldOnListener();
@@ -114,15 +116,16 @@ public class UBoatContestTabController implements EventsHandler{
         });*/
 
     }
-   /* public void setBruteForceResultsController(BruteForceResultsTabController bruteForceResultsTabController) {
-        this.bruteForceResultsTabController = bruteForceResultsTabController;
-    }*/
+
+    /* public void setBruteForceResultsController(BruteForceResultsTabController bruteForceResultsTabController) {
+         this.bruteForceResultsTabController = bruteForceResultsTabController;
+     }*/
     @FXML
     void listViewClickOnItem(MouseEvent event) {
         String selectedItem = listView.getSelectionModel().getSelectedItem();
         int index = listView.getSelectionModel().getSelectedIndex();
         String currentString = stringToConvertTextArea.getText().toUpperCase();
-        if(!currentString.equals("")) {
+        if (!currentString.equals("")) {
             currentString = currentString.concat(" ");
         }
         String updatedSting = currentString.concat(selectedItem);
@@ -137,45 +140,49 @@ public class UBoatContestTabController implements EventsHandler{
 
     @FXML
     void saveSettingsButtonOnActionListener(ActionEvent event) {
-        if(isUserInputIsValid()) {
+        if (isUserInputIsValid()) {
             isBruteForceSettingDefined.set(true);
             String convertedString = convertedStringTextArea.getText();
             int agentsAmount = (int) amountOfAgentsSlider.getValue();
             //int missionSize = Integer.parseInt(sizeOfMission.getText());
             String missionLevel = difficultyLevelComboBox.getValue();
-           // bruteForceSettingsDTO = new BruteForceSettingsDTO(convertedString, agentsAmount, missionSize, missionLevel);
+            // bruteForceSettingsDTO = new BruteForceSettingsDTO(convertedString, agentsAmount, missionSize, missionLevel);
            /* bruteForceResultsTabController.setBruteForceSettingsDTO(bruteForceSettingsDTO);
             bruteForceResultsTabController.reset();
             bruteForceTabController.runTaskFromSuper();*/
         }
     }
-    public void initDifficultyLevelComboBox(){
+
+    public void initDifficultyLevelComboBox() {
         difficultyLevelComboBox.setItems(FXCollections.observableArrayList(
                 new String("Low"),
                 new String("Medium"),
                 new String("High"),
                 new String("Impossible")));
     }
+
     @FXML
     void searchTextFieldOnListener() throws Exception {
         int amountOfSignalToProcess = searchTextField.getText().length();
-        if (amountOfSignalToProcess >0) {
+        if (amountOfSignalToProcess > 0) {
             listView.getItems().clear();
             listView.getItems().addAll(searchList(searchTextField.getText(), dictionary));
-        }
-        else{
+        } else {
             listView.getItems().addAll(dictionary);
 
         }
     }
+
     public void initValues() {
         //engineManager=mediator.getEngineManger().cloneEngineManager();
       /*  engineManager=mediator.getEngineManger();
         List<Exception> listOfExceptionsCode=(mediator.isCodeWasDefined().getListOfException());
         if(listOfExceptionsCode.size()==0) {
-       */     initUserInputBruteForceLogicTabController();
+       */
+        initUserInputBruteForceLogicTabController();
 
     }
+
     private void initListOfStringOfDictionary() {
         /*List<String> listOfStringOfDictionary = Arrays.asList(engineManager.getTheMachineEngine().getDictionary().getDictionary());
         this.dictionary = listOfStringOfDictionary;*/
@@ -207,16 +214,17 @@ public class UBoatContestTabController implements EventsHandler{
                 });
             } else {
                 try {
-                    String[] dictionaryArray =Constants.GSON_INSTANCE.fromJson(response.body().string(),String[].class);
+                    String[] dictionaryArray = Constants.GSON_INSTANCE.fromJson(response.body().string(), String[].class);
                     this.dictionary = Arrays.asList(dictionaryArray);
 
+                } catch (IOException ignore) {
                 }
-                catch (IOException ignore){}
 
             }
         } catch (IOException e) {
         }
     }
+
     private List<String> searchList(String searchWords, List<String> listOfStrings) {
 
         List<String> searchWordsArray = Arrays.asList(searchWords.trim().split(" "));
@@ -226,24 +234,27 @@ public class UBoatContestTabController implements EventsHandler{
                     input.toLowerCase().contains(word.toLowerCase()));
         }).collect(Collectors.toList());
     }
+
     public void setMediator(Mediator mediator) {
         this.mediator = mediator;
         this.currentCodeConfigurationController.setMediator(mediator);
     }
-   /* public void setBruteForce(BruteForceTabController bruteForceTabController){
-        this.bruteForceTabController = bruteForceTabController;
-    }*/
+
+    /* public void setBruteForce(BruteForceTabController bruteForceTabController){
+         this.bruteForceTabController = bruteForceTabController;
+     }*/
     @FXML
     void convertedStringTextAreaOnListener(ActionEvent event) {
 
     }
-   /* @FXML
-    void sizeOfMissionOnActionListener(ActionEvent event) {
-        if(!sizeOfMission.getText().equals("")&&isMissionSizeIsValid&&!difficultyLevelComboBox.getValue().equals("Difficulty level")){
-            amountOfMissions.setText(String.valueOf(engineManager.setMaxAmountOfMissions(difficultyLevelComboBox.getValue(),Integer.parseInt(sizeOfMission.getText()))));
 
-        }
-    }*/
+    /* @FXML
+     void sizeOfMissionOnActionListener(ActionEvent event) {
+         if(!sizeOfMission.getText().equals("")&&isMissionSizeIsValid&&!difficultyLevelComboBox.getValue().equals("Difficulty level")){
+             amountOfMissions.setText(String.valueOf(engineManager.setMaxAmountOfMissions(difficultyLevelComboBox.getValue(),Integer.parseInt(sizeOfMission.getText()))));
+
+         }
+     }*/
    /* void updateAmountOfMissionOnActionListener(String  comboNewValue, String  textNewValue) {
         boolean isOutputNeeded = false;
         isMissionSizeIsValid(isOutputNeeded);
@@ -264,59 +275,60 @@ public class UBoatContestTabController implements EventsHandler{
         }
 
     }*/
-    public void initUserInputBruteForceLogicTabController(){
-      /*  engineManager=mediator.getEngineManger();*/
+    public void initUserInputBruteForceLogicTabController() {
+        /*  engineManager=mediator.getEngineManger();*/
         initListOfStringOfDictionary();
         listView.getItems().clear();
         listView.getItems().addAll(dictionary);
-       // initSlider();
+        // initSlider();
         //initDifficultyLevelComboBox();
         //bruteForceResultsTabController.setMediator(mediator);
-       // difficultyLevelComboBox.getSelectionModel().clearSelection();
-      //  amountOfAgentsSlider.setValue(1);
-       // sizeOfMission.setText("");
+        // difficultyLevelComboBox.getSelectionModel().clearSelection();
+        //  amountOfAgentsSlider.setValue(1);
+        // sizeOfMission.setText("");
         stringToConvertTextArea.setText("");
         convertedStringTextArea.setText("");
     }
-    @FXML
-    void decryptButtonOnAction(ActionEvent event) throws Exception {
-        String stringToConvert=stringToConvertTextArea.getText().toUpperCase();
-        if(stringToConvert==null){
-            displayErrorAlert("Please insert a string to convert");
-        }
-        else {
-            String stringToConvertWithoutExcludedSignals = engineManager.getTheMachineEngine().getDictionary().removeExcludeCharsFromString(stringToConvert).toUpperCase();
-            String stringWithoutLegalSignals = engineManager.isStringIncludeIllegalSignal(stringToConvertWithoutExcludedSignals).toUpperCase();
-            if (stringWithoutLegalSignals.length() != 0) {
-                isStringToConvertIsLegal = false;
-                isBruteForceSettingDefined.set(false);
-                String msg = "There are illegal chars  in the string: ".concat(stringToConvertWithoutExcludedSignals);
-                displayErrorAlert(msg);
-            } else {
-                isStringToConvertLegal(stringToConvertWithoutExcludedSignals);
-                if (isStringToConvertIsLegal) {
-                    stringToConvertTextArea.setText(stringToConvertWithoutExcludedSignals);
-                    PlugsBoard plugsBoard=engineManager.getTheMachineEngine().getPlugsBoard();
-                    List<Pair> listOfPairsOfSwappingCharacter=new ArrayList<>();
-                    if(plugsBoard!=null) {
-                        listOfPairsOfSwappingCharacter = engineManager.getTheMachineEngine().getPlugsBoard().getPairsOfSwappingCharacter();
-                        engineManager.getTheMachineEngine().initEmptyPlugBoard();
+
+    /*    @FXML
+        void decryptButtonOnAction(ActionEvent event) throws Exception {
+            String stringToConvert=stringToConvertTextArea.getText().toUpperCase();
+            if(stringToConvert==null){
+                displayErrorAlert("Please insert a string to convert");
+            }
+            else {
+                String stringToConvertWithoutExcludedSignals = engineManager.getTheMachineEngine().getDictionary().removeExcludeCharsFromString(stringToConvert).toUpperCase();
+                String stringWithoutLegalSignals = engineManager.isStringIncludeIllegalSignal(stringToConvertWithoutExcludedSignals).toUpperCase();
+                if (stringWithoutLegalSignals.length() != 0) {
+                    isStringToConvertIsLegal = false;
+                    isBruteForceSettingDefined.set(false);
+                    String msg = "There are illegal chars  in the string: ".concat(stringToConvertWithoutExcludedSignals);
+                    displayErrorAlert(msg);
+                } else {
+                    isStringToConvertLegal(stringToConvertWithoutExcludedSignals);
+                    if (isStringToConvertIsLegal) {
+                        stringToConvertTextArea.setText(stringToConvertWithoutExcludedSignals);
+                        PlugsBoard plugsBoard=engineManager.getTheMachineEngine().getPlugsBoard();
+                        List<Pair> listOfPairsOfSwappingCharacter=new ArrayList<>();
+                        if(plugsBoard!=null) {
+                            listOfPairsOfSwappingCharacter = engineManager.getTheMachineEngine().getPlugsBoard().getPairsOfSwappingCharacter();
+                            engineManager.getTheMachineEngine().initEmptyPlugBoard();
+                        }
+                        String convertedString = engineManager.getConvertedString(stringToConvertWithoutExcludedSignals).getConvertedString().toUpperCase();
+                        convertedStringTextArea.setText(convertedString);
+                        if(plugsBoard!=null) {
+                            engineManager.getTheMachineEngine().getPlugsBoard().setPairsOfSwappingCharacter(listOfPairsOfSwappingCharacter);
+                        }
+                        isStringToConvertIsLegal = true;
+                        fireEvent();
                     }
-                    String convertedString = engineManager.getConvertedString(stringToConvertWithoutExcludedSignals).getConvertedString().toUpperCase();
-                    convertedStringTextArea.setText(convertedString);
-                    if(plugsBoard!=null) {
-                        engineManager.getTheMachineEngine().getPlugsBoard().setPairsOfSwappingCharacter(listOfPairsOfSwappingCharacter);
-                    }
-                    isStringToConvertIsLegal = true;
-                    fireEvent();
                 }
             }
-        }
-    }
+        }*/
     public void isStringToConvertLegal(String stringToConvert) {
         String[] stringToConvertArray = stringToConvert.split(" ");
         String IllegalWords = "";
-        isStringToConvertIsLegal=true;
+        isStringToConvertIsLegal = true;
         // boolean isStringToConvertLegal = true;
         for (String str : stringToConvertArray) {
             if (!engineManager.getTheMachineEngine().getDictionary().isStringExistsInTheDictionary(str)) {
@@ -328,10 +340,10 @@ public class UBoatContestTabController implements EventsHandler{
                 isStringToConvertIsLegal = false;
             }
         }
-        if(!isStringToConvertIsLegal) {
+        if (!isStringToConvertIsLegal) {
             isBruteForceSettingDefined.set(false);
-            this.isStringToConvertIsLegal=false;
-            displayErrorAlert("Please enter legal word from the dictionary \nThe illegal words: "+IllegalWords);
+            this.isStringToConvertIsLegal = false;
+            displayErrorAlert("Please enter legal word from the dictionary \nThe illegal words: " + IllegalWords);
         }
     }
 
@@ -339,6 +351,7 @@ public class UBoatContestTabController implements EventsHandler{
     void stringToConvertTextFieldOnAction(ActionEvent event) {
 
     }
+
     @FXML
     void resetButtonOnAction(ActionEvent event) {
         engineManager.resetCurrentCode();
@@ -348,22 +361,27 @@ public class UBoatContestTabController implements EventsHandler{
             throw new RuntimeException(e);
         }
     }
+
     public void setCurrentConfigurationLabel() {
         engineManager.createCurrentCodeDescriptionDTO();
-        String currentConfiguration=engineManager.getCurrentCodeDescription();
+        String currentConfiguration = engineManager.getCurrentCodeDescription();
         currentConfigurationLabel.setText("The current code configuration is:");
     }
+
     public Label getCurrentConfigurationLabel() {
         return currentConfigurationLabel;
     }
+
     public TextArea getCurrentConfigurationValueTextArea() {
         return currentConfigurationValueTextArea;
     }
-    public void initSlider(){
+
+    public void initSlider() {
         amountOfAgentsSlider.minProperty().setValue(1);
         amountOfAgentsSlider.maxProperty().setValue(mediator.getEngineManger().getAgents().getAmountOfAgents());
         //newAmountOfThreadsProperty=new SimpleIntegerProperty(maxThreadsAmount);
     }
+
     /*private void isMissionSizeIsValid(boolean isOutputNeeded){
        // String missionSizeString=sizeOfMission.getText();
         Long amountOfPossibleStartingPositionList = mediator.getEngineManger().getAmountOfPossibleStartingPositionList();
@@ -405,76 +423,80 @@ public class UBoatContestTabController implements EventsHandler{
             }
         }
     }*/
-    private void isDifficultyLevelwasChosen(){
-        if(difficultyLevelComboBox.getValue()==null){
-            isDifficultyLevelwasChosen=false;
+    private void isDifficultyLevelwasChosen() {
+        if (difficultyLevelComboBox.getValue() == null) {
+            isDifficultyLevelwasChosen = false;
             isBruteForceSettingDefined.set(false);
             displayErrorAlert("Please select difficulty level");
-        }
-        else {
-            isDifficultyLevelwasChosen=true;
+        } else {
+            isDifficultyLevelwasChosen = true;
         }
     }
-    private boolean isUserInputIsValid(){
-        boolean isOutputNeeded=true;
+
+    private boolean isUserInputIsValid() {
+        boolean isOutputNeeded = true;
         isDifficultyLevelwasChosen();
         //isMissionSizeIsValid(isOutputNeeded);
         isStringTOConvertFieldEmpty();
         isConvertedStringFieldEmpty();
 
-        if ((isConvertedStringIsLegal)&&(isStringToConvertIsLegal)&&(isMissionSizeIsValid)&&(isDifficultyLevelwasChosen)){
+        if ((isConvertedStringIsLegal) && (isStringToConvertIsLegal) && (isMissionSizeIsValid) && (isDifficultyLevelwasChosen)) {
             return true;
         }
         return false;
     }
-    private static boolean isNumeric(String str){
+
+    private static boolean isNumeric(String str) {
         return str != null && str.matches("[0-9.]+");
     }
-    private void isStringTOConvertFieldEmpty(){
-        if(stringToConvertTextArea.getText().equals("")){
-            isStringToConvertIsLegal=false;
+
+    private void isStringTOConvertFieldEmpty() {
+        if (stringToConvertTextArea.getText().equals("")) {
+            isStringToConvertIsLegal = false;
             isBruteForceSettingDefined.set(false);
             displayErrorAlert("Please insert a string to convert");
-        }
-        else{
-            isStringToConvertIsLegal=true;
+        } else {
+            isStringToConvertIsLegal = true;
 
         }
     }
-    private void isConvertedStringFieldEmpty(){
-        if(convertedStringTextArea.getText().equals("")){
-            isConvertedStringIsLegal=false;
+
+    private void isConvertedStringFieldEmpty() {
+        if (convertedStringTextArea.getText().equals("")) {
+            isConvertedStringIsLegal = false;
             isBruteForceSettingDefined.set(false);
             displayErrorAlert("Please decrypt the message");
-        }
-        else{
-            isConvertedStringIsLegal=true;
+        } else {
+            isConvertedStringIsLegal = true;
 
         }
     }
-    private void displayErrorAlert(String errorMessage){
+
+    private void displayErrorAlert(String errorMessage) {
         alert.setContentText(errorMessage + "\n");
         alert.getDialogPane().setExpanded(true);
         alert.setTitle("Error!");
         alert.showAndWait();
     }
-    public void addHandler (EventsHandler handler) {
+
+    public void addHandler(EventsHandler handler) {
         if (handler != null && !handlers.contains(handler)) {
             handlers.add(handler);
         }
     }
 
-/*    public void initDisplayConfiguration() throws Exception {
-        List<Exception> listOfExceptionsCode=(mediator.isCodeWasDefined().getListOfException());
-        if(listOfExceptionsCode.size()==0) {
-            currentCodeConfigurationController.setCurrentCodeConfiguration();
-        }
-    }*/
+    /*    public void initDisplayConfiguration() throws Exception {
+            List<Exception> listOfExceptionsCode=(mediator.isCodeWasDefined().getListOfException());
+            if(listOfExceptionsCode.size()==0) {
+                currentCodeConfigurationController.setCurrentCodeConfiguration();
+            }
+        }*/
     public void initDisplayConfiguration() throws Exception {
 
-            currentCodeConfigurationController.setCurrentCodeConfiguration();
+        currentCodeConfigurationController.setCurrentCodeConfiguration();
     }
-    private void fireEvent () throws Exception {
+
+    private void fireEvent() throws Exception {
         EventObject myEvent = new EventObject(this);
         List<EventsHandler> handlersToInvoke = new ArrayList<>(handlers);
         for (EventsHandler handler : handlers) {
@@ -486,12 +508,81 @@ public class UBoatContestTabController implements EventsHandler{
     public void eventHappened(EventObject event) throws Exception {
         initDisplayConfiguration();
     }
+
     public void setMainController(MainWindowUBoatController mainWindowUBoatController) {
         this.mainWindowUBoatController = mainWindowUBoatController;
     }
-    public void setBattleName(String battleName){
+
+    public void setBattleName(String battleName) {
         currentCodeConfigurationController.setBattleName(battleName);
-        this.battleName=battleName;
+        this.battleName = battleName;
     }
 
+    @FXML
+    void decryptButtonOnAction(ActionEvent event) throws Exception {
+        String stringToConvert = stringToConvertTextArea.getText();
+        RequestBody body =
+                new MultipartBody.Builder()
+                        .addFormDataPart("stringToConvert", stringToConvert)
+                        .build();
+        String finalUrl = HttpUrl
+                .parse(Constants.ENCRYPT)
+                .newBuilder()
+                .addQueryParameter("battlefield", battleName.trim())
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrl)
+                .post(body)
+                .build();
+        Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+        try {
+            Response response = call.execute();
+            if (response.code() != 200) {
+                Platform.runLater(() -> {
+                    {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        try {
+                            alert.setContentText(response.body().string());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        alert.getDialogPane().setExpanded(true);
+                        alert.showAndWait();
+                    }
+                });
+            } else {
+                try {
+                    ConvertedStringProcessDTO convertedStringProcessDTOFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), ConvertedStringProcessDTO.class);
+                    convertedStringProcessDTO = convertedStringProcessDTOFromGson;
+                } catch (IOException ignore) {
+                }
+                if (convertedStringProcessDTO.getExceptionList().size()==0) {
+                    Platform.runLater(() -> {
+                        {
+                            stringToConvertTextArea.setText(convertedStringProcessDTO.getStringToConvertWithoutExcludedSignals());
+                            convertedStringTextArea.setText(convertedStringProcessDTO.getConvertedString());
+                            currentCodeConfigurationController.setCurrentCodeConfiguration();
+                        }
+                    });
+                } else {
+                    displayExceptions(convertedStringProcessDTO.getExceptionList());
+                }
+            }
+
+        } catch (IOException e) {
+        }
+
+    }
+    private void displayExceptions(List<String> exceptionList){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        String message="";
+        for (String exception:exceptionList) {
+            message=message.concat(exception);
+            message=message.concat("\n");
+        }
+        alert.setContentText(message);
+        alert.getDialogPane().setExpanded(true);
+        alert.showAndWait();
+    }
 }
