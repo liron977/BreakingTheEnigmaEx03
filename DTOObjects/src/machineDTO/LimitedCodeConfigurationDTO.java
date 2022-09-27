@@ -1,12 +1,12 @@
 package machineDTO;
 
-public class CodeConfigurationTableViewDTO {
+public class LimitedCodeConfigurationDTO {
     String rotors;
     String positionsAndNotch;
     String reflector;
     String plugBoardPairs;
 
-    public CodeConfigurationTableViewDTO(String rotors,String positionsAndNotch,String reflector,String plugBoardPairs){
+    public LimitedCodeConfigurationDTO(String rotors, String positionsAndNotch, String reflector, String plugBoardPairs){
         this.plugBoardPairs=plugBoardPairs;
         this.positionsAndNotch=positionsAndNotch;
         this.rotors=rotors;

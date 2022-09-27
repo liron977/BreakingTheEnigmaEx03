@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import machineDTO.CodeConfigurationTableViewDTO;
+import machineDTO.LimitedCodeConfigurationDTO;
 import mediator.Mediator;
 
 import java.util.EventObject;
@@ -17,28 +17,28 @@ public class CurrentConfigurationTableViewController implements EventsHandler {
 
     Mediator mediator;
     @FXML
-    private TableView<CodeConfigurationTableViewDTO> codeConfigurationTableView;
+    private TableView<LimitedCodeConfigurationDTO> codeConfigurationTableView;
 
 
     @FXML
-    private TableColumn<CodeConfigurationTableViewDTO, String> plugBoardColumn;
+    private TableColumn<LimitedCodeConfigurationDTO, String> plugBoardColumn;
     @FXML
     private Label currentCodeConfigurationLabel;
     UserInputBruteForceLogicTabController userInputBruteForceLogicTabController;
     @FXML
-    private TableColumn<CodeConfigurationTableViewDTO, String> positionsAndNotchColumn;
+    private TableColumn<LimitedCodeConfigurationDTO, String> positionsAndNotchColumn;
     @FXML
-    private TableColumn<CodeConfigurationTableViewDTO, String> chosenReflectorColumn;
+    private TableColumn<LimitedCodeConfigurationDTO, String> chosenReflectorColumn;
 
     @FXML
-    private TableColumn<CodeConfigurationTableViewDTO, String> rotorsColumn;
+    private TableColumn<LimitedCodeConfigurationDTO, String> rotorsColumn;
     SimpleIntegerProperty plugBoardColumnWidthProperty;
     public void setMediator(Mediator mediator) {
         this.mediator = mediator;
     }
     public void setCurrentCodeConfiguration() {
-        CodeConfigurationTableViewDTO currentCodeConfigurationTableViewDTO = mediator.getEngineManger().createCurrentCodeConfigurationTableViewDTO();
-        ObservableList<CodeConfigurationTableViewDTO> currentCodeConfigurationList = getCodeConfigurationTableViewDTOList(currentCodeConfigurationTableViewDTO);
+        LimitedCodeConfigurationDTO currentLimitedCodeConfigurationDTO = mediator.getEngineManger().createCurrentCodeConfigurationTableViewDTO();
+        ObservableList<LimitedCodeConfigurationDTO> currentCodeConfigurationList = getCodeConfigurationTableViewDTOList(currentLimitedCodeConfigurationDTO);
         codeConfigurationTableView.setItems(currentCodeConfigurationList);
         codeConfigurationTableView.getColumns().clear();
         codeConfigurationTableView.getColumns().addAll(rotorsColumn, chosenReflectorColumn, positionsAndNotchColumn, plugBoardColumn);
@@ -47,11 +47,11 @@ public class CurrentConfigurationTableViewController implements EventsHandler {
     public void setUserInputBruteForceLogicTabController(UserInputBruteForceLogicTabController userInputBruteForceLogicTabController) {
         this.userInputBruteForceLogicTabController = userInputBruteForceLogicTabController;
     }
-    private ObservableList<CodeConfigurationTableViewDTO> getCodeConfigurationTableViewDTOList(CodeConfigurationTableViewDTO codeConfigurationTableViewDTO) {
+    private ObservableList<LimitedCodeConfigurationDTO> getCodeConfigurationTableViewDTOList(LimitedCodeConfigurationDTO limitedCodeConfigurationDTO) {
 
-        ObservableList<CodeConfigurationTableViewDTO> CodeConfigurationList;
+        ObservableList<LimitedCodeConfigurationDTO> CodeConfigurationList;
 
-        CodeConfigurationList = FXCollections.observableArrayList(codeConfigurationTableViewDTO);
+        CodeConfigurationList = FXCollections.observableArrayList(limitedCodeConfigurationDTO);
         rotorsColumn.setCellValueFactory(
                 new PropertyValueFactory<>("rotors")
         );
@@ -64,10 +64,10 @@ public class CurrentConfigurationTableViewController implements EventsHandler {
         plugBoardColumn.setCellValueFactory(
                 new PropertyValueFactory<>("plugBoardPairs")
         );
-        if(codeConfigurationTableViewDTO.getPlugBoardPairs().length() * 8>=92) {
-            plugBoardColumn.setPrefWidth(codeConfigurationTableViewDTO.getPlugBoardPairs().length() * 8);
-            plugBoardColumn.setMaxWidth(codeConfigurationTableViewDTO.getPlugBoardPairs().length() * 8);
-            plugBoardColumn.setMinWidth(codeConfigurationTableViewDTO.getPlugBoardPairs().length() * 8);
+        if(limitedCodeConfigurationDTO.getPlugBoardPairs().length() * 8>=92) {
+            plugBoardColumn.setPrefWidth(limitedCodeConfigurationDTO.getPlugBoardPairs().length() * 8);
+            plugBoardColumn.setMaxWidth(limitedCodeConfigurationDTO.getPlugBoardPairs().length() * 8);
+            plugBoardColumn.setMinWidth(limitedCodeConfigurationDTO.getPlugBoardPairs().length() * 8);
         }
         else{
             plugBoardColumn.setPrefWidth(92);

@@ -3,7 +3,7 @@ package Controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import machineDTO.CodeDescriptionDTO;
+import machineDTO.FullCodeDescriptionDTO;
 import mediator.Mediator;
 
 import java.util.EventObject;
@@ -24,7 +24,7 @@ public class DisplayCodeConfigurationController  implements EventsHandler {
     private Label originalConfigurationValueLabel;
     @FXML
     private MachineTabController mainController;
-    CodeDescriptionDTO codeDescriptionDTO;
+    FullCodeDescriptionDTO fullCodeDescriptionDTO;
     @FXML
     private EncryptDecryptTabController encryptDecryptTabController;
     @FXML

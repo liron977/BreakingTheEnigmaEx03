@@ -1,59 +1,117 @@
 package component.uBoatMachineTab.machineTab;
 
+import com.google.gson.Gson;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import machineDTO.CodeConfigurationTableViewDTO;
+import machineDTO.LimitedCodeConfigurationDTO;
 
+import machineDTO.TheMachineSettingsDTO;
+import okhttp3.*;
 import uiMediator.Mediator;
+import utils.Constants;
 import utils.EventsHandler;
+import utils.http.HttpClientUtil;
 
+import java.io.IOException;
 import java.util.EventObject;
 
 public class CurrentConfigurationTableViewController implements EventsHandler {
 
     Mediator mediator;
     @FXML
-    private TableView<CodeConfigurationTableViewDTO> codeConfigurationTableView;
+    private TableView<LimitedCodeConfigurationDTO> codeConfigurationTableView;
 
 
     @FXML
-    private TableColumn<CodeConfigurationTableViewDTO, String> plugBoardColumn;
+    private TableColumn<LimitedCodeConfigurationDTO, String> plugBoardColumn;
     @FXML
     private Label currentCodeConfigurationLabel;
-  //  UserInputBruteForceLogicTabController userInputBruteForceLogicTabController;
+    //  UserInputBruteForceLogicTabController userInputBruteForceLogicTabController;
     @FXML
-    private TableColumn<CodeConfigurationTableViewDTO, String> positionsAndNotchColumn;
+    private TableColumn<LimitedCodeConfigurationDTO, String> positionsAndNotchColumn;
     @FXML
-    private TableColumn<CodeConfigurationTableViewDTO, String> chosenReflectorColumn;
+    private TableColumn<LimitedCodeConfigurationDTO, String> chosenReflectorColumn;
 
     @FXML
-    private TableColumn<CodeConfigurationTableViewDTO, String> rotorsColumn;
+    private TableColumn<LimitedCodeConfigurationDTO, String> rotorsColumn;
     SimpleIntegerProperty plugBoardColumnWidthProperty;
+    String battleName;
+   private LimitedCodeConfigurationDTO limitedCodeConfigurationDTO;
+
     public void setMediator(Mediator mediator) {
         this.mediator = mediator;
     }
+
+    /* public void setCurrentCodeConfiguration() {
+         CodeConfigurationTableViewDTO currentCodeConfigurationTableViewDTO = mediator.getEngineManger().createCurrentCodeConfigurationTableViewDTO();
+         ObservableList<CodeConfigurationTableViewDTO> currentCodeConfigurationList = getCodeConfigurationTableViewDTOList(currentCodeConfigurationTableViewDTO);
+         codeConfigurationTableView.setItems(currentCodeConfigurationList);
+         codeConfigurationTableView.getColumns().clear();
+         codeConfigurationTableView.getColumns().addAll(rotorsColumn, chosenReflectorColumn, positionsAndNotchColumn, plugBoardColumn);
+         currentCodeConfigurationLabel.setText(mediator.getEngineManger().getCurrentCodeDescription());
+     }*/
     public void setCurrentCodeConfiguration() {
-        CodeConfigurationTableViewDTO currentCodeConfigurationTableViewDTO = mediator.getEngineManger().createCurrentCodeConfigurationTableViewDTO();
-        ObservableList<CodeConfigurationTableViewDTO> currentCodeConfigurationList = getCodeConfigurationTableViewDTOList(currentCodeConfigurationTableViewDTO);
-        codeConfigurationTableView.setItems(currentCodeConfigurationList);
-        codeConfigurationTableView.getColumns().clear();
-        codeConfigurationTableView.getColumns().addAll(rotorsColumn, chosenReflectorColumn, positionsAndNotchColumn, plugBoardColumn);
-        currentCodeConfigurationLabel.setText(mediator.getEngineManger().getCurrentCodeDescription());
+       Gson gson = new Gson();
+        String finalUrl = HttpUrl
+                .parse(Constants.DISPLAY_CURRENT_CODE_CONFIGURATION)
+                .newBuilder()
+                .addQueryParameter("battlefield", battleName.trim())
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrl)
+                .build();
+        Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+        try {
+            Response response = call.execute();
+            if (response.code() != 200) {
+                Platform.runLater(() -> {
+                    {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        try {
+                            alert.setContentText(response.body().string());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        alert.getDialogPane().setExpanded(true);
+                        alert.showAndWait();
+                    }
+                });
+            } else {
+                try {
+                    LimitedCodeConfigurationDTO limitedCodeConfigurationDTOFromGson =Constants.GSON_INSTANCE.fromJson(response.body().string(),LimitedCodeConfigurationDTO.class);
+                    limitedCodeConfigurationDTO=limitedCodeConfigurationDTOFromGson;
+                }
+                catch (IOException ignore){}
+                Platform.runLater(() -> {
+                    {
+                        ObservableList<LimitedCodeConfigurationDTO> limitedCodeConfigurationDTOList = getCodeConfigurationTableViewDTOList(limitedCodeConfigurationDTO);
+                        codeConfigurationTableView.setItems(limitedCodeConfigurationDTOList);
+                        codeConfigurationTableView.getColumns().clear();
+                        codeConfigurationTableView.getColumns().addAll(rotorsColumn, chosenReflectorColumn, positionsAndNotchColumn, plugBoardColumn);
+                        currentCodeConfigurationLabel.setText(mediator.getEngineManger().getCurrentCodeDescription());
+                    }
+                });
+            }
+        } catch (IOException e) {
+        }
     }
    /* public void setUserInputBruteForceLogicTabController(UserInputBruteForceLogicTabController userInputBruteForceLogicTabController) {
         this.userInputBruteForceLogicTabController = userInputBruteForceLogicTabController;
     }
- */   private ObservableList<CodeConfigurationTableViewDTO> getCodeConfigurationTableViewDTOList(CodeConfigurationTableViewDTO codeConfigurationTableViewDTO) {
+ */   private ObservableList<LimitedCodeConfigurationDTO> getCodeConfigurationTableViewDTOList(LimitedCodeConfigurationDTO limitedCodeConfigurationDTO) {
 
-        ObservableList<CodeConfigurationTableViewDTO> CodeConfigurationList;
+        ObservableList<LimitedCodeConfigurationDTO> CodeConfigurationList;
 
-        CodeConfigurationList = FXCollections.observableArrayList(codeConfigurationTableViewDTO);
+        CodeConfigurationList = FXCollections.observableArrayList(limitedCodeConfigurationDTO);
         rotorsColumn.setCellValueFactory(
                 new PropertyValueFactory<>("rotors")
         );
@@ -66,10 +124,10 @@ public class CurrentConfigurationTableViewController implements EventsHandler {
         plugBoardColumn.setCellValueFactory(
                 new PropertyValueFactory<>("plugBoardPairs")
         );
-        if(codeConfigurationTableViewDTO.getPlugBoardPairs().length() * 8>=92) {
-            plugBoardColumn.setPrefWidth(codeConfigurationTableViewDTO.getPlugBoardPairs().length() * 8);
-            plugBoardColumn.setMaxWidth(codeConfigurationTableViewDTO.getPlugBoardPairs().length() * 8);
-            plugBoardColumn.setMinWidth(codeConfigurationTableViewDTO.getPlugBoardPairs().length() * 8);
+        if(limitedCodeConfigurationDTO.getPlugBoardPairs().length() * 8>=92) {
+            plugBoardColumn.setPrefWidth(limitedCodeConfigurationDTO.getPlugBoardPairs().length() * 8);
+            plugBoardColumn.setMaxWidth(limitedCodeConfigurationDTO.getPlugBoardPairs().length() * 8);
+            plugBoardColumn.setMinWidth(limitedCodeConfigurationDTO.getPlugBoardPairs().length() * 8);
         }
         else{
             plugBoardColumn.setPrefWidth(92);
@@ -87,4 +145,8 @@ public class CurrentConfigurationTableViewController implements EventsHandler {
             currentCodeConfigurationLabel.setText("");
         }
     }
+    public void setBattleName(String battleName){
+        this.battleName=battleName;
+    }
+
 }

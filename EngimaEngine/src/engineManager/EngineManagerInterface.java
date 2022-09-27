@@ -27,7 +27,7 @@ public interface EngineManagerInterface extends Serializable {
 
     public ListOfExceptionsDTO getAllErrorsRelatedToChosenManuallyPlugBoard(String str);
 
-    public CodeDescriptionDTO initCodeAutomatically();
+    public FullCodeDescriptionDTO initCodeAutomatically();
 
     public TheMachineSettingsDTO getTheMachineSettingsDTO() throws Exception;
 
@@ -60,7 +60,7 @@ public interface EngineManagerInterface extends Serializable {
 
     public void DefineIsCodeConfigurationSetValueToTrue();
 
-    public CodeDescriptionDTO getCodeDescriptionDTO();
+    public FullCodeDescriptionDTO getCodeDescriptionDTO();
 
     public TheMachineEngine buildTheMachineEngine() throws Exception;
 
@@ -88,7 +88,7 @@ public interface EngineManagerInterface extends Serializable {
 
     public Agents getAgents();
 
-    public String getCodeDescription(CodeDescriptionDTO codeDescriptionDTO, List<String> notchPosition, String startingPosition);
+    public String getCodeDescription(FullCodeDescriptionDTO fullCodeDescriptionDTO, List<String> notchPosition, String startingPosition);
     public Long getAmountOfPossibleStartingPositionList();
     public List<String> getPossibleStartingPositionList();
     public ListOfExceptionsDTO loadFileByInputStream(InputStream inputStream) throws Exception;

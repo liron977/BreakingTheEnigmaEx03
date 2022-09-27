@@ -10,9 +10,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
-import javafx.event.ActionEvent;
-import machineDTO.CodeConfigurationTableViewDTO;
-import machineDTO.CodeDescriptionDTO;
+import machineDTO.LimitedCodeConfigurationDTO;
+import machineDTO.FullCodeDescriptionDTO;
 import utils.ServletUtils;
 
 import java.io.*;
@@ -35,7 +34,7 @@ public class setConfigurationsServlet extends HttpServlet {
         BufferedReader streamReader;
         StringBuilder responseStrBuilder;
         String jsonTargetStatusDuringTaskDto = null;
-        CodeConfigurationTableViewDTO dto = null;
+        LimitedCodeConfigurationDTO dto = null;
         Gson gson;
         for (Part part : parts) {
             InputStream in = part.getInputStream();
@@ -44,10 +43,10 @@ public class setConfigurationsServlet extends HttpServlet {
             String inputStr;
             while ((inputStr = streamReader.readLine()) != null)
                 responseStrBuilder.append(inputStr);
-            if (part.getName().equals("gsonCodeConfigurationTableViewDTO")) {
+            if (part.getName().equals("gsonLimitedCodeConfigurationDTO")) {
                 jsonTargetStatusDuringTaskDto = responseStrBuilder.toString();
                 gson = new Gson();
-                CodeConfigurationTableViewDTO dtoFromGson = gson.fromJson(jsonTargetStatusDuringTaskDto, CodeConfigurationTableViewDTO.class);
+                LimitedCodeConfigurationDTO dtoFromGson = gson.fromJson(jsonTargetStatusDuringTaskDto, LimitedCodeConfigurationDTO.class);
                 dto = dtoFromGson;
             }
         }
@@ -66,7 +65,7 @@ public class setConfigurationsServlet extends HttpServlet {
             response.getWriter().flush();
         }
     }
-   private String setManuallyCodeConfiguration(PrintWriter out, EngineManager engineManager, CodeConfigurationTableViewDTO codeConfigurationTableViewDTO) {
+   private String setManuallyCodeConfiguration(PrintWriter out, EngineManager engineManager, LimitedCodeConfigurationDTO limitedCodeConfigurationDTO) {
        Boolean isMachineDefined = engineManager.getMachineDefined();
         List<Exception> listOfExceptions = new ArrayList<>();
         String error = "";
@@ -74,10 +73,10 @@ public class setConfigurationsServlet extends HttpServlet {
             listOfExceptions.add(new Exception("Please insert a xml file"));
         }
         else {
-            String rotorsId = codeConfigurationTableViewDTO.getRotors();
-            String startingPosition = codeConfigurationTableViewDTO.getPositionsAndNotch();
-            String reflector = codeConfigurationTableViewDTO.getReflector();
-            String plugBoardPairs = codeConfigurationTableViewDTO.getPlugBoardPairs();
+            String rotorsId = limitedCodeConfigurationDTO.getRotors();
+            String startingPosition = limitedCodeConfigurationDTO.getPositionsAndNotch();
+            String reflector = limitedCodeConfigurationDTO.getReflector();
+            String plugBoardPairs = limitedCodeConfigurationDTO.getPlugBoardPairs();
             listOfExceptions = engineManager.getAllErrorsRelatedToChosenManuallyStartingPosition(startingPosition).getListOfException();
             listOfExceptions.addAll(engineManager.getAllErrorsRelatedToChosenManuallyRotors(rotorsId).getListOfException());
             boolean isReflectoIDValid = reflector != "";
@@ -102,7 +101,7 @@ public class setConfigurationsServlet extends HttpServlet {
        }
         return error;
     }
-   private String setRandomCodeButtonActionListener (PrintWriter out, EngineManager engineManager, CodeConfigurationTableViewDTO codeConfigurationTableViewDTO) {
+   private String setRandomCodeButtonActionListener (PrintWriter out, EngineManager engineManager, LimitedCodeConfigurationDTO limitedCodeConfigurationDTO) {
         Boolean isMachineDefined = engineManager.getMachineDefined();
        List<Exception> listOfExceptions=new ArrayList<>();
        String error="";
@@ -110,7 +109,7 @@ public class setConfigurationsServlet extends HttpServlet {
             listOfExceptions.add(new Exception("Please insert a xml file"));
         }
         else {
-            CodeDescriptionDTO codeDescriptionDTO = engineManager.initCodeAutomatically();
+            FullCodeDescriptionDTO fullCodeDescriptionDTO = engineManager.initCodeAutomatically();
             engineManager.DefineIsCodeConfigurationSetValueToTrue();
         }
         if(listOfExceptions.size()!=0){

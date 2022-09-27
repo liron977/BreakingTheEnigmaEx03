@@ -1,28 +1,28 @@
 package historyAndStatistics;
 
-import machineDTO.CodeDescriptionDTO;
+import machineDTO.FullCodeDescriptionDTO;
 
 import java.io.Serializable;
 import java.util.*;
 
 public class MachineHistoryAndStatistics implements Serializable {
-   private Map<CodeDescriptionDTO, List<HistoryOfProcess>> machineHistory = new HashMap<>();
-    public void addNewMachineSettings(CodeDescriptionDTO codeDescriptionDTO) {
-if(!machineHistory.containsKey(codeDescriptionDTO)) {
+   private Map<FullCodeDescriptionDTO, List<HistoryOfProcess>> machineHistory = new HashMap<>();
+    public void addNewMachineSettings(FullCodeDescriptionDTO fullCodeDescriptionDTO) {
+if(!machineHistory.containsKey(fullCodeDescriptionDTO)) {
     List<HistoryOfProcess> historyOfProcesses = new ArrayList<HistoryOfProcess>();
-    machineHistory.put(codeDescriptionDTO, historyOfProcesses);
+    machineHistory.put(fullCodeDescriptionDTO, historyOfProcesses);
 }
     }
-    public Map<CodeDescriptionDTO, List<HistoryOfProcess>> getMachineHistory() {
+    public Map<FullCodeDescriptionDTO, List<HistoryOfProcess>> getMachineHistory() {
         return machineHistory;
     }
-    public void addNewProcess(CodeDescriptionDTO codeDescriptionDTO, HistoryOfProcess newProcess) {
-        List<HistoryOfProcess> historyOfProcesses = machineHistory.get(codeDescriptionDTO);
+    public void addNewProcess(FullCodeDescriptionDTO fullCodeDescriptionDTO, HistoryOfProcess newProcess) {
+        List<HistoryOfProcess> historyOfProcesses = machineHistory.get(fullCodeDescriptionDTO);
         if (historyOfProcesses == null) {
             historyOfProcesses = new ArrayList<HistoryOfProcess>();
         }
         historyOfProcesses.add(newProcess);
-        machineHistory.put(codeDescriptionDTO, historyOfProcesses);
+        machineHistory.put(fullCodeDescriptionDTO, historyOfProcesses);
     }
 
 }

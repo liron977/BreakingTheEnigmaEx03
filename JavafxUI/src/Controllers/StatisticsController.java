@@ -5,7 +5,7 @@ package Controllers;
         import javafx.scene.control.Label;
         import javafx.scene.layout.HBox;
         import javafx.scene.layout.VBox;
-        import machineDTO.CodeDescriptionDTO;
+        import machineDTO.FullCodeDescriptionDTO;
         import machineDTO.HistoryAndStatisticsDTO;
         import machineDTO.MachineHistoryAndStatisticsDTO;
         import mediator.Mediator;
@@ -39,13 +39,13 @@ public class StatisticsController  implements EventsHandler {
 
     }
     public void displayHistory() {
-        CodeDescriptionDTO codeDescriptionDTO;
+        FullCodeDescriptionDTO fullCodeDescriptionDTO;
         HistoryAndStatisticsDTO historyAndStatisticsDTO;
         historyAndStatisticsList = mediator.getHistoryAndStatisticsList();
         int amountOfConfigurations = historyAndStatisticsList.size();
         processedStringsHBox.getChildren().clear();
         for (MachineHistoryAndStatisticsDTO machineHistoryAndStatisticsDTO : historyAndStatisticsList) {
-            codeDescriptionDTO = machineHistoryAndStatisticsDTO.getCurrentCodeDescriptionDTO();
+            fullCodeDescriptionDTO = machineHistoryAndStatisticsDTO.getCurrentCodeDescriptionDTO();
             historyAndStatisticsDTO = machineHistoryAndStatisticsDTO.getHistoryAndStatisticsDTO();
             Label currentDescription = new Label();
             currentDescription.setId("#GeneralLabel");
@@ -59,7 +59,7 @@ public class StatisticsController  implements EventsHandler {
     }
 
     public void showHistory() {
-        CodeDescriptionDTO codeDescriptionDTO;
+        FullCodeDescriptionDTO fullCodeDescriptionDTO;
         HistoryAndStatisticsDTO historyAndStatisticsDTO;
         historyAndStatisticsList = mediator.getHistoryAndStatistics();
         history.maxHeightProperty().set(Double.MAX_VALUE);

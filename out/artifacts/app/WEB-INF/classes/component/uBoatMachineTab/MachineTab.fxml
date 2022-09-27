@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -11,7 +10,7 @@
 
 <ScrollPane id="MainWindow" fx:id="machineTab" fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.uBoatMachineTab.UBoatMachineTabController">
    <content>
-      <GridPane minHeight="300.0" minWidth="850.0">
+      <GridPane minHeight="-Infinity" minWidth="-Infinity">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
          </columnConstraints>
@@ -32,7 +31,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="50.0" />
                      </padding>
                      <BorderPane.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets bottom="5.0" left="5.0" right="35.0" top="5.0" />
                      </BorderPane.margin>
                   </HBox>
                </bottom>
@@ -45,8 +44,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="ALWAYS" />
                     </rowConstraints>
                      <children>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" />
-                        <fx:include fx:id="machineDetails" source="machineTab/machineDetails.fxml" />
+                        <fx:include fx:id="machineDetails" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" source="machineTab/machineDetails.fxml" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
                      </children>
                   </GridPane>
                </top>

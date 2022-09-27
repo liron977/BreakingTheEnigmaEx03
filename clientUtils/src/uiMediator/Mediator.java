@@ -2,7 +2,7 @@ package uiMediator;
 
 import engineManager.EngineManager;
 import engineManager.EngineManagerInterface;
-import machineDTO.CodeDescriptionDTO;
+import machineDTO.FullCodeDescriptionDTO;
 import machineDTO.ListOfExceptionsDTO;
 import machineDTO.MachineHistoryAndStatisticsDTO;
 import machineDTO.TheMachineSettingsDTO;
@@ -94,7 +94,7 @@ public class Mediator implements Serializable {
     }
 
     public void initCodeConfigurationAutomatically() {
-        CodeDescriptionDTO codeDescriptionDTO = engineManager.initCodeAutomatically();
+        FullCodeDescriptionDTO fullCodeDescriptionDTO = engineManager.initCodeAutomatically();
         List<String> notchList = engineManager.getNotchList();
       /*  System.out.println("Selection of initial code configuration (automatically) performed successfully");
         System.out.println("The current code configuration is: " + engineManager.getCodeDescription(codeDescriptionDTO, notchList, engineManager.getCodeDescriptionDTO().getCurrentStartingPosition()));
@@ -105,7 +105,7 @@ public class Mediator implements Serializable {
     }
 
 
-    public CodeDescriptionDTO getCodeDescriptionDTO() {
+    public FullCodeDescriptionDTO getCodeDescriptionDTO() {
         return engineManager.getCodeDescriptionDTO();
     }
 

@@ -2,14 +2,13 @@ package component.uBoatMachineTab.machineTab;
 
 import com.google.gson.Gson;
 import component.uBoatMachineTab.UBoatMachineTabController;
-import engineManager.EngineManager;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import machineDTO.CodeConfigurationTableViewDTO;
+import machineDTO.LimitedCodeConfigurationDTO;
 import machineDTO.ListOfExceptionsDTO;
 import machineDTO.TheMachineSettingsDTO;
 
@@ -87,7 +86,6 @@ public class SetCodeConfigurationController implements EventsHandler {
     }
     public void setBattleName(String battleName){
         this.battleName=battleName;
-
     }
 
     public void addHandler(EventsHandler handler) {
@@ -173,13 +171,13 @@ public class SetCodeConfigurationController implements EventsHandler {
     }
 */
 
-    public void setConfiguration(String configurationSelectionType, CodeConfigurationTableViewDTO codeConfigurationTableViewDTO) {
+    public void setConfiguration(String configurationSelectionType, LimitedCodeConfigurationDTO limitedCodeConfigurationDTO) {
         if (isMachineDefined.getValue() == true) {
             Gson gson = new Gson();
-            String gsonCodeConfigurationTableViewDTO = gson.toJson(codeConfigurationTableViewDTO);
+            String gsonLimitedCodeConfigurationDTO = gson.toJson(limitedCodeConfigurationDTO);
             RequestBody body =
                     new MultipartBody.Builder()
-                            .addFormDataPart("gsonCodeConfigurationTableViewDTO", gsonCodeConfigurationTableViewDTO)
+                            .addFormDataPart("gsonLimitedCodeConfigurationDTO", gsonLimitedCodeConfigurationDTO)
                             .build();
             String finalUrl = HttpUrl
                     .parse(Constants.SET_CODE_CONFIGURATION)
@@ -239,8 +237,8 @@ private void displayErrors(String text) {
             String startingPosition = getStartingPosition();
             String reflector = getReflector();
             String plugBoardPairs = getPlugBoardPairs();
-            CodeConfigurationTableViewDTO codeConfigurationTableViewDTO = new CodeConfigurationTableViewDTO(rotorsId, startingPosition, reflector, plugBoardPairs);
-            setConfiguration("Manually", codeConfigurationTableViewDTO);
+            LimitedCodeConfigurationDTO limitedCodeConfigurationDTO = new LimitedCodeConfigurationDTO(rotorsId, startingPosition, reflector, plugBoardPairs);
+            setConfiguration("Manually", limitedCodeConfigurationDTO);
         } else {
             displayErrors("Please insert xml file");
         }

@@ -1,5 +1,6 @@
 package component.mainWindowUBoat;
 
+import component.uBoatContestTab.UBoatContestTabController;
 import component.uBoatMachineTab.UBoatMachineTabController;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
@@ -23,6 +24,8 @@ public class MainWindowUBoatController implements EventsHandler {
         @FXML
         private ScrollPane machineTab;
         @FXML
+        private ScrollPane contestTab;
+        @FXML
         private UBoatMachineTabController machineTabController;
         @FXML
         private AnchorPane loadFileComponent;
@@ -34,37 +37,7 @@ public class MainWindowUBoatController implements EventsHandler {
         private Tab uBoatMachineTabButton;
          @FXML
          private Tab uBoatContestButton;
-
-
-
-//        @FXML
-//        private BruteForceTabController bruteForceTabPaneController;
-//
-//        @FXML
-//        private ScrollPane encryptDecryptTab;
-//
-//        @FXML
-//        private EncryptDecryptTabController encryptDecryptTabController;
-        /*
-            @FXML
-            private ScrollPane mainScroller;*/
-     /*   @FXML
-        BorderPane mainBorder;*/
-   /*     @FXML
-        private TabPane bruteForceTabPane;*/
-
-/*
-        @FXML
-        private TabPane  mainTabPane;
-
-        @FXML
-        private Tab encryptDecryptTabButton;
-        @FXML
-        private Tab machineTabButton;
-        @FXML
-        private Tab bruteForceTab;
-*/
-
+         private UBoatContestTabController contestTabController;
     public void setPrimaryStage(Stage primaryStageIn) {
         primaryStage = primaryStageIn;
         //scene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
@@ -74,9 +47,10 @@ public class MainWindowUBoatController implements EventsHandler {
     }
        @FXML
         public void initialize() {
-            if (machineTabController != null) {
+            if ((machineTabController != null)&&(contestTabController != null)){
                 loadFileComponentController.setMainWindowUBoatController(this);
                 machineTabController.setMainController(this);
+                contestTabController.setMainController(this);
                /* encryptDecryptTabController.setMainWindowController(this);
                 encryptDecryptTabController.setMachineTabController(machineTabController);
                 encryptDecryptTabController.addMachineHandler();
@@ -95,8 +69,8 @@ public class MainWindowUBoatController implements EventsHandler {
                 loadFileComponentController.addHandler(machineTabController.getCodeConfigurationController().getCodeConfigurationGridPaneController());
                 loadFileComponentController.addHandler(encryptDecryptTabController.getKeyboardController());
                 loadFileComponentController.setEncryptDecryptWindowController(encryptDecryptTabController);*/
-                loadFileComponentController.setAnimationsBinding();
-/*                encryptDecryptTabButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                //loadFileComponentController.setAnimationsBinding();
+   /*           encryptDecryptTabButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
                     try {
                         encryptDecryptTabButtonSelectionListener();
                     } catch (Exception e) {
@@ -109,16 +83,16 @@ public class MainWindowUBoatController implements EventsHandler {
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
-                });
-                bruteForceTab.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                }); */
+               /* encryptDecryptTabButton.disableProperty().bind(machineTabController.getSetCodeConfigurationController().isCodeDefinedProperty().not());
+                bruteForceTab.disableProperty().bind(machineTabController.getSetCodeConfigurationController().isCodeDefinedProperty().not());*/
+                uBoatContestButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
                     try {
-                        bruteForceTabButtonOnListener();
+                        uBoatContestButtonOnListener();
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                 });
-                encryptDecryptTabButton.disableProperty().bind(machineTabController.getSetCodeConfigurationController().isCodeDefinedProperty().not());
-                bruteForceTab.disableProperty().bind(machineTabController.getSetCodeConfigurationController().isCodeDefinedProperty().not());*/
             }
         }
 public void setTheMachineSettingsDTO(TheMachineSettingsDTO theMachineSettingsDTO){
@@ -147,7 +121,7 @@ public void setTheMachineSettingsDTO(TheMachineSettingsDTO theMachineSettingsDTO
         machineTabController.setMachineDetails();
     }
         public void setBattleName(String battleName){
-
+            contestTabController.setBattleName(battleName);
             machineTabController.setBattleName(battleName);
         }
 //        public void bruteForceTabButtonOnListener() {
@@ -157,7 +131,12 @@ public void setTheMachineSettingsDTO(TheMachineSettingsDTO theMachineSettingsDTO
 //                isInitNeeded.setValue(false);
 //            }
 //        }
-        @Override
+
+    public void uBoatContestButtonOnListener() throws Exception {
+        contestTabController.initDisplayConfiguration();
+    }
+
+    @Override
         public void eventHappened(EventObject event) throws Exception {
           /*  bruteForceTabPaneController.getUserInputBruteForceLogicController().isBruteForceSettingDefined.setValue(false);
             bruteForceTabPaneController.getUserInputBruteForceLogicController().initUserInputBruteForceLogicTabController();

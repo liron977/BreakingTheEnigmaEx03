@@ -10,13 +10,13 @@ public class TheMachineSettingsDTO {
     private String keyboard;
     private String[] rotorsId;
      List<String> reflectorsId;
-    private CodeDescriptionDTO codeDescriptionDTO;
+    private FullCodeDescriptionDTO fullCodeDescriptionDTO;
 
-     public TheMachineSettingsDTO(int amountOfUsedRotors, int maxAmountOfRotors, int amountOfReflectors, int amountOfProcessedMessages, CodeDescriptionDTO codeDescriptionDTO,List<String> reflectorsId, String[] rotorsId,String keyboard) {
+     public TheMachineSettingsDTO(int amountOfUsedRotors, int maxAmountOfRotors, int amountOfReflectors, int amountOfProcessedMessages, FullCodeDescriptionDTO fullCodeDescriptionDTO, List<String> reflectorsId, String[] rotorsId, String keyboard) {
          this.amountOfProcessedMessages = amountOfProcessedMessages;
          this.amountOfReflectors = amountOfReflectors;
          this.maxAmountOfRotors = maxAmountOfRotors;
-         this.codeDescriptionDTO = codeDescriptionDTO;
+         this.fullCodeDescriptionDTO = fullCodeDescriptionDTO;
          this.amountOfUsedRotors = amountOfUsedRotors;
          this.reflectorsId = reflectorsId;
          this.rotorsId = rotorsId;
@@ -31,8 +31,8 @@ public class TheMachineSettingsDTO {
     public List<String> getReflectorsId() {
         return reflectorsId;
     }
-    public CodeDescriptionDTO getCurrentCodeDescriptionDTO() {
-        return codeDescriptionDTO;
+    public FullCodeDescriptionDTO getCurrentCodeDescriptionDTO() {
+        return fullCodeDescriptionDTO;
     }
     public int getAmountOfProcessedMessages() {
         return amountOfProcessedMessages;

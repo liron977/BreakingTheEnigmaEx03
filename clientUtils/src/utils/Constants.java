@@ -11,6 +11,7 @@ public class Constants {
     public static final String UPLOAD_XML_FILE = "http://localhost:8080/app/UploadXmlFile";
     public static final String MACHINE_DETAILS = "http://localhost:8080/app/MachineDetailsServlet";
     public static final String SET_CODE_CONFIGURATION = "http://localhost:8080/app/setConfigurationsServlet";
+    public static final String DISPLAY_CURRENT_CODE_CONFIGURATION = "http://localhost:8080/app/CurrentCodeServlet";
     public static final Gson GSON_INSTANCE = new Gson();
 
 }

@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class CodeDescriptionDTO implements Serializable {
+public class FullCodeDescriptionDTO implements Serializable {
     private String[] usedRotorsId;
     private String currentStartingPosition;
     private String chosenStartingPosition;
@@ -14,7 +14,7 @@ public class CodeDescriptionDTO implements Serializable {
     private List<String> pairsOfSwappingCharacter=new ArrayList<>();
     private List<String> notchPosition=new ArrayList<>();
     private  List<String> originalNotchPosition=new ArrayList<>();
-    public CodeDescriptionDTO(List<String> pairsOfSwappingCharacter, String reflectorId, String chosenStartingPosition,String currentStartingPosition, String[] usedRotorsId, List<String> originalNotchPosition, List<String> notchPosition) {
+    public FullCodeDescriptionDTO(List<String> pairsOfSwappingCharacter, String reflectorId, String chosenStartingPosition, String currentStartingPosition, String[] usedRotorsId, List<String> originalNotchPosition, List<String> notchPosition) {
         this.pairsOfSwappingCharacter = pairsOfSwappingCharacter;
         this.reflectorId = reflectorId;
         this.chosenStartingPosition = chosenStartingPosition;
@@ -53,7 +53,7 @@ public class CodeDescriptionDTO implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CodeDescriptionDTO that = (CodeDescriptionDTO) o;
+        FullCodeDescriptionDTO that = (FullCodeDescriptionDTO) o;
         return Arrays.equals(usedRotorsId, that.usedRotorsId) && Objects.equals(chosenStartingPosition, that.chosenStartingPosition) && Objects.equals(reflectorId, that.reflectorId) && Objects.equals(pairsOfSwappingCharacter, that.pairsOfSwappingCharacter)  && Objects.equals(originalNotchPosition, that.originalNotchPosition);
     }
 

@@ -44,7 +44,7 @@
                            </rowConstraints>
                            <children>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                              <fx:include source="../uBoatContestTab/UBoatContestTab.fxml" />
+                              <fx:include fx:id="contestTab" source="../uBoatContestTab/UBoatContestTab.fxml" />
                            </children>
                         </GridPane>
                   </content>

@@ -20,7 +20,7 @@ import static java.lang.Character.toUpperCase;
 public class EngineManager implements EngineManagerInterface,Serializable {
 
     private ListOfExceptionsDTO listOfExceptionsDTO;
-    private CodeDescriptionDTO codeDescriptionDTO;
+    private FullCodeDescriptionDTO fullCodeDescriptionDTO;
     private TheMachineEngine theMachineEngine;
     private MachineHistoryAndStatistics machineHistoryAndStatistics = new MachineHistoryAndStatistics();
     boolean isCodeConfigurationSet = false;
@@ -128,7 +128,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         menuValidator.setTrueValueToUpdateIsCodeDefined();
         reverseUsedRotors(theMachineEngine);
         createCurrentCodeDescriptionDTO();
-        machineHistoryAndStatistics.addNewMachineSettings(codeDescriptionDTO);
+        machineHistoryAndStatistics.addNewMachineSettings(fullCodeDescriptionDTO);
     }
 
     private void reverseUsedRotors(TheMachineEngine theMachineEngine) {
@@ -230,8 +230,8 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         theMachineEngine.addPlugsBoardTOTheMachine(plugsBoard);
     }
 
-    public CodeDescriptionDTO getCodeDescriptionDTO() {
-        return codeDescriptionDTO;
+    public FullCodeDescriptionDTO getCodeDescriptionDTO() {
+        return fullCodeDescriptionDTO;
     }
 
     /*    public int getRotorsAmount(){
@@ -239,7 +239,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
 
             return cteEnigma.getCTEMachine().getRotorsCount();
         }*/
-    public CodeDescriptionDTO initCodeAutomatically() {
+    public FullCodeDescriptionDTO initCodeAutomatically() {
         //CTEEnigma cteEnigma =readFromXmlFile(filePath);
         //theMachineEngine = buildTheMachineEngine();
         chooseAutomaticallyRotors(theMachineEngine);
@@ -250,8 +250,8 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         menuValidator.setTrueValueToUpdateIsCodeDefined();
         reverseUsedRotors(theMachineEngine);
         createCurrentCodeDescriptionDTO();
-        machineHistoryAndStatistics.addNewMachineSettings(codeDescriptionDTO);
-        return codeDescriptionDTO;
+        machineHistoryAndStatistics.addNewMachineSettings(fullCodeDescriptionDTO);
+        return fullCodeDescriptionDTO;
     }
 
     private void chooseAutomaticallyRotors(TheMachineEngine theMachineEngine) {
@@ -392,7 +392,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         /*amountOfProcessedMessages++;*/
 
         createCurrentCodeDescriptionDTO();
-        machineHistoryAndStatistics.addNewProcess(codeDescriptionDTO, new HistoryOfProcess(userInputString, convertedString, ProcessTimeToConvert));
+        machineHistoryAndStatistics.addNewProcess(fullCodeDescriptionDTO, new HistoryOfProcess(userInputString, convertedString, ProcessTimeToConvert));
         ProcessTimeToConvert = 0;
 
 
@@ -400,8 +400,8 @@ public class EngineManager implements EngineManagerInterface,Serializable {
 
     public List<MachineHistoryAndStatisticsDTO> getHistoryAndStatisticsDTO() {
         List<MachineHistoryAndStatisticsDTO> listOfMachineHistoryAndStatisticsDTO = new ArrayList<>();
-        Map<CodeDescriptionDTO, List<HistoryOfProcess>> machineHistory = machineHistoryAndStatistics.getMachineHistory();
-        for (Map.Entry<CodeDescriptionDTO, List<HistoryOfProcess>> entry : machineHistory.entrySet()) {
+        Map<FullCodeDescriptionDTO, List<HistoryOfProcess>> machineHistory = machineHistoryAndStatistics.getMachineHistory();
+        for (Map.Entry<FullCodeDescriptionDTO, List<HistoryOfProcess>> entry : machineHistory.entrySet()) {
             String[] userInput = new String[entry.getValue().size()];
             String[] convertedString = new String[entry.getValue().size()];
             ;
@@ -455,12 +455,12 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         String keyboard = theMachineEngine.getKeyboard();
         String[] rotorsId = theMachineEngine.getRotorsId();
         createCurrentCodeDescriptionDTO();
-        TheMachineSettingsDTO theMachineSettingsDTO = new TheMachineSettingsDTO(amountOfUsedRotors, maxAmountOfRotors, amountOfReflectors, amountOfProcessedMessages, codeDescriptionDTO, reflectorsId, rotorsId, keyboard);
+        TheMachineSettingsDTO theMachineSettingsDTO = new TheMachineSettingsDTO(amountOfUsedRotors, maxAmountOfRotors, amountOfReflectors, amountOfProcessedMessages, fullCodeDescriptionDTO, reflectorsId, rotorsId, keyboard);
         return theMachineSettingsDTO;
     }
 
     public void createCurrentCodeDescriptionDTO() {
-        CodeDescriptionDTO codeDescriptionDTO = null;
+        FullCodeDescriptionDTO fullCodeDescriptionDTO = null;
         if (isCodeConfigurationSet) {
             String[] usedRotorsId = theMachineEngine.getArrayOfRotorsId();
             String currentStartingPosition = theMachineEngine.getUsedRotors().getCurrentRotorsStartingPositions();
@@ -470,9 +470,9 @@ public class EngineManager implements EngineManagerInterface,Serializable {
             List<String> notchPosition = theMachineEngine.getListOfNotch();
             List<String> originalNotchPosition = theMachineEngine.getOriginalNotchPositionList();
             List<String> pairsOfSwappingCharacter = theMachineEngine.getStringPairsOfSwappingCharacter();
-            codeDescriptionDTO = new CodeDescriptionDTO(pairsOfSwappingCharacter, reflectorId, chosenStartingPosition, currentStartingPosition, usedRotorsId, originalNotchPosition, notchPosition);
+            fullCodeDescriptionDTO = new FullCodeDescriptionDTO(pairsOfSwappingCharacter, reflectorId, chosenStartingPosition, currentStartingPosition, usedRotorsId, originalNotchPosition, notchPosition);
         }
-        this.codeDescriptionDTO = codeDescriptionDTO;
+        this.fullCodeDescriptionDTO = fullCodeDescriptionDTO;
 
 
     }
@@ -520,7 +520,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         try {
             ArrayList<EngineManager> meds = (ArrayList) in.readObject();
             this.listOfExceptionsDTO = ((EngineManager) meds.get(0)).listOfExceptionsDTO;
-            this.codeDescriptionDTO = ((EngineManager) meds.get(0)).codeDescriptionDTO;
+            this.fullCodeDescriptionDTO = ((EngineManager) meds.get(0)).fullCodeDescriptionDTO;
             this.theMachineEngine = ((EngineManager) meds.get(0)).theMachineEngine;
             this.machineHistoryAndStatistics = ((EngineManager) meds.get(0)).machineHistoryAndStatistics;
             // this.cteEnigma = ((EngineManager)meds.get(0)).cteEnigma;
@@ -781,45 +781,45 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         createCurrentCodeDescriptionDTO();
         return getCodeDescription(theMachineSettingsDTO.getCurrentCodeDescriptionDTO(), theMachineSettingsDTO.getCurrentCodeDescriptionDTO().getOriginalNotchPosition(),getCodeDescriptionDTO().getChosenStartingPosition());
     }
-    public String getCodeDescription(CodeDescriptionDTO codeDescriptionDTO, List<String> notchPosition, String startingPosition) {
+    public String getCodeDescription(FullCodeDescriptionDTO fullCodeDescriptionDTO, List<String> notchPosition, String startingPosition) {
         String currentCodeDescription = "";
-        currentCodeDescription = currentCodeDescription + "<" + getRotorsInfo(codeDescriptionDTO.getUsedRotorsId()) + ">";
+        currentCodeDescription = currentCodeDescription + "<" + getRotorsInfo(fullCodeDescriptionDTO.getUsedRotorsId()) + ">";
         StringBuilder startingPositionRevers = new StringBuilder();
         startingPositionRevers.append(startingPosition);
         startingPositionRevers.reverse();
         currentCodeDescription = currentCodeDescription + "<" + getWindowInfoId(startingPositionRevers, notchPosition) + ">";
-        currentCodeDescription = currentCodeDescription + "<" + codeDescriptionDTO.getReflectorId() + ">";
-        List<String> pairsOfSwappingCharacter = codeDescriptionDTO.getPairsOfSwappingCharacter();
+        currentCodeDescription = currentCodeDescription + "<" + fullCodeDescriptionDTO.getReflectorId() + ">";
+        List<String> pairsOfSwappingCharacter = fullCodeDescriptionDTO.getPairsOfSwappingCharacter();
         if ((pairsOfSwappingCharacter != null) && (pairsOfSwappingCharacter.size() != 0)) {
-            currentCodeDescription = currentCodeDescription + "<" + getPairsOfSwappingCharacter(codeDescriptionDTO.getPairsOfSwappingCharacter()) + ">";
+            currentCodeDescription = currentCodeDescription + "<" + getPairsOfSwappingCharacter(fullCodeDescriptionDTO.getPairsOfSwappingCharacter()) + ">";
         }
         return currentCodeDescription;
     }
-    public CodeConfigurationTableViewDTO createCurrentCodeConfigurationTableViewDTO(){
+    public LimitedCodeConfigurationDTO createCurrentCodeConfigurationTableViewDTO(){
         createCurrentCodeDescriptionDTO();
-        String rotors=getRotorsInfo(codeDescriptionDTO.getUsedRotorsId());
+        String rotors=getRotorsInfo(fullCodeDescriptionDTO.getUsedRotorsId());
         StringBuilder startingPositionRevers = new StringBuilder();
         startingPositionRevers.append(new StringBuilder(getCodeDescriptionDTO().getCurrentStartingPosition()));
         startingPositionRevers.reverse();
         String positionsAndNotch=getWindowInfoId(startingPositionRevers, getNotchList());
-        String reflector=codeDescriptionDTO.getReflectorId();
-        String plugBoardPairs=getPairsOfSwappingCharacter(codeDescriptionDTO.getPairsOfSwappingCharacter());
-        CodeConfigurationTableViewDTO codeConfigurationTableViewDTO=new CodeConfigurationTableViewDTO(rotors,positionsAndNotch,reflector,plugBoardPairs);
-        return codeConfigurationTableViewDTO;
+        String reflector= fullCodeDescriptionDTO.getReflectorId();
+        String plugBoardPairs=getPairsOfSwappingCharacter(fullCodeDescriptionDTO.getPairsOfSwappingCharacter());
+        LimitedCodeConfigurationDTO limitedCodeConfigurationDTO =new LimitedCodeConfigurationDTO(rotors,positionsAndNotch,reflector,plugBoardPairs);
+        return limitedCodeConfigurationDTO;
     }
-    public CodeConfigurationTableViewDTO createOriginalCodeConfigurationTableViewDTO() throws Exception {
+    public LimitedCodeConfigurationDTO createOriginalCodeConfigurationTableViewDTO() throws Exception {
         TheMachineSettingsDTO theMachineSettingsDTO = getTheMachineSettingsDTO();
         createCurrentCodeDescriptionDTO();
 
-        String rotors=getRotorsInfo(codeDescriptionDTO.getUsedRotorsId());
+        String rotors=getRotorsInfo(fullCodeDescriptionDTO.getUsedRotorsId());
         StringBuilder startingPositionRevers = new StringBuilder();
         startingPositionRevers.append(new StringBuilder(getCodeDescriptionDTO().getChosenStartingPosition()));
         startingPositionRevers.reverse();
         String positionsAndNotch=getWindowInfoId(startingPositionRevers, theMachineSettingsDTO.getCurrentCodeDescriptionDTO().getOriginalNotchPosition());
-        String reflector=codeDescriptionDTO.getReflectorId();
+        String reflector= fullCodeDescriptionDTO.getReflectorId();
         String plugBoardPairs=getPairsOfSwappingCharacter(theMachineSettingsDTO.getCurrentCodeDescriptionDTO().getPairsOfSwappingCharacter());
-        CodeConfigurationTableViewDTO codeConfigurationTableViewDTO=new CodeConfigurationTableViewDTO(rotors,positionsAndNotch,reflector,plugBoardPairs);
-        return codeConfigurationTableViewDTO;
+        LimitedCodeConfigurationDTO limitedCodeConfigurationDTO =new LimitedCodeConfigurationDTO(rotors,positionsAndNotch,reflector,plugBoardPairs);
+        return limitedCodeConfigurationDTO;
     }
     private String getPairsOfSwappingCharacter(List<String> pairsOfSwappingCharacter) {
         String seperatedPairsOfSwappingCharacter = "";

@@ -1,6 +1,7 @@
 package component.uBoatContestTab;
 
 import bruteForce.BruteForceSettingsDTO;
+import component.mainWindowUBoat.MainWindowUBoatController;
 import component.uBoatMachineTab.machineTab.CurrentConfigurationTableViewController;
 import engine.theEnigmaEngine.Pair;
 import engine.theEnigmaEngine.PlugsBoard;
@@ -56,6 +57,8 @@ public class UBoatContestTabController implements EventsHandler{
     private TextField sizeOfMission;
 */    @FXML
     private List<String> dictionary;
+    @FXML
+    private MainWindowUBoatController mainWindowUBoatController;
    /* @FXML
     private Button saveSettingsButton;
   */  /*   @FXML
@@ -418,11 +421,14 @@ public class UBoatContestTabController implements EventsHandler{
         }
     }
 
-    public void initDisplayConfiguration() throws Exception {
+/*    public void initDisplayConfiguration() throws Exception {
         List<Exception> listOfExceptionsCode=(mediator.isCodeWasDefined().getListOfException());
         if(listOfExceptionsCode.size()==0) {
             currentCodeConfigurationController.setCurrentCodeConfiguration();
         }
+    }*/
+    public void initDisplayConfiguration() throws Exception {
+            currentCodeConfigurationController.setCurrentCodeConfiguration();
     }
     private void fireEvent () throws Exception {
         EventObject myEvent = new EventObject(this);
@@ -435,6 +441,12 @@ public class UBoatContestTabController implements EventsHandler{
     @Override
     public void eventHappened(EventObject event) throws Exception {
         initDisplayConfiguration();
+    }
+    public void setMainController(MainWindowUBoatController mainWindowUBoatController) {
+        this.mainWindowUBoatController = mainWindowUBoatController;
+    }
+    public void setBattleName(String battleName){
+        currentCodeConfigurationController.setBattleName(battleName);
     }
 
 }
