@@ -32,5 +32,6 @@ public class MainWindowAlliesController {
 
     public void setAlliesTeamName(String alliesTeamName) {
         this.alliesTeamName = alliesTeamName;
+        alliesDashboardController.setAlliesTeamName(alliesTeamName);
     }
 }

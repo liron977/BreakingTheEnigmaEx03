@@ -1,8 +1,6 @@
 package managers.users;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class UserManager {
     private final Map<String,String> usersMap;
@@ -19,4 +17,26 @@ public class UserManager {
         return Collections.unmodifiableMap(usersMap);
     }
     public boolean isUserExists(String username) {return usersMap.containsKey(username);}
+    public synchronized List<String> getUserNamesByValue(Map<String, String> map,String role) {
+        List<String> alliesTeamsNames=new ArrayList<>();
+        for (String key : getKeys(map, role)) {
+            alliesTeamsNames.add(key);
+        }
+        return  alliesTeamsNames;
+    }
+
+    private synchronized Set<String> getKeys(Map<String, String> map, String value) {
+
+        Set<String> result = new HashSet<>();
+        if (map.containsValue(value)) {
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                if (Objects.equals(entry.getValue(), value)) {
+                    result.add(entry.getKey());
+                }
+            }
+        }
+        return result;
+
+    }
+
 }

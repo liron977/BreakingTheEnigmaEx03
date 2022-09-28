@@ -58,6 +58,10 @@ public class AlliesDashboardController implements Closeable {
         autoUpdate=new SimpleBooleanProperty(true);
     }
 
+    public void setAlliesTeamName(String alliesTeamName) {
+        this.alliesTeamName = alliesTeamName;
+    }
+
     public void setMainWindowAlliesController(MainWindowAlliesController mainWindowAlliesController) {
         this.mainWindowAlliesController = mainWindowAlliesController;
     }
@@ -97,18 +101,18 @@ public class AlliesDashboardController implements Closeable {
                 catch (IOException ignore){}
                 Platform.runLater(() -> {
                     {
-                        ObservableList<AgentInfoDTO> agentInfoDTOList = getTeamsAgentsDataTableViewDTOList(agentInfoDTO);
+                       /* //ObservableList<AgentInfoDTO> agentInfoDTOList = getTeamsAgentsDataTableViewDTOList(agentInfoDTO);
                         teamsAgentsDataTableView.setItems(agentInfoDTOList);
                         teamsAgentsDataTableView.getColumns().clear();
                         teamsAgentsDataTableView.getColumns().addAll(missionsAmountColumn,threadsAmountColumn,agentNameColumn);
-
+*/
                     }
                 });
             }
         } catch (IOException e) {
         }
     }
-    private ObservableList<AgentInfoDTO> getTeamsAgentsDataTableViewDTOList(AgentInfoDTO agentInfoDTO) {
+    private ObservableList<AgentInfoDTO> getTeamsAgentsDataTableViewDTOList(List<AgentInfoDTO> agentInfoDTO) {
 
         ObservableList<AgentInfoDTO> agentInfoDTOList;
 
@@ -137,7 +141,7 @@ public class AlliesDashboardController implements Closeable {
     }
     private void updateAgentsInfoList(List<AgentInfoDTO> agentInfoDTOList) {
         Platform.runLater(() -> {
-            ObservableList<AgentInfoDTO> agentInfoDTOObservableList =teamsAgentsDataTableView.getItems();
+            ObservableList<AgentInfoDTO> agentInfoDTOObservableList =getTeamsAgentsDataTableViewDTOList(agentInfoDTOList);
             createAgentsInfoDTOTableView(agentInfoDTOObservableList);
             totalAgentsAmount.set(agentInfoDTOList.size());
         });

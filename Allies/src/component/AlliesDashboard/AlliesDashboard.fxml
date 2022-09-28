@@ -12,9 +12,9 @@
          <children>
             <TableView fx:id="teamsAgentsDataTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="397.0" prefWidth="311.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Agent Name" />
-                <TableColumn prefWidth="106.00000762939453" text="Thread Amount" />
-                  <TableColumn prefWidth="106.00000762939453" text="Missions Amount" />
+                <TableColumn fx:id="agentNameColumn" prefWidth="75.0" text="Agent Name" />
+                <TableColumn fx:id="threadsAmountColumn" prefWidth="106.00000762939453" text="Thread Amount" />
+                  <TableColumn fx:id="missionsAmountColumn" prefWidth="106.00000762939453" text="Missions Amount" />
               </columns>
             </TableView>
             <TableView fx:id="contestsDataTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="397.0" prefWidth="311.0">
