@@ -32,10 +32,9 @@ public class UploadXmlFile extends HttpServlet {
     }
 
     private void checkIfXmlFileIsValidAndIfValidAddMachine(PrintWriter out,InputStream inputStream, String userName) throws Exception {
-
         EngineManager engineManager = new EngineManager();
-        engineManager.setUploadedBy(userName);
-        ListOfExceptionsDTO listOfExceptionsDTO=engineManager.loadFileByInputStream(inputStream);
+        //engineManager.setUploadedBy(userName);
+        ListOfExceptionsDTO listOfExceptionsDTO=engineManager.loadFileByInputStream(inputStream,userName);
         if (listOfExceptionsDTO.getListOfException().size()==0) {
             MediatorForEngineManager mediatorsManager = ServletUtils.getMediatorForEngineManager(getServletContext());
             String battleName = engineManager.getBattleName().trim();
