@@ -1,13 +1,12 @@
 package servlets;
 
-import bruteForce.UBoatContestInfoDTO;
+import bruteForce.UBoatContestInfoWithoutCheckBoxDTO;
 import com.google.gson.Gson;
 import engine.theEnigmaEngine.UBoatBattleField;
 import engineManager.EngineManager;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import managers.MediatorForEngineManager;
 import managers.uBoatEngine.UBoatAvailableContestsManager;
 import utils.ServletUtils;
 
@@ -26,12 +25,12 @@ public class UBoatContestsServlet extends HttpServlet {
             Map<String, EngineManager> uBoatAvailableContestsManagerMap = uBoatAvailableContestsManager.getUBoatAvailableContestsMap();
            /* MediatorForEngineManager mediatorsManager = ServletUtils.getMediatorForEngineManager(getServletContext());
             Map<String, EngineManager> mediatorsForEngineManagerMap = mediatorsManager.getEngineManagersMap();*/
-            List<UBoatContestInfoDTO> uBoatContestInfoDTOList=new ArrayList<>();
+            List<UBoatContestInfoWithoutCheckBoxDTO> uBoatContestInfoDTOList=new ArrayList<>();
             if (uBoatAvailableContestsManagerMap != null) {
                 for (String battleFieldName : uBoatAvailableContestsManagerMap.keySet()) {
                     EngineManager engineManager=uBoatAvailableContestsManagerMap.get(battleFieldName);
                     UBoatBattleField uBoatBattleField=engineManager.getBattleField();
-                    UBoatContestInfoDTO uBoatContestInfoDTO=new UBoatContestInfoDTO(battleFieldName,
+                    UBoatContestInfoWithoutCheckBoxDTO uBoatContestInfoDTO=new UBoatContestInfoWithoutCheckBoxDTO(battleFieldName,
                             uBoatBattleField.getUploadedByName(),uBoatBattleField.getContestStatus(),
                             uBoatBattleField.getLevel(),uBoatBattleField.getAlliesNeededTeamsAmount()
                             ,uBoatBattleField.getAlliesActiveTeamsAmount());

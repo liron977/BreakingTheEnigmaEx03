@@ -2,7 +2,8 @@ package component.AlliesDashboard;
 
 
 import bruteForce.AgentInfoDTO;
-import bruteForce.UBoatContestInfoDTO;
+import bruteForce.UBoatContestInfoWithCheckBoxDTO;
+import bruteForce.UBoatContestInfoWithoutCheckBoxDTO;
 import component.mainWindowAllies.MainWindowAlliesController;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -11,6 +12,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -33,7 +35,7 @@ public class AlliesDashboardController implements Closeable {
     private  IntegerProperty totalUBoatContestsAmount;
 
     @FXML
-    private TableView<UBoatContestInfoDTO> contestsDataTableView;
+    private TableView<UBoatContestInfoWithCheckBoxDTO> contestsDataTableView;
     @FXML
     private TableView<AgentInfoDTO> teamsAgentsDataTableView;
     @FXML
@@ -43,22 +45,28 @@ public class AlliesDashboardController implements Closeable {
     @FXML
     private TableColumn<AgentInfoDTO, String> missionsAmountColumn;
     @FXML
-    private TableColumn<UBoatContestInfoDTO, String> amountOfActiveDecryptionTeamsColumn;
+    private TableColumn<UBoatContestInfoWithCheckBoxDTO, String> amountOfActiveDecryptionTeamsColumn;
     @FXML
-    private TableColumn<UBoatContestInfoDTO, String> amountOfNeededDecryptionTeamsColumn;
+    private TableColumn<UBoatContestInfoWithCheckBoxDTO, String> amountOfNeededDecryptionTeamsColumn;
     @FXML
-    private TableColumn<UBoatContestInfoDTO, String> battleFieldNameColumn;
+    private TableColumn<UBoatContestInfoWithCheckBoxDTO, String> battleFieldNameColumn;
     @FXML
-    private TableColumn<UBoatContestInfoDTO, String> contestLevelColumn;
+    private TableColumn<UBoatContestInfoWithCheckBoxDTO, String> contestLevelColumn;
     @FXML
-    private TableColumn<UBoatContestInfoDTO, String> contestStatusColumn;
+    private TableColumn<UBoatContestInfoWithCheckBoxDTO, String> contestStatusColumn;
     @FXML
-    private TableColumn<UBoatContestInfoDTO, String> uBoatUserNameColumn;
+    private TableColumn<UBoatContestInfoWithCheckBoxDTO, String> uBoatUserNameColumn;
+    @FXML
+    private TableColumn<UBoatContestInfoWithCheckBoxDTO, CheckBox> selectedContestColumn;
 
     private MainWindowAlliesController mainWindowAlliesController;
 
     AgentInfoDTO agentInfoDTO;
     String alliesTeamName="";
+    @FXML
+    public void initialize(){
+
+    }
 
     public AlliesDashboardController() {
         totalAgentsAmount = new SimpleIntegerProperty(0);
@@ -120,8 +128,8 @@ public class AlliesDashboardController implements Closeable {
         timer = new Timer();
         timer.schedule(agentsTableViewRefresher, REFRESH_RATE, REFRESH_RATE);
     }
-    private ObservableList<UBoatContestInfoDTO> getUBoatContestInfoTableViewDTOList(List<UBoatContestInfoDTO> uBoatContestInfoDTO) {
-        ObservableList<UBoatContestInfoDTO> uBoatContestInfoDTOList;
+/*    private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTableViewDTOList(List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTO) {
+        ObservableList<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOList;
         uBoatContestInfoDTOList = FXCollections.observableArrayList(uBoatContestInfoDTO);
         battleFieldNameColumn.setCellValueFactory(
                 new PropertyValueFactory<>("battleFieldName")
@@ -141,21 +149,77 @@ public class AlliesDashboardController implements Closeable {
         amountOfActiveDecryptionTeamsColumn.setCellValueFactory(
                 new PropertyValueFactory<>("amountOfActiveDecryptionTeams")
         );
+        selectedContestColumn.setCellValueFactory(
+                new PropertyValueFactory<>("selectionContestColumn")
+        );
         return uBoatContestInfoDTOList;
-    }
-    private void updateUBoatContestsList(List<UBoatContestInfoDTO> uBoatContestInfoDTOList) {
+    }*/
+private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTableViewDTOList(UBoatContestInfoWithCheckBoxDTO uBoatContestInfoDTO) {
+    ObservableList<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOList;
+    uBoatContestInfoDTOList = FXCollections.observableArrayList(uBoatContestInfoDTO);
+    selectedContestColumn.setCellValueFactory(
+            new PropertyValueFactory<>("selectionContestColumn")
+    );
+    battleFieldNameColumn.setCellValueFactory(
+            new PropertyValueFactory<>("battleFieldName")
+    );
+    uBoatUserNameColumn.setCellValueFactory(
+            new PropertyValueFactory<>("uBoatUserName")
+    );
+    contestStatusColumn.setCellValueFactory(
+            new PropertyValueFactory<>("contestStatus")
+    );
+    contestLevelColumn.setCellValueFactory(
+            new PropertyValueFactory<>("contestLevel")
+    );
+    amountOfNeededDecryptionTeamsColumn.setCellValueFactory(
+            new PropertyValueFactory<>("amountOfNeededDecryptionTeams")
+    );
+    amountOfActiveDecryptionTeamsColumn.setCellValueFactory(
+            new PropertyValueFactory<>("amountOfActiveDecryptionTeams")
+    );
+
+    return uBoatContestInfoDTOList;
+}
+    private void updateUBoatContestsList(List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOList) {
         Platform.runLater(() -> {
-            ObservableList<UBoatContestInfoDTO> uBoatContestsInfoDTOObservableList = getUBoatContestInfoTableViewDTOList(uBoatContestInfoDTOList);
-            createUBoatContestsInfoDTOTableView(uBoatContestsInfoDTOObservableList);
-            totalUBoatContestsAmount.set(uBoatContestsInfoDTOObservableList.size());
+            boolean flag=false;
+            ObservableList<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOListTemp = FXCollections.observableArrayList();;
+            for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO: uBoatContestInfoDTOList) {
+                flag=false;
+                    for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO1 : contestsDataTableView.getItems()) {
+                        if (uBoatContestInfoWithCheckBoxDTO1.getBattleFieldName().equals(uBoatContestInfoWithCheckBoxDTO.getBattleFieldName())) {
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if (!flag) {
+                        uBoatContestInfoDTOListTemp.addAll(getUBoatContestInfoTableViewDTOList(uBoatContestInfoWithCheckBoxDTO));
+                        contestsDataTableView.getItems().add(uBoatContestInfoWithCheckBoxDTO);
+                    }
+            }
+//            for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO: contestsDataTableView.getItems()) {
+//                if (!uBoatContestInfoDTOList.contains(uBoatContestInfoWithCheckBoxDTO)) {
+//                    getUBoatContestInfoTableViewDTOList(uBoatContestInfoWithCheckBoxDTO);
+//                }
+//            }
+              /*  for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO: uBoatContestInfoDTOList){
+                    if(contestsDataTableView.getItems().contains(uBoatContestInfoWithCheckBoxDTO)){
+                        getUBoatContestInfoTableViewDTOList(uBoatContestInfoWithCheckBoxDTO);
+
+                    }*/
+        /*
+            ObservableList<UBoatContestInfoWithCheckBoxDTO> uBoatContestsInfoDTOObservableList = getUBoatContestInfoTableViewDTOList(uBoatContestInfoDTOList);*/
+            //createUBoatContestsInfoDTOTableView(uBoatContestInfoDTOListTemp);
+            totalUBoatContestsAmount.set(uBoatContestInfoDTOList.size());
         });
     }
-    private void createUBoatContestsInfoDTOTableView(ObservableList<UBoatContestInfoDTO> uBoatContestInfoDTOList ) {
+    private void createUBoatContestsInfoDTOTableView(ObservableList<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOList ) {
         contestsDataTableView.setItems(uBoatContestInfoDTOList);
-        contestsDataTableView.getColumns().clear();
-        contestsDataTableView.getColumns().addAll(battleFieldNameColumn,
+/*       // contestsDataTableView.getColumns().clear();
+        contestsDataTableView.getColumns().addAll(selectedContestColumn,battleFieldNameColumn,
                 uBoatUserNameColumn, contestStatusColumn,contestLevelColumn,
-                amountOfNeededDecryptionTeamsColumn,amountOfActiveDecryptionTeamsColumn);
+                amountOfNeededDecryptionTeamsColumn,amountOfActiveDecryptionTeamsColumn);*/
     }
     public void startUBoatContestsTableViewRefresher() {
         uBoatContestsRefresher = new UBoatContestsRefresher(

@@ -19,6 +19,7 @@
             </TableView>
             <TableView fx:id="contestsDataTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="454.0" prefWidth="633.0">
               <columns>
+                  <TableColumn fx:id="selectedContestColumn" prefWidth="75.0" text="Select" />
                 <TableColumn fx:id="battleFieldNameColumn" prefWidth="75.0" text="Battle FIeld" />
                 <TableColumn fx:id="uBoatUserNameColumn" prefWidth="75.0" text="Uploaded By" />
                   <TableColumn fx:id="contestStatusColumn" prefWidth="75.0" text="Status" />
