@@ -5,6 +5,9 @@ import bruteForce.AgentInfoDTO;
 import com.google.gson.Gson;
 import component.mainWindowAllies.MainWindowAlliesController;
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,7 +15,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import machineDTO.LimitedCodeConfigurationDTO;
 import okhttp3.Call;
 import okhttp3.HttpUrl;
 import okhttp3.Request;
@@ -20,15 +22,24 @@ import okhttp3.Response;
 import utils.Constants;
 import utils.http.HttpClientUtil;
 
+import java.io.Closeable;
 import java.io.IOException;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class AlliesDashboardController {
+import static utils.Constants.REFRESH_RATE;
 
-        @FXML
-        private TableView<AgentInfoDTO> contestsDataTableView;
+public class AlliesDashboardController implements Closeable {
 
-        @FXML
-        private TableView<AgentInfoDTO> teamsAgentsDataTableView;
+    private Timer timer;
+    private TimerTask agentsTableViewRefresher;
+    private  SimpleBooleanProperty autoUpdate;
+    private  IntegerProperty totalAgentsAmount;
+    @FXML
+    private TableView<AgentInfoDTO> contestsDataTableView;
+    @FXML
+    private TableView<AgentInfoDTO> teamsAgentsDataTableView;
 
     @FXML
     private TableColumn<AgentInfoDTO, String> agentNameColumn;
@@ -41,6 +52,11 @@ public class AlliesDashboardController {
 
     AgentInfoDTO agentInfoDTO;
     String alliesTeamName="";
+
+    public AlliesDashboardController() {
+        totalAgentsAmount = new SimpleIntegerProperty(0);
+        autoUpdate=new SimpleBooleanProperty(true);
+    }
 
     public void setMainWindowAlliesController(MainWindowAlliesController mainWindowAlliesController) {
         this.mainWindowAlliesController = mainWindowAlliesController;
@@ -110,4 +126,34 @@ public class AlliesDashboardController {
         return agentInfoDTOList;
     }
 
+    @Override
+    public void close() throws IOException {
+        teamsAgentsDataTableView.getItems().clear();
+        totalAgentsAmount.set(0);
+        if (agentsTableViewRefresher != null && timer != null) {
+            agentsTableViewRefresher.cancel();
+            timer.cancel();
+        }
     }
+    private void updateAgentsInfoList(List<AgentInfoDTO> agentInfoDTOList) {
+        Platform.runLater(() -> {
+            ObservableList<AgentInfoDTO> agentInfoDTOObservableList =teamsAgentsDataTableView.getItems();
+            createAgentsInfoDTOTableView(agentInfoDTOObservableList);
+            totalAgentsAmount.set(agentInfoDTOList.size());
+        });
+    }
+    private void createAgentsInfoDTOTableView(ObservableList<AgentInfoDTO> agentInfoDTOList ) {
+        teamsAgentsDataTableView.setItems(agentInfoDTOList);
+        teamsAgentsDataTableView.getColumns().clear();
+        teamsAgentsDataTableView.getColumns().addAll(missionsAmountColumn, threadsAmountColumn, agentNameColumn);
+    }
+    public void startListRefresher() {
+        agentsTableViewRefresher = new AgentsTablesViewRefresher(
+                this::updateAgentsInfoList,
+                autoUpdate,
+                alliesTeamName);
+        timer = new Timer();
+        timer.schedule(agentsTableViewRefresher, REFRESH_RATE, REFRESH_RATE);
+    }
+
+}

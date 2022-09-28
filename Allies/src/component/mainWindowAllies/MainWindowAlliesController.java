@@ -26,6 +26,9 @@ public class MainWindowAlliesController {
         primaryStage = primaryStageIn;
         //scene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
     }
+    public void updateAgentsTableView(){
+        alliesDashboardController.startListRefresher();
+    }
 
     public void setAlliesTeamName(String alliesTeamName) {
         this.alliesTeamName = alliesTeamName;

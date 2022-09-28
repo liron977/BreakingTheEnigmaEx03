@@ -105,6 +105,7 @@ public class AlliesLoginController {
                     catch (IOException ignore){}
                     mainWindowAlliesController.setAlliesTeamName(alliesTeamName);
                     Platform.runLater(() -> {
+                        mainWindowAlliesController.updateAgentsTableView();
                         primaryStage.setScene(mainWindowAlliesControllerScene);
                         primaryStage.show();
                        // loadFileController.setMediator(mediator);
