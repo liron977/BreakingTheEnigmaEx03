@@ -90,5 +90,13 @@
         <servlet-name>UBoatContestsServlet</servlet-name>
         <url-pattern>/UBoatContestsServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>UBoatContestSettingsServlet</servlet-name>
+        <servlet-class>servlets.UBoatContestSettingsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UBoatContestSettingsServlet</servlet-name>
+        <url-pattern>/UBoatContestSettingsServlet</url-pattern>
+    </servlet-mapping>
 
 </web-app>

@@ -4,9 +4,9 @@ import engineManager.EngineManager;
 
 import java.util.*;
 
-public class UBoatManger {
+public class UBoatManager {
     private final Map<String, EngineManager> uBoatMangerMap;
-    public UBoatManger() {
+    public UBoatManager() {
         uBoatMangerMap = new HashMap<>();
     }
    /* public synchronized void addGraph(String graphName, Mediator newMed) {

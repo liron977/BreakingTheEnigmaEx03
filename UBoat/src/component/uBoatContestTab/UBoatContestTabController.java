@@ -51,6 +51,8 @@ public class UBoatContestTabController implements EventsHandler {
     private ScrollPane currentCodeConfiguration;
     @FXML
     private Button decryptButton;
+    @FXML
+    private Button readyButton;
     /* @FXML
      private Label amountOfMissions;
    */  /*@FXML
@@ -584,5 +586,51 @@ public class UBoatContestTabController implements EventsHandler {
         alert.setContentText(message);
         alert.getDialogPane().setExpanded(true);
         alert.showAndWait();
+    }
+    @FXML
+    void readyButtonOnAction(ActionEvent event) throws Exception {
+        String stringToConvert = convertedStringTextArea.getText();
+        String stringToConvertGson = Constants.GSON_INSTANCE.toJson(stringToConvert);
+        RequestBody body = RequestBody.create(
+                MediaType.parse("application/json"), stringToConvertGson);
+        String finalUrl = HttpUrl
+                .parse(Constants.UBOATS_CONTESTS_SETTINGS)
+                .newBuilder()
+                .addQueryParameter("battlefield", battleName.trim())
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrl)
+                .post(body)
+                .build();
+        Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+        try {
+            Response response = call.execute();
+            if (response.code() != 200) {
+                Platform.runLater(() -> {
+                    {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        try {
+                            alert.setContentText(response.body().string());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        alert.getDialogPane().setExpanded(true);
+                        alert.showAndWait();
+                    }
+                });
+            } else {
+                readyButton.setDisable(true);
+                    Platform.runLater(() -> {
+                        {
+                          /*  stringToConvertTextArea.setText(convertedStringProcessDTO.getStringToConvertWithoutExcludedSignals());
+                            convertedStringTextArea.setText(convertedStringProcessDTO.getConvertedString());
+                            currentCodeConfigurationController.setCurrentCodeConfiguration();*/
+                        }
+                    });
+                }
+        } catch (IOException e) {
+        }
+
     }
 }

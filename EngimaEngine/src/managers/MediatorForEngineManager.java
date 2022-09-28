@@ -20,7 +20,9 @@ public class MediatorForEngineManager {
     public synchronized Map<String, EngineManager> getEngineManagersMap() {
         return Collections.unmodifiableMap(EngineManagersMap);
     }
-
+    public synchronized EngineManager getEngineMangerByBattleFiLedName(String battleFiLedName){
+      return EngineManagersMap.get(battleFiLedName);
+    }
     public boolean isBattleExists(String battleName) {
         return EngineManagersMap.containsKey(battleName);
     }

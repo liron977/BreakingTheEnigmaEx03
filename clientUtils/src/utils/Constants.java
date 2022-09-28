@@ -17,6 +17,7 @@ public class Constants {
     public static final String AGENTS_INFO_TABLE_VIEW= "http://localhost:8080/app/AgentsInfoServlet";
     public static final String ALLIES_TEAM_NAMES= "http://localhost:8080/app/AlliesTeamServlet";
     public static final String UBOATS_CONTESTS_INFO= "http://localhost:8080/app/UBoatContestsServlet";
+    public static final String UBOATS_CONTESTS_SETTINGS= "http://localhost:8080/app/UBoatContestSettingsServlet";
     public static final Gson GSON_INSTANCE = new Gson();
     public final static int REFRESH_RATE = 500;
 

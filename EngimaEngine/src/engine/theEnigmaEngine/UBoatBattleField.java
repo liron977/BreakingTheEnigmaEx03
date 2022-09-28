@@ -6,14 +6,15 @@ public class UBoatBattleField {
    private String level;
    private int alliesActiveTeamsAmount;
    private String contestStatus;
-
     private String uploadedBy;
+    private String convertedString;
    public UBoatBattleField(String battleName, int alliesNeededTeamsAmount, String level){
        this.battleName=battleName;
        this.alliesNeededTeamsAmount=alliesNeededTeamsAmount;
        this.level=level;
        this.alliesActiveTeamsAmount=0;
        this.contestStatus="Wait..";
+       this.convertedString="";
    }
    public void setUploadedBy(String uploadedBy){
        this.uploadedBy=uploadedBy;
@@ -41,5 +42,13 @@ public class UBoatBattleField {
 
     public void setContestStatus(String contestStatus) {
         this.contestStatus = contestStatus;
+    }
+
+    public void setConvertedString(String convertedString) {
+        this.convertedString = convertedString;
+    }
+
+    public String getConvertedString() {
+        return convertedString;
     }
 }

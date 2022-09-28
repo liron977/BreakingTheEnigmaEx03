@@ -1,13 +1,12 @@
 package utils;
 
-import bruteForce.AgentInfoDTO;
 import managers.AgentsManager;
 import managers.BruteForceResultsInfoManager;
+import managers.uBoatEngine.UBoatAvailableContestsManager;
 import managers.users.UserManager;
 import managers.MediatorForEngineManager;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
-import servlets.BruteForceResultsServlet;
 
 import static constants.ParametersConstants.INT_PARAMETER_ERROR;
 
@@ -18,6 +17,7 @@ public class ServletUtils {
     private static final String MEDIATORS_MANAGER_ATTRIBUTE_NAME = "MediatorForEngineManager";
     private static final String BRUTE_FORCE_RESULTS_MANAGER_ATTRIBUTE_NAME = "bruteForceResultsInfoManager";
     private static final String AGENTS_INFO_MANAGER_ATTRIBUTE_NAME = "agentsInfoManager";
+    private static final String UBOAT_AVAILABLE_CONTESTS_ATTRIBUTE_NAME = "uBoatAvailableContests";
 
     /*
     Note how the synchronization is done only on the question and\or creation of the relevant managers and once they exists -
@@ -28,7 +28,7 @@ public class ServletUtils {
     private static final Object bruteForceResultsInfoLock = new Object();
     private static final Object mediatorsManagerLock = new Object();
     private static final Object agentManagerLock = new Object();
-
+    private static final Object uBoatAvailableContestsLock = new Object();
     public static UserManager getUserManager(ServletContext servletContext) {
 
         synchronized (userManagerLock) {
@@ -85,5 +85,13 @@ public class ServletUtils {
             }
         }
         return INT_PARAMETER_ERROR;
+    }
+    public static UBoatAvailableContestsManager getUBoatAvailableContestsManager(ServletContext servletContext) {
+        synchronized (uBoatAvailableContestsLock) {
+            if (servletContext.getAttribute(UBOAT_AVAILABLE_CONTESTS_ATTRIBUTE_NAME) == null) {
+                servletContext.setAttribute(UBOAT_AVAILABLE_CONTESTS_ATTRIBUTE_NAME, new UBoatAvailableContestsManager());
+            }
+        }
+        return (UBoatAvailableContestsManager) servletContext.getAttribute(UBOAT_AVAILABLE_CONTESTS_ATTRIBUTE_NAME);
     }
 }

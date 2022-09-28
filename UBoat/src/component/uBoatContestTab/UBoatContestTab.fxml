@@ -67,7 +67,7 @@
                         <TextArea fx:id="convertedStringTextArea" editable="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" />
                      </content>
                   </ScrollPane>
-                  <Button mnemonicParsing="false" text="Ready!" />
+                  <Button fx:id="readyButton" mnemonicParsing="false" onAction="#readyButtonOnAction" text="Ready!" />
                </children>
             </VBox>
          </children>

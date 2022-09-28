@@ -931,4 +931,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     public String getUploadedBy(){
         return uploadedBy;
    }
+   public void setConvertedStringInBattleField(String convertedString){
+    this.battleField.setConvertedString(convertedString);
+   }
 }
