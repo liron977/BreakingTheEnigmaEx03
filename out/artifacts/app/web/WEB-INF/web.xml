@@ -82,5 +82,13 @@
         <servlet-name>AlliesTeamServlet</servlet-name>
         <url-pattern>/AlliesTeamServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>UBoatContestsServlet</servlet-name>
+        <servlet-class>servlets.UBoatContestsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UBoatContestsServlet</servlet-name>
+        <url-pattern>/UBoatContestsServlet</url-pattern>
+    </servlet-mapping>
 
 </web-app>

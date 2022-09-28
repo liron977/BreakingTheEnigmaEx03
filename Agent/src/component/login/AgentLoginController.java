@@ -185,13 +185,11 @@ public class AgentLoginController {
             Parent root1 = fxmlLoader.load(superScreenUrl.openStream());
             agentMainWindowController=fxmlLoader.getController();
             agentMainWindowController.setPrimaryStage(primaryStage);
-            primaryStage.setTitle("Enigma-Allies");
+            primaryStage.setTitle("Agent");
             mainWindowAlliesControllerScene = new Scene(root1);
             primaryStage.setMinHeight(300f);
             primaryStage.setMinWidth(400f);
             mainWindowAlliesControllerScene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
-             //sController.setMediator(mediator);
-
         }
         catch (IOException ignore) {
             ignore.printStackTrace();} catch (Exception e) {

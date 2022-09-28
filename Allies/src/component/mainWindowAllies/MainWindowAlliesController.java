@@ -27,7 +27,10 @@ public class MainWindowAlliesController {
         //scene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
     }
     public void updateAgentsTableView(){
-        alliesDashboardController.startListRefresher();
+        alliesDashboardController.startAgentsTableViewRefresher();
+    }
+    public void updateUBoatContestTableView(){
+        alliesDashboardController.startUBoatContestsTableViewRefresher();
     }
 
     public void setAlliesTeamName(String alliesTeamName) {

@@ -19,8 +19,8 @@ public class SchemaGenerated implements Serializable {
         Agents agents=new Agents(enigmaDescriptor.getCTEDecipher().getAgents());
         return agents;
     }*/
-    public BattleField createBattleField(){
-        BattleField battleField=new BattleField(enigmaDescriptor.getCTEBattlefield().getBattleName(),enigmaDescriptor.getCTEBattlefield().getAllies(),enigmaDescriptor.getCTEBattlefield().getLevel());
+    public UBoatBattleField createBattleField(){
+        UBoatBattleField battleField=new UBoatBattleField(enigmaDescriptor.getCTEBattlefield().getBattleName(),enigmaDescriptor.getCTEBattlefield().getAllies(),enigmaDescriptor.getCTEBattlefield().getLevel());
         return battleField;
     }
     public Dictionary createDictionary(){

@@ -107,6 +107,7 @@ public class AlliesLoginController {
                     mainWindowAlliesController.setAlliesTeamName(alliesTeamName);
                     Platform.runLater(() -> {
                         mainWindowAlliesController.updateAgentsTableView();
+                        mainWindowAlliesController.updateUBoatContestTableView();
                         primaryStage.setScene(mainWindowAlliesControllerScene);
                         primaryStage.show();
                        // loadFileController.setMediator(mediator);

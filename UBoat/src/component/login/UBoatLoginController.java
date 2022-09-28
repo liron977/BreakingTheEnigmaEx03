@@ -96,11 +96,6 @@ public class UBoatLoginController {
                     );
                 }
                 else {
-                    String threadsAmount=null;
-                    try {
-                        threadsAmount = (response.body()).string();
-                    }
-                    catch (IOException ignore){}
                     sController.setUserName(userName);
                     Platform.runLater(() -> {
                         primaryStage.setScene(sControllerScene);

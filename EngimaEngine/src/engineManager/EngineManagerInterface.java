@@ -91,6 +91,6 @@ public interface EngineManagerInterface extends Serializable {
     public String getCodeDescription(FullCodeDescriptionDTO fullCodeDescriptionDTO, List<String> notchPosition, String startingPosition);
     public Long getAmountOfPossibleStartingPositionList();
     public List<String> getPossibleStartingPositionList();
-    public ListOfExceptionsDTO loadFileByInputStream(InputStream inputStream) throws Exception;
+    public ListOfExceptionsDTO loadFileByInputStream(InputStream inputStream,String uploadedBy) throws Exception;
     public String getBattleName();
     }

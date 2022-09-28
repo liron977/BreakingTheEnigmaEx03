@@ -43,8 +43,10 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     private List<String> possibleStartingPositionList;
     private Agents usedAgents;
 
-    private BattleField battleField;
+    private UBoatBattleField battleField;
     private String uploadedBy;
+    private int amountOfNeededDecryptionAliesTeams;
+
 
 
     @Override
@@ -101,10 +103,11 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         return theMachineEngine;
     }
 
-    public TheMachineEngine buildTheMachineEngineUboat( CTEEnigma cteEnigma) throws Exception {
+    public TheMachineEngine buildTheMachineEngineUboat(CTEEnigma cteEnigma,String uploadedBy) throws Exception {
        // CTEEnigma cteEnigma = readFromXmlFile(filePath);
         SchemaGenerated schemaGenerated = new SchemaGenerated(cteEnigma);
         this.battleField=schemaGenerated.createBattleField();
+        this.battleField.setUploadedBy(uploadedBy);
         TheMachineEngine theMachineEngine = new TheMachineEngine(schemaGenerated.createRotorsSet(), schemaGenerated.createReflectorsSet(), schemaGenerated.createKeyboard(), schemaGenerated.getAmountOfUsedRotors(), schemaGenerated.createDictionary(),battleField);
         //this.agents=schemaGenerated.createAgents();
 
@@ -880,18 +883,18 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     public Agents getUsedAgents() {
         return usedAgents;
     }
-    public BattleField getBattleField() {
+    public UBoatBattleField getBattleField() {
         return battleField;
     }
-    public void setUploadedBy(String uploadedBy) {
+/*    public void setUploadedBy(String uploadedBy) {
         this.uploadedBy = uploadedBy;
-    }
-    public ListOfExceptionsDTO loadFileByInputStream(InputStream inputStream) throws Exception {
+    }*/
+    public ListOfExceptionsDTO loadFileByInputStream(InputStream inputStream,String uploadedBy) throws Exception {
         CTEEnigma cteEnigma = this.deserializeFrom(inputStream);
         List<Exception> exceptionList=fileValidator(cteEnigma);
       if(exceptionList.size()==0) {
           machineHistoryAndStatistics = new MachineHistoryAndStatistics();
-          theMachineEngine = buildTheMachineEngineUboat(cteEnigma);
+          theMachineEngine = buildTheMachineEngineUboat(cteEnigma,uploadedBy);
           theLastStartingPos = getInitialStartingPosition();
           menuValidator.setTrueValueToIsMachineDefined();
       }
@@ -925,5 +928,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     public String getBattleName() {
         return this.theMachineEngine.getBattleFieldName();
     }
-
+    public String getUploadedBy(){
+        return uploadedBy;
+   }
 }

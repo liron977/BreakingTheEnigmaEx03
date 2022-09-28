@@ -17,12 +17,12 @@ public class UserManager {
         return Collections.unmodifiableMap(usersMap);
     }
     public boolean isUserExists(String username) {return usersMap.containsKey(username);}
-    public synchronized List<String> getUserNamesByValue(Map<String, String> map,String role) {
-        List<String> alliesTeamsNames=new ArrayList<>();
-        for (String key : getKeys(map, role)) {
-            alliesTeamsNames.add(key);
+    public synchronized List<String> getListOfUsersByRole(String role) {
+        List<String> listOfUsersByRole =new ArrayList<>();
+        for (String key : getKeys(usersMap, role)) {
+            listOfUsersByRole .add(key);
         }
-        return  alliesTeamsNames;
+        return  listOfUsersByRole;
     }
 
     private synchronized Set<String> getKeys(Map<String, String> map, String value) {
