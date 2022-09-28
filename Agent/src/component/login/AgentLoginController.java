@@ -1,24 +1,34 @@
-package component;
+package component.login;
 
 import bruteForce.AgentInfoDTO;
-import com.google.gson.Gson;
 import com.sun.istack.internal.NotNull;
+import component.mainWindowAgent.AgentMainWindowController;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import machineDTO.LimitedCodeConfigurationDTO;
+import javafx.stage.Stage;
 import okhttp3.*;
+import uiMediator.Mediator;
 import utils.Constants;
 import utils.http.HttpClientUtil;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.List;
 import java.util.Objects;
+import java.util.Timer;
+
+import static utils.Constants.REFRESH_RATE;
 
 public class AgentLoginController {
+
+    private Timer timer;
     @FXML
     private TextField agentNameTextField;
     @FXML
@@ -32,10 +42,16 @@ public class AgentLoginController {
     @FXML
     private Slider threadsAmountSlider;
     private String selectedAlliesTeamName;
+    private Stage primaryStage;
+    AlliesTeamsRefresher alliesTeamsRefresher;
+    AgentMainWindowController agentMainWindowController;
+
     private String agentName;
     private int missionAmount;
     private int threadsAmount;
     private final StringProperty errorMessageProperty;
+
+    private Scene mainWindowAlliesControllerScene;
     AgentInfoDTO agentInfoDTO;
 
     public AgentLoginController() {
@@ -54,8 +70,31 @@ public class AgentLoginController {
         threadsAmount=(int) threadsAmountSlider.getValue();
          agentInfoDTO=new AgentInfoDTO(agentName,threadsAmount,missionAmount,selectedAlliesTeamName);
     }
-    @FXML
-    void loginButtonClicked(ActionEvent event) {
+    public void startListRefresher() {
+        alliesTeamsRefresher = new AlliesTeamsRefresher(
+                this::updateAlliesTeamNamesComboBox);
+        timer = new Timer();
+        timer.schedule(alliesTeamsRefresher, REFRESH_RATE, REFRESH_RATE);
+    }
+    private void updateAlliesTeamNamesComboBox(List<String> agentInfoDTOList) {
+        Platform.runLater(() -> {
+            for (String s: alliesTeamComboBox.getItems()) {
+                if(!agentInfoDTOList.contains(s))
+                {
+                    alliesTeamComboBox.getItems().remove(s);
+                }
+            }
+            for (String str:agentInfoDTOList) {
+               if(!alliesTeamComboBox.getItems().contains(str)) {
+                   alliesTeamComboBox.getItems().add(str);
+               }
+
+            }
+
+        });
+    }
+
+    @FXML private void loginButtonClicked(ActionEvent event) {
      collectDataFromLoginForm();
         String finalUrl =HttpUrl
                 .parse(Constants.LOGIN_PAGE)
@@ -83,13 +122,11 @@ public class AgentLoginController {
                 }
                 else {
 
-
                     //mainWindowAlliesController.setAlliesTeamName(alliesTeamName);
                     Platform.runLater(() -> {
-                  /*      mainWindowAlliesController.updateAgentsTableView();
+                        addAgentToAlliesTeam();
                         primaryStage.setScene(mainWindowAlliesControllerScene);
-                        primaryStage.show();*/
-                        // loadFileController.setMediator(mediator);
+                        primaryStage.show();
                     });
                 }
                 Objects.requireNonNull(response.body()).close();
@@ -136,5 +173,29 @@ public class AgentLoginController {
         } catch (IOException e) {
         }
     }
+    public void setPrimaryStageAndLoadInTheBackgroundSuperScreen(Stage primaryStageIn){
+        primaryStage=primaryStageIn;
+        loadSuperScreen();
+    }
+    private void loadSuperScreen(){
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        URL superScreenUrl = getClass().getResource("/component/mainWindowAgent/AgentMainWindow.fxml");
+        fxmlLoader.setLocation(superScreenUrl);
+        try {
+            Parent root1 = fxmlLoader.load(superScreenUrl.openStream());
+            agentMainWindowController=fxmlLoader.getController();
+            agentMainWindowController.setPrimaryStage(primaryStage);
+            primaryStage.setTitle("Enigma-Allies");
+            mainWindowAlliesControllerScene = new Scene(root1);
+            primaryStage.setMinHeight(300f);
+            primaryStage.setMinWidth(400f);
+            mainWindowAlliesControllerScene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
+             //sController.setMediator(mediator);
 
+        }
+        catch (IOException ignore) {
+            ignore.printStackTrace();} catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

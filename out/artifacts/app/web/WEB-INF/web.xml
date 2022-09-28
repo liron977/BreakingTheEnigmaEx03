@@ -74,4 +74,13 @@
         <url-pattern>/AgentsInfoServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>AlliesTeamServlet</servlet-name>
+        <servlet-class>servlets.AlliesTeamServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AlliesTeamServlet</servlet-name>
+        <url-pattern>/AlliesTeamServlet</url-pattern>
+    </servlet-mapping>
+
 </web-app>

@@ -15,6 +15,7 @@ public class Constants {
     public static final String GET_DICTIONARY= "http://localhost:8080/app/GetDictionaryServlet";
     public static final String ENCRYPT= "http://localhost:8080/app/EncryptServlet";
     public static final String AGENTS_INFO_TABLE_VIEW= "http://localhost:8080/app/AgentsInfoServlet";
+    public static final String ALLIES_TEAM_NAMES_VIEW= "http://localhost:8080/app/AlliesTeamServlet";
     public static final Gson GSON_INSTANCE = new Gson();
     public final static int REFRESH_RATE = 500;
 
