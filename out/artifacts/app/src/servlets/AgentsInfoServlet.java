@@ -27,7 +27,7 @@ public class AgentsInfoServlet extends HttpServlet {
             AgentsManager agentsInfoManager = ServletUtils.getAgentManager(getServletContext());
             Map<String, List<AgentInfoDTO>> agentsInfoManagerMap = agentsInfoManager.getAgentManagerMap();
             String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
-            List<AgentInfoDTO> agentInfoDTOList=createAgentInfoDTOList(agentsInfoManagerMap,theAlliesTeamName);
+            List<AgentInfoDTO> agentInfoDTOList=getAgentIndoDTOListByTheAlliesTeamName(agentsInfoManagerMap,theAlliesTeamName);
             if (agentInfoDTOList != null) {
 
                 Gson gson = new Gson();
@@ -44,15 +44,13 @@ public class AgentsInfoServlet extends HttpServlet {
         AgentsManager agentManager = ServletUtils.getAgentManager(getServletContext());
         String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
         Gson gson= new Gson();
-        Type listAgentInfoDTO = new TypeToken<ArrayList<AgentInfoDTO>>() {}.getType();
-        List<AgentInfoDTO> dtoFromGson=gson.fromJson(request.getReader(),listAgentInfoDTO);
+        AgentInfoDTO dtoFromGson=gson.fromJson(request.getReader(),AgentInfoDTO.class);
         agentManager.addAgentInfoDTOList(theAlliesTeamName,dtoFromGson);
     }
-    private List<AgentInfoDTO> createAgentInfoDTOList( Map<String, List<AgentInfoDTO>> agentsInfoManagerMap, String theAlliesTeamName){
+    private List<AgentInfoDTO> getAgentIndoDTOListByTheAlliesTeamName( Map<String, List<AgentInfoDTO>> agentsInfoManagerMap, String theAlliesTeamName){
         List<AgentInfoDTO> agentInfoDTOList=new ArrayList<>();
         agentInfoDTOList= agentsInfoManagerMap.get(theAlliesTeamName);
         return agentInfoDTOList;
-
     }
 
 }
