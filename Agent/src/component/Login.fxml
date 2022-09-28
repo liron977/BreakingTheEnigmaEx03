@@ -9,20 +9,20 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
   <content>
       <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
          <content>
             <VBox alignment="CENTER" prefHeight="387.0" prefWidth="599.0" spacing="10.0">
                <children>
-                  <TextField fx:id="uBoatNameTextField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="39.0" prefWidth="561.0" />
-                  <ComboBox prefWidth="150.0" />
-                  <Slider majorTickUnit="1.0" max="4.0" min="1.0" minorTickCount="0" prefHeight="14.0" prefWidth="512.0" showTickLabels="true" showTickMarks="true">
+                  <TextField fx:id="agentNameTextField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="39.0" prefWidth="561.0" />
+                  <ComboBox fx:id="alliesTeamComboBox" prefWidth="150.0" />
+                  <Slider fx:id="threadsAmountSlider" majorTickUnit="1.0" max="4.0" min="1.0" minorTickCount="0" prefHeight="14.0" prefWidth="512.0" showTickLabels="true" showTickMarks="true">
                      <VBox.margin>
                         <Insets left="150.0" right="150.0" />
                      </VBox.margin>
                   </Slider>
-                  <TextField prefHeight="25.0" prefWidth="459.0" />
+                  <TextField fx:id="missionAmountTextFiled" prefHeight="25.0" prefWidth="459.0" />
                   <Button fx:id="loginButton" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="50.0" prefWidth="95.0" text="Login" />
                   <Label fx:id="loginErrorLabel" text="Label" />
                </children>

@@ -46,6 +46,7 @@ public class AgentsInfoServlet extends HttpServlet {
         Gson gson= new Gson();
         AgentInfoDTO dtoFromGson=gson.fromJson(request.getReader(),AgentInfoDTO.class);
         agentManager.addAgentInfoDTOList(theAlliesTeamName,dtoFromGson);
+        response.setStatus(HttpServletResponse.SC_OK);
     }
     private List<AgentInfoDTO> getAgentIndoDTOListByTheAlliesTeamName( Map<String, List<AgentInfoDTO>> agentsInfoManagerMap, String theAlliesTeamName){
         List<AgentInfoDTO> agentInfoDTOList=new ArrayList<>();

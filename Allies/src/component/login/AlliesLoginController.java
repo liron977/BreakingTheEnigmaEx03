@@ -54,6 +54,7 @@ public class AlliesLoginController {
     private Mediator mediator;
 
 
+
     public AlliesLoginController() {
         errorMessageProperty = new SimpleStringProperty("");
         amountOfThreadsProperty=new SimpleDoubleProperty();
