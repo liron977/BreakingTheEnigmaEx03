@@ -3,6 +3,8 @@ package component.mainWindowAllies;
 import component.AlliesDashboard.AlliesDashboardController;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
 public class MainWindowAlliesController {
@@ -15,11 +17,20 @@ public class MainWindowAlliesController {
 
     String alliesTeamName;
     private Stage primaryStage;
+    @FXML
+    private TabPane alliesTabPane;
+    @FXML
+    private Tab dashboardTabButton;
+     @FXML
+    private Tab contestTabButton;
+
 
     @FXML
     public void initialize() {
         if (alliesDashboardController != null) {
             alliesDashboardController.setMainWindowAlliesController(this);
+            contestTabButton.setDisable(true);
+
         }
     }
     public void setPrimaryStage(Stage primaryStageIn) {
@@ -36,5 +47,10 @@ public class MainWindowAlliesController {
     public void setAlliesTeamName(String alliesTeamName) {
         this.alliesTeamName = alliesTeamName;
         alliesDashboardController.setAlliesTeamName(alliesTeamName);
+    }
+    public void changeToContestTab(){
+        contestTabButton.setDisable(false);
+        alliesTabPane.getSelectionModel().select(contestTabButton);
+
     }
 }

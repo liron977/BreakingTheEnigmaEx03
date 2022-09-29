@@ -20,6 +20,7 @@ public class UBoatContestInfoWithCheckBoxDTO {
         this.amountOfNeededDecryptionTeams=uBoatContestInfoWithoutCheckBoxDTO.getAmountOfNeededDecryptionTeams();
         this.amountOfActiveDecryptionTeams=uBoatContestInfoWithoutCheckBoxDTO.getAmountOfActiveDecryptionTeams();
         this.selectionContestColumn = new CheckBox();
+        this.isSelected=false;
     }
 
     public int getAmountOfActiveDecryptionTeams() {

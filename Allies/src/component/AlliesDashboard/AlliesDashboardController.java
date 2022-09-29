@@ -3,7 +3,6 @@ package component.AlliesDashboard;
 
 import bruteForce.AgentInfoDTO;
 import bruteForce.UBoatContestInfoWithCheckBoxDTO;
-import bruteForce.UBoatContestInfoWithoutCheckBoxDTO;
 import component.mainWindowAllies.MainWindowAlliesController;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -11,7 +10,9 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -33,7 +34,8 @@ public class AlliesDashboardController implements Closeable {
     private  SimpleBooleanProperty autoUpdate;
     private  IntegerProperty totalAgentsAmount;
     private  IntegerProperty totalUBoatContestsAmount;
-
+    private SimpleBooleanProperty isContestSelected;
+private  List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoWithCheckBoxDTOList;
     @FXML
     private TableView<UBoatContestInfoWithCheckBoxDTO> contestsDataTableView;
     @FXML
@@ -58,13 +60,18 @@ public class AlliesDashboardController implements Closeable {
     private TableColumn<UBoatContestInfoWithCheckBoxDTO, String> uBoatUserNameColumn;
     @FXML
     private TableColumn<UBoatContestInfoWithCheckBoxDTO, CheckBox> selectedContestColumn;
+    @FXML
+    private Button readyButton;
 
     private MainWindowAlliesController mainWindowAlliesController;
 
     AgentInfoDTO agentInfoDTO;
     String alliesTeamName="";
+
     @FXML
     public void initialize(){
+        isContestSelected=new SimpleBooleanProperty(true);
+        readyButton.disableProperty().bind(isContestSelected);
 
     }
 
@@ -182,51 +189,93 @@ private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTable
     return uBoatContestInfoDTOList;
 }
     private void updateUBoatContestsList(List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOList) {
+
+
         Platform.runLater(() -> {
-            boolean flag=false;
+            boolean isDTDExistsInTableView;
             ObservableList<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOListTemp = FXCollections.observableArrayList();;
             for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO: uBoatContestInfoDTOList) {
-                flag=false;
-                    for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO1 : contestsDataTableView.getItems()) {
-                        if (uBoatContestInfoWithCheckBoxDTO1.getBattleFieldName().equals(uBoatContestInfoWithCheckBoxDTO.getBattleFieldName())) {
-                            flag = true;
+              checkBoxChangedListener(uBoatContestInfoWithCheckBoxDTO);
+                isDTDExistsInTableView=false;
+                    for (UBoatContestInfoWithCheckBoxDTO TableViewUBoatContestDTO : contestsDataTableView.getItems()) {
+                        if (TableViewUBoatContestDTO.getBattleFieldName().equals(uBoatContestInfoWithCheckBoxDTO.getBattleFieldName())) {
+                            isDTDExistsInTableView = true;
                             break;
                         }
                     }
-                    if (!flag) {
+                    if (!isDTDExistsInTableView) {
                         uBoatContestInfoDTOListTemp.addAll(getUBoatContestInfoTableViewDTOList(uBoatContestInfoWithCheckBoxDTO));
                         contestsDataTableView.getItems().add(uBoatContestInfoWithCheckBoxDTO);
                     }
             }
-//            for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO: contestsDataTableView.getItems()) {
-//                if (!uBoatContestInfoDTOList.contains(uBoatContestInfoWithCheckBoxDTO)) {
-//                    getUBoatContestInfoTableViewDTOList(uBoatContestInfoWithCheckBoxDTO);
-//                }
-//            }
-              /*  for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO: uBoatContestInfoDTOList){
-                    if(contestsDataTableView.getItems().contains(uBoatContestInfoWithCheckBoxDTO)){
-                        getUBoatContestInfoTableViewDTOList(uBoatContestInfoWithCheckBoxDTO);
+            uBoatContestInfoWithCheckBoxDTOList=contestsDataTableView.getItems();
+            //todo : To check
+          /*  for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO: contestsDataTableView.getItems()) {
+                if (!uBoatContestInfoDTOList.contains(uBoatContestInfoWithCheckBoxDTO)) {
 
-                    }*/
-        /*
-            ObservableList<UBoatContestInfoWithCheckBoxDTO> uBoatContestsInfoDTOObservableList = getUBoatContestInfoTableViewDTOList(uBoatContestInfoDTOList);*/
-            //createUBoatContestsInfoDTOTableView(uBoatContestInfoDTOListTemp);
+                    contestsDataTableView.getItems().remove(uBoatContestInfoWithCheckBoxDTO);
+                }
+           }*/
             totalUBoatContestsAmount.set(uBoatContestInfoDTOList.size());
         });
     }
-    private void createUBoatContestsInfoDTOTableView(ObservableList<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOList ) {
+
+
+    private void checkBoxChangedListener(UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO) {
+
+        uBoatContestInfoWithCheckBoxDTO.getSelectionContestColumn().setOnAction(event -> {
+            uBoatContestInfoWithCheckBoxDTOList = contestsDataTableView.getItems();
+            if (uBoatContestInfoWithCheckBoxDTO.getSelectionContestColumn().isSelected()) {
+                checkboxWasSelected(uBoatContestInfoWithCheckBoxDTO);
+
+            } else {
+                checkboxWasNotSelected(uBoatContestInfoWithCheckBoxDTO);
+
+            }
+        });
+    }
+
+    private void checkboxWasNotSelected(UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO ) {
+        uBoatContestInfoWithCheckBoxDTOList=contestsDataTableView.getItems();
+        uBoatContestInfoWithCheckBoxDTO.setSelected(false);
+        for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTOFromList : uBoatContestInfoWithCheckBoxDTOList) {
+            if (uBoatContestInfoWithCheckBoxDTOFromList.getIsSelected()) {
+                return;
+            }
+        }
+        for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTOFromListToNotDisabled : uBoatContestInfoWithCheckBoxDTOList) {
+            uBoatContestInfoWithCheckBoxDTOFromListToNotDisabled.getSelectionContestColumn().setDisable(false);
+        }
+        isContestSelected.setValue(true);
+    }
+        private void checkboxWasSelected(UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO ){
+    isContestSelected.setValue(false);
+        uBoatContestInfoWithCheckBoxDTOList=contestsDataTableView.getItems();
+        uBoatContestInfoWithCheckBoxDTO.setSelected(true);
+        for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTOFromList : uBoatContestInfoWithCheckBoxDTOList) {
+            if (!uBoatContestInfoWithCheckBoxDTOFromList.getIsSelected()) {
+                uBoatContestInfoWithCheckBoxDTOFromList.getSelectionContestColumn().setDisable(true);
+            }
+        }
+    }
+
+
+   /* private void createUBoatContestsInfoDTOTableView(ObservableList<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOList ) {
         contestsDataTableView.setItems(uBoatContestInfoDTOList);
-/*       // contestsDataTableView.getColumns().clear();
+*//*       // contestsDataTableView.getColumns().clear();
         contestsDataTableView.getColumns().addAll(selectedContestColumn,battleFieldNameColumn,
                 uBoatUserNameColumn, contestStatusColumn,contestLevelColumn,
-                amountOfNeededDecryptionTeamsColumn,amountOfActiveDecryptionTeamsColumn);*/
-    }
+                amountOfNeededDecryptionTeamsColumn,amountOfActiveDecryptionTeamsColumn);*//*
+    }*/
     public void startUBoatContestsTableViewRefresher() {
         uBoatContestsRefresher = new UBoatContestsRefresher(
                 this::updateUBoatContestsList,autoUpdate);
         timer = new Timer();
         timer.schedule(uBoatContestsRefresher, REFRESH_RATE, REFRESH_RATE);
     }
-
+    @FXML
+    void readyButtonOnAction(ActionEvent event) {
+        mainWindowAlliesController.changeToContestTab();
+    }
 
 }
