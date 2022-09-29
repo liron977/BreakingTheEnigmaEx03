@@ -1,17 +1,14 @@
 package servlets;
 
-import bruteForce.AlliesDTO;
 import com.google.gson.Gson;
 import constants.ParametersConstants;
 import engine.theEnigmaEngine.Allies;
-import engineManager.EngineManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import managers.uBoatEngine.AlliesManager;
-import managers.uBoatEngine.UBoatAvailableContestsManager;
-import managers.users.UserManager;
+import managers.UserManager;
 import utils.ServletUtils;
 import utils.SessionUtils;
 

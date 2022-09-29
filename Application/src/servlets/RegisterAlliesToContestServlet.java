@@ -9,7 +9,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import managers.MediatorForEngineManager;
 import managers.uBoatEngine.AlliesManager;
 import managers.uBoatEngine.UBoatAvailableContestsManager;
 import utils.ServletUtils;

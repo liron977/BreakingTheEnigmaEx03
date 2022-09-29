@@ -1,11 +1,11 @@
 package utils;
 
-import managers.AgentsManager;
+import managers.agent.AgentsManager;
 import managers.BruteForceResultsInfoManager;
 import managers.uBoatEngine.AlliesManager;
 import managers.uBoatEngine.UBoatAvailableContestsManager;
-import managers.users.UserManager;
-import managers.MediatorForEngineManager;
+import managers.UserManager;
+import managers.uBoatEngine.MediatorForEngineManager;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 

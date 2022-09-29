@@ -951,4 +951,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
        return battleField.isAlliesExists(alliesTeamName);
 
     }
+    public String getLevel(){
+        return battleField.getLevel();
+    }
 }

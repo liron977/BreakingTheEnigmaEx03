@@ -44,4 +44,14 @@ public void addAgent(AlliesAgent agent){
     public void setMissionSize(int missionSize) {
         this.missionSize = missionSize;
     }
+      public AlliesAgent getAgentByName(String agentName) {
+          for (AlliesAgent agent : alliesAgents) {
+              if (agent.getAgentName().equals(agentName)) {
+                  return agent;
+              }
+          }
+          return null;
+      }
+
+
 }

@@ -1,7 +1,7 @@
 package servlets;
 
 import engineManager.EngineManager;
-import managers.MediatorForEngineManager;
+import managers.uBoatEngine.MediatorForEngineManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;

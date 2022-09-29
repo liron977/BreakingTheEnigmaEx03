@@ -1,4 +1,4 @@
-package managers.users;
+package managers;
 
 import java.util.*;
 

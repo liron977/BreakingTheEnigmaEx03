@@ -3,21 +3,17 @@ package servlets;
 import com.google.gson.Gson;
 import constants.ParametersConstants;
 import engineManager.EngineManager;
-import managers.MediatorForEngineManager;
+import managers.uBoatEngine.MediatorForEngineManager;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
 import machineDTO.LimitedCodeConfigurationDTO;
 import machineDTO.FullCodeDescriptionDTO;
 import utils.ServletUtils;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 //@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)

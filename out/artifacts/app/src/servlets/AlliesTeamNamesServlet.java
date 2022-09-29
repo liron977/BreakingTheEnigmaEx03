@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import managers.users.UserManager;
+import managers.UserManager;
 import utils.ServletUtils;
 
 import java.io.IOException;

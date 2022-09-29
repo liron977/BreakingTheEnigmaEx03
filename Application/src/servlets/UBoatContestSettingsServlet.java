@@ -1,6 +1,5 @@
 package servlets;
 
-import bruteForce.AgentInfoDTO;
 import com.google.gson.Gson;
 import constants.ParametersConstants;
 import engineManager.EngineManager;
@@ -8,7 +7,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import managers.MediatorForEngineManager;
+import managers.uBoatEngine.MediatorForEngineManager;
 import managers.uBoatEngine.UBoatAvailableContestsManager;
 import utils.ServletUtils;
 

@@ -69,12 +69,10 @@ public class AlliesContestController {
             });
         } else {
             if (response.code() == 409) {
-                alert.setContentText("The contest " + selectedBattleField + "is full, please select another one");
+                alert.setContentText("The contest " + selectedBattleField + " is full, please select another one");
                 alert.getDialogPane().setExpanded(true);
                 alert.showAndWait();
-
             }
-
         }
     }
 
