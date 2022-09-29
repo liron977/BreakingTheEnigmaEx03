@@ -19,13 +19,14 @@ private int agentsAmount;
 public void addAgent(AlliesAgent agent){
     alliesAgents.add(agent);
 
+
 }
     public void setAgentsAmount(int agentsAmount) {
         this.agentsAmount = agentsAmount;
     }
 
     public int getAgentsAmount() {
-        return agentsAmount;
+        return alliesAgents.size();
     }
 
     public int getMissionSize() {

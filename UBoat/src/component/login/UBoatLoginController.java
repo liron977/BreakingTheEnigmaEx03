@@ -12,7 +12,6 @@ import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -46,7 +45,7 @@ public class UBoatLoginController {
     String userName;
 
     private final StringProperty errorMessageProperty;
-    private MainWindowUBoatController sController;
+    private MainWindowUBoatController mainWindowUBoatController;
     private Stage primaryStage;
     private Scene sControllerScene;
     private SimpleDoubleProperty amountOfThreadsProperty;
@@ -96,8 +95,9 @@ public class UBoatLoginController {
                     );
                 }
                 else {
-                    sController.setUserName(userName);
+                    mainWindowUBoatController.setUserName(userName);
                     Platform.runLater(() -> {
+                     /*   mainWindowUBoatController.updateAlliesTableView();*/
                         primaryStage.setScene(sControllerScene);
                         primaryStage.show();
                        // loadFileController.setMediator(mediator);
@@ -114,8 +114,8 @@ public class UBoatLoginController {
         fxmlLoader.setLocation(superScreenUrl);
         try {
             Parent root1 = fxmlLoader.load(superScreenUrl.openStream());
-           sController=fxmlLoader.getController();
-            sController.setPrimaryStage(primaryStage);
+           mainWindowUBoatController =fxmlLoader.getController();
+            mainWindowUBoatController.setPrimaryStage(primaryStage);
             primaryStage.setTitle("Enigma-UBoat");
             sControllerScene = new Scene(root1);
             primaryStage.setMinHeight(300f);
@@ -123,7 +123,7 @@ public class UBoatLoginController {
             sControllerScene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
             EngineManagerInterface engineManager=new EngineManager();
             Mediator mediator=new Mediator(engineManager);
-            sController.setMediator(mediator);
+            mainWindowUBoatController.setMediator(mediator);
 
         }
         catch (IOException ignore) {

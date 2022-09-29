@@ -20,6 +20,7 @@ public class Constants {
     public static final String UBOATS_CONTESTS_SETTINGS= "http://localhost:8080/app/UBoatContestSettingsServlet";
     public static final String REGISTER_ALLIES_TO_CONTEST= "http://localhost:8080/app/RegisterAlliesToContestServlet";
     public static final String ALLIES_LOGIN= "http://localhost:8080/app/AlliesLoginServlet";
+    public static final String DISPLAY_ALLIES_TEAMS_INFO= "http://localhost:8080/app/AlliesInfoServlet";
     public static final Gson GSON_INSTANCE = new Gson();
     public final static int REFRESH_RATE = 500;
 

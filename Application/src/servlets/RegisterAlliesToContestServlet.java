@@ -25,7 +25,7 @@ public class RegisterAlliesToContestServlet  extends HttpServlet {
         //MediatorForEngineManager mediatorForEngineManager=ServletUtils.getMediatorForEngineManager(getServletContext());
         AlliesManager alliesManager=ServletUtils.getAlliesManager(getServletContext());
         Allies allies=alliesManager.getAlliesByAlliesTeamName(alliesToRegister.getAlliesName());
-        allies.setMissionSize(allies.getMissionSize());
+        allies.setMissionSize(alliesToRegister.getMissionSize());
 
         String battleName = request.getParameter(ParametersConstants.BATTLE_FIELD);
         EngineManager engineManager = uBoatAvailableContestsManger.getEngineManagerByBattleFieldName(battleName);

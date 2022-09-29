@@ -107,6 +107,7 @@
         <servlet-name>RegisterAlliesToContestServlet</servlet-name>
         <url-pattern>/RegisterAlliesToContestServlet</url-pattern>
     </servlet-mapping>
+
 <servlet>
         <servlet-name>AlliesLoginServlet</servlet-name>
         <servlet-class>servlets.AlliesLoginServlet</servlet-class>
@@ -115,5 +116,15 @@
         <servlet-name>AlliesLoginServlet</servlet-name>
         <url-pattern>/AlliesLoginServlet</url-pattern>
     </servlet-mapping>
+
+   <servlet>
+        <servlet-name>AlliesInfoServlet</servlet-name>
+        <servlet-class>servlets.AlliesInfoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AlliesInfoServlet</servlet-name>
+        <url-pattern>/AlliesInfoServlet</url-pattern>
+    </servlet-mapping>
+
 
 </web-app>
