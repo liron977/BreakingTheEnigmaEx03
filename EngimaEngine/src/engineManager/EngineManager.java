@@ -1,5 +1,6 @@
 package engineManager;
 
+import bruteForce.AlliesDTO;
 import engine.theEnigmaEngine.*;
 import engine.validator.*;
 import historyAndStatistics.HistoryOfProcess;
@@ -933,5 +934,9 @@ public class EngineManager implements EngineManagerInterface,Serializable {
    }
    public void setConvertedStringInBattleField(String convertedString){
     this.battleField.setConvertedString(convertedString);
+   }
+   public boolean addAlliesToContest(AlliesDTO alliesDTO){
+        return battleField.addAllies(alliesDTO);
+
    }
 }

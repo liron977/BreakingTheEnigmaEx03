@@ -99,4 +99,13 @@
         <url-pattern>/UBoatContestSettingsServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>RegisterAlliesToContestServlet</servlet-name>
+        <servlet-class>servlets.RegisterAlliesToContestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterAlliesToContestServlet</servlet-name>
+        <url-pattern>/RegisterAlliesToContestServlet</url-pattern>
+    </servlet-mapping>
+
 </web-app>

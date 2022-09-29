@@ -13,9 +13,14 @@ public class UBoatAvailableContestsManager {
     public synchronized void addUBoatAvailableContest(EngineManager engineForNewUBoatAvailableContest,String battleFieldName) {
        this.uBoatAvailableContestsMap.put(battleFieldName,engineForNewUBoatAvailableContest);
     }
+    public EngineManager getEngineManagerByBattleFieldName(String battleFieldName){
+        return uBoatAvailableContestsMap.get(battleFieldName);
+
+    }
     public synchronized Map<String,EngineManager> getUBoatAvailableContestsMap() {
         return uBoatAvailableContestsMap;
     }
+
 /*    public boolean isUBoatContestsAvailable(MediatorForEngineManager newUBoatAvailableContest) {
         return uBoatAvailableContestsMap.contains(newUBoatAvailableContest) ;
     }*/

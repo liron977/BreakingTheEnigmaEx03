@@ -1,5 +1,10 @@
 package engine.theEnigmaEngine;
 
+import bruteForce.AlliesDTO;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class UBoatBattleField {
    private String battleName;
    private int alliesNeededTeamsAmount;
@@ -8,6 +13,8 @@ public class UBoatBattleField {
    private String contestStatus;
     private String uploadedBy;
     private String convertedString;
+    private List<Allies> alliesRegisteredToContest;
+
    public UBoatBattleField(String battleName, int alliesNeededTeamsAmount, String level){
        this.battleName=battleName;
        this.alliesNeededTeamsAmount=alliesNeededTeamsAmount;
@@ -15,6 +22,16 @@ public class UBoatBattleField {
        this.alliesActiveTeamsAmount=0;
        this.contestStatus="Wait..";
        this.convertedString="";
+       alliesRegisteredToContest=new ArrayList<>();
+   }
+   public boolean addAllies(AlliesDTO alliesDTO){
+       Allies newAllies=new Allies(alliesDTO.getMissionSize(),alliesDTO.getAlliesName());
+       if(alliesActiveTeamsAmount<alliesNeededTeamsAmount){
+           alliesRegisteredToContest.add(newAllies);
+           alliesActiveTeamsAmount++;
+           return true;
+       }
+       return false;
    }
    public void setUploadedBy(String uploadedBy){
        this.uploadedBy=uploadedBy;

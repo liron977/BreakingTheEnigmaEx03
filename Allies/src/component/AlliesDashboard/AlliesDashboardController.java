@@ -8,14 +8,13 @@ import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.Closeable;
@@ -63,6 +62,8 @@ private  List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoWithCheckBoxDTOLi
     @FXML
     private Button readyButton;
 
+    private  UBoatContestInfoWithCheckBoxDTO selectedContestDTO;
+@FXML
     private MainWindowAlliesController mainWindowAlliesController;
 
     AgentInfoDTO agentInfoDTO;
@@ -72,6 +73,7 @@ private  List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoWithCheckBoxDTOLi
     public void initialize(){
         isContestSelected=new SimpleBooleanProperty(true);
         readyButton.disableProperty().bind(isContestSelected);
+
 
     }
 
@@ -197,8 +199,11 @@ private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTable
             for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO: uBoatContestInfoDTOList) {
               checkBoxChangedListener(uBoatContestInfoWithCheckBoxDTO);
                 isDTDExistsInTableView=false;
+                int index=0;
                     for (UBoatContestInfoWithCheckBoxDTO TableViewUBoatContestDTO : contestsDataTableView.getItems()) {
+                        index++;
                         if (TableViewUBoatContestDTO.getBattleFieldName().equals(uBoatContestInfoWithCheckBoxDTO.getBattleFieldName())) {
+                            updateContestsDataTableViewRow(uBoatContestInfoWithCheckBoxDTO,index);
                             isDTDExistsInTableView = true;
                             break;
                         }
@@ -219,7 +224,18 @@ private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTable
             totalUBoatContestsAmount.set(uBoatContestInfoDTOList.size());
         });
     }
+private void updateContestsDataTableViewRow(UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO, int contestsDataTableViewRow ){
+    TableColumn statusTableColumn = contestsDataTableView.getColumns().get(3);
+    ObservableValue statusTableColumnObservableValue = statusTableColumn.getCellObservableValue(0);
+StringProperty statusStringProperty=(StringProperty) statusTableColumnObservableValue;
+        (statusStringProperty).set(uBoatContestInfoWithCheckBoxDTO.getContestStatus().getValue());
 
+    TableColumn activeAlliesTableColumn = contestsDataTableView.getColumns().get(6);
+    ObservableValue activeAlliesObservableValue = activeAlliesTableColumn.getCellObservableValue(0);
+
+    IntegerProperty activeAlliesStringProperty=(IntegerProperty) activeAlliesObservableValue;
+    (activeAlliesStringProperty).set(uBoatContestInfoWithCheckBoxDTO.getAmountOfActiveDecryptionTeams());
+}
 
     private void checkBoxChangedListener(UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO) {
 
@@ -246,10 +262,12 @@ private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTable
         for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTOFromListToNotDisabled : uBoatContestInfoWithCheckBoxDTOList) {
             uBoatContestInfoWithCheckBoxDTOFromListToNotDisabled.getSelectionContestColumn().setDisable(false);
         }
+        selectedContestDTO=null;
         isContestSelected.setValue(true);
     }
         private void checkboxWasSelected(UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO ){
     isContestSelected.setValue(false);
+            selectedContestDTO=uBoatContestInfoWithCheckBoxDTO;
         uBoatContestInfoWithCheckBoxDTOList=contestsDataTableView.getItems();
         uBoatContestInfoWithCheckBoxDTO.setSelected(true);
         for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTOFromList : uBoatContestInfoWithCheckBoxDTOList) {
@@ -275,7 +293,18 @@ private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTable
     }
     @FXML
     void readyButtonOnAction(ActionEvent event) {
-        mainWindowAlliesController.changeToContestTab();
+        if(selectedContestDTO!=null) {
+            mainWindowAlliesController.setSelectedBattleFieldName(selectedContestDTO.getBattleFieldName());
+            mainWindowAlliesController.changeToContestTab();
+        }
+
+    }
+
+    private void displayErrors(String text) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText(text);
+        alert.getDialogPane().setExpanded(true);
+        alert.showAndWait();
     }
 
 }
