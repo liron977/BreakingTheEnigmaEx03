@@ -75,7 +75,7 @@ public class AlliesLoginController {
         }
 
         String finalUrl = HttpUrl
-                .parse(Constants.LOGIN_PAGE)
+                .parse(Constants.ALLIES_LOGIN)
                 .newBuilder()
                 .addQueryParameter("username", alliesTeamName)
                 .addQueryParameter("role", "allies")
@@ -118,6 +118,8 @@ public class AlliesLoginController {
         });
 
     }
+
+
     private void loadSuperScreen(){
         FXMLLoader fxmlLoader = new FXMLLoader();
         URL superScreenUrl = getClass().getResource("/component/mainWindowAllies/MainWindowAllies.fxml");

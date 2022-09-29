@@ -75,12 +75,12 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>AlliesTeamServlet</servlet-name>
-        <servlet-class>servlets.AlliesTeamServlet</servlet-class>
+        <servlet-name>AlliesTeamNamesServlet</servlet-name>
+        <servlet-class>servlets.AlliesTeamNamesServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>AlliesTeamServlet</servlet-name>
-        <url-pattern>/AlliesTeamServlet</url-pattern>
+        <servlet-name>AlliesTeamNamesServlet</servlet-name>
+        <url-pattern>/AlliesTeamNamesServlet</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>UBoatContestsServlet</servlet-name>
@@ -106,6 +106,14 @@
     <servlet-mapping>
         <servlet-name>RegisterAlliesToContestServlet</servlet-name>
         <url-pattern>/RegisterAlliesToContestServlet</url-pattern>
+    </servlet-mapping>
+<servlet>
+        <servlet-name>AlliesLoginServlet</servlet-name>
+        <servlet-class>servlets.AlliesLoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AlliesLoginServlet</servlet-name>
+        <url-pattern>/AlliesLoginServlet</url-pattern>
     </servlet-mapping>
 
 </web-app>

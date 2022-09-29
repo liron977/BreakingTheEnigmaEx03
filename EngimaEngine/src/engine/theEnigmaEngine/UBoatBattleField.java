@@ -24,16 +24,38 @@ public class UBoatBattleField {
        this.convertedString="";
        alliesRegisteredToContest=new ArrayList<>();
    }
-   public boolean addAllies(AlliesDTO alliesDTO){
-       Allies newAllies=new Allies(alliesDTO.getMissionSize(),alliesDTO.getAlliesName());
+public boolean isAlliesExists(String alliesTeamName){
+    for (Allies allies:alliesRegisteredToContest) {
+        if(allies.getAlliesName().equals(alliesTeamName)){
+            return true;
+        }
+    }
+     return false;
+}
+    public void addAgentToAllies(AlliesAgent agent,String alliesTeamName){
+        for (Allies a:alliesRegisteredToContest) {
+            if(a.getAlliesName().equals(alliesTeamName)){
+                a.addAgent(agent);
+            }
+        }
+    }
+   public boolean addAllies(Allies allies){
+      // Allies newAllies=new Allies(alliesDTO.getAlliesName());
+       //newAllies.setMissionSize(alliesDTO.getMissionSize());
        if(alliesActiveTeamsAmount<alliesNeededTeamsAmount){
-           alliesRegisteredToContest.add(newAllies);
+           alliesRegisteredToContest.add(allies);
            alliesActiveTeamsAmount++;
            return true;
        }
        return false;
    }
-   public void setUploadedBy(String uploadedBy){
+
+
+    public List<Allies> getAlliesRegisteredToContest() {
+        return alliesRegisteredToContest;
+    }
+
+    public void setUploadedBy(String uploadedBy){
        this.uploadedBy=uploadedBy;
    }
     public String getLevel() {

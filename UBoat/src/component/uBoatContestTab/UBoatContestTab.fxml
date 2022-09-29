@@ -36,8 +36,9 @@
                      <content>
                         <TableView fx:id="activeTeamsDetailsTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="91.0" prefWidth="419.0">
                            <columns>
-                              <TableColumn prefWidth="75.0" text="C1" />
-                              <TableColumn prefWidth="75.0" text="C2" />
+                              <TableColumn fx:id="alliesTeamNameColumn" prefWidth="208.66678869724274" text="Allies Team" />
+                              <TableColumn fx:id="agentsAmountColumn" prefWidth="103.33322143554688" text="Agents Amount" />
+                              <TableColumn fx:id="missionSizeColumn" prefWidth="92.6666259765625" text="Mission Size" />
                            </columns>
                         </TableView>
                      </content>

@@ -935,8 +935,20 @@ public class EngineManager implements EngineManagerInterface,Serializable {
    public void setConvertedStringInBattleField(String convertedString){
     this.battleField.setConvertedString(convertedString);
    }
-   public boolean addAlliesToContest(AlliesDTO alliesDTO){
-        return battleField.addAllies(alliesDTO);
+   public boolean addAlliesToContest(Allies allies){
+        return battleField.addAllies(allies);
 
    }
+   public List<Allies> getRegisteredAlliesList(){
+      return  battleField.getAlliesRegisteredToContest();
+
+    }
+    public void addAgentToAllies(AlliesAgent alliesAgent,String alliesTeamName){
+        battleField.addAgentToAllies(alliesAgent,alliesTeamName);
+
+    }
+    public boolean isAlliesExists(String alliesTeamName){
+       return battleField.isAlliesExists(alliesTeamName);
+
+    }
 }

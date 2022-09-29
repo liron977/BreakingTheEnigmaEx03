@@ -1,14 +1,31 @@
 package engine.theEnigmaEngine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Allies {
 
    private String alliesName;
    private int missionSize;
-
-    public Allies(int missionSize, String alliesName){
+   private List<AlliesAgent> alliesAgents;
+private int agentsAmount;
+    public Allies( String alliesName){
         this.alliesName=alliesName;
-        this.missionSize=missionSize;
+        this.missionSize=0;
+        agentsAmount=0;
+        alliesAgents=new ArrayList<>();
 
+    }
+public void addAgent(AlliesAgent agent){
+    alliesAgents.add(agent);
+
+}
+    public void setAgentsAmount(int agentsAmount) {
+        this.agentsAmount = agentsAmount;
+    }
+
+    public int getAgentsAmount() {
+        return agentsAmount;
     }
 
     public int getMissionSize() {
