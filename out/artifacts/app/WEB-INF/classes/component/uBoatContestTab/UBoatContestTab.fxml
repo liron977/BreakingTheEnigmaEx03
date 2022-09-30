@@ -19,7 +19,7 @@
          <children>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Candidates" VBox.vgrow="ALWAYS" />
+                  <Label id="GeneralLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Candidates" VBox.vgrow="ALWAYS" />
                   <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="511.0" prefViewportHeight="240.0" prefViewportWidth="600.0" prefWidth="410.0" VBox.vgrow="ALWAYS">
                      <content>
                         <TableView fx:id="contestCandidatesTableView" maxHeight="1.7976931348623157E308" prefHeight="448.0" prefWidth="405.0">
@@ -78,7 +78,7 @@
                         <TextArea fx:id="convertedStringTextArea" editable="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="24.0" prefWidth="417.0" />
                      </content>
                   </ScrollPane>
-                  <Button fx:id="readyButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#readyButtonOnAction" text="Ready!">
+                  <Button id="saveSettingsButton" fx:id="readyButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#readyButtonOnAction" text="Ready!">
                      <VBox.margin>
                         <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
                      </VBox.margin></Button>

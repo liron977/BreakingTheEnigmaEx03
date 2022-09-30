@@ -27,7 +27,7 @@
                   <TableColumn fx:id="plugBoardColumn" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="91.99998982747394" text="PlugBoard" />
               </columns>
             </TableView>
-            <Label id="lighterLabel" fx:id="currentCodeConfigurationLabel" alignment="CENTER" contentDisplay="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
+            <Label id="codeConfigurationLabel" fx:id="currentCodeConfigurationLabel" alignment="CENTER" contentDisplay="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
          </children>
       </GridPane>
    </content>

@@ -41,6 +41,16 @@
     -fx-background-radius: 8, 7, 6;
     -fx-alignment: center;
 }
+#LoginTitle {
+    -fx-font-family: Verdana;
+    -fx-font-size: 16;
+    /*-fx-font-weight: bold;*/
+    -fx-text-fill: white;
+    -fx-background-color: #0f265e;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.9) , 4, 0.0 , 0 , 1 );
+    -fx-background-radius: 8, 7, 6;
+    -fx-alignment: center;
+}
 
 #dynamic .label {
     -fx-font-family: Verdana;
@@ -143,6 +153,31 @@
    /* -fx-font-weight: bold;*/
     -fx-text-fill: #0f265e;
     -fx-font-size: 14;
+    -fx-text-alignment: center;
+
+}
+
+#applicationTitleLabel{
+    -fx-font-family: Verdana;
+    /* -fx-font-weight: bold;*/
+    -fx-text-fill: #0f265e;
+    -fx-font-size: 22;
+    -fx-text-alignment: center;
+
+}
+#dashboardTable .table-view .column-header .label{
+    -fx-font-family: Verdana;
+    /* -fx-font-weight: bold;*/
+    -fx-text-fill: #3467bb;
+    -fx-font-size: 12;
+    -fx-text-alignment: center;
+
+}
+#codeConfigurationLabel{
+    -fx-font-family: Verdana;
+    /* -fx-font-weight: bold;*/
+    -fx-text-fill: #0f265e;
+    -fx-font-size: 12;
     -fx-text-alignment: center;
 
 }

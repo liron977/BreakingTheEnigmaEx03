@@ -12,14 +12,14 @@
    <content>
       <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="219.0" prefWidth="599.0" spacing="10.0">
          <children>
-            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Allies Login" VBox.vgrow="ALWAYS">
+            <Label id="LoginTitle" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Allies Login" VBox.vgrow="ALWAYS">
                <VBox.margin>
-                  <Insets bottom="25.0" top="10.0" />
+                  <Insets bottom="25.0" left="150.0" right="150.0" top="10.0" />
                </VBox.margin>
             </Label>
             <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="20.0">
                <children>
-                  <Label minHeight="-Infinity" minWidth="-Infinity" text="User Name:" />
+                  <Label id="lighterLabel" minHeight="-Infinity" minWidth="-Infinity" text="User Name:" />
                   <TextField fx:id="uBoatNameTextField" maxWidth="1.7976931348623157E308" prefHeight="37.0" prefWidth="316.0" HBox.hgrow="ALWAYS" />
                </children>
                <VBox.margin>
@@ -30,7 +30,7 @@
                </padding>
             </HBox>
             <Label fx:id="loginErrorLabel" alignment="CENTER" />
-            <Button fx:id="loginButton" alignment="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="50.0" prefWidth="95.0" text="Login">
+            <Button id="saveSettingsButton" fx:id="loginButton" alignment="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="50.0" prefWidth="95.0" text="Login">
                <VBox.margin>
                   <Insets bottom="15.0" left="150.0" right="150.0" />
                </VBox.margin></Button>
