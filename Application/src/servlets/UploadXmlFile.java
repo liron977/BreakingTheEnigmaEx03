@@ -1,6 +1,7 @@
 package servlets;
 
 import engineManager.EngineManager;
+import javafx.beans.property.BooleanProperty;
 import managers.uBoatEngine.MediatorForEngineManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -21,8 +22,12 @@ public class UploadXmlFile extends HttpServlet {
         Part xmlFile = request.getParts().stream().findFirst().get();
        PrintWriter out = response.getWriter();
         try {
-            checkIfXmlFileIsValidAndIfValidAddMachine(out,xmlFile.getInputStream(),xmlFile.getName());
-            response.setStatus(HttpServletResponse.SC_OK);
+            if(checkIfXmlFileIsValidAndIfValidAddMachine(out,xmlFile.getInputStream(),xmlFile.getName())) {
+                response.setStatus(HttpServletResponse.SC_OK);
+            }
+            else {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
         }
         catch (Exception e){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -31,7 +36,7 @@ public class UploadXmlFile extends HttpServlet {
         }
     }
 
-    private void checkIfXmlFileIsValidAndIfValidAddMachine(PrintWriter out,InputStream inputStream, String userName) throws Exception {
+    private Boolean checkIfXmlFileIsValidAndIfValidAddMachine(PrintWriter out, InputStream inputStream, String userName) throws Exception {
         EngineManager engineManager = new EngineManager();
         //engineManager.setUploadedBy(userName);
         ListOfExceptionsDTO listOfExceptionsDTO=engineManager.loadFileByInputStream(inputStream,userName);
@@ -50,6 +55,8 @@ public class UploadXmlFile extends HttpServlet {
             for (Exception exception : listOfExceptionsDTO.getListOfException()) {
                 out.println(exception.getMessage());
             }
+            return false;
         }
+        return true;
     }
 }
