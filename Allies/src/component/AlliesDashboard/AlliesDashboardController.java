@@ -187,6 +187,7 @@ private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTable
             ObservableList<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOListTemp = FXCollections.observableArrayList();;
             for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO: uBoatContestInfoDTOList) {
                 flag=false;
+                {
                     for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO1 : contestsDataTableView.getItems()) {
                         if (uBoatContestInfoWithCheckBoxDTO1.getBattleFieldName().equals(uBoatContestInfoWithCheckBoxDTO.getBattleFieldName())) {
                             flag = true;
@@ -197,6 +198,7 @@ private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTable
                         uBoatContestInfoDTOListTemp.addAll(getUBoatContestInfoTableViewDTOList(uBoatContestInfoWithCheckBoxDTO));
                         contestsDataTableView.getItems().add(uBoatContestInfoWithCheckBoxDTO);
                     }
+                }
             }
 //            for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO: contestsDataTableView.getItems()) {
 //                if (!uBoatContestInfoDTOList.contains(uBoatContestInfoWithCheckBoxDTO)) {
