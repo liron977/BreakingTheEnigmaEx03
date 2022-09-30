@@ -1,6 +1,6 @@
 package servlets;
 
-import managers.users.UserManager;
+import managers.UserManager;
 import constants.ParametersConstants;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,8 +11,6 @@ import utils.SessionUtils;
 import java.io.IOException;
 
 public class LoginServlet extends HttpServlet {
-
-
     @Override protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/plain;charset=UTF-8");
         String usernameFromSession = SessionUtils.getUsername(request);//check if the user exists- returns null if not

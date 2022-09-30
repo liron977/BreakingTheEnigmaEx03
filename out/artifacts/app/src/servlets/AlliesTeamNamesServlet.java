@@ -4,14 +4,14 @@ import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import managers.users.UserManager;
+import managers.UserManager;
 import utils.ServletUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
-public class AlliesTeamServlet  extends HttpServlet {
+public class AlliesTeamNamesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try (PrintWriter out = response.getWriter()) {

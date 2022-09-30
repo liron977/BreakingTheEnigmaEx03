@@ -4,16 +4,12 @@ import bruteForce.DecryptionInfoDTO;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import constants.ParametersConstants;
-import engineManager.EngineManager;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import machineDTO.LimitedCodeConfigurationDTO;
 import managers.BruteForceResultsInfoManager;
-import managers.MediatorForEngineManager;
 import utils.ServletUtils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;

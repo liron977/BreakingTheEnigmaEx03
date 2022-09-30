@@ -66,9 +66,8 @@ public class AgentLoginController {
     private void collectDataFromLoginForm(){
         selectedAlliesTeamName=alliesTeamComboBox.getValue();
         agentName=agentNameTextField.getText();
-        missionAmount=Integer.parseInt(missionAmountTextFiled.getText());
+       // missionAmount=Integer.parseInt(missionAmountTextFiled.getText());
         threadsAmount=(int) threadsAmountSlider.getValue();
-         agentInfoDTO=new AgentInfoDTO(agentName,threadsAmount,missionAmount,selectedAlliesTeamName);
     }
     public void startListRefresher() {
         alliesTeamsRefresher = new AlliesTeamsRefresher(
@@ -96,42 +95,41 @@ public class AgentLoginController {
 
     @FXML private void loginButtonClicked(ActionEvent event) {
      collectDataFromLoginForm();
-        String finalUrl =HttpUrl
-                .parse(Constants.LOGIN_PAGE)
-                .newBuilder()
-                .addQueryParameter("username", agentName)
-                .addQueryParameter("role", "agent")
-                .build()
-                .toString();
+     boolean dataIsValid=isDataValid();
+     boolean dataIsEmpty=isDataEmpty();
+     if(dataIsValid && !dataIsEmpty){
+         agentInfoDTO=new AgentInfoDTO(agentName,threadsAmount,missionAmount,selectedAlliesTeamName);
+         executeLogin();
+     }
+    }
+    private boolean isDataEmpty() {
+        boolean dataIsEmpty=false;
+        if(agentName.isEmpty()){
+            displayErrors("Please enter user name.");
+            dataIsEmpty=true;
+        }
+        if(selectedAlliesTeamName==null){
+            displayErrors("Please choose allies team.");
+            dataIsEmpty=true;
 
-        HttpClientUtil.runAsync(finalUrl, new Callback() {
+        }
+        return dataIsEmpty;
 
-
-            @Override public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Platform.runLater(() ->
-                        errorMessageProperty.set("Something went wrong: " + e.getMessage())
-                );
-            }
-
-            @Override public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.code() != 200) {
-                    String responseBody = response.body().string();
-                    Platform.runLater(() ->
-                            errorMessageProperty.set("Something went wrong: " + responseBody)
-                    );
-                }
-                else {
-
-                    //mainWindowAlliesController.setAlliesTeamName(alliesTeamName);
-                    Platform.runLater(() -> {
-                        addAgentToAlliesTeam();
-                        primaryStage.setScene(mainWindowAlliesControllerScene);
-                        primaryStage.show();
-                    });
-                }
-                Objects.requireNonNull(response.body()).close();
-            }
-        });
+    }
+    private boolean isDataValid(){
+        boolean isMissionsAmountValid=true;
+        try {
+            missionAmount = Integer.parseInt(missionAmountTextFiled.getText());
+        }
+        catch (Exception e){
+            displayErrors("The mission amount should be a number.\n Please insert positive number.");
+            isMissionsAmountValid=false;
+        }
+        if(missionAmount<=0&&isMissionsAmountValid){
+            displayErrors("The mission amount should be positive.\n Please insert positive number.");
+            isMissionsAmountValid=false;
+        }
+        return isMissionsAmountValid;
     }
     private void addAgentToAlliesTeam(){
         String agentInfoDTOGson = Constants.GSON_INSTANCE.toJson(agentInfoDTO);
@@ -173,6 +171,43 @@ public class AgentLoginController {
         } catch (IOException e) {
         }
     }
+
+    public void executeLogin(){
+        String finalUrl =HttpUrl
+                .parse(Constants.LOGIN_PAGE)
+                .newBuilder()
+                .addQueryParameter("username", agentName)
+                .addQueryParameter("role", "agent")
+                .build()
+                .toString();
+
+        HttpClientUtil.runAsync(finalUrl, new Callback() {
+            @Override public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Platform.runLater(() ->
+                        errorMessageProperty.set("Something went wrong: " + e.getMessage())
+                );
+            }
+
+            @Override public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.code() != 200) {
+                    String responseBody = response.body().string();
+                    Platform.runLater(() ->
+                            errorMessageProperty.set("Something went wrong: " + responseBody)
+                    );
+                }
+                else {
+
+                    //mainWindowAlliesController.setAlliesTeamName(alliesTeamName);
+                    Platform.runLater(() -> {
+                        addAgentToAlliesTeam();
+                        primaryStage.setScene(mainWindowAlliesControllerScene);
+                        primaryStage.show();
+                    });
+                }
+                Objects.requireNonNull(response.body()).close();
+            }
+        });
+    }
     public void setPrimaryStageAndLoadInTheBackgroundSuperScreen(Stage primaryStageIn){
         primaryStage=primaryStageIn;
         loadSuperScreen();
@@ -195,5 +230,11 @@ public class AgentLoginController {
             ignore.printStackTrace();} catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+    private void displayErrors(String text) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText(text);
+        alert.getDialogPane().setExpanded(true);
+        alert.showAndWait();
     }
 }

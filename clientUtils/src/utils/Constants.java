@@ -15,9 +15,12 @@ public class Constants {
     public static final String GET_DICTIONARY= "http://localhost:8080/app/GetDictionaryServlet";
     public static final String ENCRYPT= "http://localhost:8080/app/EncryptServlet";
     public static final String AGENTS_INFO_TABLE_VIEW= "http://localhost:8080/app/AgentsInfoServlet";
-    public static final String ALLIES_TEAM_NAMES= "http://localhost:8080/app/AlliesTeamServlet";
+    public static final String ALLIES_TEAM_NAMES= "http://localhost:8080/app/AlliesTeamNamesServlet";
     public static final String UBOATS_CONTESTS_INFO= "http://localhost:8080/app/UBoatContestsServlet";
     public static final String UBOATS_CONTESTS_SETTINGS= "http://localhost:8080/app/UBoatContestSettingsServlet";
+    public static final String REGISTER_ALLIES_TO_CONTEST= "http://localhost:8080/app/RegisterAlliesToContestServlet";
+    public static final String ALLIES_LOGIN= "http://localhost:8080/app/AlliesLoginServlet";
+    public static final String DISPLAY_ALLIES_TEAMS_INFO= "http://localhost:8080/app/AlliesInfoServlet";
     public static final Gson GSON_INSTANCE = new Gson();
     public final static int REFRESH_RATE = 500;
 

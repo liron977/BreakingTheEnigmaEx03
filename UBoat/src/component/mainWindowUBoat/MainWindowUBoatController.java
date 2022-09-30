@@ -153,6 +153,7 @@ public void setTheMachineSettingsDTO(TheMachineSettingsDTO theMachineSettingsDTO
 
                 contestTabController.initDisplayConfiguration();
                 contestTabController.initValues();
+                updateAlliesTableView();
 
     }
 
@@ -169,4 +170,8 @@ public void setTheMachineSettingsDTO(TheMachineSettingsDTO theMachineSettingsDTO
    /*     public BruteForceResultsTabController getBruteForceResultsTabController(){
             return bruteForceTabPaneController.getBruteForceResultsTabController();
         }*/
+
+    public void updateAlliesTableView(){
+        contestTabController.startAlliesInfoTableViewRefresher();
+    }
     }

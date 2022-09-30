@@ -1,36 +1,37 @@
 package component.uBoatContestTab;
 
+import bruteForce.AlliesDTO;
 import bruteForce.BruteForceSettingsDTO;
 import com.google.gson.Gson;
 import component.mainWindowUBoat.MainWindowUBoatController;
 import component.uBoatMachineTab.machineTab.CurrentConfigurationTableViewController;
-import engine.theEnigmaEngine.Pair;
-import engine.theEnigmaEngine.PlugsBoard;
 import engineManager.EngineManager;
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import machineDTO.ConvertedStringProcessDTO;
-import machineDTO.LimitedCodeConfigurationDTO;
 import okhttp3.*;
 import uiMediator.Mediator;
 import utils.Constants;
 import utils.EventsHandler;
 import utils.http.HttpClientUtil;
 
+import java.io.Closeable;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EventObject;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
-public class UBoatContestTabController implements EventsHandler {
+import static utils.Constants.REFRESH_RATE;
+
+public class UBoatContestTabController implements EventsHandler, Closeable {
 
     @FXML
     private ListView<String> listView;
@@ -53,6 +54,17 @@ public class UBoatContestTabController implements EventsHandler {
     private Button decryptButton;
     @FXML
     private Button readyButton;
+    @FXML
+    private TableView<AlliesDTO> activeTeamsDetailsTableView;
+    @FXML
+    private TableColumn<AlliesDTO, String> missionSizeColumn;
+    @FXML
+    private TableColumn<AlliesDTO, String> agentsAmountColumn;
+    @FXML
+    private TableColumn<AlliesDTO, String> alliesTeamNameColumn;
+
+    private Timer timer;
+
     /* @FXML
      private Label amountOfMissions;
    */  /*@FXML
@@ -87,6 +99,9 @@ public class UBoatContestTabController implements EventsHandler {
     public SimpleBooleanProperty isBruteForceSettingDefined;
     private List<EventsHandler> handlers = new ArrayList<>();
     ConvertedStringProcessDTO convertedStringProcessDTO;
+    private IntegerProperty totalAlliesRegisteredTeamsAmount;
+    private TimerTask alliesRegisteredTeamsRefresher;
+    private  SimpleBooleanProperty autoUpdate;
 
     public UBoatContestTabController() {
         alert = new Alert(Alert.AlertType.ERROR);
@@ -99,6 +114,8 @@ public class UBoatContestTabController implements EventsHandler {
         this.isMissionSizeIsValid = true;
         this.isConvertedStringIsLegal = true;
         this.isBruteForceSettingDefined = new SimpleBooleanProperty(false);
+        totalAlliesRegisteredTeamsAmount=new SimpleIntegerProperty(0);
+        autoUpdate=new SimpleBooleanProperty(true);
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 searchTextFieldOnListener();
@@ -632,5 +649,52 @@ public class UBoatContestTabController implements EventsHandler {
         } catch (IOException e) {
         }
 
+    }
+
+    private ObservableList<AlliesDTO> getTeamsAgentsDataTableViewDTOList(List<AlliesDTO> alliesDTO) {
+
+        ObservableList<AlliesDTO> alliesDTOList;
+        alliesDTOList = FXCollections.observableArrayList(alliesDTO);
+        alliesTeamNameColumn.setCellValueFactory(
+                new PropertyValueFactory<>("alliesName")
+        );
+        agentsAmountColumn.setCellValueFactory(
+                new PropertyValueFactory<>("agentsAmount")
+        );
+        missionSizeColumn.setCellValueFactory(
+                new PropertyValueFactory<>("missionSize")
+        );
+
+        return alliesDTOList;
+    }
+
+    @Override
+    public void close() throws IOException {
+        activeTeamsDetailsTableView.getItems().clear();
+        totalAlliesRegisteredTeamsAmount.set(0);
+        if (alliesRegisteredTeamsRefresher != null && timer != null) {
+            alliesRegisteredTeamsRefresher.cancel();
+            timer.cancel();
+        }
+    }
+    private void updateRegisteredAlliesInfoList(List<AlliesDTO> alliesInfoDTOList) {
+        Platform.runLater(() -> {
+            ObservableList<AlliesDTO> alliesDTOObservableList =getTeamsAgentsDataTableViewDTOList(alliesInfoDTOList);
+            createAlliesInfoDTOTableView(alliesDTOObservableList);
+            totalAlliesRegisteredTeamsAmount.set(alliesInfoDTOList.size());
+        });
+    }
+    private void createAlliesInfoDTOTableView(ObservableList<AlliesDTO> alliesInfoDTOList ) {
+        activeTeamsDetailsTableView.setItems(alliesInfoDTOList);
+        activeTeamsDetailsTableView.getColumns().clear();
+        activeTeamsDetailsTableView.getColumns().addAll(alliesTeamNameColumn, agentsAmountColumn, missionSizeColumn);
+    }
+    public void startAlliesInfoTableViewRefresher() {
+        alliesRegisteredTeamsRefresher = new AlliesRegisteredTeamsInfoTablesViewRefresher(
+                this::updateRegisteredAlliesInfoList,
+                autoUpdate,
+                battleName);
+        timer = new Timer();
+        timer.schedule(alliesRegisteredTeamsRefresher, REFRESH_RATE, REFRESH_RATE);
     }
 }

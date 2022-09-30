@@ -1,10 +1,11 @@
 package utils;
 
-import managers.AgentsManager;
+import managers.agent.AgentsManager;
 import managers.BruteForceResultsInfoManager;
+import managers.uBoatEngine.AlliesManager;
 import managers.uBoatEngine.UBoatAvailableContestsManager;
-import managers.users.UserManager;
-import managers.MediatorForEngineManager;
+import managers.UserManager;
+import managers.uBoatEngine.MediatorForEngineManager;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -17,6 +18,7 @@ public class ServletUtils {
     private static final String MEDIATORS_MANAGER_ATTRIBUTE_NAME = "MediatorForEngineManager";
     private static final String BRUTE_FORCE_RESULTS_MANAGER_ATTRIBUTE_NAME = "bruteForceResultsInfoManager";
     private static final String AGENTS_INFO_MANAGER_ATTRIBUTE_NAME = "agentsInfoManager";
+    private static final String ALLIES_MANAGER_ATTRIBUTE_NAME = "alliesManager";
     private static final String UBOAT_AVAILABLE_CONTESTS_ATTRIBUTE_NAME = "uBoatAvailableContests";
 
     /*
@@ -29,6 +31,7 @@ public class ServletUtils {
     private static final Object mediatorsManagerLock = new Object();
     private static final Object agentManagerLock = new Object();
     private static final Object uBoatAvailableContestsLock = new Object();
+    private static final Object alliesManagerLock = new Object();
     public static UserManager getUserManager(ServletContext servletContext) {
 
         synchronized (userManagerLock) {
@@ -37,6 +40,15 @@ public class ServletUtils {
             }
         }
         return (UserManager) servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);
+    }
+    public static AlliesManager getAlliesManager(ServletContext servletContext) {
+
+        synchronized (alliesManagerLock) {
+            if (servletContext.getAttribute(ALLIES_MANAGER_ATTRIBUTE_NAME) == null) {
+                servletContext.setAttribute(ALLIES_MANAGER_ATTRIBUTE_NAME, new AlliesManager());
+            }
+        }
+        return (AlliesManager) servletContext.getAttribute(ALLIES_MANAGER_ATTRIBUTE_NAME);
     }
 
     public static AgentsManager getAgentManager(ServletContext servletContext) {

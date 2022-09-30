@@ -1,4 +1,4 @@
-package managers;
+package managers.agent;
 
 import bruteForce.AgentInfoDTO;
 import bruteForce.DecryptionInfoDTO;

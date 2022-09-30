@@ -1,48 +1,64 @@
 package bruteForce;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.CheckBox;
 
 public class UBoatContestInfoWithCheckBoxDTO {
-    private String battleFieldName;
-    private String uBoatUserName;
-    private String contestStatus;
-    private String contestLevel;
-    private int amountOfNeededDecryptionTeams;
-    private int amountOfActiveDecryptionTeams;
+    private StringProperty battleFieldName;
+    private StringProperty uBoatUserName;
+    private final StringProperty contestStatus;
+    private StringProperty contestLevel;
+    private IntegerProperty amountOfNeededDecryptionTeams;
+    private IntegerProperty amountOfActiveDecryptionTeams;
     private CheckBox selectionContestColumn;
     private Boolean isSelected;
 
     public UBoatContestInfoWithCheckBoxDTO(UBoatContestInfoWithoutCheckBoxDTO uBoatContestInfoWithoutCheckBoxDTO){
-        this.battleFieldName=uBoatContestInfoWithoutCheckBoxDTO.getBattleFieldName();
-        this.uBoatUserName=uBoatContestInfoWithoutCheckBoxDTO.getUBoatUserName();
-        this.contestStatus=uBoatContestInfoWithoutCheckBoxDTO.getContestStatus();
-        this.contestLevel=uBoatContestInfoWithoutCheckBoxDTO.getContestLevel();
-        this.amountOfNeededDecryptionTeams=uBoatContestInfoWithoutCheckBoxDTO.getAmountOfNeededDecryptionTeams();
-        this.amountOfActiveDecryptionTeams=uBoatContestInfoWithoutCheckBoxDTO.getAmountOfActiveDecryptionTeams();
+        this.battleFieldName=new SimpleStringProperty(uBoatContestInfoWithoutCheckBoxDTO.getBattleFieldName());
+        this.uBoatUserName=new SimpleStringProperty(uBoatContestInfoWithoutCheckBoxDTO.getUBoatUserName());
+        this.contestStatus=new SimpleStringProperty(uBoatContestInfoWithoutCheckBoxDTO.getContestStatus());
+        this.contestLevel=new SimpleStringProperty(uBoatContestInfoWithoutCheckBoxDTO.getContestLevel());
+        this.amountOfNeededDecryptionTeams=new SimpleIntegerProperty(uBoatContestInfoWithoutCheckBoxDTO.getAmountOfNeededDecryptionTeams());
+        this.amountOfActiveDecryptionTeams=new SimpleIntegerProperty(uBoatContestInfoWithoutCheckBoxDTO.getAmountOfActiveDecryptionTeams());
         this.selectionContestColumn = new CheckBox();
+        this.isSelected=false;
     }
 
     public int getAmountOfActiveDecryptionTeams() {
-        return amountOfActiveDecryptionTeams;
+        return amountOfActiveDecryptionTeams.getValue();
     }
 
     public String getBattleFieldName() {
-        return battleFieldName;
+        return battleFieldName.getValue();
     }
 
     public String getContestLevel() {
-        return contestLevel;
+        return contestLevel.getValue();
     }
 
     public String getUBoatUserName() {
-        return uBoatUserName;
+        return uBoatUserName.getValue();
     }
 
-    public String getContestStatus() {
+    public final StringProperty getContestStatus() {
         return contestStatus;
     }
+
+
+    public final StringProperty contestStatusProperty() {
+        return contestStatus;
+    }
+    public final IntegerProperty amountOfActiveDecryptionTeamsProperty() {
+        return amountOfActiveDecryptionTeams;
+    }
     public int getAmountOfNeededDecryptionTeams() {
-        return amountOfNeededDecryptionTeams;
+        return amountOfNeededDecryptionTeams.getValue();
     }
    public CheckBox getSelectionContestColumn() {
         return this.selectionContestColumn;

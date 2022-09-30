@@ -1,21 +1,19 @@
 package servlets;
 
 import bruteForce.AgentInfoDTO;
-import bruteForce.DecryptionInfoDTO;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import constants.ParametersConstants;
+import engine.theEnigmaEngine.AlliesAgent;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import managers.AgentsManager;
-import managers.BruteForceResultsInfoManager;
-import managers.users.UserManager;
+import managers.agent.AgentsManager;
+import managers.uBoatEngine.AlliesManager;
+import managers.UserManager;
 import utils.ServletUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,10 +43,12 @@ public class AgentsInfoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         AgentsManager agentManager = ServletUtils.getAgentManager(getServletContext());
         UserManager userManager=ServletUtils.getUserManager(getServletContext());
-
-        String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
+        AlliesManager alliesManager=ServletUtils.getAlliesManager(getServletContext());
+       String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
         Gson gson= new Gson();
         AgentInfoDTO dtoFromGson=gson.fromJson(request.getReader(),AgentInfoDTO.class);
+        AlliesAgent alliesAgent=new AlliesAgent(dtoFromGson.getAgentName(),dtoFromGson.getThreadsAmount(), dtoFromGson.getMissionsAmount(), dtoFromGson.getAlliesTeamName());
+        alliesManager.addAgentToAllies(alliesAgent,theAlliesTeamName);
 
         if(userManager.isUserExists(dtoFromGson.getAgentName())){
             agentManager.addAgentInfoDTOList(theAlliesTeamName,dtoFromGson);
@@ -59,6 +59,9 @@ public class AgentsInfoServlet extends HttpServlet {
     private List<AgentInfoDTO> getAgentIndoDTOListByTheAlliesTeamName( Map<String, List<AgentInfoDTO>> agentsInfoManagerMap, String theAlliesTeamName){
         List<AgentInfoDTO> agentInfoDTOList=new ArrayList<>();
         agentInfoDTOList= agentsInfoManagerMap.get(theAlliesTeamName);
+        if(agentInfoDTOList==null){
+            agentInfoDTOList=new ArrayList<>();
+        }
         return agentInfoDTOList;
     }
 
