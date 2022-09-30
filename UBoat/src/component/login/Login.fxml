@@ -10,21 +10,27 @@
 
 <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="217.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.login.UBoatLoginController">
    <content>
-      <VBox alignment="CENTER" prefHeight="215.0" prefWidth="527.0" spacing="10.0">
+      <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="215.0" prefWidth="527.0" spacing="10.0">
          <children>
-            <Label text="UBoat Login">
+            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="UBoat Login" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets bottom="25.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <HBox alignment="CENTER" spacing="20.0">
+            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="20.0">
                <children>
                   <Label text="User Name:" />
-                  <TextField fx:id="uBoatNameTextField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="37.0" prefWidth="300.0" />
+                  <TextField fx:id="uBoatNameTextField" maxWidth="1.7976931348623157E308" prefHeight="37.0" prefWidth="300.0" HBox.hgrow="ALWAYS" />
                </children>
+               <padding>
+                  <Insets left="15.0" right="15.0" />
+               </padding>
             </HBox>
-            <Label fx:id="loginErrorLabel" />
-            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="50.0" prefWidth="95.0" text="Login" />
+            <Label fx:id="loginErrorLabel" alignment="CENTER" />
+            <Button fx:id="loginButton" alignment="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="50.0" prefWidth="95.0" text="Login">
+               <VBox.margin>
+                  <Insets bottom="15.0" left="150.0" right="150.0" />
+               </VBox.margin></Button>
          </children>
       </VBox>
    </content>

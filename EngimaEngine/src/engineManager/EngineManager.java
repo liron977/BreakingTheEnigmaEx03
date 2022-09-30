@@ -911,20 +911,25 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         Validator xmlRotorValidator = new XmlRotorValidator((cteEnigma));
         Validator xmlKeyboardValidator = new XmlKeyboardValidator(cteEnigma);
         Validator xmlDictionaryValidator = new XmlDictionaryValidator(cteEnigma);
+        Validator xmlBattlefieldValidator =new XmlBattlefieldValidator(cteEnigma);
         List<Validator> validators = new ArrayList<>();
         validators.add(xmlKeyboardValidator);
         validators.add(xmlReflectorValidator);
         validators.add((xmlRotorValidator));
-        //validators.add(xmlAgentsValidator);
         validators.add(xmlDictionaryValidator);
+        validators.add(xmlBattlefieldValidator);
         ValidatorRunner validatorRunner = new ValidatorRunner(validators);
         List<Exception> exceptions = validatorRunner.run();
         return exceptions;
     }
-    private CTEEnigma deserializeFrom(InputStream in) throws JAXBException {
-        JAXBContext jc = JAXBContext.newInstance("schemaGenerated");
-        Unmarshaller u = jc.createUnmarshaller();
-        return (CTEEnigma)u.unmarshal(in);
+    private CTEEnigma deserializeFrom(InputStream in) throws Exception {
+        try {
+            JAXBContext jc = JAXBContext.newInstance("schemaGenerated");
+            Unmarshaller u = jc.createUnmarshaller();
+            return (CTEEnigma) u.unmarshal(in);
+        } catch (JAXBException e) {
+            throw new Exception("The file is not valid,please enter other file");
+        }
     }
     public String getBattleName() {
         return this.theMachineEngine.getBattleFieldName();

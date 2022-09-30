@@ -23,12 +23,12 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
                <bottom>
-                  <HBox id="presentInfoSection" fx:id="bottomHbox" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="333.0" prefWidth="879.0" spacing="5.0" BorderPane.alignment="TOP_CENTER">
+                  <HBox id="presentInfoSection" fx:id="bottomHbox" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="333.0" prefWidth="879.0" spacing="5.0">
                      <children>
                         <fx:include fx:id="setCodeConfiguration" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" source="machineTab/SetCodeConfigurations.fxml" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="50.0" />
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                      <BorderPane.margin>
                         <Insets bottom="5.0" left="5.0" right="35.0" top="5.0" />
@@ -36,7 +36,7 @@
                   </HBox>
                </bottom>
                <top>
-                  <GridPane prefHeight="163.0" prefWidth="890.0" BorderPane.alignment="BOTTOM_CENTER">
+                  <GridPane maxWidth="1.7976931348623157E308" prefHeight="163.0" prefWidth="890.0" BorderPane.alignment="BOTTOM_CENTER">
                     <columnConstraints>
                       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
@@ -46,6 +46,9 @@
                      <children>
                         <fx:include fx:id="machineDetails" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" source="machineTab/machineDetails.fxml" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
                      </children>
+                     <BorderPane.margin>
+                        <Insets bottom="50.0" />
+                     </BorderPane.margin>
                   </GridPane>
                </top>
 
