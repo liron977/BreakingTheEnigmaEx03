@@ -19,7 +19,7 @@
             </Label>
             <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="20.0">
                <children>
-                  <Label text="User Name:" />
+                  <Label minWidth="-Infinity" text="User Name:" />
                   <TextField fx:id="uBoatNameTextField" maxWidth="1.7976931348623157E308" prefHeight="37.0" prefWidth="300.0" HBox.hgrow="ALWAYS" />
                </children>
                <padding>

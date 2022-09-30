@@ -90,7 +90,6 @@ public class MachineDetailsController implements EventsHandler {
                         TheMachineSettingsDTO theMachineSettingsDTOFromGson =Constants.GSON_INSTANCE.fromJson(response.body().string(),TheMachineSettingsDTO.class);
                         theMachineSettingsDTO=theMachineSettingsDTOFromGson;
 
-                        System.out.println("amount "+theMachineSettingsDTO.getMaxAmountOfRotors());
                     }
                     catch (IOException ignore){}
                     Platform.runLater(() -> {

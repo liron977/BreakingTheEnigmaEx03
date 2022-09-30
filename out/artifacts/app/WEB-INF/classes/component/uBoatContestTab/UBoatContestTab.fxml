@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
@@ -12,64 +13,79 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.uBoatContestTab.UBoatContestTabController">
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="493.0" prefWidth="852.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.uBoatContestTab.UBoatContestTabController">
    <content>
-      <HBox prefHeight="477.0" prefWidth="830.0">
+      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="477.0" prefWidth="830.0" spacing="5.0">
          <children>
-            <VBox>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
                <children>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="511.0" prefViewportHeight="240.0" prefViewportWidth="600.0" prefWidth="410.0">
+                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Candidates" VBox.vgrow="ALWAYS" />
+                  <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="511.0" prefViewportHeight="240.0" prefViewportWidth="600.0" prefWidth="410.0" VBox.vgrow="ALWAYS">
                      <content>
-                        <TableView fx:id="contestCandidatesTableView" prefHeight="406.0" prefWidth="407.0">
+                        <TableView fx:id="contestCandidatesTableView" maxHeight="1.7976931348623157E308" prefHeight="448.0" prefWidth="405.0">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="C1" />
-                            <TableColumn prefWidth="75.0" text="C2" />
+                            <TableColumn maxWidth="1.7976931348623157E308" prefWidth="109.99999749660492" text="String" />
+                            <TableColumn maxWidth="1.7976931348623157E308" prefWidth="131.3333511352539" text="Allies Team Name" />
+                              <TableColumn maxWidth="1.7976931348623157E308" prefWidth="164.66661071777344" text="Code Configuration" />
                           </columns>
+                           <padding>
+                              <Insets bottom="10.0" />
+                           </padding>
                         </TableView>
                      </content>
                   </ScrollPane>
                </children>
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </HBox.margin>
             </VBox>
-            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="477.0" prefWidth="421.0">
+            <Separator orientation="VERTICAL" prefHeight="200.0" />
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="477.0" prefWidth="421.0" spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
                   <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="91.0" prefViewportHeight="240.0" prefViewportWidth="600.0" prefWidth="421.0">
                      <content>
-                        <TableView fx:id="activeTeamsDetailsTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="91.0" prefWidth="419.0">
+                        <TableView fx:id="activeTeamsDetailsTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="91.0" prefWidth="419.0">
                            <columns>
-                              <TableColumn fx:id="alliesTeamNameColumn" prefWidth="208.66678869724274" text="Allies Team" />
-                              <TableColumn fx:id="agentsAmountColumn" prefWidth="103.33322143554688" text="Agents Amount" />
-                              <TableColumn fx:id="missionSizeColumn" prefWidth="92.6666259765625" text="Mission Size" />
+                              <TableColumn fx:id="alliesTeamNameColumn" maxWidth="1.7976931348623157E308" prefWidth="208.66678869724274" text="Allies Team" />
+                              <TableColumn fx:id="agentsAmountColumn" maxWidth="1.7976931348623157E308" prefWidth="103.33322143554688" text="Agents Amount" />
+                              <TableColumn fx:id="missionSizeColumn" maxWidth="1.7976931348623157E308" prefWidth="92.6666259765625" text="Mission Size" />
                            </columns>
                         </TableView>
                      </content>
                   </ScrollPane>
-                  <fx:include fx:id="currentCodeConfiguration" source="../uBoatMachineTab/machineTab/CodeConfigurationTableView.fxml" />
+                  <fx:include fx:id="currentCodeConfiguration" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" source="../uBoatMachineTab/machineTab/CodeConfigurationTableView.fxml" VBox.vgrow="ALWAYS" />
                   <Label id="GeneralLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="331.0" text="Please select words from the dictionary">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
                   </Label>
                   <TextField fx:id="searchTextField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#searchTextFieldOnListener" prefHeight="25.0" prefWidth="275.0" />
-                  <ListView id="userInputBruteForce" fx:id="listView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#listViewClickOnItem" prefHeight="87.0" prefWidth="421.0" />
+                  <ListView id="userInputBruteForce" fx:id="listView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#listViewClickOnItem" prefHeight="76.0" prefWidth="421.0" VBox.vgrow="ALWAYS" />
                   <Label id="GeneralLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="The selected words are :" />
-                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="53.0" minWidth="330.0" prefHeight="53.0" prefWidth="421.0" spacing="30.0">
+                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="44.0" minWidth="330.0" prefHeight="44.0" prefWidth="419.0" spacing="30.0">
                      <children>
-                        <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" prefHeight="53.0" prefWidth="297.0" HBox.hgrow="ALWAYS">
+                        <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="35.0" prefWidth="297.0" HBox.hgrow="ALWAYS">
                            <content>
                               <TextArea fx:id="stringToConvertTextArea" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="49.0" prefWidth="295.0" />
                            </content>
                         </ScrollPane>
-                        <Button id="saveSettingsButton" fx:id="decryptButton" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#decryptButtonOnAction" prefHeight="51.0" prefWidth="94.0" text="Decrypt" />
+                        <Button id="saveSettingsButton" fx:id="decryptButton" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#decryptButtonOnAction" prefHeight="33.0" prefWidth="93.0" text="Decrypt" />
                      </children>
                   </HBox>
                   <Label id="GeneralLabel" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="218.0" text="The converted string is:" />
-                  <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="58.0" prefWidth="417.0">
+                  <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="37.0" prefWidth="419.0">
                      <content>
-                        <TextArea fx:id="convertedStringTextArea" editable="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" />
+                        <TextArea fx:id="convertedStringTextArea" editable="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="24.0" prefWidth="417.0" />
                      </content>
                   </ScrollPane>
-                  <Button fx:id="readyButton" mnemonicParsing="false" onAction="#readyButtonOnAction" text="Ready!" />
+                  <Button fx:id="readyButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#readyButtonOnAction" text="Ready!">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
+                     </VBox.margin></Button>
                </children>
+               <HBox.margin>
+                  <Insets right="5.0" top="5.0" />
+               </HBox.margin>
             </VBox>
          </children>
       </HBox>
