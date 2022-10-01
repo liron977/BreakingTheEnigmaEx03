@@ -90,10 +90,13 @@ public class AgentDashboardController {
         } catch (IOException e) {
 
         }
+        return null;
+    }
+}
 
 
-    @FXML
-    void getMissionsOnAction(ActionEvent event) {
+   /* @FXML
+    void getMissionsOnAction(ActionEvent event) {*/
 
       /*  String finalUrl = HttpUrl
                 .parse(Constants.AGENT_GET_MISSIONS)
@@ -141,7 +144,7 @@ public class AgentDashboardController {
         catch (IOException e) {
 
             }
+             }
         }*/
-    }
-}
+
 

@@ -17,5 +17,7 @@ public class AgentThreadTask extends Task<Boolean> {
     protected Boolean call() throws Exception {
         AgentDashboardController agentDashboardController = new AgentDashboardController(selectedAlliesTeamName, amountOfMissionsPerAgent, amountOfThreads);
         agentDashboardController.getGetMissions();
+        return Boolean.TRUE;
+
     }
 }
