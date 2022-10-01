@@ -11,16 +11,14 @@ public class AgentsManager {
     public AgentsManager() {
     }
     public synchronized void addAgentInfoDTOList(String teamName, AgentInfoDTO newAgentInfoDTO) {
-
-        List<AgentInfoDTO> bruteForceResultsList= agentManagerMap.get(teamName);
-        if(bruteForceResultsList==null){
-            bruteForceResultsList=new ArrayList<>();
+        List<AgentInfoDTO> bruteForceResultsList = agentManagerMap.get(teamName);
+        if (bruteForceResultsList == null) {
+            bruteForceResultsList = new ArrayList<>();
         }
-if(!bruteForceResultsList.contains(newAgentInfoDTO.getAgentName())) {
-    bruteForceResultsList.add(newAgentInfoDTO);
-    agentManagerMap.put(teamName,bruteForceResultsList);
-}
-
+        if (!bruteForceResultsList.contains(newAgentInfoDTO.getAgentName())) {
+            bruteForceResultsList.add(newAgentInfoDTO);
+            agentManagerMap.put(teamName, bruteForceResultsList);
+        }
     }
 
     public synchronized Map<String, List<AgentInfoDTO>> getAgentManagerMap() {

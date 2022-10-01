@@ -1,4 +1,4 @@
-package managers;
+package managers.bruteForce;
 
 import bruteForce.DecryptionInfoDTO;
 import engineManager.EngineManager;

@@ -11,5 +11,6 @@
     <orderEntry type="library" name="okHttp" level="project" />
     <orderEntry type="module" module-name="clientUtils" />
     <orderEntry type="library" name="google-gson-2" level="project" />
+    <orderEntry type="module" module-name="EngimaEngine" />
   </component>
 </module>

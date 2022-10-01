@@ -90,4 +90,7 @@ public boolean isAlliesExists(String alliesTeamName){
     public String getConvertedString() {
         return convertedString;
     }
+    public int getAlliesSizeOfMission(){
+      return alliesRegisteredToContest.get(0).getMissionSize();
+    }
 }

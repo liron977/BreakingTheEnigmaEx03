@@ -727,13 +727,13 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         Long numberOfMissionImpossible= numberOfMissionHigh*binomialCoeff(getTheMachineEngine().getMaxAmountOfRotors(),getAmountOfUsedRotors());
 
         switch(level) {
-            case "Low":
+            case "Easy":
                 maxAmountOfMissions=numberOfMission;
                 break;
             case "Medium":
                 maxAmountOfMissions=numberOfMissionMedium;
                 break;
-            case "High":
+            case "Hard":
                 maxAmountOfMissions=numberOfMissionHigh;
                 break;
             default:

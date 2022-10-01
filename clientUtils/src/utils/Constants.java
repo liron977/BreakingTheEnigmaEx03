@@ -21,6 +21,9 @@ public class Constants {
     public static final String REGISTER_ALLIES_TO_CONTEST= "http://localhost:8080/app/RegisterAlliesToContestServlet";
     public static final String ALLIES_LOGIN= "http://localhost:8080/app/AlliesLoginServlet";
     public static final String DISPLAY_ALLIES_TEAMS_INFO= "http://localhost:8080/app/AlliesInfoServlet";
+    public static final String ALLIES_CREATE_MISSIONS= "http://localhost:8080/app/DMCreateMissionsServlet";
+
+    public static final String AGENT_GET_MISSIONS= "http://localhost:8080/app/AgentGetMissionsServlet";
     public static final Gson GSON_INSTANCE = new Gson();
     public final static int REFRESH_RATE = 500;
 

@@ -11,7 +11,7 @@
    <children>
       <HBox alignment="CENTER" layoutX="135.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="585.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Label id="theEnigmaMachineTitle" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="497.0" text="Uboat Application" textAlignment="JUSTIFY" HBox.hgrow="ALWAYS" />
+            <Label id="theEnigmaMachineTitle" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="497.0" text="UBoat Application" textAlignment="JUSTIFY" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
       <Button id="bigButton" fx:id="loadFileButton" contentDisplay="CENTER" layoutX="28.0" layoutY="39.0" mnemonicParsing="false" onAction="#loadNewFileButtonActionListener" prefHeight="32.0" prefWidth="181.0" text="Load File" textAlignment="JUSTIFY" />

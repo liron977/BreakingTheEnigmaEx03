@@ -8,19 +8,27 @@ public class Allies {
    private String alliesName;
    private int missionSize;
    private List<AlliesAgent> alliesAgents;
+   private String battlefieldName;
 private int agentsAmount;
     public Allies( String alliesName){
         this.alliesName=alliesName;
         this.missionSize=0;
         agentsAmount=0;
         alliesAgents=new ArrayList<>();
-
+        this.battlefieldName="";
     }
-public void addAgent(AlliesAgent agent){
+
+    public String getBattlefieldName() {
+        return battlefieldName;
+    }
+
+    public void setBattlefieldName(String battlefieldName) {
+        this.battlefieldName = battlefieldName;
+    }
+
+    public void addAgent(AlliesAgent agent){
     alliesAgents.add(agent);
-
-
-}
+    }
     public void setAgentsAmount(int agentsAmount) {
         this.agentsAmount = agentsAmount;
     }
