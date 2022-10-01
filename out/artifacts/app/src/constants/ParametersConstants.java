@@ -11,5 +11,7 @@ public class ParametersConstants {
     public static final String CHAT_PARAMETER = "userstring";
     public static final String CHAT_VERSION_PARAMETER = "chatversion";
     public static final String ROLE = "role";
+    public static final String AMOUNT_OF_MISSIONS_PER_AGENT = "amountOfMissionsPerAgent";
+    public static final String STRING_TO_CONVERT_BRUTE_FORCE = "stringToConvert";
     public static final int INT_PARAMETER_ERROR = Integer.MIN_VALUE;
 }

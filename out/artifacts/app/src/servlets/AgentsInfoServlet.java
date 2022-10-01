@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import managers.agent.AgentsManager;
 import managers.uBoatEngine.AlliesManager;
-import managers.UserManager;
+import managers.users.UserManager;
 import utils.ServletUtils;
 
 import java.io.IOException;

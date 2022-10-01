@@ -64,9 +64,13 @@ public class AlliesContestController {
                 alert.setContentText("You registered to the contest " + selectedBattleField + " successfully");
                 alert.getDialogPane().setExpanded(true);
                 alert.showAndWait();
-
-
             });
+
+            String stringToConvert=Constants.GSON_INSTANCE.fromJson(response.body().string(),String.class);
+            if(stringToConvert!=null) {
+                AlliesThreadTask threadTask=new AlliesThreadTask(stringToConvert,Integer.parseInt(missionSizeTextField.getText()),alliesTeamName);
+                new Thread(threadTask).start();
+            }
         } else {
             if (response.code() == 409) {
                 alert.setContentText("The contest " + selectedBattleField + " is full, please select another one");

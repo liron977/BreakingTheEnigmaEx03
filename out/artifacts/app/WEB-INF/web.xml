@@ -125,6 +125,22 @@
         <servlet-name>AlliesInfoServlet</servlet-name>
         <url-pattern>/AlliesInfoServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>DMCreateMissionsServlet</servlet-name>
+        <servlet-class>servlets.DMCreateMissionsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DMCreateMissionsServlet</servlet-name>
+        <url-pattern>/DMCreateMissionsServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AgentGetMissionsServlet</servlet-name>
+        <servlet-class>servlets.AgentGetMissionsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AgentGetMissionsServlet</servlet-name>
+        <url-pattern>/AgentGetMissionsServlet</url-pattern>
+    </servlet-mapping>
 
 
 </web-app>

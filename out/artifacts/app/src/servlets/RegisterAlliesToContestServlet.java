@@ -31,6 +31,7 @@ public class RegisterAlliesToContestServlet  extends HttpServlet {
         if (engineManager != null) {
             boolean isAlliesAddedSuccessfully = engineManager.addAlliesToContest(allies);
             if (isAlliesAddedSuccessfully) {
+                allies.setBattlefieldName(battleName);
                 response.setStatus(HttpServletResponse.SC_OK);
             } else {
                 response.setStatus(HttpServletResponse.SC_CONFLICT);

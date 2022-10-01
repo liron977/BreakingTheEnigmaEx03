@@ -7,7 +7,7 @@ import constants.ParametersConstants;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import managers.BruteForceResultsInfoManager;
+import managers.bruteForce.BruteForceResultsInfoManager;
 import utils.ServletUtils;
 
 import java.io.IOException;
