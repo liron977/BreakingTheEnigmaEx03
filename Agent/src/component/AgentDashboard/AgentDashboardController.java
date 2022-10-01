@@ -27,18 +27,75 @@ public class AgentDashboardController {
     private Button getMissions;
     private String selectedAlliesTeamName;
     private String amountOfMissionsPerAgent;
+    private int amountOfThreads;
     private BlockingQueue<Runnable> missionsInfoBlockingQueue;
 
     private ThreadPoolExecutor threadPoolExecutor;
-    public void setThreadPoolSize(int amountOfThreads){
+
+    public AgentDashboardController(String selectedAlliesTeamName, String amountOfMissionsPerAgent, int amountOfThreads) {
+        this.selectedAlliesTeamName = selectedAlliesTeamName;
+        this.amountOfMissionsPerAgent = amountOfMissionsPerAgent;
+        this.amountOfThreads = amountOfThreads;
+        setThreadPoolSize(amountOfThreads);
+    }
+
+    public void setThreadPoolSize(int amountOfThreads) {
         missionsInfoBlockingQueue = new LinkedBlockingQueue<Runnable>(1000);
         this.threadPoolExecutor = new ThreadPoolExecutor(amountOfThreads, amountOfThreads, 0L, TimeUnit.MILLISECONDS, missionsInfoBlockingQueue);
     }
 
+    public Button getGetMissions() {
+        String finalUrl = HttpUrl
+                .parse(Constants.AGENT_GET_MISSIONS)
+                .newBuilder()
+                .addQueryParameter("alliesTeamName", selectedAlliesTeamName)
+                .addQueryParameter("amountOfMissionsPerAgent", amountOfMissionsPerAgent)
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrl)
+                .build();
+        Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+        try {
+            Response response = call.execute();
+            if (response.code() != 200) {
+                Platform.runLater(() -> {
+                    {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        try {
+                            alert.setContentText(response.body().string());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        alert.getDialogPane().setExpanded(true);
+                        alert.showAndWait();
+                    }
+                });
+            } else {
+                Platform.runLater(() -> {
+                    {
+                        Type theMissionInfoList = new TypeToken<ArrayList<TheMissionInfo>>() {
+                        }.getType();
+                        List<TheMissionInfo> theMissionInfoFromGson = null;
+                        try {
+                            theMissionInfoFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+
+                });
+
+            }
+        } catch (IOException e) {
+
+        }
+
+
     @FXML
     void getMissionsOnAction(ActionEvent event) {
 
-        String finalUrl = HttpUrl
+      /*  String finalUrl = HttpUrl
                 .parse(Constants.AGENT_GET_MISSIONS)
                 .newBuilder()
                 .addQueryParameter("alliesTeamName", selectedAlliesTeamName)
@@ -84,6 +141,7 @@ public class AgentDashboardController {
         catch (IOException e) {
 
             }
-        }
+        }*/
     }
+}
 
