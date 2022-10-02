@@ -37,6 +37,7 @@ public class EncryptServlet extends HttpServlet {
             Map<String, EngineManager> mediatorsForEngineManagerMap = mediatorsManager.getEngineManagersMap();
             String theBattleFieldName = request.getParameter(ParametersConstants.BATTLE_FIELD);
             Collection<Part> parts = request.getParts();
+            String convertedString="";
             EngineManager engineManager = mediatorsForEngineManagerMap.get(theBattleFieldName);
             if (engineManager != null) {
                 for (Part part : parts) {
@@ -66,7 +67,7 @@ public class EncryptServlet extends HttpServlet {
                                         listOfPairsOfSwappingCharacter = engineManager.getTheMachineEngine().getPlugsBoard().getPairsOfSwappingCharacter();
                                         engineManager.getTheMachineEngine().initEmptyPlugBoard();
                                     }
-                                    String convertedString = engineManager.getConvertedString(stringToConvertWithoutExcludedSignals).getConvertedString().toUpperCase();
+                                    convertedString = engineManager.getConvertedString(stringToConvertWithoutExcludedSignals).getConvertedString().toUpperCase();
                                     convertedStringProcessDTO = new ConvertedStringProcessDTO(stringToConvertWithoutExcludedSignals, convertedString,exceptionList);
                                     if (plugsBoard != null) {
                                         engineManager.getTheMachineEngine().getPlugsBoard().setPairsOfSwappingCharacter(listOfPairsOfSwappingCharacter);
@@ -74,6 +75,7 @@ public class EncryptServlet extends HttpServlet {
                                 }
                                 else {
                                     convertedStringProcessDTO = new ConvertedStringProcessDTO(stringToConvertWithoutExcludedSignals, "",exceptionList);
+                                    engineManager.getBattleField().setConvertedString(convertedString);
                                 }
                             }
 
