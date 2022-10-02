@@ -1,7 +1,6 @@
 package servlets;
 
 import bruteForceLogic.TheMissionInfo;
-import com.google.gson.Gson;
 import constants.ParametersConstants;
 import engine.theEnigmaEngine.Allies;
 import engine.theEnigmaEngine.UBoatBattleField;
@@ -15,11 +14,6 @@ import managers.uBoatEngine.UBoatAvailableContestsManager;
 import utils.ServletUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 public class DMCreateMissionsServlet extends HttpServlet {
     @Override
@@ -66,17 +60,16 @@ public class DMCreateMissionsServlet extends HttpServlet {
         AlliesMissionsManager alliesMissionsManager=ServletUtils.getAlliesMissionsManager(getServletContext());
        // BlockingQueue<TheMissionInfo> theMissionInfoBlockingQueuelockingQueue=alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName);
         int missionsCounter = 0;
-        engineManager.getInitialStartingPosition();
+       String initialStartingPosition= engineManager.getInitialStartingPosition();
         int missionIndex = 0;
         for (int i = 0; i < amountOfSubListsToCreate; i++) {
             missionsCounter++;
             missionIndex = i;
             EngineManager engineManagerCopy = engineManager.cloneEngineManager();
-            String initialStartingPosition = "";//todo
-            String finalPosition = "";//todo
-            TheMissionInfo theMissionInfo = new TheMissionInfo(initialStartingPosition, sizeOfMission, finalPosition, engineManagerCopy,stringToConvert);
+            TheMissionInfo theMissionInfo = new TheMissionInfo(initialStartingPosition, sizeOfMission,engineManagerCopy,stringToConvert);
             updateEngineManager(engineManagerCopy, engineManager);
             alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName,theMissionInfo);
+            initialStartingPosition = engineManager.getNextStartingPositionByString(sizeOfMission);
         }
     }
 
@@ -180,4 +173,3 @@ public class DMCreateMissionsServlet extends HttpServlet {
     }
 
 }
-

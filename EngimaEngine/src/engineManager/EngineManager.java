@@ -1,6 +1,5 @@
 package engineManager;
 
-import bruteForce.AlliesDTO;
 import engine.theEnigmaEngine.*;
 import engine.validator.*;
 import historyAndStatistics.HistoryOfProcess;
@@ -30,11 +29,14 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     int countPossibleStartingPosition=0;
     String reflectorId="";
     String theLastStartingPos;
+    int[] currentPosition;
+    String[] keyboard;
     boolean firstList=true;
 
     int lastIndex=0;
     long ProcessTimeToConvert;
     private MenuValidator menuValidator = new MenuValidator();
+
     private final String JAXB_XML_GAME_PACKAGE_NAME = "schemaGenerated";
     // private  CTEEnigma cteEnigma;
     //private SchemaGenerated schemaGenerated;
@@ -111,7 +113,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         this.battleField.setUploadedBy(uploadedBy);
         TheMachineEngine theMachineEngine = new TheMachineEngine(schemaGenerated.createRotorsSet(), schemaGenerated.createReflectorsSet(), schemaGenerated.createKeyboard(), schemaGenerated.getAmountOfUsedRotors(), schemaGenerated.createDictionary(),battleField);
         //this.agents=schemaGenerated.createAgents();
-
+        getInitialStartingPosition();
         return theMachineEngine;
     }
 
@@ -583,102 +585,74 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         amountOfPossibleStartingPositionList=(long) Math.pow(theMachineEngine.getKeyboard().length(),theMachineEngine.getAmountOfUsedRotors());
         return amountOfPossibleStartingPositionList;
     }
-
-    public List<String> createPossibleStartingPositionList(int sizeOfSubList) {
-
-        possibleStartingPositionList = new ArrayList<>();
-        StringBuilder stringToAdd = new StringBuilder();
-        String initialStartingPosition = theLastStartingPos;
-        String keyboard = getTheMachineEngine().getKeyboard();
-        // List<String> possibleStartingPositionList = new ArrayList<>();
-        int nextSignalIndex = 0;
-        String lastSignal = "";
-        int amountOfStartingPos = 0;
-        boolean happened = true;
-
-
-        stringToAdd.append(initialStartingPosition, 0, initialStartingPosition.length());
-        for (int i = 0; i < initialStartingPosition.length(); i++) {
-            lastSignal = lastSignal + String.valueOf(keyboard.charAt(keyboard.length() - 1));
+    public int[] getIndexArrayFromString(String position) {
+        int[] indexArrayFromString = new int[position.length()];
+        for (int i = 0; i < position.length(); i++) {
+            indexArrayFromString[i] = Arrays.asList(keyboard).indexOf(String.valueOf(position.charAt(i)));
         }
-        while (amountOfStartingPos < sizeOfSubList && !possibleStartingPositionList.contains(lastSignal)) {
+        return indexArrayFromString;
 
-            if (sizeOfSubList > keyboard.length()) {
-                for (int j = 0; j < keyboard.length() & amountOfStartingPos < (sizeOfSubList) && lastIndex < keyboard.length(); j++) {
-                    stringToAdd.setCharAt(initialStartingPosition.length() - 1, keyboard.charAt(lastIndex));
-                    lastIndex++;
-                    if (!stringToAdd.toString().equals(theLastStartingPos) || firstList) {
-                        firstList = false;
-                        possibleStartingPositionList.add(stringToAdd.toString());
-                        amountOfStartingPos++;
-                    } else {
-            /*happened = false;
-            if (!happened && !firstList) {
-                sizeOfSubList++;
-                happened = true;
-            }*/
-                    }
-
-
-                }
-
-            } else {
-
-                for (int j = 0; (j < (sizeOfSubList) && (lastIndex < keyboard.length()) && (amountOfStartingPos < sizeOfSubList)); j++) {
-                    stringToAdd.setCharAt(initialStartingPosition.length() - 1, keyboard.charAt(lastIndex));
-                    lastIndex++;
-                    if (!stringToAdd.toString().equals(theLastStartingPos) || firstList) {
-                        firstList = false;
-                        possibleStartingPositionList.add(stringToAdd.toString());
-                        amountOfStartingPos++;
-                    } else {
-                        happened = false;
-                        if (!happened && !firstList) {
-                            sizeOfSubList++;
-                            happened = true;
-                        }
-                    }
-                }
-                if (!firstList) {
-                    sizeOfSubList--;
-                }
-            }
-
-            for (int i = stringToAdd.length() - 1; amountOfStartingPos <= sizeOfSubList && i > 0; i--) {
-                lastIndex = 0;
-                if (stringToAdd.charAt(i) != keyboard.charAt(keyboard.length() - 1) || amountOfStartingPos >= sizeOfSubList) {
-                    break;
-                } else {
-                    if (stringToAdd.charAt(i - 1) != keyboard.charAt(keyboard.length() - 1)) {
-                        char signalToReplace = stringToAdd.charAt(i - 1);
-                        nextSignalIndex = keyboard.indexOf(signalToReplace) + 1;
-                        for (int k = i; k <= stringToAdd.length() - 1; k++) {
-                            stringToAdd.setCharAt(k, keyboard.charAt(0));
-                        }
-                        stringToAdd.setCharAt(i - 1, keyboard.charAt(nextSignalIndex));
-                        i = 0;
-                    }
-                }
-            }
+    }
+    public String getStartingPositionStringFromIndexes(int[] positionByIndex) {
+        String startingPositionString ="";
+        for (int i = 0; i < positionByIndex.length; i++) {
+            startingPositionString =keyboard[positionByIndex[i]];
         }
-        this.amountOfPossibleStartingPositionList = Long.valueOf(possibleStartingPositionList.size());
-        if(possibleStartingPositionList.contains("'''")){
-            int x=0;
-        }
-        theLastStartingPos = possibleStartingPositionList.get(possibleStartingPositionList.size() - 1);
-        lastIndex = keyboard.indexOf(theLastStartingPos.charAt(theLastStartingPos.length() - 1));
-        //return possibleStartingPositionList;
-         /*  for (String s : possibleStartingPositionList) {
-               System.out.println(s);
-           }
-         */  countPossibleStartingPosition=countPossibleStartingPosition+possibleStartingPositionList.size();
+        return startingPositionString;
 
-
-        /* System.out.println("*************");*/
-
-        return possibleStartingPositionList;
+    }
+    public String getNextStartingPositionByString(int missionSize){
+        int[] nextStartingPositionByIndexes=getNextStartingPositionByIndexes(missionSize);
+        return getStartingPositionStringFromIndexes(nextStartingPositionByIndexes);
     }
 
+    public int[] getNextStartingPositionByIndexes(int missionSize) {
+        missionSize++;
+        while (missionSize != 0) {
+            while (currentPosition[currentPosition.length - 1] < keyboard.length - 1) {
+
+                currentPosition[currentPosition.length - 1] = currentPosition[currentPosition.length - 1] + 1;
+                missionSize--;
+                if (missionSize == 0 || isTheLastStartingPosition(currentPosition, keyboard.length)) {
+                    // printRes(currentPosition, keyboard);
+                    break;
+                }
+                //printRes(currentPosition, keyboard);
+            }
+            if (missionSize == 0 || isTheLastStartingPosition(currentPosition, keyboard.length)) {
+                // printRes(currentPosition, keyboard);
+                break;
+            }
+            for (int i = currentPosition.length - 1; i > 0; i--) {
+                if (currentPosition[i] == (keyboard.length - 1)) {
+                    currentPosition[i] = 0;
+                    if (currentPosition[i - 1] < keyboard.length - 1) {
+                        currentPosition[i - 1] = currentPosition[i - 1] + 1;
+                        missionSize--;
+                        // printRes(currentPosition, keyboard);
+                        break;
+                    }
+
+                    if (missionSize == 0 || isTheLastStartingPosition(currentPosition, keyboard.length)) {
+                        // printRes(currentPosition, keyboard);
+                        break;
+                    }
+
+                }
+
+            }
+
+        }
+        return currentPosition;
+    }
+    public  boolean isTheLastStartingPosition(int[] currentPosition, int keyboardSize) {
+        for(int i=0;i<currentPosition.length;i++){
+            if(!(currentPosition[i]==keyboardSize-1)){
+                return false;
+            }
+        }
+        return true;
+    }
 
     public String getInitialStartingPosition(){
 
@@ -688,13 +662,17 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         for(int i=0;i<amountOfRotors;i++){
             initialStartingPosition=initialStartingPosition+firstSignal;
         }
+
         theLastStartingPos=initialStartingPosition;
+        keyboard=theMachineEngine.getKeyboardAsArray();
+        currentPosition=getIndexArrayFromString(theLastStartingPos);
         lastIndex=0;
-        firstList=true;
+       // firstList=true;
         countPossibleStartingPosition=0;
 
         return initialStartingPosition;
     }
+
     public void setStartingPositionValues(String theLastStartingPos,int lastIndex,boolean firstList,int countPossibleStartingPosition){
         this.countPossibleStartingPosition=countPossibleStartingPosition;
         this.lastIndex=lastIndex;

@@ -22,5 +22,13 @@ public class Keyboard  implements Serializable {
     public String getKeyboard(){
         return keyboard ;
     }
+    public String[] getKeyboardAsArray(){
+        String[] keyboardArray=new String[keyboard.length()];
+        for(int i=0;i<keyboard.length();i++){
+            keyboardArray[i]=String.valueOf(keyboard.charAt(i));
+        }
+        return keyboardArray;
+
+    }
 
 }

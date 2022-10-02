@@ -32,6 +32,9 @@ public class TheMachineEngine implements Serializable {
         this.battleField=battleField;
         //this.agents=agents;
     }
+    public String[] getKeyboardAsArray() {
+    return keyboard.getKeyboardAsArray();
+    }
 
     public UBoatBattleField getBattleField() {
         return battleField;
