@@ -1,5 +1,6 @@
 package engineManager;
 
+import bruteForceLogic.TheMissionInfo;
 import engine.theEnigmaEngine.*;
 import engine.validator.*;
 import historyAndStatistics.HistoryOfProcess;
@@ -113,7 +114,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         this.battleField.setUploadedBy(uploadedBy);
         TheMachineEngine theMachineEngine = new TheMachineEngine(schemaGenerated.createRotorsSet(), schemaGenerated.createReflectorsSet(), schemaGenerated.createKeyboard(), schemaGenerated.getAmountOfUsedRotors(), schemaGenerated.createDictionary(),battleField);
         //this.agents=schemaGenerated.createAgents();
-        getInitialStartingPosition();
+
         return theMachineEngine;
     }
 
@@ -1044,6 +1045,12 @@ public class EngineManager implements EngineManagerInterface,Serializable {
             System.out.println("**************************************************************************************************");
         }
         return possibleStartingPositionList;
+    }
+    public TheMissionInfo createMissionInfo(String initialStartingPosition, int sizeOfMission,EngineManager engineManager,
+                                  String stringToConvert){
+        TheMissionInfo theMissionInfo=new TheMissionInfo(initialStartingPosition,
+                sizeOfMission,engineManager,stringToConvert);
+        return theMissionInfo;
     }
 
 }

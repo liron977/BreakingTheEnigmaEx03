@@ -25,7 +25,8 @@ public class AlliesInfoServlet extends HttpServlet {
             String battleName = request.getParameter(ParametersConstants.BATTLE_FIELD);
             MediatorForEngineManager mediatorForEngineManager = ServletUtils.getMediatorForEngineManager(getServletContext());
             EngineManager engineManager = mediatorForEngineManager.getEngineMangerByBattleFiLedName(battleName);
-            List<Allies> registeredAlliesList = engineManager.getRegisteredAlliesList();
+            if (engineManager != null){
+                List<Allies> registeredAlliesList = engineManager.getRegisteredAlliesList();
             List<AlliesDTO> alliesDTOList = createAlliesDTOList(registeredAlliesList);
 
             if (alliesDTOList != null) {
@@ -34,6 +35,7 @@ public class AlliesInfoServlet extends HttpServlet {
                 out.println(json);
                 out.flush();
             }
+        }
 
 
     } catch(Exception e)

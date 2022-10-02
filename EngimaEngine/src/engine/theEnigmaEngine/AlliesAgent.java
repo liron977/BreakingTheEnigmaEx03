@@ -1,11 +1,12 @@
 package engine.theEnigmaEngine;
 
+import java.io.Serializable;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-public class AlliesAgent {
+public class AlliesAgent implements Serializable {
     private String agentName;
     private int threadsAmount;
     private int missionsAmount;

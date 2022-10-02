@@ -24,10 +24,12 @@ public class DMCreateMissionsServlet extends HttpServlet {
         Allies alies = alliesManager.getAlliesByAlliesTeamName(theAlliesTeamName);
         UBoatAvailableContestsManager uBoatAvailableContestsManager = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
         EngineManager engineManager = uBoatAvailableContestsManager.getEngineMangerByAlliesTeamName(theAlliesTeamName);
-        try {
-            createMission(engineManager,theAlliesTeamName,stringToConvert);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        if(engineManager!=null) {
+            try {
+                createMission(engineManager, theAlliesTeamName, stringToConvert);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -66,7 +68,7 @@ public class DMCreateMissionsServlet extends HttpServlet {
             missionsCounter++;
             missionIndex = i;
             EngineManager engineManagerCopy = engineManager.cloneEngineManager();
-            TheMissionInfo theMissionInfo = new TheMissionInfo(initialStartingPosition, sizeOfMission,engineManagerCopy,stringToConvert);
+            TheMissionInfo theMissionInfo =engineManagerCopy.createMissionInfo(initialStartingPosition, sizeOfMission,engineManagerCopy,stringToConvert);
             updateEngineManager(engineManagerCopy, engineManager);
             alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName,theMissionInfo);
             initialStartingPosition = engineManager.getNextStartingPositionByString(sizeOfMission);

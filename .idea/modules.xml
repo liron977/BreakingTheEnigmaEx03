@@ -10,6 +10,7 @@
       <module fileurl="file://$PROJECT_DIR$/EngimaEngine/EngimaEngine.iml" filepath="$PROJECT_DIR$/EngimaEngine/EngimaEngine.iml" />
       <module fileurl="file://$PROJECT_DIR$/EnigmaUI/EnigmaUI.iml" filepath="$PROJECT_DIR$/EnigmaUI/EnigmaUI.iml" />
       <module fileurl="file://$PROJECT_DIR$/JavafxUI/JavafxUI.iml" filepath="$PROJECT_DIR$/JavafxUI/JavafxUI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MiniEngine/MiniEngine.iml" filepath="$PROJECT_DIR$/MiniEngine/MiniEngine.iml" />
       <module fileurl="file://$PROJECT_DIR$/UBoat/UBoat.iml" filepath="$PROJECT_DIR$/UBoat/UBoat.iml" />
       <module fileurl="file://$PROJECT_DIR$/clientUtils/clientUtils.iml" filepath="$PROJECT_DIR$/clientUtils/clientUtils.iml" />
     </modules>

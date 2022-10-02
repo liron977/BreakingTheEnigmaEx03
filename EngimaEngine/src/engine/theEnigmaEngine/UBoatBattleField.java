@@ -2,10 +2,11 @@ package engine.theEnigmaEngine;
 
 import bruteForce.AlliesDTO;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UBoatBattleField {
+public class UBoatBattleField implements Serializable {
    private String battleName;
    private int alliesNeededTeamsAmount;
    private String level;

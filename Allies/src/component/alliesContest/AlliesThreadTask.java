@@ -28,7 +28,10 @@ public class AlliesThreadTask extends Task<Boolean> {
     public Boolean call() throws Exception {
        // EngineManager engineManagerClone = engineManager.cloneEngineManager();
     //    engineManager.getTheMachineEngine().initEmptyPlugBoard();
-        RequestBody body = null;
+        RequestBody body =
+                new MultipartBody.Builder()
+                        .addFormDataPart("stringToConvert", stringToConvert)
+                        .build();
         Gson gson = new Gson();
         String finalUrl = HttpUrl
                 .parse(Constants.ALLIES_CREATE_MISSIONS)

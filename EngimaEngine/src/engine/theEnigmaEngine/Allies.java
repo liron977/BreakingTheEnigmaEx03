@@ -1,9 +1,10 @@
 package engine.theEnigmaEngine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Allies {
+public class Allies implements Serializable {
 
    private String alliesName;
    private int missionSize;
