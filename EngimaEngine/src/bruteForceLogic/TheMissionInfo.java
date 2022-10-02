@@ -29,4 +29,8 @@ public class TheMissionInfo {
     public String getInitialStartingPosition() {
         return initialStartingPosition;
     }
+
+    public EngineManager getEngineManager() {
+        return engineManager;
+    }
 }
