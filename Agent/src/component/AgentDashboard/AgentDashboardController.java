@@ -81,7 +81,6 @@ public class AgentDashboardController {
     }
 
     public Button getGetMissions() {
-        System.out.println("Im here");
         String finalUrl = HttpUrl
                 .parse(Constants.AGENT_GET_MISSIONS)
                 .newBuilder()
@@ -165,7 +164,7 @@ public class AgentDashboardController {
                     }
                 });
             } else {
-          /*   InputStream objectInputStream = response.body().byteStream();*/
+             InputStream objectInputStream = response.body().byteStream();
                /* EngineManager engineManager= (EngineManager) objectInputStream.read()*/
                 EngineManager engineManager=null;
 
