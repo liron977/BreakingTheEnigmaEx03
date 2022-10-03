@@ -18,7 +18,6 @@ import utils.Constants;
 import utils.http.HttpClientUtil;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -81,6 +80,7 @@ public class AgentDashboardController {
     }
 
     public Button getGetMissions() {
+        System.out.println("Im here");
         String finalUrl = HttpUrl
                 .parse(Constants.AGENT_GET_MISSIONS)
                 .newBuilder()
@@ -164,15 +164,17 @@ public class AgentDashboardController {
                     }
                 });
             } else {
-             InputStream objectInputStream = response.body().byteStream();
-               /* EngineManager engineManager= (EngineManager) objectInputStream.read()*/
-                EngineManager engineManager=null;
+                ObjectInputStream objectInputStream = Constants.GSON_INSTANCE.fromJson(response.body().string(),ObjectInputStream.class);
+                EngineManager engineManager= (EngineManager) objectInputStream.readObject();
+
 
                 return engineManager;
 
             }
         } catch (IOException e) {
 
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
         return null;
 

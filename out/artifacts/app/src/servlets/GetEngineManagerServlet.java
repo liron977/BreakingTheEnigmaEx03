@@ -34,7 +34,6 @@ public class GetEngineManagerServlet  extends HttpServlet {
                     oos.writeObject(engineManager);
                     ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
                     ObjectInputStream ois = new ObjectInputStream(bais);
-
                     out.println(ois.read());
                     out.flush();
 
