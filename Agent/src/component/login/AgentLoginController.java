@@ -2,7 +2,7 @@ package component.login;
 
 import bruteForce.AgentInfoDTO;
 import com.sun.istack.internal.NotNull;
-import component.mainWindowAgent.AgentMainWindowController;
+import component.AgentDashboard.AgentDashboardController;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -44,7 +44,7 @@ public class AgentLoginController {
     private String selectedAlliesTeamName;
     private Stage primaryStage;
     AlliesTeamsRefresher alliesTeamsRefresher;
-    AgentMainWindowController agentMainWindowController;
+    AgentDashboardController agentDashboardController;
 
     private String agentName;
     private int missionAmount;
@@ -68,6 +68,7 @@ public class AgentLoginController {
         agentName=agentNameTextField.getText();
        // missionAmount=Integer.parseInt(missionAmountTextFiled.getText());
         threadsAmount=(int) threadsAmountSlider.getValue();
+
     }
     public void startListRefresher() {
         alliesTeamsRefresher = new AlliesTeamsRefresher(
@@ -215,12 +216,16 @@ public class AgentLoginController {
     }
     private void loadSuperScreen(){
         FXMLLoader fxmlLoader = new FXMLLoader();
-        URL superScreenUrl = getClass().getResource("/component/mainWindowAgent/AgentMainWindow.fxml");
+        URL superScreenUrl = getClass().getResource("/component/AgentDashboard/AgentDashboard.fxml");
         fxmlLoader.setLocation(superScreenUrl);
         try {
             Parent root1 = fxmlLoader.load(superScreenUrl.openStream());
-            agentMainWindowController=fxmlLoader.getController();
-            agentMainWindowController.setPrimaryStage(primaryStage);
+            agentDashboardController=fxmlLoader.getController();
+            agentDashboardController.setPrimaryStage(primaryStage);
+            agentDashboardController.setAmountOfMissionsPerAgent(String.valueOf(missionAmount));
+            agentDashboardController.setSelectedAlliesTeamName(selectedAlliesTeamName);
+            agentDashboardController.setAmountOfThreads(threadsAmount);
+            agentDashboardController.startContestTableViewRefresher();
             primaryStage.setTitle("Agent");
             mainWindowAlliesControllerScene = new Scene(root1);
             primaryStage.setMinHeight(300f);

@@ -150,10 +150,9 @@ public void setTheMachineSettingsDTO(TheMachineSettingsDTO theMachineSettingsDTO
 //        }
 
     public void uBoatContestButtonOnListener() throws Exception {
-
-                contestTabController.initDisplayConfiguration();
-                contestTabController.initValues();
-                updateAlliesTableView();
+            contestTabController.initDisplayConfiguration();
+            contestTabController.initValues();
+            updateAlliesTableView();
 
     }
 

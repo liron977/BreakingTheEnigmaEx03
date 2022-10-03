@@ -1,12 +1,19 @@
 package component.AgentDashboard;
 
 import bruteForce.UBoatContestInfoWithoutCheckBoxDTO;
+import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static utils.Constants.REFRESH_RATE;
 
 public class ContestInfoController {
     @FXML
@@ -26,20 +33,22 @@ public class ContestInfoController {
 
     @FXML
     private TableView<UBoatContestInfoWithoutCheckBoxDTO> contestsDataTableView;
-
-    @FXML
-    private TableColumn<String, String> AlliesTeamNameColumn;
-    String alliesTeamName;
-
     @FXML
     private TableColumn<UBoatContestInfoWithoutCheckBoxDTO, String> uBoatUserNameColumn;
 
+    String alliesTeamName;
+    private Timer timer;
+    private TimerTask contestInfoRefresher;
+    BooleanProperty autoUpdate;
+
+
+    public void setAlliesTeamName(String selectedAlliesTeamName) {
+        this.alliesTeamName = selectedAlliesTeamName;
+    }
     private ObservableList<UBoatContestInfoWithoutCheckBoxDTO> getUBoatContestInfoTableViewDTOList(UBoatContestInfoWithoutCheckBoxDTO uBoatContestInfoDTO) {
         ObservableList<UBoatContestInfoWithoutCheckBoxDTO> uBoatContestInfoDTOList;
         uBoatContestInfoDTOList = FXCollections.observableArrayList(uBoatContestInfoDTO);
-        AlliesTeamNameColumn.setCellValueFactory(
-                new PropertyValueFactory<>("selectionContestColumn")
-        );
+
         battleFieldNameColumn.setCellValueFactory(
                 new PropertyValueFactory<>("battleFieldName")
         );
@@ -61,45 +70,25 @@ public class ContestInfoController {
 
         return uBoatContestInfoDTOList;
     }
- /*   private void updateUBoatContestsList(List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOList) {
+    private void updateContestInfoTableView(UBoatContestInfoWithoutCheckBoxDTO uBoatContestInfoDTOList) {
 
 
         Platform.runLater(() -> {
-            boolean isDTDExistsInTableView;
-            ObservableList<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOListTemp = FXCollections.observableArrayList();;
-            for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO: uBoatContestInfoDTOList) {
-                checkBoxChangedListener(uBoatContestInfoWithCheckBoxDTO);
-                isDTDExistsInTableView=false;
-                int index=0;
-                for (UBoatContestInfoWithCheckBoxDTO TableViewUBoatContestDTO : contestsDataTableView.getItems()) {
-                    index++;
-                    if (TableViewUBoatContestDTO.getBattleFieldName().equals(uBoatContestInfoWithCheckBoxDTO.getBattleFieldName())) {
-                        updateContestsDataTableViewRow(uBoatContestInfoWithCheckBoxDTO,index);
-                        isDTDExistsInTableView = true;
-                        break;
-                    }
-                }
-                if (!isDTDExistsInTableView) {
-                    uBoatContestInfoDTOListTemp.addAll(getUBoatContestInfoTableViewDTOList(uBoatContestInfoWithCheckBoxDTO));
-                    contestsDataTableView.getItems().add(uBoatContestInfoWithCheckBoxDTO);
-                }
+                    ObservableList<UBoatContestInfoWithoutCheckBoxDTO> contestInfoObservableList =getUBoatContestInfoTableViewDTOList(uBoatContestInfoDTOList);
+                    createContestInfoTableView(contestInfoObservableList);
             }
-            uBoatContestInfoWithCheckBoxDTOList=contestsDataTableView.getItems();
-            //todo : To check
-          *//*  for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO: contestsDataTableView.getItems()) {
-                if (!uBoatContestInfoDTOList.contains(uBoatContestInfoWithCheckBoxDTO)) {
 
-                    contestsDataTableView.getItems().remove(uBoatContestInfoWithCheckBoxDTO);
-                }
-           }*//*
-            totalUBoatContestsAmount.set(uBoatContestInfoDTOList.size());
-        });
+        );
     }
-    public void startUBoatContestsTableViewRefresher() {
-        uBoatContestsRefresher = new UBoatContestsRefresher(
-                this::updateUBoatContestsList,autoUpdate);
+    private void createContestInfoTableView( ObservableList<UBoatContestInfoWithoutCheckBoxDTO> contestInfoObservableList) {
+        contestsDataTableView.setItems(contestInfoObservableList);
+        contestsDataTableView.getColumns().clear();
+        contestsDataTableView.getColumns().addAll(battleFieldNameColumn, uBoatUserNameColumn,contestStatusColumn,contestLevelColumn,amountOfNeededDecryptionTeamsColumn,amountOfActiveDecryptionTeamsColumn);
+    }
+    public void startContestTableViewRefresher() {
+        contestInfoRefresher = new ContestInfoRefresher(
+                this::updateContestInfoTableView,autoUpdate,alliesTeamName);
         timer = new Timer();
-        timer.schedule(uBoatContestsRefresher, REFRESH_RATE, REFRESH_RATE);
+        timer.schedule(contestInfoRefresher, REFRESH_RATE, REFRESH_RATE);
     }
-*/
 }

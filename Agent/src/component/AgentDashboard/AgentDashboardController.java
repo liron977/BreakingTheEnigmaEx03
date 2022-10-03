@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
+import javafx.stage.Stage;
 import okhttp3.*;
 import utils.Constants;
 import utils.http.HttpClientUtil;
@@ -26,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 public class AgentDashboardController {
     @FXML
     private Button getMissions;
+
     private String selectedAlliesTeamName;
     private String amountOfMissionsPerAgent;
     private int amountOfThreads;
@@ -33,7 +35,7 @@ public class AgentDashboardController {
 
     private ThreadPoolExecutor threadPoolExecutor;
     private List<String> listOfPossiblePosition;
-
+    private Stage primaryStage;
     @FXML
     private TableView contestInfo;
     @FXML
@@ -41,13 +43,27 @@ public class AgentDashboardController {
 
 
 
+    @FXML
+    public void initialize() {
 
-    public AgentDashboardController(String selectedAlliesTeamName, String amountOfMissionsPerAgent, int amountOfThreads) {
+
+    }
+
+    public void setSelectedAlliesTeamName(String selectedAlliesTeamName) {
         this.selectedAlliesTeamName = selectedAlliesTeamName;
+        contestInfoController.setAlliesTeamName(selectedAlliesTeamName);
+
+    }
+
+    public void setAmountOfMissionsPerAgent(String amountOfMissionsPerAgent) {
         this.amountOfMissionsPerAgent = amountOfMissionsPerAgent;
+
+    }
+
+    public void setAmountOfThreads(int amountOfThreads) {
         this.amountOfThreads = amountOfThreads;
-        this.listOfPossiblePosition=new ArrayList<>();
-        setThreadPoolSize(amountOfThreads);
+        this.listOfPossiblePosition = new ArrayList<>();
+       // setThreadPoolSize(amountOfThreads);
     }
 
     public void setThreadPoolSize(int amountOfThreads) {
@@ -270,4 +286,11 @@ public class AgentDashboardController {
 
             }*/
              }
-        }
+    public void setPrimaryStage(Stage primaryStageIn) {
+        primaryStage = primaryStageIn;
+        //scene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
+    }
+    public void startContestTableViewRefresher(){
+        contestInfoController.startContestTableViewRefresher();
+    }
+}

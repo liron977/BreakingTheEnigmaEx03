@@ -22,15 +22,20 @@ import java.util.TimerTask;
 import java.util.function.Consumer;
 
 public class ContestInfoRefresher extends TimerTask {
-    private final Consumer<List<UBoatContestInfoWithCheckBoxDTO>> updateUBoatContestsList;
+    private final Consumer<UBoatContestInfoWithoutCheckBoxDTO> updateContestInfoTableView;
     private final BooleanProperty shouldUpdate;
 
     private String alliesTeamName;
 
-    public ContestInfoRefresher(Consumer<List<UBoatContestInfoWithCheckBoxDTO>> updateUBoatContestsList, BooleanProperty shouldUpdate) {
-        this.updateUBoatContestsList = updateUBoatContestsList;
+
+    public ContestInfoRefresher(Consumer<UBoatContestInfoWithoutCheckBoxDTO> updateContestInfoTableView, BooleanProperty shouldUpdate, String alliesTeamName) {
+        this.updateContestInfoTableView = updateContestInfoTableView;
         this.shouldUpdate=shouldUpdate;
+        this.alliesTeamName=alliesTeamName;
     }
+
+
+
     @Override
     public void run() {
 
@@ -54,15 +59,12 @@ public class ContestInfoRefresher extends TimerTask {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 //String jsonArrayOfUsersNames = response.body().string();
-                Type UBoatContestInfoType = new TypeToken<ArrayList<UBoatContestInfoWithoutCheckBoxDTO>>() {}.getType();
-                List<UBoatContestInfoWithoutCheckBoxDTO> dtoFromGson=Constants.GSON_INSTANCE.fromJson(response.body().string(),UBoatContestInfoType);
-                List<UBoatContestInfoWithCheckBoxDTO> dtoWithCheckBoxFromGson=new ArrayList<>();
+                //Type UBoatContestInfoType = new TypeToken<ArrayList<UBoatContestInfoWithoutCheckBoxDTO>>() {}.getType();
+                UBoatContestInfoWithoutCheckBoxDTO dtoFromGson=Constants.GSON_INSTANCE.fromJson(response.body().string(),UBoatContestInfoWithoutCheckBoxDTO.class);
+
                 if(dtoFromGson!=null) {
-                    for (UBoatContestInfoWithoutCheckBoxDTO uBoatContestInfoWithoutCheckBoxDTO:dtoFromGson) {
-                        UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO = new UBoatContestInfoWithCheckBoxDTO(uBoatContestInfoWithoutCheckBoxDTO);
-                        dtoWithCheckBoxFromGson.add(uBoatContestInfoWithCheckBoxDTO);
-                    }
-                    updateUBoatContestsList.accept(dtoWithCheckBoxFromGson);
+
+                    updateContestInfoTableView.accept(dtoFromGson);
                 }
             }
         });
