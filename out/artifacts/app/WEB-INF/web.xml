@@ -151,5 +151,14 @@
         <url-pattern>/ContestInfoForAgentServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>GetEngineManagerServlet</servlet-name>
+        <servlet-class>servlets.GetEngineManagerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetEngineManagerServlet</servlet-name>
+        <url-pattern>/GetEngineManagerServlet</url-pattern>
+    </servlet-mapping>
+
 
 </web-app>

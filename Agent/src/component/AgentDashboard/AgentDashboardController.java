@@ -18,6 +18,8 @@ import utils.Constants;
 import utils.http.HttpClientUtil;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -113,7 +115,8 @@ public class AgentDashboardController {
                     threadPoolExecutor.prestartAllCoreThreads();
                     System.out.println("started threadpool");
                     theMissionInfoFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
-                    createRunnableMissions(theMissionInfoFromGson);
+                    EngineManager engineManager=getEngineManager();
+                    createRunnableMissions(theMissionInfoFromGson,engineManager);
                 } catch (IOException | InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -134,15 +137,56 @@ public class AgentDashboardController {
         }
         return null;
     }
-    public void createRunnableMissions(List<TheMissionInfo> theMissionInfoFromGson) throws InterruptedException {
+    public EngineManager getEngineManager(){
+
+        String finalUrl = HttpUrl
+                .parse(Constants.GET_ENGINE_MANAGER)
+                .newBuilder()
+                .addQueryParameter("alliesTeamName", selectedAlliesTeamName)
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrl)
+                .build();
+        Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+        try {
+            Response response = call.execute();
+            if (response.code() != 200) {
+                Platform.runLater(() -> {
+                    {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        try {
+                            alert.setContentText(response.body().string());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        alert.getDialogPane().setExpanded(true);
+                        alert.showAndWait();
+                    }
+                });
+            } else {
+          /*   InputStream objectInputStream = response.body().byteStream();*/
+               /* EngineManager engineManager= (EngineManager) objectInputStream.read()*/
+                EngineManager engineManager=null;
+
+                return engineManager;
+
+            }
+        } catch (IOException e) {
+
+        }
+        return null;
+
+    }
+    public void createRunnableMissions(List<TheMissionInfo> theMissionInfoFromGson,EngineManager engineManager) throws InterruptedException {
         int sizeOfMission;
         String initialStartingPosition;
-        EngineManager engineManager;
+
         for (TheMissionInfo theMissionInfo:theMissionInfoFromGson) {
             System.out.println("createRunnableMissions");
             sizeOfMission=theMissionInfo.getSizeOfMission();
            // engineManager=theMissionInfo.getEngineManager();
-            engineManager=new EngineManager();
+            engineManager=engineManager.cloneEngineManager();
 
             initialStartingPosition=theMissionInfo.getInitialStartingPosition();
             createPossiblePositionList(sizeOfMission,initialStartingPosition,engineManager);

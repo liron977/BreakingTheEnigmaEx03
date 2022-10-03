@@ -8,13 +8,13 @@ public class TheMissionInfo implements Serializable {
     private String initialStartingPosition;
     private int sizeOfMission;
    /* private String finalPosition;*/
-    private EngineManager engineManager;
+  /*  private EngineManager engineManager;*/
     private String stringToConvert;
-    public TheMissionInfo(String initialStartingPosition, int sizeOfMission,EngineManager engineManager
+    public TheMissionInfo(String initialStartingPosition, int sizeOfMission
                           ,String stringToConvert){
         this.initialStartingPosition=initialStartingPosition;
         this.sizeOfMission=sizeOfMission;
-        this.engineManager=engineManager;
+       /* this.engineManager=engineManager;*/
         this.stringToConvert=stringToConvert;
     }
 
@@ -31,7 +31,7 @@ public class TheMissionInfo implements Serializable {
         return initialStartingPosition;
     }
 
-    public EngineManager getEngineManager() {
+   /* public EngineManager getEngineManager() {
         return engineManager;
-    }
+    }*/
 }

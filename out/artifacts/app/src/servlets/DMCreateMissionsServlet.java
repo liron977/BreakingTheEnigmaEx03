@@ -69,7 +69,7 @@ public class DMCreateMissionsServlet extends HttpServlet {
             missionsCounter++;
             missionIndex = i;
             EngineManager engineManagerCopy = engineManager.cloneEngineManager();
-            TheMissionInfo theMissionInfo =new TheMissionInfo(initialStartingPosition, sizeOfMission, engineManagerCopy,stringToConvert);
+            TheMissionInfo theMissionInfo =new TheMissionInfo(initialStartingPosition, sizeOfMission, /*engineManagerCopy,*/stringToConvert);
             updateEngineManager(engineManagerCopy, engineManager);
             alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName,theMissionInfo);
             initialStartingPosition = engineManager.getNextStartingPositionByString(sizeOfMission);
