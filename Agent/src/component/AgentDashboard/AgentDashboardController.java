@@ -70,7 +70,7 @@ public class AgentDashboardController {
     public void setAmountOfThreads(int amountOfThreads) {
         this.amountOfThreads = amountOfThreads;
         this.listOfPossiblePosition = new ArrayList<>();
-       // setThreadPoolSize(amountOfThreads);
+       setThreadPoolSize(amountOfThreads);
     }
 
     public void setThreadPoolSize(int amountOfThreads) {
@@ -79,7 +79,8 @@ public class AgentDashboardController {
     }
 
     public Button getGetMissions() {
-       /* String finalUrl = HttpUrl
+        System.out.println("Im here");
+        String finalUrl = HttpUrl
                 .parse(Constants.AGENT_GET_MISSIONS)
                 .newBuilder()
                 .addQueryParameter("alliesTeamName", selectedAlliesTeamName)
@@ -106,11 +107,11 @@ public class AgentDashboardController {
                     }
                 });
             } else {
-                Type theMissionInfoList = new TypeToken<ArrayList<TheMissionInfo>>() {
-                }.getType();
+                Type theMissionInfoList = new TypeToken<ArrayList<TheMissionInfo>>() {}.getType();
                 List<TheMissionInfo> theMissionInfoFromGson = null;
                 try {
                     threadPoolExecutor.prestartAllCoreThreads();
+                    System.out.println("started threadpool");
                     theMissionInfoFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
                     createRunnableMissions(theMissionInfoFromGson);
                 } catch (IOException | InterruptedException e) {
@@ -130,7 +131,7 @@ public class AgentDashboardController {
 
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
-        }*/
+        }
         return null;
     }
     public void createRunnableMissions(List<TheMissionInfo> theMissionInfoFromGson) throws InterruptedException {
@@ -138,6 +139,7 @@ public class AgentDashboardController {
         String initialStartingPosition;
         EngineManager engineManager;
         for (TheMissionInfo theMissionInfo:theMissionInfoFromGson) {
+            System.out.println("createRunnableMissions");
             sizeOfMission=theMissionInfo.getSizeOfMission();
            // engineManager=theMissionInfo.getEngineManager();
             engineManager=new EngineManager();

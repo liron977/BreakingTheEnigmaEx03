@@ -3,6 +3,7 @@ package component.login;
 import bruteForce.AgentInfoDTO;
 import com.sun.istack.internal.NotNull;
 import component.AgentDashboard.AgentDashboardController;
+import component.AgentDashboard.AgentThreadTask;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -165,6 +166,8 @@ public class AgentLoginController {
             } else {
                 Platform.runLater(() -> {
                     {
+                        AgentThreadTask agentThreadTask=new AgentThreadTask(agentDashboardController);
+                        new Thread(agentThreadTask).start();
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     }
                 });
