@@ -42,6 +42,7 @@ public class ContestInfoRefresher extends TimerTask {
         String finalUrl = HttpUrl
                 .parse(Constants.CONTEST_INFO_FOR_AGENT)
                 .newBuilder()
+                .addQueryParameter("alliesTeamName", alliesTeamName)
                 .build()
                 .toString();
         HttpClientUtil.runAsync(finalUrl, new Callback() {

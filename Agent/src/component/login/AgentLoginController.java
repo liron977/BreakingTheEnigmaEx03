@@ -201,6 +201,7 @@ public class AgentLoginController {
                     //mainWindowAlliesController.setAlliesTeamName(alliesTeamName);
                     Platform.runLater(() -> {
                         addAgentToAlliesTeam();
+                        loadSuperScreen();
                         primaryStage.setScene(mainWindowAlliesControllerScene);
                         primaryStage.centerOnScreen();
                         primaryStage.show();
@@ -212,7 +213,7 @@ public class AgentLoginController {
     }
     public void setPrimaryStageAndLoadInTheBackgroundSuperScreen(Stage primaryStageIn){
         primaryStage=primaryStageIn;
-        loadSuperScreen();
+
     }
     private void loadSuperScreen(){
         FXMLLoader fxmlLoader = new FXMLLoader();

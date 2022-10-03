@@ -2,6 +2,8 @@ package component.AgentDashboard;
 
 import bruteForceLogic.TheMissionInfo;
 import com.google.gson.reflect.TypeToken;
+import component.AgentDashboard.AgentMissionRunnable;
+import component.AgentDashboard.ContestInfoController;
 import engineManager.EngineManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -72,7 +74,7 @@ public class AgentDashboardController {
     }
 
     public Button getGetMissions() {
-        String finalUrl = HttpUrl
+       /* String finalUrl = HttpUrl
                 .parse(Constants.AGENT_GET_MISSIONS)
                 .newBuilder()
                 .addQueryParameter("alliesTeamName", selectedAlliesTeamName)
@@ -123,7 +125,7 @@ public class AgentDashboardController {
 
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
-        }
+        }*/
         return null;
     }
     public void createRunnableMissions(List<TheMissionInfo> theMissionInfoFromGson) throws InterruptedException {

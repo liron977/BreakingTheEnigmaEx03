@@ -26,7 +26,7 @@ public class AlliesThreadTask extends Task<Boolean> {
     }
 
     public Boolean call() throws Exception {
-      RequestBody body =
+    /*  RequestBody body =
                 new MultipartBody.Builder()
                         .addFormDataPart("stringToConvert", stringToConvert)
                         .build();
@@ -65,7 +65,7 @@ public class AlliesThreadTask extends Task<Boolean> {
                 });
             }
         } catch (IOException e) {
-        }
+        }*/
         return Boolean.TRUE;
     }
 }
