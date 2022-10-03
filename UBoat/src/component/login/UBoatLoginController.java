@@ -99,6 +99,7 @@ public class UBoatLoginController {
                     Platform.runLater(() -> {
                      /*   mainWindowUBoatController.updateAlliesTableView();*/
                         primaryStage.setScene(sControllerScene);
+                        primaryStage.centerOnScreen();
                         primaryStage.show();
                        // loadFileController.setMediator(mediator);
                     });

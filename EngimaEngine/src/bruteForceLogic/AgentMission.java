@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
 public class AgentMission implements Runnable {
-    private BlockingQueue<BruteForceResultDTO> resultsBlockingQueue;
+   // private BlockingQueue<BruteForceResultDTO> resultsBlockingQueue;
     private EngineManager engineManagerCopy;
     private List<String> startingPositions;
     private String stringToConvert;
@@ -22,7 +22,7 @@ public class AgentMission implements Runnable {
    }
 
     public void setResultsBlockingQueue(BlockingQueue<BruteForceResultDTO> resultsBlockingQueue) {
-        this.resultsBlockingQueue = resultsBlockingQueue;
+        //this.resultsBlockingQueue = resultsBlockingQueue;
     }
 
     public void getConvertedStringsFounded() throws InterruptedException {
@@ -35,7 +35,7 @@ public class AgentMission implements Runnable {
             ConvertedStringDTO convertedStringDTOTemp = engineManagerCopy.getConvertedString(stringToConvert);
             if (engineManagerCopy.getTheMachineEngine().getDictionary().isStringExistsInTheDictionary(convertedStringDTOTemp.getConvertedString())) {
                 BruteForceResultDTO bruteForceResultDTO = new BruteForceResultDTO(convertedStringDTOTemp.getConvertedString(),alliesTeamName ,convertedStringCode);
-                resultsBlockingQueue.put(bruteForceResultDTO);
+               // resultsBlockingQueue.put(bruteForceResultDTO);
             }
         }
     }

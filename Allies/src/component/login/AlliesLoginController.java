@@ -109,6 +109,7 @@ public class AlliesLoginController {
                         mainWindowAlliesController.updateAgentsTableView();
                         mainWindowAlliesController.updateUBoatContestTableView();
                         primaryStage.setScene(mainWindowAlliesControllerScene);
+                        primaryStage.centerOnScreen();
                         primaryStage.show();
                        // loadFileController.setMediator(mediator);
                     });

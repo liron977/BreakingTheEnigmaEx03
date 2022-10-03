@@ -26,9 +26,7 @@ public class AlliesThreadTask extends Task<Boolean> {
     }
 
     public Boolean call() throws Exception {
-       // EngineManager engineManagerClone = engineManager.cloneEngineManager();
-    //    engineManager.getTheMachineEngine().initEmptyPlugBoard();
-        RequestBody body =
+      RequestBody body =
                 new MultipartBody.Builder()
                         .addFormDataPart("stringToConvert", stringToConvert)
                         .build();
@@ -63,8 +61,6 @@ public class AlliesThreadTask extends Task<Boolean> {
             } else {
                 Platform.runLater(() -> {
                     {
-                        /*isCodeDefined.setValue(true);
-                        displayErrors("The configuration saved successfully");*/
                     }
                 });
             }

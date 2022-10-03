@@ -201,6 +201,7 @@ public class AgentLoginController {
                     Platform.runLater(() -> {
                         addAgentToAlliesTeam();
                         primaryStage.setScene(mainWindowAlliesControllerScene);
+                        primaryStage.centerOnScreen();
                         primaryStage.show();
                     });
                 }
