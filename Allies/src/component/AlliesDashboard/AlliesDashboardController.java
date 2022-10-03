@@ -73,8 +73,6 @@ private  List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoWithCheckBoxDTOLi
     public void initialize(){
         isContestSelected=new SimpleBooleanProperty(true);
         readyButton.disableProperty().bind(isContestSelected);
-
-
     }
 
     public AlliesDashboardController() {

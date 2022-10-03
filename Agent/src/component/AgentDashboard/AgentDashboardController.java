@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import okhttp3.*;
@@ -43,6 +44,9 @@ public class AgentDashboardController {
     @FXML
     ContestInfoController contestInfoController;
 
+    @FXML
+    private Label alliesTeamNameLabel;
+
 
 
     @FXML
@@ -54,6 +58,7 @@ public class AgentDashboardController {
     public void setSelectedAlliesTeamName(String selectedAlliesTeamName) {
         this.selectedAlliesTeamName = selectedAlliesTeamName;
         contestInfoController.setAlliesTeamName(selectedAlliesTeamName);
+        alliesTeamNameLabel.setText(selectedAlliesTeamName);
 
     }
 

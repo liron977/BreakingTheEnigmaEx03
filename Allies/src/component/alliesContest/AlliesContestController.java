@@ -3,16 +3,23 @@ package component.alliesContest;
 import bruteForce.AlliesDTO;
 import component.mainWindowAllies.MainWindowAlliesController;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import okhttp3.*;
 import utils.Constants;
 import utils.http.HttpClientUtil;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static utils.Constants.REFRESH_RATE;
 
 public class AlliesContestController {
     MainWindowAlliesController mainWindowAlliesController;
@@ -25,7 +32,25 @@ public class AlliesContestController {
 
     private String alliesTeamName;
     private String selectedBattleField="";
+    @FXML
+    private TableView<AlliesDTO> activeTeamsDetailsTableView;
+    @FXML
+    private TableColumn<AlliesDTO, String> missionSizeColumn;
+    @FXML
+    private TableColumn<AlliesDTO, String> agentsAmountColumn;
+    @FXML
+    private TableColumn<AlliesDTO, String> alliesTeamNameColumn;
+    private Timer timer;
+    private TimerTask alliesRegisteredTeamsRefresher;
+    private SimpleBooleanProperty autoUpdate;
 
+
+    @FXML
+    public void initialize(){
+        autoUpdate=new SimpleBooleanProperty(true);
+
+
+    }
 
     public  void setSelectedBattleFieldName(String selectedBattleFieldName){
         this.selectedBattleField=selectedBattleFieldName;
@@ -83,4 +108,41 @@ public class AlliesContestController {
     public void setMainWindowAlliesController(MainWindowAlliesController mainWindowAlliesController) {
         this.mainWindowAlliesController = mainWindowAlliesController;
     }
+    public void startAlliesInfoTableViewRefresher() {
+        alliesRegisteredTeamsRefresher = new AlliesRegisteredTeamsInfoTablesViewRefresher(
+                this::updateRegisteredAlliesInfoList,
+                autoUpdate,
+                selectedBattleField);
+        timer = new Timer();
+        timer.schedule(alliesRegisteredTeamsRefresher, REFRESH_RATE, REFRESH_RATE);
+    }
+    private void createAlliesInfoDTOTableView(ObservableList<AlliesDTO> alliesInfoDTOList ) {
+        activeTeamsDetailsTableView.setItems(alliesInfoDTOList);
+        activeTeamsDetailsTableView.getColumns().clear();
+        activeTeamsDetailsTableView.getColumns().addAll(alliesTeamNameColumn, agentsAmountColumn, missionSizeColumn);
+    }
+    private void updateRegisteredAlliesInfoList(List<AlliesDTO> alliesInfoDTOList) {
+        Platform.runLater(() -> {
+            ObservableList<AlliesDTO> alliesDTOObservableList =getTeamsAgentsDataTableViewDTOList(alliesInfoDTOList);
+            createAlliesInfoDTOTableView(alliesDTOObservableList);
+           // totalAlliesRegisteredTeamsAmount.set(alliesInfoDTOList.size());
+        });
+    }
+    private ObservableList<AlliesDTO> getTeamsAgentsDataTableViewDTOList(List<AlliesDTO> alliesDTO) {
+
+        ObservableList<AlliesDTO> alliesDTOList;
+        alliesDTOList = FXCollections.observableArrayList(alliesDTO);
+        alliesTeamNameColumn.setCellValueFactory(
+                new PropertyValueFactory<>("alliesName")
+        );
+        agentsAmountColumn.setCellValueFactory(
+                new PropertyValueFactory<>("agentsAmount")
+        );
+        missionSizeColumn.setCellValueFactory(
+                new PropertyValueFactory<>("missionSize")
+        );
+
+        return alliesDTOList;
+    }
+
 }

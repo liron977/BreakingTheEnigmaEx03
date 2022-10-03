@@ -3,7 +3,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
-<TableView fx:id="contestsDataTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="674.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="component.AgentDashboard.ContestInfoController">
+<TableView fx:id="contestsDataTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="54.0" prefWidth="674.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.AgentDashboard.ContestInfoController">
   <columns>
     <TableColumn fx:id="AlliesTeamNameColumn" prefWidth="75.0" text="Allies Team" />
     <TableColumn fx:id="battleFieldNameColumn" prefWidth="75.0" text="Battlefield" />
