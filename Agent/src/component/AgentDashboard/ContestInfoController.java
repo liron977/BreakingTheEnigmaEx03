@@ -3,6 +3,7 @@ package component.AgentDashboard;
 import bruteForce.UBoatContestInfoWithoutCheckBoxDTO;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -41,6 +42,10 @@ public class ContestInfoController {
     private TimerTask contestInfoRefresher;
     BooleanProperty autoUpdate;
 
+    public ContestInfoController(){
+        this.autoUpdate=new SimpleBooleanProperty(true);
+    }
+
 
     public void setAlliesTeamName(String selectedAlliesTeamName) {
         this.alliesTeamName = selectedAlliesTeamName;
@@ -71,8 +76,6 @@ public class ContestInfoController {
         return uBoatContestInfoDTOList;
     }
     private void updateContestInfoTableView(UBoatContestInfoWithoutCheckBoxDTO uBoatContestInfoDTOList) {
-
-
         Platform.runLater(() -> {
                     ObservableList<UBoatContestInfoWithoutCheckBoxDTO> contestInfoObservableList =getUBoatContestInfoTableViewDTOList(uBoatContestInfoDTOList);
                     createContestInfoTableView(contestInfoObservableList);

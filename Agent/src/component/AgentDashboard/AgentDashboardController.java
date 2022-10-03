@@ -1,4 +1,4 @@
-package component.AgentDashboard.kkskdsd;
+package component.AgentDashboard;
 
 import bruteForceLogic.TheMissionInfo;
 import com.google.gson.reflect.TypeToken;
@@ -74,7 +74,7 @@ public class AgentDashboardController {
     }
 
     public Button getGetMissions() {
-        String finalUrl = HttpUrl
+       /* String finalUrl = HttpUrl
                 .parse(Constants.AGENT_GET_MISSIONS)
                 .newBuilder()
                 .addQueryParameter("alliesTeamName", selectedAlliesTeamName)
@@ -125,7 +125,7 @@ public class AgentDashboardController {
 
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
-        }
+        }*/
         return null;
     }
     public void createRunnableMissions(List<TheMissionInfo> theMissionInfoFromGson) throws InterruptedException {
