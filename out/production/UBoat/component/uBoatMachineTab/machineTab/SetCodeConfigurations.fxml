@@ -17,7 +17,7 @@
               <content>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="301.0" prefWidth="386.0" spacing="10.0">
                <children>
-                  <Button id="saveSettingsButton" fx:id="clearButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#setClearButtonActionListener" prefHeight="25.0" prefWidth="385.0" text="Clear" VBox.vgrow="ALWAYS" />
+                  <Button id="saveSettingsButton" fx:id="clearButton" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#setClearButtonActionListener" prefHeight="25.0" prefWidth="385.0" text="Clear" VBox.vgrow="ALWAYS" />
                           <Label id="lighterLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="9.0" prefWidth="389.0" text="Please select Rotors Id:" />
                           <ScrollPane id="presentInfoSection" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" VBox.vgrow="NEVER">
                               <content>

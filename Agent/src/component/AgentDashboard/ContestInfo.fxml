@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+<TableView fx:id="contestsDataTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="674.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="component.AgentDashboard.ContestInfoController">
+  <columns>
+    <TableColumn fx:id="AlliesTeamNameColumn" prefWidth="75.0" text="Allies Team" />
+    <TableColumn fx:id="battleFieldNameColumn" prefWidth="75.0" text="Battlefield" />
+      <TableColumn fx:id="uBoatUserNameColumn" prefWidth="90.66665649414062" text="Uploaded By" />
+      <TableColumn fx:id="contestStatusColumn" prefWidth="60.66670227050781" text="Status" />
+      <TableColumn fx:id="contestLevelColumn" prefWidth="75.0" text="Level" />
+      <TableColumn fx:id="amountOfNeededDecryptionTeamsColumn" prefWidth="149.99990844726562" text="Needed Allies Amount" />
+      <TableColumn fx:id="amountOfActiveDecryptionTeamsColumn" prefWidth="146.66668701171875" text="Active Allies Amount" />
+  </columns>
+</TableView>
