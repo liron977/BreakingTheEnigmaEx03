@@ -21,10 +21,11 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" scope="PROVIDED" name="Tomcat 10.0.23" level="application_server_libraries" />
-    <orderEntry type="module" module-name="EngimaEngine" />
+    <orderEntry type="module" module-name="EngimaEngine" scope="RUNTIME" />
     <orderEntry type="library" name="google-gson-2" level="project" />
     <orderEntry type="module" module-name="DTOObjects" />
     <orderEntry type="library" name="okHttp" level="project" />
     <orderEntry type="library" name="src" level="project" />
+    <orderEntry type="module" module-name="EngimaEngine" />
   </component>
 </module>

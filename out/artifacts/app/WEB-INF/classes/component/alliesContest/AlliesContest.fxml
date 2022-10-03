@@ -32,11 +32,11 @@
             <Separator orientation="VERTICAL" prefHeight="200.0" />
             <VBox prefHeight="461.0" prefWidth="407.0">
                <children>
-                  <TableView prefHeight="207.0" prefWidth="263.0">
+                  <TableView fx:id="activeTeamsDetailsTableView" prefHeight="207.0" prefWidth="263.0">
                     <columns>
-                      <TableColumn prefWidth="146.0" text="Team Name" />
-                      <TableColumn prefWidth="123.33334350585938" text="Agents Amount" />
-                        <TableColumn prefWidth="136.66668701171875" text="Mission Size" />
+                      <TableColumn fx:id="alliesTeamNameColumn" prefWidth="146.0" text="Team Name" />
+                      <TableColumn fx:id="agentsAmountColumn" prefWidth="123.33334350585938" text="Agents Amount" />
+                        <TableColumn fx:id="missionSizeColumn" prefWidth="136.66668701171875" text="Mission Size" />
                     </columns>
                   </TableView>
                </children>

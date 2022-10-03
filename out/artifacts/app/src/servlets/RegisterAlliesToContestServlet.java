@@ -9,6 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import managers.bruteForce.AlliesMissionsManager;
 import managers.uBoatEngine.AlliesManager;
 import managers.uBoatEngine.UBoatAvailableContestsManager;
 import utils.ServletUtils;
@@ -26,6 +27,8 @@ public class RegisterAlliesToContestServlet  extends HttpServlet {
             UBoatAvailableContestsManager uBoatAvailableContestsManger = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
             //MediatorForEngineManager mediatorForEngineManager=ServletUtils.getMediatorForEngineManager(getServletContext());
             AlliesManager alliesManager = ServletUtils.getAlliesManager(getServletContext());
+            AlliesMissionsManager alliesMissionsManager = ServletUtils.getAlliesMissionsManager(getServletContext());
+            alliesMissionsManager.addAlliesToAlliesMissionsManagerMap(alliesToRegister.getAlliesName());
             Allies allies = alliesManager.getAlliesByAlliesTeamName(alliesToRegister.getAlliesName());
             allies.setMissionSize(alliesToRegister.getMissionSize());
 
@@ -43,6 +46,8 @@ public class RegisterAlliesToContestServlet  extends HttpServlet {
                     response.setStatus(HttpServletResponse.SC_CONFLICT);
                 }
             }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
     }

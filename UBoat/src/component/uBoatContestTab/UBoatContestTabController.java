@@ -219,7 +219,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         try {
             Response response = call.execute();
             if (response.code() != 200) {
-                Platform.runLater(() -> {
+               /* Platform.runLater(() -> {
                     {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         try {
@@ -230,7 +230,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                         alert.getDialogPane().setExpanded(true);
                         alert.showAndWait();
                     }
-                });
+                });*/
             } else {
                 try {
                     String[] dictionaryArray = Constants.GSON_INSTANCE.fromJson(response.body().string(), String[].class);
@@ -558,7 +558,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         try {
             Response response = call.execute();
             if (response.code() != 200) {
-                Platform.runLater(() -> {
+               /* Platform.runLater(() -> {
                     {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         try {
@@ -569,7 +569,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                         alert.getDialogPane().setExpanded(true);
                         alert.showAndWait();
                     }
-                });
+                });*/
             } else {
                 try {
                     ConvertedStringProcessDTO convertedStringProcessDTOFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), ConvertedStringProcessDTO.class);
@@ -624,7 +624,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         try {
             Response response = call.execute();
             if (response.code() != 200) {
-                Platform.runLater(() -> {
+               /* Platform.runLater(() -> {
                     {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         try {
@@ -635,7 +635,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                         alert.getDialogPane().setExpanded(true);
                         alert.showAndWait();
                     }
-                });
+                });*/
             } else {
                 readyButton.setDisable(true);
                     Platform.runLater(() -> {

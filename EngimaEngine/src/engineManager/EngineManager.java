@@ -596,7 +596,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     public String getStartingPositionStringFromIndexes(int[] positionByIndex) {
         String startingPositionString ="";
         for (int i = 0; i < positionByIndex.length; i++) {
-            startingPositionString =keyboard[positionByIndex[i]];
+            startingPositionString+=keyboard[positionByIndex[i]];
         }
         return startingPositionString;
 
@@ -607,19 +607,20 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     }
 
     public int[] getNextStartingPositionByIndexes(int missionSize) {
-        missionSize++;
-        while (missionSize != 0) {
+       // missionSize++;
+        int tempMissionSize=missionSize;
+        while (tempMissionSize != 0) {
             while (currentPosition[currentPosition.length - 1] < keyboard.length - 1) {
 
                 currentPosition[currentPosition.length - 1] = currentPosition[currentPosition.length - 1] + 1;
-                missionSize--;
-                if (missionSize == 0 || isTheLastStartingPosition(currentPosition, keyboard.length)) {
+                tempMissionSize--;
+                if (tempMissionSize == 0 || isTheLastStartingPosition(currentPosition, keyboard.length)) {
                     // printRes(currentPosition, keyboard);
                     break;
                 }
                 //printRes(currentPosition, keyboard);
             }
-            if (missionSize == 0 || isTheLastStartingPosition(currentPosition, keyboard.length)) {
+            if (tempMissionSize == 0 || isTheLastStartingPosition(currentPosition, keyboard.length)) {
                 // printRes(currentPosition, keyboard);
                 break;
             }
@@ -628,12 +629,12 @@ public class EngineManager implements EngineManagerInterface,Serializable {
                     currentPosition[i] = 0;
                     if (currentPosition[i - 1] < keyboard.length - 1) {
                         currentPosition[i - 1] = currentPosition[i - 1] + 1;
-                        missionSize--;
+                        tempMissionSize--;
                         // printRes(currentPosition, keyboard);
                         break;
                     }
 
-                    if (missionSize == 0 || isTheLastStartingPosition(currentPosition, keyboard.length)) {
+                    if (tempMissionSize == 0 || isTheLastStartingPosition(currentPosition, keyboard.length)) {
                         // printRes(currentPosition, keyboard);
                         break;
                     }

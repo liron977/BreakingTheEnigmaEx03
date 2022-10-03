@@ -16,6 +16,7 @@ public class AlliesThreadTask extends Task<Boolean> {
     private int sizeOfMission;
   //  private EngineManager engineManager;
     private String alliesTeamName;
+    private boolean isErrorOccurred =false;
 
     public AlliesThreadTask(String stringToConvert, int sizeOfMission, String alliesTeamName) {
         //this.UiAdapter = uiAdapt;
@@ -26,7 +27,7 @@ public class AlliesThreadTask extends Task<Boolean> {
     }
 
     public Boolean call() throws Exception {
-    /*  RequestBody body =
+      RequestBody body =
                 new MultipartBody.Builder()
                         .addFormDataPart("stringToConvert", stringToConvert)
                         .build();
@@ -46,18 +47,22 @@ public class AlliesThreadTask extends Task<Boolean> {
         try {
             Response response = call.execute();
             if (response.code() != 200) {
-                Platform.runLater(() -> {
-                    {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        try {
-                            alert.setContentText(response.body().string());
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
+                if(!isErrorOccurred) {
+                    //todo:kill the timeout
+                    isErrorOccurred=true;
+                    Platform.runLater(() -> {
+                        {
+                           /* Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            try {
+                                alert.setContentText(response.body().string());
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            alert.getDialogPane().setExpanded(true);
+                            alert.showAndWait();*/
                         }
-                        alert.getDialogPane().setExpanded(true);
-                        alert.showAndWait();
-                    }
-                });
+                    });
+                }
             } else {
                 Platform.runLater(() -> {
                     {
@@ -65,7 +70,7 @@ public class AlliesThreadTask extends Task<Boolean> {
                 });
             }
         } catch (IOException e) {
-        }*/
+        }
         return Boolean.TRUE;
     }
 }

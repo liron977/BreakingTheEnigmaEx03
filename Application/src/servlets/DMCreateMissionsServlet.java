@@ -74,6 +74,7 @@ public class DMCreateMissionsServlet extends HttpServlet {
             alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName,theMissionInfo);
             initialStartingPosition = engineManager.getNextStartingPositionByString(sizeOfMission);
         }
+        int x=0;
     }
 
     public Long calculateAmountOfMissionsToCreate(EngineManager engineManager, int sizeOfMission) {

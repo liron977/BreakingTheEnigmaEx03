@@ -111,8 +111,8 @@ public class ServletUtils {
     }
     public static AlliesMissionsManager getAlliesMissionsManager(ServletContext servletContext) {
         synchronized (uBoatAvailableContestsLock) {
-            if (servletContext.getAttribute(UBOAT_AVAILABLE_CONTESTS_ATTRIBUTE_NAME) == null) {
-                servletContext.setAttribute(UBOAT_AVAILABLE_CONTESTS_ATTRIBUTE_NAME, new AlliesMissionsManager());
+            if (servletContext.getAttribute(ALLIES_MISSIONS_MANAGER_ATTRIBUTE_NAME) == null) {
+                servletContext.setAttribute(ALLIES_MISSIONS_MANAGER_ATTRIBUTE_NAME, new AlliesMissionsManager());
             }
         }
         return (AlliesMissionsManager) servletContext.getAttribute(ALLIES_MISSIONS_MANAGER_ATTRIBUTE_NAME);

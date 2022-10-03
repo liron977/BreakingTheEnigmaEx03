@@ -12,8 +12,8 @@
          <children>
             <HBox alignment="CENTER">
                <children>
-                  <Label text="Contest Data for Allies Team:" />
-                  <Label fx:id="alliesTeamNameLabel" alignment="TOP_CENTER" />
+                  <Label id="lighterLabel" text="Contest Data for Allies Team:" />
+                  <Label id="lighterLabel" fx:id="alliesTeamNameLabel" alignment="TOP_CENTER" />
                </children>
             </HBox>
             <fx:include fx:id="contestInfo" source="ContestInfo.fxml" />
