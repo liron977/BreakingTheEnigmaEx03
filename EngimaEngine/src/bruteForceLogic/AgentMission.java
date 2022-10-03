@@ -14,15 +14,12 @@ public class AgentMission implements Runnable {
     private List<String> startingPositions;
     private String stringToConvert;
    private String alliesTeamName;
-
-
-           public AgentMission(String alliesTeamName,String stringToConvert,EngineManager engineManagerCopy, List<String> startingPositions){
-               this.alliesTeamName=alliesTeamName;
-               this.engineManagerCopy=engineManagerCopy;
-               this.stringToConvert=stringToConvert;
-               this.startingPositions=startingPositions;
-
-           }
+   public AgentMission(String alliesTeamName,String stringToConvert,EngineManager engineManagerCopy, List<String> startingPositions) {
+       this.alliesTeamName = alliesTeamName;
+       this.engineManagerCopy = engineManagerCopy;
+       this.stringToConvert = stringToConvert;
+       this.startingPositions = startingPositions;
+   }
 
     public void setResultsBlockingQueue(BlockingQueue<BruteForceResultDTO> resultsBlockingQueue) {
         this.resultsBlockingQueue = resultsBlockingQueue;

@@ -1,6 +1,5 @@
 package engineManager;
 
-import bruteForceLogic.TheMissionInfo;
 import engine.theEnigmaEngine.Agents;
 import engine.theEnigmaEngine.TheMachineEngine;
 import machineDTO.*;

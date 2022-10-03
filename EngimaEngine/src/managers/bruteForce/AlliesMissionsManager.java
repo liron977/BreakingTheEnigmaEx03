@@ -1,6 +1,7 @@
 package managers.bruteForce;
 
-import bruteForce.AgentInfoDTO;
+
+
 import bruteForceLogic.TheMissionInfo;
 
 import java.util.*;

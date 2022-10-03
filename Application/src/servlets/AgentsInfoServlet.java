@@ -35,6 +35,7 @@ public class AgentsInfoServlet extends HttpServlet {
                 out.println(json);
                 out.flush();
             }
+            response.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

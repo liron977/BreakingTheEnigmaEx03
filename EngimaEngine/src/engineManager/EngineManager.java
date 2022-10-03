@@ -1,6 +1,5 @@
 package engineManager;
 
-import bruteForceLogic.TheMissionInfo;
 import engine.theEnigmaEngine.*;
 import engine.validator.*;
 import historyAndStatistics.HistoryOfProcess;
@@ -1046,11 +1045,11 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         }
         return possibleStartingPositionList;
     }
-    public TheMissionInfo createMissionInfo(String initialStartingPosition, int sizeOfMission,EngineManager engineManager,
+/*    public bruteForceLogic.TheMissionInfo createMissionInfo(String initialStartingPosition, int sizeOfMission,EngineManager engineManager,
                                   String stringToConvert){
-        TheMissionInfo theMissionInfo=new TheMissionInfo(initialStartingPosition,
+        bruteForceLogic.TheMissionInfo theMissionInfo=new bruteForceLogic.TheMissionInfo(initialStartingPosition,
                 sizeOfMission,engineManager,stringToConvert);
         return theMissionInfo;
-    }
+    }*/
 
 }

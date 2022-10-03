@@ -1,5 +1,6 @@
 package servlets;
 
+
 import bruteForceLogic.TheMissionInfo;
 import constants.ParametersConstants;
 import engine.theEnigmaEngine.Allies;
@@ -58,9 +59,9 @@ public class DMCreateMissionsServlet extends HttpServlet {
     public void createLowLevelMission(EngineManager engineManager,
                                       Long amountOfSubListsToCreate,int sizeOfMission
             ,String theAlliesTeamName,String stringToConvert) throws Exception {
-       // BlockingQueue<TheMissionInfo> theMissionInfoBlockingQueuelockingQueue = new LinkedBlockingQueue<TheMissionInfo>(1000);
+       // BlockingQueue<bruteForceLogic.TheMissionInfo> theMissionInfoBlockingQueuelockingQueue = new LinkedBlockingQueue<bruteForceLogic.TheMissionInfo>(1000);
         AlliesMissionsManager alliesMissionsManager=ServletUtils.getAlliesMissionsManager(getServletContext());
-       // BlockingQueue<TheMissionInfo> theMissionInfoBlockingQueuelockingQueue=alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName);
+       // BlockingQueue<bruteForceLogic.TheMissionInfo> theMissionInfoBlockingQueuelockingQueue=alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName);
         int missionsCounter = 0;
        String initialStartingPosition= engineManager.getInitialStartingPosition();
         int missionIndex = 0;
@@ -68,7 +69,7 @@ public class DMCreateMissionsServlet extends HttpServlet {
             missionsCounter++;
             missionIndex = i;
             EngineManager engineManagerCopy = engineManager.cloneEngineManager();
-            TheMissionInfo theMissionInfo =engineManagerCopy.createMissionInfo(initialStartingPosition, sizeOfMission,engineManagerCopy,stringToConvert);
+            TheMissionInfo theMissionInfo =new TheMissionInfo(initialStartingPosition, sizeOfMission, engineManager,stringToConvert);
             updateEngineManager(engineManagerCopy, engineManager);
             alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName,theMissionInfo);
             initialStartingPosition = engineManager.getNextStartingPositionByString(sizeOfMission);

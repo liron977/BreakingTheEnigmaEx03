@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import managers.bruteForce.AlliesMissionsManager;
-import managers.uBoatEngine.AlliesManager;
 import utils.ServletUtils;
 
 import java.io.IOException;

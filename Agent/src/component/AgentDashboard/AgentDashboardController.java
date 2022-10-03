@@ -1,12 +1,9 @@
 package component.AgentDashboard;
 
-import bruteForce.UBoatContestInfoWithCheckBoxDTO;
-import bruteForce.UBoatContestInfoWithoutCheckBoxDTO;
 import bruteForceLogic.TheMissionInfo;
 import com.google.gson.reflect.TypeToken;
 import engineManager.EngineManager;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -110,7 +107,9 @@ public class AgentDashboardController {
         EngineManager engineManager;
         for (TheMissionInfo theMissionInfo:theMissionInfoFromGson) {
             sizeOfMission=theMissionInfo.getSizeOfMission();
-            engineManager=theMissionInfo.getEngineManager();
+           // engineManager=theMissionInfo.getEngineManager();
+            engineManager=new EngineManager();
+
             initialStartingPosition=theMissionInfo.getInitialStartingPosition();
             createPossiblePositionList(sizeOfMission,initialStartingPosition,engineManager);
             AgentMissionRunnable agentMissionRunnable=new AgentMissionRunnable(engineManager,
@@ -244,9 +243,9 @@ public class AgentDashboardController {
             } else {
                 Platform.runLater(() -> {
                     {
-                        Type theMissionInfoList = new TypeToken<ArrayList<TheMissionInfo>>() {
+                        Type theMissionInfoList = new TypeToken<ArrayList<bruteForceLogic.TheMissionInfo>>() {
                         }.getType();
-                        List<TheMissionInfo> theMissionInfoFromGson = null;
+                        List<bruteForceLogic.TheMissionInfo> theMissionInfoFromGson = null;
                         try {
                             theMissionInfoFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
                         } catch (IOException e) {
