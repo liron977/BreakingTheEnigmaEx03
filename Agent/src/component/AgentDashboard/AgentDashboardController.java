@@ -4,9 +4,11 @@ import bruteForceLogic.TheMissionInfo;
 import com.google.gson.reflect.TypeToken;
 import engineManager.EngineManager;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import okhttp3.*;
 import utils.Constants;
 import utils.http.HttpClientUtil;
@@ -31,6 +33,13 @@ public class AgentDashboardController {
 
     private ThreadPoolExecutor threadPoolExecutor;
     private List<String> listOfPossiblePosition;
+
+    @FXML
+    private TableView contestInfo;
+    @FXML
+    ContestInfoController contestInfoController;
+
+
 
 
     public AgentDashboardController(String selectedAlliesTeamName, String amountOfMissionsPerAgent, int amountOfThreads) {
@@ -208,13 +217,13 @@ public class AgentDashboardController {
         }
         return indexArrayFromString;
     }
-}
 
 
-   /* @FXML
-    void getMissionsOnAction(ActionEvent event) {*/
 
-      /*  String finalUrl = HttpUrl
+    @FXML
+    void getMissionsOnAction(ActionEvent event) {
+
+    /*    String finalUrl = HttpUrl
                 .parse(Constants.AGENT_GET_MISSIONS)
                 .newBuilder()
                 .addQueryParameter("alliesTeamName", selectedAlliesTeamName)
@@ -259,8 +268,6 @@ public class AgentDashboardController {
             }
         catch (IOException e) {
 
-            }
+            }*/
              }
-        }*/
-
-
+        }

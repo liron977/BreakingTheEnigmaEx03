@@ -22,6 +22,7 @@ public class Constants {
     public static final String ALLIES_LOGIN= "http://localhost:8080/app/AlliesLoginServlet";
     public static final String DISPLAY_ALLIES_TEAMS_INFO= "http://localhost:8080/app/AlliesInfoServlet";
     public static final String ALLIES_CREATE_MISSIONS= "http://localhost:8080/app/DMCreateMissionsServlet";
+    public static final String CONTEST_INFO_FOR_AGENT= "http://localhost:8080/app/ContestInfoForAgentServlet";
 
     public static final String AGENT_GET_MISSIONS= "http://localhost:8080/app/AgentGetMissionsServlet";
     public static final Gson GSON_INSTANCE = new Gson();
