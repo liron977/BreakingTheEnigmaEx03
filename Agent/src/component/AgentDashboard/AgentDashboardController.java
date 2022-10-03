@@ -113,6 +113,8 @@ public class AgentDashboardController {
                 try {
                     threadPoolExecutor.prestartAllCoreThreads();
                     System.out.println("started threadpool");
+                    System.out.println("check");
+
                     theMissionInfoFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
                     EngineManager engineManager=getEngineManager();
                     createRunnableMissions(theMissionInfoFromGson,engineManager);
