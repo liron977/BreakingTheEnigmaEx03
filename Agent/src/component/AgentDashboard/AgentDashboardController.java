@@ -22,8 +22,7 @@ import utils.http.HttpClientUtil;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -176,8 +175,9 @@ public class AgentDashboardController {
                 EngineManager engineManager= (EngineManager) objectInputStream.readObject();
 */
 
-              InputStream inputStream = Constants.GSON_INSTANCE.fromJson(response.body().string(), InputStream.class);
-              TheMachineEngine theMachineEngine= buildTheMachineEngineUboat(inputStream);
+                ByteArrayInputStream byteArrayInputStream = Constants.GSON_INSTANCE.fromJson(response.body().string(), ByteArrayInputStream.class);
+
+              TheMachineEngine theMachineEngine= buildTheMachineEngineUboat(byteArrayInputStream);
 
                 return theMachineEngine;
 
@@ -191,13 +191,17 @@ public class AgentDashboardController {
 
     }
     private CTEEnigma deserializeFrom(InputStream in) throws Exception {
-        try {
-            JAXBContext jc = JAXBContext.newInstance("schemaGenerated");
+        in.reset();
+        Unmarshaller unmarshaller = JAXBContext.newInstance("schemaGenerated")
+                .createUnmarshaller();
+        return (CTEEnigma)unmarshaller.unmarshal(in);
+
+            /*JAXBContext jc = JAXBContext.newInstance("schemaGenerated");
             Unmarshaller u = jc.createUnmarshaller();
-            return (CTEEnigma) u.unmarshal(in);
-        } catch (JAXBException e) {
+            return (CTEEnigma) u.unmarshal(in);*/
+       /* } catch (JAXBException e) {
             throw new Exception("The file is not valid,please enter other file");
-        }
+        }*/
     }
     public TheMachineEngine buildTheMachineEngineUboat(InputStream inputStream) throws Exception {
         CTEEnigma cteEnigma=deserializeFrom(inputStream);
