@@ -25,7 +25,7 @@
     <orderEntry type="library" name="google-gson-2" level="project" />
     <orderEntry type="module" module-name="DTOObjects" />
     <orderEntry type="library" name="okHttp" level="project" />
-    <orderEntry type="library" name="src" level="project" />
     <orderEntry type="module" module-name="EngimaEngine" />
+    <orderEntry type="library" name="src" level="project" />
   </component>
 </module>

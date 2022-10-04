@@ -21,7 +21,7 @@ import java.util.List;
 public class GetEngineManagerServlet  extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        try (ServletOutputStream out = response.getOutputStream()) {
+        try (PrintWriter out = response.getWriter()) {
             AlliesManager alliesManager = ServletUtils.getAlliesManager(getServletContext());
             String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
             UBoatAvailableContestsManager uBoatAvailableContestsManager = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
