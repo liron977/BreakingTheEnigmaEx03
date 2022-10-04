@@ -4,6 +4,7 @@ import bruteForceLogic.TheMissionInfo;
 import com.google.gson.reflect.TypeToken;
 import component.AgentDashboard.AgentMissionRunnable;
 import component.AgentDashboard.ContestInfoController;
+import engine.theEnigmaEngine.TheMachineEngine;
 import engineManager.EngineManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -18,6 +19,7 @@ import utils.Constants;
 import utils.http.HttpClientUtil;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -117,8 +119,8 @@ public class AgentDashboardController {
 
                     theMissionInfoFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
                     EngineManager engineManager=getEngineManager();
-                    createRunnableMissions(theMissionInfoFromGson,engineManager);
-                } catch (IOException | InterruptedException e) {
+                    //createRunnableMissions(theMissionInfoFromGson,engineManager);
+                } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
                 threadPoolExecutor.shutdown();
@@ -166,17 +168,18 @@ public class AgentDashboardController {
                     }
                 });
             } else {
-                ObjectInputStream objectInputStream = Constants.GSON_INSTANCE.fromJson(response.body().string(),ObjectInputStream.class);
+              /*  InputStream inputStream =response.body().byteStream();
+                ObjectInputStream objectInputStream=new ObjectInputStream(inputStream);
                 EngineManager engineManager= (EngineManager) objectInputStream.readObject();
 
+*/
+              EngineManager  engineManager = Constants.GSON_INSTANCE.fromJson(response.body().string(), EngineManager.class);
 
                 return engineManager;
 
             }
         } catch (IOException e) {
 
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
         return null;
 
