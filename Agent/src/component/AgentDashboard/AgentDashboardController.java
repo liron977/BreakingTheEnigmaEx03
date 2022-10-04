@@ -22,6 +22,7 @@ import utils.http.HttpClientUtil;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
@@ -53,7 +54,7 @@ public class AgentDashboardController {
     @FXML
     private Label alliesTeamNameLabel;
 
-    private final String JAXB_XML_GAME_PACKAGE_NAME = "schemaGenerated";
+    private final String JAXB_XML_GAME_PACKAGE_NAME = "EngimaEngine.schemaGenerated";
 
     @FXML
     public void initialize() {
@@ -175,11 +176,22 @@ public class AgentDashboardController {
                 ObjectInputStream objectInputStream=new ObjectInputStream(inputStream);
                 EngineManager engineManager= (EngineManager) objectInputStream.readObject();
 */
+                ResponseBody body = response.body();
+                if(body != null) {
+                    try {
+                        //Use it anytime you want
+                        String responseString = body.string();
+                        ByteArrayInputStream inputStream = Constants.GSON_INSTANCE.fromJson( responseString, ByteArrayInputStream.class);
+                        InputStream inputStream1= (InputStream) inputStream;
+                        TheMachineEngine theMachineEngine= buildTheMachineEngineUboat(inputStream);
+                        return theMachineEngine;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
 
-              InputStream inputStream = Constants.GSON_INSTANCE.fromJson(response.body().string(), InputStream.class);
-              TheMachineEngine theMachineEngine= buildTheMachineEngineUboat(inputStream);
 
-                return theMachineEngine;
+
 
             }
         } catch (IOException e) {
