@@ -49,7 +49,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     private UBoatBattleField battleField;
     private String uploadedBy;
     private int amountOfNeededDecryptionAliesTeams;
-
+    private InputStream inputStream;
 
 
     @Override
@@ -870,6 +870,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         this.uploadedBy = uploadedBy;
     }*/
     public ListOfExceptionsDTO loadFileByInputStream(InputStream inputStream,String uploadedBy) throws Exception {
+        this.inputStream=inputStream;
         CTEEnigma cteEnigma = this.deserializeFrom(inputStream);
         List<Exception> exceptionList=fileValidator(cteEnigma);
       if(exceptionList.size()==0) {
@@ -1045,6 +1046,9 @@ public class EngineManager implements EngineManagerInterface,Serializable {
             System.out.println("**************************************************************************************************");
         }
         return possibleStartingPositionList;
+    }
+    public InputStream getInputStream(){
+        return this.inputStream;
     }
 /*    public bruteForceLogic.TheMissionInfo createMissionInfo(String initialStartingPosition, int sizeOfMission,EngineManager engineManager,
                                   String stringToConvert){

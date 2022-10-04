@@ -30,10 +30,14 @@ public class AgentGetMissionsServlet extends HttpServlet {
                     if (theMissionInfo == null) {
                         break;
                     } else {
+                        counter++;
                         theMissionInfoList.add(theMissionInfo);
                     }
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
+                }
+                catch (Exception e){
+                    System.out.println(e.getMessage());
                 }
             }
             Gson gson = new Gson();

@@ -2,9 +2,9 @@ package component.AgentDashboard;
 
 import bruteForceLogic.TheMissionInfo;
 import com.google.gson.reflect.TypeToken;
-import component.AgentDashboard.AgentMissionRunnable;
-import component.AgentDashboard.ContestInfoController;
+import engine.theEnigmaEngine.SchemaGenerated;
 import engine.theEnigmaEngine.TheMachineEngine;
+import engine.theEnigmaEngine.UBoatBattleField;
 import engineManager.EngineManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -15,12 +15,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import okhttp3.*;
+import schemaGenerated.CTEEnigma;
 import utils.Constants;
 import utils.http.HttpClientUtil;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,7 +53,7 @@ public class AgentDashboardController {
     @FXML
     private Label alliesTeamNameLabel;
 
-
+    private final String JAXB_XML_GAME_PACKAGE_NAME = "schemaGenerated";
 
     @FXML
     public void initialize() {
@@ -118,7 +121,7 @@ public class AgentDashboardController {
                     System.out.println("check");
 
                     theMissionInfoFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
-                    EngineManager engineManager=getEngineManager();
+                    TheMachineEngine theMachineEngine= getTheMachineEngine();
                     //createRunnableMissions(theMissionInfoFromGson,engineManager);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -140,7 +143,7 @@ public class AgentDashboardController {
         }
         return null;
     }
-    public EngineManager getEngineManager(){
+    public TheMachineEngine getTheMachineEngine(){
 
         String finalUrl = HttpUrl
                 .parse(Constants.GET_ENGINE_MANAGER)
@@ -171,19 +174,41 @@ public class AgentDashboardController {
               /*  InputStream inputStream =response.body().byteStream();
                 ObjectInputStream objectInputStream=new ObjectInputStream(inputStream);
                 EngineManager engineManager= (EngineManager) objectInputStream.readObject();
-
 */
-              EngineManager  engineManager = Constants.GSON_INSTANCE.fromJson(response.body().string(), EngineManager.class);
 
-                return engineManager;
+              InputStream inputStream = Constants.GSON_INSTANCE.fromJson(response.body().string(), InputStream.class);
+              TheMachineEngine theMachineEngine= buildTheMachineEngineUboat(inputStream);
+
+                return theMachineEngine;
 
             }
         } catch (IOException e) {
 
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         return null;
 
     }
+    private CTEEnigma deserializeFrom(InputStream in) throws Exception {
+        try {
+            JAXBContext jc = JAXBContext.newInstance("schemaGenerated");
+            Unmarshaller u = jc.createUnmarshaller();
+            return (CTEEnigma) u.unmarshal(in);
+        } catch (JAXBException e) {
+            throw new Exception("The file is not valid,please enter other file");
+        }
+    }
+    public TheMachineEngine buildTheMachineEngineUboat(InputStream inputStream) throws Exception {
+        CTEEnigma cteEnigma=deserializeFrom(inputStream);
+        SchemaGenerated schemaGenerated = new SchemaGenerated(cteEnigma);
+        UBoatBattleField battleField=schemaGenerated.createBattleField();
+        TheMachineEngine theMachineEngine = new TheMachineEngine(schemaGenerated.createRotorsSet()
+                , schemaGenerated.createReflectorsSet(), schemaGenerated.createKeyboard(),
+                schemaGenerated.getAmountOfUsedRotors(), schemaGenerated.createDictionary(),battleField);
+        return theMachineEngine;
+    }
+
     public void createRunnableMissions(List<TheMissionInfo> theMissionInfoFromGson,EngineManager engineManager) throws InterruptedException {
         int sizeOfMission;
         String initialStartingPosition;

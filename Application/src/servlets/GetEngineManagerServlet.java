@@ -22,25 +22,31 @@ import java.util.List;
 public class GetEngineManagerServlet  extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        try (ServletOutputStream out = response.getOutputStream()) {
+        try (PrintWriter out = response.getWriter()) {
             response.setContentType("application/json");
             AlliesManager alliesManager = ServletUtils.getAlliesManager(getServletContext());
             String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
             UBoatAvailableContestsManager uBoatAvailableContestsManager = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
             EngineManager engineManager = uBoatAvailableContestsManager.getEngineMangerByAlliesTeamName(theAlliesTeamName);
-
+            InputStream inputStream=engineManager.getInputStream();
             Gson gson = new Gson();
 
-                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
+               /*  ByteArrayOutputStream baos = new ByteArrayOutputStream();
                  ObjectOutputStream oos = new ObjectOutputStream(baos);
                  oos.writeObject(engineManager);
                  ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
                  ObjectInputStream ois = new ObjectInputStream(bais);
                  out.println(ois.read());
-                 out.flush();
-           /* String json = gson.toJson(theMachineEngine);
-            out.println(json);
-            out.flush();*/
+                 out.flush();*/
+                 try {
+                     String json = gson.toJson(inputStream);
+                     out.println(json);
+                     out.flush();
+                 }
+                 catch (Exception e){
+                     System.out.println(e.getMessage());
+                 }
+
 
 
         }

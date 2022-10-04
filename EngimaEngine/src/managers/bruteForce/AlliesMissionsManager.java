@@ -30,12 +30,19 @@ public class AlliesMissionsManager {
         alliesMissionsManagerMap.put(alliesTeamName, missionInfoBlockingQueue);
         }
     public synchronized TheMissionInfo getMissionFromBlockingQueue(String alliesTeamName) throws InterruptedException {
-        BlockingQueue<TheMissionInfo> missionsInfoBlockingQueue=alliesMissionsManagerMap.get(alliesTeamName);
-        if(missionsInfoBlockingQueue!=null) {
-            TheMissionInfo theMissionInfo = missionsInfoBlockingQueue.poll();
-            return theMissionInfo;
-        }
-        return null;
+      try {
+          BlockingQueue<TheMissionInfo> missionsInfoBlockingQueue=alliesMissionsManagerMap.get(alliesTeamName);
+          if(missionsInfoBlockingQueue!=null) {
+              TheMissionInfo theMissionInfo = missionsInfoBlockingQueue.poll();
+              return theMissionInfo;
+          }
+          return null;
+      }
+      catch (Exception e){
+          System.out.println(e.getMessage());
+      }
+      return null;
+
     }
     public synchronized void addAlliesToAlliesMissionsManagerMap(String alliesTeamName) throws InterruptedException {
         alliesMissionsManagerMap.put(alliesTeamName,new LinkedBlockingQueue<TheMissionInfo>(1000) );

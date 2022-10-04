@@ -94,4 +94,5 @@ public interface EngineManagerInterface extends Serializable {
     public ListOfExceptionsDTO loadFileByInputStream(InputStream inputStream,String uploadedBy) throws Exception;
     public String getBattleName();
     public void setConvertedStringInBattleField(String convertedString);
+    public InputStream getInputStream();
 }
