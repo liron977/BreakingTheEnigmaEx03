@@ -22,9 +22,7 @@ import utils.http.HttpClientUtil;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,7 +52,7 @@ public class AgentDashboardController {
     @FXML
     private Label alliesTeamNameLabel;
 
-    private final String JAXB_XML_GAME_PACKAGE_NAME = "EngimaEngine.schemaGenerated";
+    private final String JAXB_XML_GAME_PACKAGE_NAME = "schemaGenerated";
 
     @FXML
     public void initialize() {
@@ -176,22 +174,12 @@ public class AgentDashboardController {
                 ObjectInputStream objectInputStream=new ObjectInputStream(inputStream);
                 EngineManager engineManager= (EngineManager) objectInputStream.readObject();
 */
-                ResponseBody body = response.body();
-                if(body != null) {
-                    try {
-                        //Use it anytime you want
-                        String responseString = body.string();
-                        ByteArrayInputStream inputStream = Constants.GSON_INSTANCE.fromJson( responseString, ByteArrayInputStream.class);
-                        InputStream inputStream1= (InputStream) inputStream;
-                        TheMachineEngine theMachineEngine= buildTheMachineEngineUboat(inputStream);
-                        return theMachineEngine;
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
 
+                ByteArrayInputStream byteArrayInputStream = Constants.GSON_INSTANCE.fromJson(response.body().string(), ByteArrayInputStream.class);
 
+              TheMachineEngine theMachineEngine= buildTheMachineEngineUboat(byteArrayInputStream);
 
+                return theMachineEngine;
 
             }
         } catch (IOException e) {
@@ -203,13 +191,17 @@ public class AgentDashboardController {
 
     }
     private CTEEnigma deserializeFrom(InputStream in) throws Exception {
-        try {
-            JAXBContext jc = JAXBContext.newInstance("schemaGenerated");
+        in.reset();
+        Unmarshaller unmarshaller = JAXBContext.newInstance("schemaGenerated")
+                .createUnmarshaller();
+        return (CTEEnigma)unmarshaller.unmarshal(in);
+
+            /*JAXBContext jc = JAXBContext.newInstance("schemaGenerated");
             Unmarshaller u = jc.createUnmarshaller();
-            return (CTEEnigma) u.unmarshal(in);
-        } catch (JAXBException e) {
+            return (CTEEnigma) u.unmarshal(in);*/
+       /* } catch (JAXBException e) {
             throw new Exception("The file is not valid,please enter other file");
-        }
+        }*/
     }
     public TheMachineEngine buildTheMachineEngineUboat(InputStream inputStream) throws Exception {
         CTEEnigma cteEnigma=deserializeFrom(inputStream);
