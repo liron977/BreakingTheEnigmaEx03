@@ -152,12 +152,20 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>GetEngineManagerServlet</servlet-name>
-        <servlet-class>servlets.GetEngineManagerServlet</servlet-class>
+        <servlet-name>GetXmlInputStreamServlet</servlet-name>
+        <servlet-class>servlets.GetXmlInputStreamServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>GetEngineManagerServlet</servlet-name>
-        <url-pattern>/GetEngineManagerServlet</url-pattern>
+        <servlet-name>GetXmlInputStreamServlet</servlet-name>
+        <url-pattern>/GetXmlInputStreamServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>GetMachineInfoServlet</servlet-name>
+        <servlet-class>servlets.GetMachineInfoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetMachineInfoServlet</servlet-name>
+        <url-pattern>/GetMachineInfoServlet</url-pattern>
     </servlet-mapping>
 
 

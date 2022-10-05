@@ -5,7 +5,7 @@ import bruteForceLogic.UiAdapterInterface;
 import bruteForce.DecryptionInfoDTO;
 import engine.theEnigmaEngine.Agent;
 import engine.theEnigmaEngine.Agents;
-import engineManager.EngineManager;
+import machineEngine.EngineManager;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;

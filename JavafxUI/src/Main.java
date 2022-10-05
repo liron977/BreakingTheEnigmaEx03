@@ -1,6 +1,6 @@
 import Controllers.MainWindowController;
-import engineManager.EngineManager;
-import engineManager.EngineManagerInterface;
+import machineEngine.EngineManager;
+import machineEngine.EngineManagerInterface;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

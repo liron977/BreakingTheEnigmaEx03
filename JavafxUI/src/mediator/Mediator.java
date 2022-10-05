@@ -1,9 +1,9 @@
 package mediator;
 
-import engineManager.EngineManager;
+import machineEngine.EngineManager;
 import machineDTO.FullCodeDescriptionDTO;
 import machineDTO.ListOfExceptionsDTO;
-import engineManager.EngineManagerInterface;
+import machineEngine.EngineManagerInterface;
 import machineDTO.MachineHistoryAndStatisticsDTO;
 import machineDTO.TheMachineSettingsDTO;
 

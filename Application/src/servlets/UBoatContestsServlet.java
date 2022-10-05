@@ -3,7 +3,7 @@ package servlets;
 import bruteForce.UBoatContestInfoWithoutCheckBoxDTO;
 import com.google.gson.Gson;
 import engine.theEnigmaEngine.UBoatBattleField;
-import engineManager.EngineManager;
+import machineEngine.EngineManager;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

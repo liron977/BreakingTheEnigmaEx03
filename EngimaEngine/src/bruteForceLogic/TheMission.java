@@ -2,7 +2,7 @@ package bruteForceLogic;
 
 import bruteForce.DecryptionInfoDTO;
 import engine.theEnigmaEngine.Agent;
-import engineManager.EngineManager;
+import machineEngine.EngineManager;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;

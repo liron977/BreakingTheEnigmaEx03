@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class RotorsSet implements Serializable {
    private List<Rotor> rotors =new ArrayList<>();
-
+    private List<String> rotorsId =new ArrayList<>();
     private int rotorsAmount;
     public RotorsSet(List<Rotor> rotors){
         this.rotors=rotors;
@@ -113,4 +113,10 @@ return rotors.size();
         }
     }
 
+    public List<Rotor> getRotors() {
+        return rotors;
+    }
+    public void addRotor(Rotor rotor){
+        this.rotors.add(rotor);
+    }
 }

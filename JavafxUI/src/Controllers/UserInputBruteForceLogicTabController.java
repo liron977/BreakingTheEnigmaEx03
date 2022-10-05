@@ -3,7 +3,7 @@ package Controllers;
 import bruteForce.BruteForceSettingsDTO;
 import engine.theEnigmaEngine.Pair;
 import engine.theEnigmaEngine.PlugsBoard;
-import engineManager.EngineManager;
+import machineEngine.EngineManager;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;

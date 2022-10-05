@@ -4,8 +4,8 @@ import com.sun.istack.internal.NotNull;
 
 
 import component.mainWindowAllies.MainWindowAlliesController;
-import engineManager.EngineManager;
-import engineManager.EngineManagerInterface;
+import machineEngine.EngineManager;
+import machineEngine.EngineManagerInterface;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;

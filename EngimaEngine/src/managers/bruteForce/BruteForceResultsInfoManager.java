@@ -1,7 +1,6 @@
 package managers.bruteForce;
 
 import bruteForce.DecryptionInfoDTO;
-import engineManager.EngineManager;
 
 import java.util.*;
 

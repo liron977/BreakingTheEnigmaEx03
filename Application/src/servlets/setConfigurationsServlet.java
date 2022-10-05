@@ -2,7 +2,7 @@ package servlets;
 
 import com.google.gson.Gson;
 import constants.ParametersConstants;
-import engineManager.EngineManager;
+import machineEngine.EngineManager;
 import managers.uBoatEngine.MediatorForEngineManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;

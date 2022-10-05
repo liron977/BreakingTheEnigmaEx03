@@ -2,7 +2,7 @@ package bruteForceUI;
 
 import bruteForceLogic.UiAdapterInterface;
 import decryptionManager.DecryptionManager;
-import engineManager.EngineManager;
+import machineEngine.EngineManager;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.concurrent.Task;
 

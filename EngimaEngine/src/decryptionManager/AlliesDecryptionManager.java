@@ -1,13 +1,11 @@
 package decryptionManager;
 
 import bruteForceLogic.AgentMission;
-import bruteForceLogic.TheMission;
 import engine.theEnigmaEngine.Allies;
 import engine.theEnigmaEngine.AlliesAgent;
-import engineManager.EngineManager;
+import machineEngine.EngineManager;
 
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 public class AlliesDecryptionManager {
 

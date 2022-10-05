@@ -2,7 +2,6 @@ package managers.uBoatEngine;
 
 import engine.theEnigmaEngine.Allies;
 import engine.theEnigmaEngine.AlliesAgent;
-import engineManager.EngineManager;
 
 import java.util.*;
 

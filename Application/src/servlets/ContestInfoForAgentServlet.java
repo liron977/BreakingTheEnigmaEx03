@@ -1,23 +1,18 @@
 package servlets;
 
-import bruteForce.AlliesDTO;
 import bruteForce.UBoatContestInfoWithoutCheckBoxDTO;
 import com.google.gson.Gson;
 import constants.ParametersConstants;
-import engine.theEnigmaEngine.Allies;
 import engine.theEnigmaEngine.UBoatBattleField;
-import engineManager.EngineManager;
+import machineEngine.EngineManager;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import managers.uBoatEngine.MediatorForEngineManager;
 import managers.uBoatEngine.UBoatAvailableContestsManager;
 import utils.ServletUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class ContestInfoForAgentServlet extends HttpServlet {

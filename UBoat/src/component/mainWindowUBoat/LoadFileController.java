@@ -1,18 +1,14 @@
 package component.mainWindowUBoat;
-import com.sun.istack.internal.NotNull;
-import engineManager.EngineManager;
-import engineManager.EngineManagerInterface;
+import machineEngine.EngineManager;
+import machineEngine.EngineManagerInterface;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import machineDTO.TheMachineSettingsDTO;
 import okhttp3.*;
 import uiMediator.Mediator;
 import utils.Constants;
@@ -24,7 +20,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
-import java.util.Objects;
 
 public class LoadFileController {
     Mediator mediator;

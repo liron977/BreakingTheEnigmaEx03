@@ -1,7 +1,6 @@
 package servlets;
 
-import engineManager.EngineManager;
-import javafx.beans.property.BooleanProperty;
+import machineEngine.EngineManager;
 import managers.uBoatEngine.MediatorForEngineManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;

@@ -2,7 +2,7 @@ package managers.bruteForce;
 
 
 
-import bruteForceLogic.TheMissionInfo;
+import bruteForce.TheMissionInfoDTO;
 
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
@@ -10,30 +10,30 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class AlliesMissionsManager {
 
-    private final Map<String, BlockingQueue<TheMissionInfo>> alliesMissionsManagerMap;
+    private final Map<String, BlockingQueue<TheMissionInfoDTO>> alliesMissionsManagerMap;
     public AlliesMissionsManager() {
         alliesMissionsManagerMap = new HashMap<>();
     }
-    public synchronized  BlockingQueue<TheMissionInfo> getMissionsBlockingQueueByAlliesTeamName(String alliesTeamName) {
+    public synchronized  BlockingQueue<TheMissionInfoDTO> getMissionsBlockingQueueByAlliesTeamName(String alliesTeamName) {
        return alliesMissionsManagerMap.get(alliesTeamName);
     }
 
-    public synchronized Map<String,  BlockingQueue<TheMissionInfo>> alliesMissionsManagerMap() {
+    public synchronized Map<String,  BlockingQueue<TheMissionInfoDTO>> alliesMissionsManagerMap() {
         return Collections.unmodifiableMap(alliesMissionsManagerMap);
     }
-    public synchronized void addMissionInfoIntoMissionBlockingQueue (String alliesTeamName, TheMissionInfo theMissionInfo) throws InterruptedException {
-        BlockingQueue<TheMissionInfo>  missionInfoBlockingQueue = getMissionsBlockingQueueByAlliesTeamName(alliesTeamName);
+    public synchronized void addMissionInfoIntoMissionBlockingQueue (String alliesTeamName, TheMissionInfoDTO theMissionInfo) throws InterruptedException {
+        BlockingQueue<TheMissionInfoDTO>  missionInfoBlockingQueue = getMissionsBlockingQueueByAlliesTeamName(alliesTeamName);
         if (missionInfoBlockingQueue == null) {
-            missionInfoBlockingQueue = new LinkedBlockingQueue<TheMissionInfo>(1000);
+            missionInfoBlockingQueue = new LinkedBlockingQueue<TheMissionInfoDTO>(1000);
         }
         missionInfoBlockingQueue.put(theMissionInfo);
         alliesMissionsManagerMap.put(alliesTeamName, missionInfoBlockingQueue);
         }
-    public synchronized TheMissionInfo getMissionFromBlockingQueue(String alliesTeamName) throws InterruptedException {
+    public synchronized TheMissionInfoDTO getMissionFromBlockingQueue(String alliesTeamName) throws InterruptedException {
       try {
-          BlockingQueue<TheMissionInfo> missionsInfoBlockingQueue=alliesMissionsManagerMap.get(alliesTeamName);
+          BlockingQueue<TheMissionInfoDTO> missionsInfoBlockingQueue=alliesMissionsManagerMap.get(alliesTeamName);
           if(missionsInfoBlockingQueue!=null) {
-              TheMissionInfo theMissionInfo = missionsInfoBlockingQueue.poll();
+              TheMissionInfoDTO theMissionInfo = missionsInfoBlockingQueue.poll();
               return theMissionInfo;
           }
           return null;
@@ -45,7 +45,7 @@ public class AlliesMissionsManager {
 
     }
     public synchronized void addAlliesToAlliesMissionsManagerMap(String alliesTeamName) throws InterruptedException {
-        alliesMissionsManagerMap.put(alliesTeamName,new LinkedBlockingQueue<TheMissionInfo>(1000) );
+        alliesMissionsManagerMap.put(alliesTeamName,new LinkedBlockingQueue<TheMissionInfoDTO>(1000) );
 
     }
 

@@ -4,7 +4,7 @@ import bruteForce.AlliesDTO;
 import com.google.gson.Gson;
 import constants.ParametersConstants;
 import engine.theEnigmaEngine.Allies;
-import engineManager.EngineManager;
+import machineEngine.EngineManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,8 +16,6 @@ import utils.ServletUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
-import static java.lang.System.out;
 
 public class RegisterAlliesToContestServlet  extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

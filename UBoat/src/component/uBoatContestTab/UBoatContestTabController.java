@@ -5,7 +5,7 @@ import bruteForce.BruteForceSettingsDTO;
 import com.google.gson.Gson;
 import component.mainWindowUBoat.MainWindowUBoatController;
 import component.uBoatMachineTab.machineTab.CurrentConfigurationTableViewController;
-import engineManager.EngineManager;
+import machineEngine.EngineManager;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;

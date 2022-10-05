@@ -1,6 +1,5 @@
 package servlets;
-
-import bruteForceLogic.TheMissionInfo;
+import bruteForce.TheMissionInfoDTO;
 import com.google.gson.Gson;
 import constants.ParametersConstants;
 import jakarta.servlet.http.HttpServlet;
@@ -22,11 +21,11 @@ public class AgentGetMissionsServlet extends HttpServlet {
             String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
             String amountOfMissionsString = request.getParameter(ParametersConstants.AMOUNT_OF_MISSIONS_PER_AGENT);
             int amountOfMissions = Integer.parseInt(amountOfMissionsString);//todo
-            List<TheMissionInfo> theMissionInfoList = new ArrayList<>();
+            List<TheMissionInfoDTO> theMissionInfoList = new ArrayList<>();
             int counter = 0;
             while (counter < amountOfMissions) {
                 try {
-                    TheMissionInfo theMissionInfo = alliesMissionsManager.getMissionFromBlockingQueue(theAlliesTeamName);
+                    TheMissionInfoDTO theMissionInfo = alliesMissionsManager.getMissionFromBlockingQueue(theAlliesTeamName);
                     if (theMissionInfo == null) {
                         break;
                     } else {

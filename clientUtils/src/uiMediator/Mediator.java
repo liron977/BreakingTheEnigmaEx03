@@ -1,7 +1,7 @@
 package uiMediator;
 
-import engineManager.EngineManager;
-import engineManager.EngineManagerInterface;
+import machineEngine.EngineManager;
+import machineEngine.EngineManagerInterface;
 import machineDTO.FullCodeDescriptionDTO;
 import machineDTO.ListOfExceptionsDTO;
 import machineDTO.MachineHistoryAndStatisticsDTO;

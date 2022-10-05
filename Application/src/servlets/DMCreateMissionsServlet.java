@@ -1,11 +1,10 @@
 package servlets;
 
-
-import bruteForceLogic.TheMissionInfo;
+import bruteForce.TheMissionInfoDTO;
 import constants.ParametersConstants;
 import engine.theEnigmaEngine.Allies;
 import engine.theEnigmaEngine.UBoatBattleField;
-import engineManager.EngineManager;
+import machineEngine.EngineManager;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -59,9 +58,9 @@ public class DMCreateMissionsServlet extends HttpServlet {
     public void createLowLevelMission(EngineManager engineManager,
                                       Long amountOfSubListsToCreate,int sizeOfMission
             ,String theAlliesTeamName,String stringToConvert) throws Exception {
-       // BlockingQueue<bruteForceLogic.TheMissionInfo> theMissionInfoBlockingQueuelockingQueue = new LinkedBlockingQueue<bruteForceLogic.TheMissionInfo>(1000);
+       // BlockingQueue<bruteForce.TheMissionInfo> theMissionInfoBlockingQueuelockingQueue = new LinkedBlockingQueue<bruteForce.TheMissionInfo>(1000);
         AlliesMissionsManager alliesMissionsManager=ServletUtils.getAlliesMissionsManager(getServletContext());
-       // BlockingQueue<bruteForceLogic.TheMissionInfo> theMissionInfoBlockingQueuelockingQueue=alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName);
+       // BlockingQueue<bruteForce.TheMissionInfo> theMissionInfoBlockingQueuelockingQueue=alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName);
         int missionsCounter = 0;
        String initialStartingPosition= engineManager.getInitialStartingPosition();
         int missionIndex = 0;
@@ -69,7 +68,7 @@ public class DMCreateMissionsServlet extends HttpServlet {
             missionsCounter++;
             missionIndex = i;
             EngineManager engineManagerCopy = engineManager.cloneEngineManager();
-            TheMissionInfo theMissionInfo =new TheMissionInfo(initialStartingPosition, sizeOfMission, /*engineManagerCopy,*/stringToConvert);
+            TheMissionInfoDTO theMissionInfo =new TheMissionInfoDTO(initialStartingPosition, sizeOfMission, /*engineManagerCopy,*/stringToConvert);
             updateEngineManager(engineManagerCopy, engineManager);
             alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName,theMissionInfo);
             initialStartingPosition = engineManager.getNextStartingPositionByString(sizeOfMission);

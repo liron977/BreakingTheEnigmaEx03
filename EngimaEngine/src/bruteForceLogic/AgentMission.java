@@ -1,8 +1,7 @@
 package bruteForceLogic;
 
 import bruteForce.BruteForceResultDTO;
-import bruteForce.DecryptionInfoDTO;
-import engineManager.EngineManager;
+import machineEngine.EngineManager;
 import machineDTO.ConvertedStringDTO;
 
 import java.util.List;
