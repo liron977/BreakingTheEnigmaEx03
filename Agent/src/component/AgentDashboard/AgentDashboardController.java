@@ -250,6 +250,10 @@ public class AgentDashboardController {
     private synchronized void saveResultsOnServer(BlockingQueue<BruteForceResultDTO> bruteForceResultDTOBlockingQueue) throws InterruptedException {
        new Thread(()->{
            List<BruteForceResultDTO> resultDTOList=new ArrayList<>();
+           for (BruteForceResultDTO brure:bruteForceResultDTOBlockingQueue) {
+               resultDTOList.add(bruteForceResultDTOBlockingQueue.take());
+           }
+
             bruteForceResultDTOBlockingQueue.drainTo(resultDTOList);
           saveResultsInServer(resultDTOList);
        }).start();
@@ -258,10 +262,10 @@ public class AgentDashboardController {
     private synchronized void updateResultsOnAgent(BlockingQueue<BruteForceResultDTO> bruteForceResultDTOBlockingQueue) throws InterruptedException {
         List<BruteForceResultDTO> resultDTOList=new ArrayList<>();
         bruteForceResultDTOBlockingQueue.drainTo(resultDTOList);
+        System.out.println(Thread.currentThread().getName());
         //saveResultsInServer(resultDTOList);
         ObservableList<BruteForceResultDTO> alliesDTOObservableList =getTeamsAgentsDataTableViewDTOList(resultDTOList);
         createAlliesInfoDTOTableView(alliesDTOObservableList);
-
     }
     private synchronized void createAlliesInfoDTOTableView(ObservableList<BruteForceResultDTO> alliesInfoDTOList ) {
         if(bruteForceResultTableView.getItems().size()==0) {
