@@ -22,7 +22,7 @@
             <Button fx:id="getMissions" mnemonicParsing="false" text="Button" />
             <ScrollPane fitToHeight="true" fitToWidth="true">
                <content>
-                  <TableView fx:id="bruteForceResultTableView" prefHeight="200.0" prefWidth="200.0">
+                  <TableView fx:id="bruteForceResultTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="303.0" prefWidth="789.0">
                     <columns>
                       <TableColumn fx:id="missionNumberColumn" prefWidth="123.33331310749054" text="Mission Number" />
                       <TableColumn fx:id="stringColumn" prefWidth="231.3333282470703" text="String" />

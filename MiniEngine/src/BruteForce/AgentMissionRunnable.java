@@ -73,7 +73,7 @@ Thread.currentThread().setName("AgentMissionRunnable");
                 uiAdapterInterface.updateResultsOnAgent(resultsBlockingQueue);
             }
         }
-        System.out.println(index+"index");
+       // System.out.println(index+"index");
     }
 
     @Override
