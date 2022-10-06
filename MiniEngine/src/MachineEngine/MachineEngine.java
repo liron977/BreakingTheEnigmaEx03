@@ -279,6 +279,14 @@ public class MachineEngine implements Serializable {
     }
 
 
+public String getLastStartingPos(){
+        int amountOfRotors= theMachineEngine.getAmountOfUsedRotors();
+        String lastStartingPos="";
+    for(int i=0;i<amountOfRotors;i++){
+        lastStartingPos+=keyboard[keyboard.length-1];
 
+    }
+    return lastStartingPos;
+}
 
 }
