@@ -43,7 +43,10 @@ public class AgentMissionRunnable implements Runnable {
         int index = 0;
 
         while (index<sizeOfMission){
-if(initialStartingPosition.equals("RHL")){
+if(initialStartingPosition.equals(" 'T")&&machineEngineCopy.getTheMachineEngine().getReflector().getReflectorId().equals("II")){
+    int x=0;
+}
+if(machineEngineCopy.getTheMachineEngine().getReflector().getReflectorId().equals("II")){
     int x=0;
 }
             machineEngineCopy.chooseManuallyStartingPosition(initialStartingPosition);

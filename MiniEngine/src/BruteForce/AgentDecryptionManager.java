@@ -26,7 +26,7 @@ public AgentDecryptionManager(TheMachineEngine theMachineEngine
    this.missionsInfoBlockingQueue=missionsInfoBlockingQueue;
 }
     public void createMission() throws Exception {
-    String level=machineEngine.getBattlefieldLevel();
+    /*String level=machineEngine.getBattlefieldLevel();
         if (level.equals("Easy")) {
             createLowLevelMission();
         } else if (level.equals("Medium")) {
@@ -35,10 +35,26 @@ public AgentDecryptionManager(TheMachineEngine theMachineEngine
             createHighLevelMission();
         } else {
             createImpossibleLevelMission();
-        }
-     }
+        }*/
+        for (TheMissionInfoDTO theMissionInfoDTO : theMissionInfoDTOList) {
 
-    public void createLowLevelMission() throws Exception {
+            machineEngine.getTheMachineEngine().updateUsedRotors(theMissionInfoDTO.getUsedRotors());
+            if(theMissionInfoDTO.getReflector().equals("II")){
+                int x=0;
+            }
+            machineEngine.chooseManuallyReflect(theMissionInfoDTO.getReflector());
+            MachineEngine machineEngineCopy = machineEngine.cloneMachineEngine();
+            AgentMissionRunnable agentMissionRunnable = new AgentMissionRunnable(machineEngineCopy,
+                    theMissionInfoDTO.getStringToConvert(), alliesTeamName
+                    , theMissionInfoDTO.getInitialStartingPosition(),
+                    theMissionInfoDTO.getSizeOfMission());
+            missionsInfoBlockingQueue.put(agentMissionRunnable);
+        }
+
+
+    }
+
+    /*public void createLowLevelMission() throws Exception {
         int missionsCounter = 0;
         for (TheMissionInfoDTO theMissionInfoDTO : theMissionInfoDTOList) {
             missionsCounter++;
@@ -81,7 +97,7 @@ public AgentDecryptionManager(TheMachineEngine theMachineEngine
                 createMediumLevelMission();
             }
         }
-    }
+    }*/
 
     public static void getAllPermutationsOfRotorsPosition(int length, String[] rotorsId, List<String[]> optionalRotorsPosition) {
         String[] tmpArray;

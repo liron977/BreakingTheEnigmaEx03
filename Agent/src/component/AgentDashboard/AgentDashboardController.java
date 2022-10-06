@@ -2,11 +2,9 @@ package component.AgentDashboard;
 
 import BruteForce.AgentDecryptionManager;
 import com.google.gson.reflect.TypeToken;
-import decryptionManager.DecryptionManager;
 import engine.theEnigmaEngine.SchemaGenerated;
 import engine.theEnigmaEngine.TheMachineEngine;
 import engine.theEnigmaEngine.UBoatBattleField;
-import machineEngine.EngineManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,7 +24,6 @@ import javax.xml.bind.Unmarshaller;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -86,7 +83,7 @@ public class AgentDashboardController {
         this.threadPoolExecutor = new ThreadPoolExecutor(amountOfThreads, amountOfThreads, 0L, TimeUnit.MILLISECONDS, missionsInfoBlockingQueue);
     }
 
-    public void getGetMissions() {
+    public void getMissions() {
         System.out.println("Im here");
         String finalUrl = HttpUrl
                 .parse(Constants.AGENT_GET_MISSIONS)
@@ -119,9 +116,9 @@ public class AgentDashboardController {
                 List<TheMissionInfoDTO> theMissionInfoListFromGson = null;
                 try {
                     threadPoolExecutor.prestartAllCoreThreads();
-                    System.out.println("started threadpool");
+                  /*  System.out.println("started threadpool");
                     System.out.println("check");
-
+*/
                     theMissionInfoListFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
                     TheMachineEngine theMachineEngine= getTheMachineEngineInputstream();
                     setTheMachineEngine(theMachineEngine);
@@ -130,8 +127,9 @@ public class AgentDashboardController {
                             theMissionInfoListFromGson
                             ,missionsInfoBlockingQueue);
                     decryptionManager.createMission();
-                    threadPoolExecutor.shutdown();
-                    threadPoolExecutor.awaitTermination(Integer.MAX_VALUE, TimeUnit.HOURS);
+                   // threadPoolExecutor.shutdown();
+                    //threadPoolExecutor.awaitTermination(Integer.MAX_VALUE, TimeUnit.HOURS);
+                    //getMissions();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 } catch (Exception e) {

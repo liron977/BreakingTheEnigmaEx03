@@ -4,6 +4,8 @@ import bruteForce.AgentInfoDTO;
 import com.sun.istack.internal.NotNull;
 import component.AgentDashboard.AgentDashboardController;
 import component.AgentDashboard.AgentThreadTask;
+import component.AgentDashboard.ContestInfoRefresher;
+import component.AgentDashboard.GetMissionsRefresher;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -24,6 +26,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import static utils.Constants.REFRESH_RATE;
 
@@ -46,6 +49,8 @@ public class AgentLoginController {
     private Stage primaryStage;
     AlliesTeamsRefresher alliesTeamsRefresher;
     AgentDashboardController agentDashboardController;
+    private Timer timerForGetMissions;
+    private TimerTask getMissionsRefresher;
 
     private String agentName;
     private int missionAmount;
@@ -168,6 +173,7 @@ public class AgentLoginController {
                     {
                         AgentThreadTask agentThreadTask=new AgentThreadTask(agentDashboardController);
                         new Thread(agentThreadTask).start();
+                        //startGetMissionsRefresher();
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     }
                 });
@@ -246,5 +252,10 @@ public class AgentLoginController {
         alert.setContentText(text);
         alert.getDialogPane().setExpanded(true);
         alert.showAndWait();
+    }
+    public void startGetMissionsRefresher() {
+        getMissionsRefresher = new GetMissionsRefresher(agentDashboardController);
+        timerForGetMissions = new Timer();
+        timerForGetMissions.schedule(getMissionsRefresher, REFRESH_RATE, REFRESH_RATE);
     }
 }

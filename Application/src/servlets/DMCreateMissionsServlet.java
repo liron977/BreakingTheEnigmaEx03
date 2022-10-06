@@ -14,6 +14,9 @@ import managers.uBoatEngine.UBoatAvailableContestsManager;
 import utils.ServletUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class DMCreateMissionsServlet extends HttpServlet {
     @Override
@@ -46,13 +49,13 @@ public class DMCreateMissionsServlet extends HttpServlet {
         //uiAdapterInterface.updateAmountOfMissionsPerLevel(engineManager.displayMaxAmountOfMissionsWithCommas(maxAmountOfMissions));
         if (level.equals("Easy")) {
             createLowLevelMission(engineManager, amountOfSubListsToCreate, sizeOfMission,theAlliesTeamName,stringToConvert);
-        } /*else if (level.equals("Medium")) {
-            createMediumLevelMission();
+        } else if (level.equals("Medium")) {
+            createMediumLevelMission(engineManager, amountOfSubListsToCreate, sizeOfMission,theAlliesTeamName,stringToConvert);
         } else if (level.equals("Hard")) {
-            createHighLevelMission();
+            createHighLevelMission(engineManager, amountOfSubListsToCreate, sizeOfMission,theAlliesTeamName,stringToConvert);
         } else {
-            createImpossibleLevelMission();
-        }*/
+            createImpossibleLevelMission(engineManager, amountOfSubListsToCreate, sizeOfMission,theAlliesTeamName,stringToConvert);
+        }
     }
 
     public void createLowLevelMission(EngineManager engineManager,
@@ -68,12 +71,53 @@ public class DMCreateMissionsServlet extends HttpServlet {
             missionsCounter++;
             missionIndex = i;
 //            EngineManager engineManagerCopy = engineManager.cloneEngineManager();
-            TheMissionInfoDTO theMissionInfo =new TheMissionInfoDTO(initialStartingPosition, sizeOfMission, /*engineManagerCopy,*/stringToConvert);
+            TheMissionInfoDTO theMissionInfo =new TheMissionInfoDTO(initialStartingPosition, sizeOfMission, /*engineManagerCopy,*/stringToConvert,engineManager.getMachineUsedRotorsIdArray(),engineManager.getMachineReflectorId());
     /*        updateEngineManager(engineManagerCopy, engineManager);*/
             alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName,theMissionInfo);
             initialStartingPosition = engineManager.getNextStartingPositionByString(sizeOfMission);
         }
         int x=0;
+    }
+
+    public void createMediumLevelMission(EngineManager engineManager,
+                                         Long amountOfSubListsToCreate,int sizeOfMission
+            ,String theAlliesTeamName,String stringToConvert) throws Exception {
+        for (String reflectorId : engineManager.getTheMachineEngine().getReflectorsSet().getReflectorsId()) {
+            engineManager.chooseManuallyReflect(reflectorId);
+            createLowLevelMission(engineManager,amountOfSubListsToCreate,sizeOfMission,theAlliesTeamName,stringToConvert);
+        }
+        AlliesMissionsManager alliesMissionsManager=ServletUtils.getAlliesMissionsManager(getServletContext());
+
+        System.out.println("missions in bq:"+alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size());
+    }
+
+    public void createHighLevelMission(EngineManager engineManager,
+                                       Long amountOfSubListsToCreate,int sizeOfMission
+            ,String theAlliesTeamName,String stringToConvert) throws Exception {
+        String[] concatRotorsPosition = engineManager.getTheMachineEngine().getUsedRotorsId();
+        List<String[]> optionalRotorsPositionList = new ArrayList<>();
+        getAllPermutationsOfRotorsPosition(concatRotorsPosition.length, concatRotorsPosition, optionalRotorsPositionList);
+        for (String[] optionalRotorsPosition : optionalRotorsPositionList) {
+            engineManager.getTheMachineEngine().updateUsedRotors(optionalRotorsPosition);
+            createMediumLevelMission(engineManager,amountOfSubListsToCreate,sizeOfMission,theAlliesTeamName,stringToConvert);
+        }
+    }
+
+
+    public void createImpossibleLevelMission(EngineManager engineManager,
+                                             Long amountOfSubListsToCreate,int sizeOfMission
+            ,String theAlliesTeamName,String stringToConvert) throws Exception {
+        int missionsCounter = 0;
+        List<String[]> optionalRotorsList = new ArrayList<>();
+        optionalRotorsList = getOptionalRotors(engineManager);
+        for (String[] optionalRotors : optionalRotorsList) {
+            List<String[]> optionalRotorsPositionList = new ArrayList<>();
+            getAllPermutationsOfRotorsPosition(optionalRotors.length, optionalRotors, optionalRotorsPositionList);
+            for (String[] optionalRotorsPosition : optionalRotorsPositionList) {
+                engineManager.getTheMachineEngine().updateUsedRotors(optionalRotorsPosition);
+                createMediumLevelMission(engineManager,amountOfSubListsToCreate,sizeOfMission,theAlliesTeamName,stringToConvert);
+            }
+        }
     }
 
     public Long calculateAmountOfMissionsToCreate(EngineManager engineManager, int sizeOfMission) {
@@ -174,5 +218,62 @@ public class DMCreateMissionsServlet extends HttpServlet {
         return possibleStartingPositionList;
     }*/
     }
+    public static void getAllPermutationsOfRotorsPosition(int length, String[] rotorsId, List<String[]> optionalRotorsPosition) {
+        String[] tmpArray;
+        if (length == 1) {
+            tmpArray = Arrays.copyOf(rotorsId, rotorsId.length);
+            optionalRotorsPosition.add(tmpArray);
+        } else {
+            for (int i = 0; i < length - 1; i++) {
+                getAllPermutationsOfRotorsPosition(length - 1, rotorsId, optionalRotorsPosition);
+                if (length % 2 == 0) {
+                    swap(rotorsId, i, length - 1);
+                } else {
+                    swap(rotorsId, 0, length - 1);
+                }
+            }
+            getAllPermutationsOfRotorsPosition(length - 1, rotorsId, optionalRotorsPosition);
+        }
+    }
+
+    private static void swap(String[] input, int a, int b) {
+        String tmp = input[a];
+        input[a] = input[b];
+        input[b] = tmp;
+    }
+    public List<String[]> getOptionalRotors(EngineManager engineManager) {
+        List<String[]> listOfOptionalRotors = new ArrayList<>();
+        List<int[]> listOfOptionalRotorsByInt = generate(engineManager.getTheMachineEngine().getMaxAmountOfRotors(), engineManager.getAmountOfUsedRotors());
+        for (int i = 0; i < listOfOptionalRotorsByInt.size(); i++) {
+            {
+                String[] rotors = new String[listOfOptionalRotorsByInt.get(i).length];
+                for (int j = 0; j < listOfOptionalRotorsByInt.get(i).length; j++) {
+
+                    rotors[j] = String.valueOf(listOfOptionalRotorsByInt.get(i)[j]);
+
+                }
+                listOfOptionalRotors.add(i, rotors);
+            }
+        }
+        return listOfOptionalRotors;
+    }
+
+    public List<int[]> generate(int n, int r) {
+        List<int[]> combinations = new ArrayList<>();
+        helper(combinations, new int[r], 1, n, 0);
+        return combinations;
+    }
+
+    private void helper(List<int[]> combinations, int data[], int start, int end, int index) {
+        if (index == data.length) {
+            int[] combination = data.clone();
+            combinations.add(combination);
+        } else if (start <= end) {
+            data[index] = start;
+            helper(combinations, data, start + 1, end, index + 1);
+            helper(combinations, data, start + 1, end, index);
+        }
+    }
+
 
 }

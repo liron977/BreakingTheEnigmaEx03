@@ -1052,6 +1052,9 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     public List<String> getMachineUsedRotorsId(){
         return this.theMachineEngine.getUsedRotorsListId();
     }
+    public String[] getMachineUsedRotorsIdArray(){
+        return this.theMachineEngine.getUsedRotorsId();
+    }
     public List<String> getMachineRotorsSetId(){
         return this.theMachineEngine.getRotorsSetListId();
     }
