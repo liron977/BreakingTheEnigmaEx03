@@ -168,5 +168,14 @@
         <url-pattern>/GetMachineInfoServlet</url-pattern>
     </servlet-mapping>
 
+ <servlet>
+        <servlet-name>BruteForceResultsServlet</servlet-name>
+        <servlet-class>servlets.BruteForceResultsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BruteForceResultsServlet</servlet-name>
+        <url-pattern>/BruteForceResultsServlet</url-pattern>
+    </servlet-mapping>
+
 
 </web-app>

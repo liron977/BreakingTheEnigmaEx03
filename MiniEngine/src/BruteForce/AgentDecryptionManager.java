@@ -1,14 +1,17 @@
 package BruteForce;
 
 import MachineEngine.MachineEngine;
+import bruteForce.BruteForceResultDTO;
 import bruteForce.TheMissionInfoDTO;
 import engine.theEnigmaEngine.TheMachineEngine;
+import javafx.beans.property.SimpleBooleanProperty;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class AgentDecryptionManager {
     private MachineEngine machineEngine;
@@ -17,9 +20,13 @@ public class AgentDecryptionManager {
     private String alliesTeamName;
     private List<TheMissionInfoDTO> theMissionInfoDTOList;
     private  BlockingQueue<Runnable> missionsInfoBlockingQueue;
+    private  BlockingQueue<BruteForceResultDTO> resultsBlockingQueue;
     ThreadPoolExecutor threadPoolExecutor;
+    SimpleBooleanProperty isMissionEndedProperty;
+    private boolean isMissionsFinished = false;
+    UiAdapterInterface uiAdapterInterface;
 
-public AgentDecryptionManager(ThreadPoolExecutor threadPoolExecutor,TheMachineEngine theMachineEngine
+public AgentDecryptionManager(UiAdapterInterface uiAdapterInterface,SimpleBooleanProperty isMissionEndedProperty,ThreadPoolExecutor threadPoolExecutor, TheMachineEngine theMachineEngine
         , String alliesTeamName, List<TheMissionInfoDTO> theMissionInfoDTOList,
                               BlockingQueue<Runnable> missionsInfoBlockingQueue){
    this.machineEngine=new MachineEngine(theMachineEngine);
@@ -27,18 +34,11 @@ public AgentDecryptionManager(ThreadPoolExecutor threadPoolExecutor,TheMachineEn
    this.alliesTeamName=alliesTeamName;
    this.missionsInfoBlockingQueue=missionsInfoBlockingQueue;
    this.threadPoolExecutor=threadPoolExecutor;
+   this.isMissionEndedProperty=isMissionEndedProperty;
+   this.uiAdapterInterface=uiAdapterInterface;
 }
     public void createMission() throws Exception {
-    /*String level=machineEngine.getBattlefieldLevel();
-        if (level.equals("Easy")) {
-            createLowLevelMission();
-        } else if (level.equals("Medium")) {
-            createMediumLevelMission();
-        } else if (level.equals("Hard")) {
-            createHighLevelMission();
-        } else {
-            createImpossibleLevelMission();
-        }*/
+    int missionsCounter=0;
         threadPoolExecutor.prestartAllCoreThreads();
         for (TheMissionInfoDTO theMissionInfoDTO : theMissionInfoDTOList) {
 
@@ -48,15 +48,21 @@ public AgentDecryptionManager(ThreadPoolExecutor threadPoolExecutor,TheMachineEn
             }
             machineEngine.chooseManuallyReflect(theMissionInfoDTO.getReflector());
             MachineEngine machineEngineCopy = machineEngine.cloneMachineEngine();
-            AgentMissionRunnable agentMissionRunnable = new AgentMissionRunnable(machineEngineCopy,
+            AgentMissionRunnable agentMissionRunnable = new AgentMissionRunnable(missionsCounter,uiAdapterInterface,machineEngineCopy,
                     theMissionInfoDTO.getStringToConvert(), alliesTeamName
                     , theMissionInfoDTO.getInitialStartingPosition(),
                     theMissionInfoDTO.getSizeOfMission());
+            missionsCounter++;
             missionsInfoBlockingQueue.put(agentMissionRunnable);
         }
-int x=0;
+        threadPoolExecutor.shutdown();
+        threadPoolExecutor.awaitTermination(Integer.MAX_VALUE, TimeUnit.HOURS);
+
+
 
     }
+
+
 
     /*public void createLowLevelMission() throws Exception {
         int missionsCounter = 0;

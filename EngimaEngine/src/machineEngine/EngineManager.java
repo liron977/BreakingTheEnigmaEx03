@@ -50,6 +50,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     private String uploadedBy;
     private int amountOfNeededDecryptionAliesTeams;
     private InputStream inputStream;
+    Long maxAmountOfMissions=0L;
 
 
     @Override
@@ -695,7 +696,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         return countPossibleStartingPosition;
     }
     public Long setMaxAmountOfMissions(String level,int sizeOfMission){
-        Long maxAmountOfMissions=0L;
+
         Long numberOfMission=Long.valueOf((long) (Math.pow(getTheMachineEngine().getKeyboard().length(),getAmountOfUsedRotors()))/sizeOfMission);
         if(((Math.pow(getTheMachineEngine().getKeyboard().length(),getAmountOfUsedRotors())%sizeOfMission))!=0){
             numberOfMission++;
@@ -1064,5 +1065,11 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     public List<String> getMachineReflectorsSetId(){
         return this.theMachineEngine.getReflectorsId();
     }
+    public void decreaseMaxAmountOfMissions(){
+        maxAmountOfMissions--;
+    }
 
+    public Long getMaxAmountOfMissions() {
+        return maxAmountOfMissions;
+    }
 }

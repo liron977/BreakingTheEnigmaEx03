@@ -1,17 +1,20 @@
 package component.AgentDashboard;
 
 import BruteForce.AgentDecryptionManager;
+import bruteForce.AlliesDTO;
+import bruteForce.BruteForceResultDTO;
 import com.google.gson.reflect.TypeToken;
 import engine.theEnigmaEngine.SchemaGenerated;
 import engine.theEnigmaEngine.TheMachineEngine;
 import engine.theEnigmaEngine.UBoatBattleField;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import machineDTO.TheMachineEngineDTO;
 import okhttp3.*;
@@ -48,14 +51,73 @@ public class AgentDashboardController {
     private TableView contestInfo;
     @FXML
     ContestInfoController contestInfoController;
+    AgentDecryptionManager decryptionManager;
+    @FXML
+    private TableColumn<BruteForceResultDTO, String> stringColumn;
+    @FXML
+    private TableColumn<BruteForceResultDTO, String> codeConfigurationColumn;
+
+    @FXML
+    private TableColumn<BruteForceResultDTO, Integer> missionNumberColumn;
+    @FXML
+    private TableView<BruteForceResultDTO> bruteForceResultTableView;
 
     @FXML
     private Label alliesTeamNameLabel;
 
     private final String JAXB_XML_GAME_PACKAGE_NAME = "schemaGenerated";
+    private SimpleBooleanProperty isMissionEndedProperty;
 
     @FXML
     public void initialize() {
+        isMissionEndedProperty=new SimpleBooleanProperty(false);
+       /* isMissionEndedProperty.addListener((obser)->{
+            if(isMissionEndedProperty.getValue())
+
+            });
+*/
+
+    }
+    public void saveResultsInServer( List<BruteForceResultDTO> bruteForceResultDTOList){
+
+        String bruteForceResultDTOListGson = Constants.GSON_INSTANCE.toJson(bruteForceResultDTOList);
+        RequestBody body = RequestBody.create(
+                MediaType.parse("application/json"), bruteForceResultDTOListGson);
+
+        String finalUrl = HttpUrl
+                .parse(Constants.BRUTE_FORCE_RESULTS)
+                .newBuilder()
+                .addQueryParameter("alliesTeamName", selectedAlliesTeamName)
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrl)
+                .post(body)
+                .build();
+        Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+        try {
+            Response response = call.execute();
+            if (response.code() != 200) {
+                Platform.runLater(() -> {
+                    {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        try {
+                            alert.setContentText(response.body().string());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        alert.getDialogPane().setExpanded(true);
+                        alert.showAndWait();
+                    }
+                });
+            } else {
+
+            }
+        } catch (IOException e) {
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
 
     }
@@ -84,6 +146,7 @@ public class AgentDashboardController {
     }
 
     public void getMissions() {
+
         System.out.println("Im here");
         String finalUrl = HttpUrl
                 .parse(Constants.AGENT_GET_MISSIONS)
@@ -98,21 +161,9 @@ public class AgentDashboardController {
         Call call = HttpClientUtil.getOkHttpClient().newCall(request);
         try {
             Response response = call.execute();
-            if (response.code() != 200) {
-                Platform.runLater(() -> {
-                    {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        try {
-                            alert.setContentText(response.body().string());
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        alert.getDialogPane().setExpanded(true);
-                        alert.showAndWait();
-                    }
-                });
-            } else {
-                Type theMissionInfoList = new TypeToken<ArrayList<TheMissionInfoDTO>>() {}.getType();
+            if (response.code() == 200) {
+                Type theMissionInfoList = new TypeToken<ArrayList<TheMissionInfoDTO>>() {
+                }.getType();
                 List<TheMissionInfoDTO> theMissionInfoListFromGson = null;
                 try {
 
@@ -120,14 +171,16 @@ public class AgentDashboardController {
                     System.out.println("check");
 */
                     theMissionInfoListFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
-                    TheMachineEngine theMachineEngine= getTheMachineEngineInputstream();
+                    TheMachineEngine theMachineEngine = getTheMachineEngineInputstream();
                     setTheMachineEngine(theMachineEngine);
-                    AgentDecryptionManager decryptionManager=new AgentDecryptionManager(threadPoolExecutor,theMachineEngine
-                            ,selectedAlliesTeamName,
+                    UIAdapter UIAdapter =  createUIAdapter();
+                    decryptionManager = new AgentDecryptionManager(UIAdapter,isMissionEndedProperty,threadPoolExecutor, theMachineEngine
+                            , selectedAlliesTeamName,
                             theMissionInfoListFromGson
-                            ,missionsInfoBlockingQueue);
+                            , missionsInfoBlockingQueue);
                     decryptionManager.createMission();
-                   threadPoolExecutor.shutdown();
+
+                    threadPoolExecutor.shutdown();
                     threadPoolExecutor.awaitTermination(Integer.MAX_VALUE, TimeUnit.HOURS);
                     setThreadPoolSize(amountOfThreads);
                     getMissions();
@@ -144,16 +197,98 @@ public class AgentDashboardController {
                 });
 
             }
-        } catch (IOException e) {
+            if (response.code() != 200) {
+
+                if(response.code()==409) {
+                    Platform.runLater(() -> {
+                        {
+                          String  message = "The Missions ended";
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            try {
+                                alert.setContentText(response.body().string() + message);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            alert.getDialogPane().setExpanded(true);
+                            alert.showAndWait();
+                        }
+                    });
+                }
+            }
+        }catch(IOException e){
+
+            }
 
         }
 
-    }
     public void setTheMachineEngine(TheMachineEngine theMachineEngine){
         TheMachineEngineDTO theMachineEngineDTO=getTheMachineEngineInfo();
         theMachineEngine.setUsedRotorsById(theMachineEngineDTO.getUsedRotorsId());
         theMachineEngine.setSelectedReflectorById(theMachineEngineDTO.getReflectorId());
 
+    }
+    private UIAdapter createUIAdapter() {
+        return new UIAdapter(
+                bruteForceResultDTOList -> {
+                    try {
+                        saveResultsOnServer(bruteForceResultDTOList);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                },
+                bruteForceResultDTOList -> {
+                    try {
+                        updateResultsOnAgent(bruteForceResultDTOList);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+                );
+    }
+    private synchronized void saveResultsOnServer(BlockingQueue<BruteForceResultDTO> bruteForceResultDTOBlockingQueue) throws InterruptedException {
+       new Thread(()->{
+           List<BruteForceResultDTO> resultDTOList=new ArrayList<>();
+            bruteForceResultDTOBlockingQueue.drainTo(resultDTOList);
+          saveResultsInServer(resultDTOList);
+       }).start();
+
+    }
+    private synchronized void updateResultsOnAgent(BlockingQueue<BruteForceResultDTO> bruteForceResultDTOBlockingQueue) throws InterruptedException {
+        List<BruteForceResultDTO> resultDTOList=new ArrayList<>();
+        bruteForceResultDTOBlockingQueue.drainTo(resultDTOList);
+        //saveResultsInServer(resultDTOList);
+        ObservableList<BruteForceResultDTO> alliesDTOObservableList =getTeamsAgentsDataTableViewDTOList(resultDTOList);
+        createAlliesInfoDTOTableView(alliesDTOObservableList);
+
+    }
+    private synchronized void createAlliesInfoDTOTableView(ObservableList<BruteForceResultDTO> alliesInfoDTOList ) {
+        if(bruteForceResultTableView.getItems().size()==0) {
+            bruteForceResultTableView.setItems(alliesInfoDTOList);
+            bruteForceResultTableView.getColumns().clear();
+            bruteForceResultTableView.getColumns().addAll(missionNumberColumn, stringColumn, codeConfigurationColumn);
+        }
+        else{
+            bruteForceResultTableView.getItems().addAll(alliesInfoDTOList);
+        }
+    }
+
+    private synchronized ObservableList<BruteForceResultDTO> getTeamsAgentsDataTableViewDTOList(List<BruteForceResultDTO> alliesDTO) {
+
+        ObservableList<BruteForceResultDTO> alliesDTOList;
+        alliesDTOList = FXCollections.observableArrayList(alliesDTO);
+        missionNumberColumn.setCellValueFactory(
+                new PropertyValueFactory<>("theMissionNumber")
+        );
+        stringColumn.setCellValueFactory(
+                new PropertyValueFactory<>("convertedString")
+        );
+        codeConfigurationColumn.setCellValueFactory(
+                new PropertyValueFactory<>("codeDescription")
+        );
+
+        return alliesDTOList;
     }
     public TheMachineEngine getTheMachineEngineInputstream(){
 

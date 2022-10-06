@@ -33,7 +33,7 @@ public class AgentMission implements Runnable {
             String convertedStringCode=engineManagerCopy.getCurrentCodeDescription();
             ConvertedStringDTO convertedStringDTOTemp = engineManagerCopy.getConvertedString(stringToConvert);
             if (engineManagerCopy.getTheMachineEngine().getDictionary().isStringExistsInTheDictionary(convertedStringDTOTemp.getConvertedString())) {
-                BruteForceResultDTO bruteForceResultDTO = new BruteForceResultDTO(convertedStringDTOTemp.getConvertedString(),alliesTeamName ,convertedStringCode);
+                BruteForceResultDTO bruteForceResultDTO = new BruteForceResultDTO(0,convertedStringDTOTemp.getConvertedString(),alliesTeamName ,convertedStringCode);
                // resultsBlockingQueue.put(bruteForceResultDTO);
             }
         }

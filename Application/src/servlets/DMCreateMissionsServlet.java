@@ -38,17 +38,13 @@ public class DMCreateMissionsServlet extends HttpServlet {
     }
 
     public void createMission(EngineManager engineManager,String theAlliesTeamName,String stringToConvert) throws Exception {
-  /*      amountOfMissionsProceeded.setValue(0);
-        maxAmountOfMissions = 0L;
-        start = System.currentTimeMillis();*/
         UBoatBattleField battleField = engineManager.getBattleField();
         String level = battleField.getLevel();
         int sizeOfMission = battleField.getAlliesSizeOfMission();
-        Long maxAmountOfMissions = engineManager.setMaxAmountOfMissions(level, sizeOfMission);
+      engineManager.setMaxAmountOfMissions(level, sizeOfMission);
+
         Long amountOfSubListsToCreate = calculateAmountOfMissionsToCreate(engineManager, sizeOfMission);
-        //amountOfMissionsCounter.setValue(maxAmountOfMissions);
-        //uiAdapterInterface.updateAmountOfMissionsPerLevel(engineManager.displayMaxAmountOfMissionsWithCommas(maxAmountOfMissions));
-        if (level.equals("Easy")) {
+           if (level.equals("Easy")) {
             createLowLevelMission(0,engineManager, amountOfSubListsToCreate, sizeOfMission,theAlliesTeamName,stringToConvert);
         } else if (level.equals("Medium")) {
             createMediumLevelMission(0,engineManager, amountOfSubListsToCreate, sizeOfMission,theAlliesTeamName,stringToConvert);
@@ -73,24 +69,15 @@ public class DMCreateMissionsServlet extends HttpServlet {
         for (int i = 0; i < amountOfSubListsToCreate; i++) {
             missionsCounter++;
             missionIndex = i;
-//            EngineManager engineManagerCopy = engineManager.cloneEngineManager();
             TheMissionInfoDTO theMissionInfo =new TheMissionInfoDTO(initialStartingPosition, sizeOfMission, /*engineManagerCopy,*/stringToConvert,engineManager.getMachineUsedRotorsIdArray(),engineManager.getMachineReflectorId());
-    /*        updateEngineManager(engineManagerCopy, engineManager);*/
-            if(alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size()==800){
-                int x=0;
-            }
-            if(alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size()==900){
-                int x=0;
-            }
-            if(alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size()==1000){
-                int x=0;
-            }
+
             isAddedToBlockingQueue = alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName, theMissionInfo);
             while (!isAddedToBlockingQueue) {
                 if(alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size()<1000) {
                     isAddedToBlockingQueue = alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName, theMissionInfo);
                 }
             }
+
             missionsCounter=missionsCounter.intValue()+1;
             System.out.println(missionsCounter.intValue());
             initialStartingPosition = engineManager.getNextStartingPositionByString(sizeOfMission);

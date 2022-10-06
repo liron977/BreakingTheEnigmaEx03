@@ -11,6 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class AlliesMissionsManager {
 
     private final Map<String, BlockingQueue<TheMissionInfoDTO>> alliesMissionsManagerMap;
+
     public AlliesMissionsManager() {
         alliesMissionsManagerMap = new HashMap<>();
     }

@@ -27,6 +27,7 @@ public class Constants {
     public static final String AGENT_GET_MISSIONS= "http://localhost:8080/app/AgentGetMissionsServlet";
     public static final String GET_ENGINE_INPUTSTREAM= "http://localhost:8080/app/GetXmlInputStreamServlet";
     public static final String GET_MACHINE_INFO="http://localhost:8080/app/GetMachineInfoServlet";
+    public static final String BRUTE_FORCE_RESULTS="http://localhost:8080/app/BruteForceResultsServlet";
     public static final Gson GSON_INSTANCE = new Gson();
     public final static int REFRESH_RATE = 500;
 
