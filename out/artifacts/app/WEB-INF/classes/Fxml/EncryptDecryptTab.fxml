@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fx:id="encryptScrollerPane" fitToHeight="true" fitToWidth="true" focusTraversable="false" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.EncryptDecryptTabController">
+  <content>
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="850.0" prefHeight="498.0" prefWidth="885.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="238.0" prefWidth="885.0" spacing="5.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <fx:include fx:id="encryptDecrypt" source="Encrypt.fxml" HBox.hgrow="ALWAYS" />
+                  <fx:include fx:id="keyboard" source="KeyBoard.fxml" HBox.hgrow="ALWAYS" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+            <Separator prefHeight="23.0" prefWidth="881.0">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin></Separator>
+            <HBox alignment="CENTER" prefHeight="257.0" prefWidth="875.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <fx:include fx:id="statistics" minHeight="-Infinity" minWidth="-Infinity" source="Statistics.fxml" HBox.hgrow="ALWAYS" />
+                  <Separator orientation="VERTICAL" prefHeight="239.0" prefWidth="9.0" />
+                  <fx:include fx:id="codeConfigurationVbox" minHeight="-Infinity" minWidth="-Infinity" source="../../../UBoat/src/component/uBoatMachineTab/machineTab/ConfigurationDisplay.fxml" HBox.hgrow="ALWAYS" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="5.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+  </content>
+   <padding>
+      <Insets left="10.0" />
+   </padding>
+</ScrollPane>

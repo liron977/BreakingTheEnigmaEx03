@@ -277,6 +277,8 @@ public class TheMachineEngine implements Serializable {
         return reflectorsSet.getReflectorsId();
     }
     public void setUsedRotorsById(List<String> usedRotorsList){
+        List<Rotor> rotorListList=new ArrayList<>();
+        usedRotors=new RotorsSet(rotorListList);
         for (String rotorId:usedRotorsList) {
          Rotor rotor=rotorsSet.getRotorById(rotorId);
          usedRotors.addRotor(rotor);

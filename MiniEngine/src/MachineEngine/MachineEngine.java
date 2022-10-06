@@ -11,7 +11,7 @@ import java.util.List;
 import machineDTO.ConvertedStringDTO;
 import machineDTO.FullCodeDescriptionDTO;
 
-public class MachineEngine {
+public class MachineEngine implements Serializable {
 
    private TheMachineEngine theMachineEngine;
    private String theLastStartingPos;
@@ -25,6 +25,7 @@ public class MachineEngine {
 
     public MachineEngine(TheMachineEngine theMachineEngine){
         this.theMachineEngine=theMachineEngine;
+        currentPosition=new int[theMachineEngine.getAmountOfUsedRotors()];
         getInitialStartingPosition();
        this.keyboard=theMachineEngine.getKeyboardAsArray();
     }
@@ -273,6 +274,10 @@ public class MachineEngine {
     public int getAmountOfUsedRotors() {
         return theMachineEngine.getAmountOfUsedRotors();
     }
+    public String getBattlefieldLevel(){
+        return theMachineEngine.getBattleFieldLevel();
+    }
+
 
 
 

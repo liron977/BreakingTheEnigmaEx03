@@ -1,6 +1,8 @@
 package component.AgentDashboard;
 
+import BruteForce.AgentDecryptionManager;
 import com.google.gson.reflect.TypeToken;
+import decryptionManager.DecryptionManager;
 import engine.theEnigmaEngine.SchemaGenerated;
 import engine.theEnigmaEngine.TheMachineEngine;
 import engine.theEnigmaEngine.UBoatBattleField;
@@ -84,7 +86,7 @@ public class AgentDashboardController {
         this.threadPoolExecutor = new ThreadPoolExecutor(amountOfThreads, amountOfThreads, 0L, TimeUnit.MILLISECONDS, missionsInfoBlockingQueue);
     }
 
-    public Button getGetMissions() {
+    public void getGetMissions() {
         System.out.println("Im here");
         String finalUrl = HttpUrl
                 .parse(Constants.AGENT_GET_MISSIONS)
@@ -114,20 +116,27 @@ public class AgentDashboardController {
                 });
             } else {
                 Type theMissionInfoList = new TypeToken<ArrayList<TheMissionInfoDTO>>() {}.getType();
-                List<TheMissionInfoDTO> theMissionInfoFromGson = null;
+                List<TheMissionInfoDTO> theMissionInfoListFromGson = null;
                 try {
                     threadPoolExecutor.prestartAllCoreThreads();
                     System.out.println("started threadpool");
                     System.out.println("check");
 
-                    theMissionInfoFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
+                    theMissionInfoListFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
                     TheMachineEngine theMachineEngine= getTheMachineEngineInputstream();
-                    //createRunnableMissions(theMissionInfoFromGson,engineManager);
+                    setTheMachineEngine(theMachineEngine);
+                    AgentDecryptionManager decryptionManager=new AgentDecryptionManager(theMachineEngine
+                            ,selectedAlliesTeamName,
+                            theMissionInfoListFromGson
+                            ,missionsInfoBlockingQueue);
+                    decryptionManager.createMission();
+                    threadPoolExecutor.shutdown();
+                    threadPoolExecutor.awaitTermination(Integer.MAX_VALUE, TimeUnit.HOURS);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
-                threadPoolExecutor.shutdown();
-                threadPoolExecutor.awaitTermination(Integer.MAX_VALUE, TimeUnit.HOURS);
                 Platform.runLater(() -> {
                     {
 
@@ -138,10 +147,8 @@ public class AgentDashboardController {
             }
         } catch (IOException e) {
 
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
-        return null;
+
     }
     public void setTheMachineEngine(TheMachineEngine theMachineEngine){
         TheMachineEngineDTO theMachineEngineDTO=getTheMachineEngineInfo();

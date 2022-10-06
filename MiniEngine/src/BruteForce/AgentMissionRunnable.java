@@ -7,6 +7,7 @@ import machineDTO.ConvertedStringDTO;
 
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class AgentMissionRunnable implements Runnable {
     private BlockingQueue<BruteForceResultDTO> resultsBlockingQueue;
@@ -27,6 +28,7 @@ public class AgentMissionRunnable implements Runnable {
         this.initialStartingPosition = initialStartingPosition;
         this.alliesTeamName = alliesTeamName;
         this.sizeOfMission=sizeOfMission;
+        this.resultsBlockingQueue= new LinkedBlockingQueue<>();
     }
 
     public void setResultsBlockingQueue(BlockingQueue<BruteForceResultDTO> resultsBlockingQueue) {
@@ -49,6 +51,7 @@ public class AgentMissionRunnable implements Runnable {
             if (machineEngineCopy.getTheMachineEngine().getDictionary().isStringExistsInTheDictionary(convertedStringDTOTemp.getConvertedString())) {
                 BruteForceResultDTO bruteForceResultDTO = new BruteForceResultDTO(convertedStringDTOTemp.getConvertedString(), alliesTeamName, convertedStringCode);
                 resultsBlockingQueue.put(bruteForceResultDTO);
+                System.out.println(bruteForceResultDTO.getConvertedString());
             }
             initialStartingPosition= machineEngineCopy.createPossiblePosition(initialStartingPosition);
 

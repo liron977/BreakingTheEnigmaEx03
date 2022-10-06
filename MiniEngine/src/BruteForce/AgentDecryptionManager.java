@@ -8,9 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
 
-public class DecryptionManager {
+public class AgentDecryptionManager {
     private MachineEngine machineEngine;
     private int amountOfSubListsToCreate;
     private String stringToConvert;
@@ -18,14 +17,26 @@ public class DecryptionManager {
     private List<TheMissionInfoDTO> theMissionInfoDTOList;
     private  BlockingQueue<Runnable> missionsInfoBlockingQueue;
 
-public DecryptionManager(TheMachineEngine theMachineEngine
+public AgentDecryptionManager(TheMachineEngine theMachineEngine
         , String alliesTeamName, List<TheMissionInfoDTO> theMissionInfoDTOList,
-                         BlockingQueue<Runnable> missionsInfoBlockingQueue){
+                              BlockingQueue<Runnable> missionsInfoBlockingQueue){
    this.machineEngine=new MachineEngine(theMachineEngine);
    this.theMissionInfoDTOList=theMissionInfoDTOList;
    this.alliesTeamName=alliesTeamName;
    this.missionsInfoBlockingQueue=missionsInfoBlockingQueue;
 }
+    public void createMission() throws Exception {
+    String level=machineEngine.getBattlefieldLevel();
+        if (level.equals("Easy")) {
+            createLowLevelMission();
+        } else if (level.equals("Medium")) {
+            createMediumLevelMission();
+        } else if (level.equals("Hard")) {
+            createHighLevelMission();
+        } else {
+            createImpossibleLevelMission();
+        }
+     }
 
     public void createLowLevelMission() throws Exception {
         int missionsCounter = 0;
