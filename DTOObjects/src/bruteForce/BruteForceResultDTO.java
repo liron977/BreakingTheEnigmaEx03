@@ -4,11 +4,22 @@ public class BruteForceResultDTO {
     private String convertedString;
     private String alliesTeamName;
     private String codeDescription;
-    public BruteForceResultDTO(String convertedString,String alliesTeamName,String codeDescription){
+    private int theMissionNumber;
+    public BruteForceResultDTO(int theMissionNumber,String convertedString,String alliesTeamName,String codeDescription){
         this.codeDescription=codeDescription;
         this.alliesTeamName=alliesTeamName;
         this.convertedString=convertedString;
+        this.theMissionNumber=theMissionNumber;
     }
+
+    public void setTheMissionNumber(int theMissionNumber) {
+        this.theMissionNumber = theMissionNumber;
+    }
+
+    public int getTheMissionNumber() {
+        return theMissionNumber;
+    }
+
     public String getConvertedString() {
         return convertedString;
     }

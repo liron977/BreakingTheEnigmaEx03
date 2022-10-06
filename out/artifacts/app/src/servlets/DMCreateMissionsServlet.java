@@ -21,6 +21,7 @@ import java.util.List;
 public class DMCreateMissionsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Thread.currentThread().setName("DMCreateMissionsServlet");
         AlliesManager alliesManager = ServletUtils.getAlliesManager(getServletContext());
         String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
         String stringToConvert = request.getParameter(ParametersConstants.STRING_TO_CONVERT_BRUTE_FORCE);
@@ -37,61 +38,66 @@ public class DMCreateMissionsServlet extends HttpServlet {
     }
 
     public void createMission(EngineManager engineManager,String theAlliesTeamName,String stringToConvert) throws Exception {
-  /*      amountOfMissionsProceeded.setValue(0);
-        maxAmountOfMissions = 0L;
-        start = System.currentTimeMillis();*/
         UBoatBattleField battleField = engineManager.getBattleField();
         String level = battleField.getLevel();
         int sizeOfMission = battleField.getAlliesSizeOfMission();
-        Long maxAmountOfMissions = engineManager.setMaxAmountOfMissions(level, sizeOfMission);
+      engineManager.setMaxAmountOfMissions(level, sizeOfMission);
+
         Long amountOfSubListsToCreate = calculateAmountOfMissionsToCreate(engineManager, sizeOfMission);
-        //amountOfMissionsCounter.setValue(maxAmountOfMissions);
-        //uiAdapterInterface.updateAmountOfMissionsPerLevel(engineManager.displayMaxAmountOfMissionsWithCommas(maxAmountOfMissions));
-        if (level.equals("Easy")) {
-            createLowLevelMission(engineManager, amountOfSubListsToCreate, sizeOfMission,theAlliesTeamName,stringToConvert);
+           if (level.equals("Easy")) {
+            createLowLevelMission(0,engineManager, amountOfSubListsToCreate, sizeOfMission,theAlliesTeamName,stringToConvert);
         } else if (level.equals("Medium")) {
-            createMediumLevelMission(engineManager, amountOfSubListsToCreate, sizeOfMission,theAlliesTeamName,stringToConvert);
+            createMediumLevelMission(0,engineManager, amountOfSubListsToCreate, sizeOfMission,theAlliesTeamName,stringToConvert);
         } else if (level.equals("Hard")) {
-            createHighLevelMission(engineManager, amountOfSubListsToCreate, sizeOfMission,theAlliesTeamName,stringToConvert);
+            createHighLevelMission(0,engineManager, amountOfSubListsToCreate, sizeOfMission,theAlliesTeamName,stringToConvert);
         } else {
             createImpossibleLevelMission(engineManager, amountOfSubListsToCreate, sizeOfMission,theAlliesTeamName,stringToConvert);
         }
     }
 
-    public void createLowLevelMission(EngineManager engineManager,
+    public void createLowLevelMission(Integer missionsCounter,EngineManager engineManager,
                                       Long amountOfSubListsToCreate,int sizeOfMission
             ,String theAlliesTeamName,String stringToConvert) throws Exception {
        // BlockingQueue<bruteForce.TheMissionInfo> theMissionInfoBlockingQueuelockingQueue = new LinkedBlockingQueue<bruteForce.TheMissionInfo>(1000);
         AlliesMissionsManager alliesMissionsManager=ServletUtils.getAlliesMissionsManager(getServletContext());
        // BlockingQueue<bruteForce.TheMissionInfo> theMissionInfoBlockingQueuelockingQueue=alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName);
-        int missionsCounter = 0;
+       // int missionsCounter = 0;
+        boolean isAddedToBlockingQueue=false;
        String initialStartingPosition= engineManager.getInitialStartingPosition();
         int missionIndex = 0;
+
         for (int i = 0; i < amountOfSubListsToCreate; i++) {
             missionsCounter++;
             missionIndex = i;
-//            EngineManager engineManagerCopy = engineManager.cloneEngineManager();
             TheMissionInfoDTO theMissionInfo =new TheMissionInfoDTO(initialStartingPosition, sizeOfMission, /*engineManagerCopy,*/stringToConvert,engineManager.getMachineUsedRotorsIdArray(),engineManager.getMachineReflectorId());
-    /*        updateEngineManager(engineManagerCopy, engineManager);*/
-            alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName,theMissionInfo);
+
+            isAddedToBlockingQueue = alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName, theMissionInfo);
+            while (!isAddedToBlockingQueue) {
+                if(alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size()<1000) {
+                    isAddedToBlockingQueue = alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName, theMissionInfo);
+                }
+            }
+
+            missionsCounter=missionsCounter.intValue()+1;
+            System.out.println(missionsCounter.intValue());
             initialStartingPosition = engineManager.getNextStartingPositionByString(sizeOfMission);
         }
+
+
         int x=0;
     }
 
-    public void createMediumLevelMission(EngineManager engineManager,
+    public void createMediumLevelMission(Integer missionsCounter,EngineManager engineManager,
                                          Long amountOfSubListsToCreate,int sizeOfMission
             ,String theAlliesTeamName,String stringToConvert) throws Exception {
         for (String reflectorId : engineManager.getTheMachineEngine().getReflectorsSet().getReflectorsId()) {
             engineManager.chooseManuallyReflect(reflectorId);
-            createLowLevelMission(engineManager,amountOfSubListsToCreate,sizeOfMission,theAlliesTeamName,stringToConvert);
+            createLowLevelMission(missionsCounter,engineManager,amountOfSubListsToCreate,sizeOfMission,theAlliesTeamName,stringToConvert);
         }
-        AlliesMissionsManager alliesMissionsManager=ServletUtils.getAlliesMissionsManager(getServletContext());
 
-        System.out.println("missions in bq:"+alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size());
     }
 
-    public void createHighLevelMission(EngineManager engineManager,
+    public void createHighLevelMission(Integer missionsCounter,EngineManager engineManager,
                                        Long amountOfSubListsToCreate,int sizeOfMission
             ,String theAlliesTeamName,String stringToConvert) throws Exception {
         String[] concatRotorsPosition = engineManager.getTheMachineEngine().getUsedRotorsId();
@@ -99,7 +105,7 @@ public class DMCreateMissionsServlet extends HttpServlet {
         getAllPermutationsOfRotorsPosition(concatRotorsPosition.length, concatRotorsPosition, optionalRotorsPositionList);
         for (String[] optionalRotorsPosition : optionalRotorsPositionList) {
             engineManager.getTheMachineEngine().updateUsedRotors(optionalRotorsPosition);
-            createMediumLevelMission(engineManager,amountOfSubListsToCreate,sizeOfMission,theAlliesTeamName,stringToConvert);
+            createMediumLevelMission(missionsCounter,engineManager,amountOfSubListsToCreate,sizeOfMission,theAlliesTeamName,stringToConvert);
         }
     }
 
@@ -107,7 +113,8 @@ public class DMCreateMissionsServlet extends HttpServlet {
     public void createImpossibleLevelMission(EngineManager engineManager,
                                              Long amountOfSubListsToCreate,int sizeOfMission
             ,String theAlliesTeamName,String stringToConvert) throws Exception {
-        int missionsCounter = 0;
+        Integer missionsCounter = 0;
+        Integer missionsCounterInImpossible = 0;
         List<String[]> optionalRotorsList = new ArrayList<>();
         optionalRotorsList = getOptionalRotors(engineManager);
         for (String[] optionalRotors : optionalRotorsList) {
@@ -115,9 +122,16 @@ public class DMCreateMissionsServlet extends HttpServlet {
             getAllPermutationsOfRotorsPosition(optionalRotors.length, optionalRotors, optionalRotorsPositionList);
             for (String[] optionalRotorsPosition : optionalRotorsPositionList) {
                 engineManager.getTheMachineEngine().updateUsedRotors(optionalRotorsPosition);
-                createMediumLevelMission(engineManager,amountOfSubListsToCreate,sizeOfMission,theAlliesTeamName,stringToConvert);
+                createMediumLevelMission(missionsCounter,engineManager,amountOfSubListsToCreate,sizeOfMission,theAlliesTeamName,stringToConvert);
             }
+            missionsCounterInImpossible=missionsCounterInImpossible++;
+            System.out.println("missionsCounterInImpossible"+missionsCounterInImpossible.intValue());
         }
+        AlliesMissionsManager alliesMissionsManager=ServletUtils.getAlliesMissionsManager(getServletContext());
+
+        System.out.println("missions in bq:"+alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size());
+
+
     }
 
     public Long calculateAmountOfMissionsToCreate(EngineManager engineManager, int sizeOfMission) {
