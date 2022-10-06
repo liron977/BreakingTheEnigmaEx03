@@ -43,7 +43,9 @@ public class AgentMissionRunnable implements Runnable {
         int index = 0;
 
         while (index<sizeOfMission){
-
+if(initialStartingPosition.equals("RHL")){
+    int x=0;
+}
             machineEngineCopy.chooseManuallyStartingPosition(initialStartingPosition);
             machineEngineCopy.createCurrentCodeDescriptionDTO();
             String convertedStringCode = machineEngineCopy.getCurrentCodeDescription();
@@ -52,6 +54,7 @@ public class AgentMissionRunnable implements Runnable {
                 BruteForceResultDTO bruteForceResultDTO = new BruteForceResultDTO(convertedStringDTOTemp.getConvertedString(), alliesTeamName, convertedStringCode);
                 resultsBlockingQueue.put(bruteForceResultDTO);
                 System.out.println(bruteForceResultDTO.getConvertedString());
+                System.out.println(bruteForceResultDTO.getCodeDescription());
             }
             initialStartingPosition= machineEngineCopy.createPossiblePosition(initialStartingPosition);
 

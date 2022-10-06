@@ -5,13 +5,14 @@ import constants.ParametersConstants;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.jetbrains.annotations.NotNull;
 import utils.ServletUtils;
 import utils.SessionUtils;
 
 import java.io.IOException;
 
 public class LoginServlet extends HttpServlet {
-    @Override protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @Override protected void doGet(HttpServletRequest request, @NotNull HttpServletResponse response) throws IOException {
         response.setContentType("text/plain;charset=UTF-8");
         String usernameFromSession = SessionUtils.getUsername(request);//check if the user exists- returns null if not
         String roleFromSession = request.getParameter(ParametersConstants.ROLE);
