@@ -21,8 +21,8 @@ public class AgentMissionRunnable implements Runnable {
 
     UiAdapterInterface uiAdapterInterface;
     int missionNumber=0;
-
-    public AgentMissionRunnable(int missionNumber,UiAdapterInterface uiAdapterInterface,MachineEngine machineEngineCopy,
+    String lastStartingPos;
+    public AgentMissionRunnable(String lastStartingPos,int missionNumber,UiAdapterInterface uiAdapterInterface,MachineEngine machineEngineCopy,
                                 String stringToConvert, String alliesTeamName
             , String initialStartingPosition, int sizeOfMission) {
 
@@ -33,6 +33,7 @@ public class AgentMissionRunnable implements Runnable {
         this.sizeOfMission=sizeOfMission;
         this.resultsBlockingQueue= new LinkedBlockingQueue<>();
         this.missionNumber=missionNumber;
+        this.lastStartingPos=lastStartingPos;
 
         this.uiAdapterInterface=uiAdapterInterface;
     }
@@ -59,6 +60,12 @@ Thread.currentThread().setName("AgentMissionRunnable");
                 resultsBlockingQueue.put(bruteForceResultDTO);
                 System.out.println(bruteForceResultDTO.getConvertedString());
                 System.out.println(bruteForceResultDTO.getCodeDescription());
+            }
+            if(index==999999998){
+                int x=0;
+            }
+            if(initialStartingPosition.equals(lastStartingPos)){
+                break;
             }
             initialStartingPosition= machineEngineCopy.createPossiblePosition(initialStartingPosition);
             index++;

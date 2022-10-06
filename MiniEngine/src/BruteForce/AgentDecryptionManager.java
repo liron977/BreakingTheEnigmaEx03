@@ -39,6 +39,7 @@ public AgentDecryptionManager(UiAdapterInterface uiAdapterInterface,SimpleBoolea
 }
     public void createMission() throws Exception {
     int missionsCounter=0;
+    String lastStartingPos=machineEngine.getLastStartingPos();
         threadPoolExecutor.prestartAllCoreThreads();
         for (TheMissionInfoDTO theMissionInfoDTO : theMissionInfoDTOList) {
 
@@ -48,7 +49,7 @@ public AgentDecryptionManager(UiAdapterInterface uiAdapterInterface,SimpleBoolea
             }
             machineEngine.chooseManuallyReflect(theMissionInfoDTO.getReflector());
             MachineEngine machineEngineCopy = machineEngine.cloneMachineEngine();
-            AgentMissionRunnable agentMissionRunnable = new AgentMissionRunnable(missionsCounter,uiAdapterInterface,machineEngineCopy,
+            AgentMissionRunnable agentMissionRunnable = new AgentMissionRunnable(lastStartingPos,missionsCounter,uiAdapterInterface,machineEngineCopy,
                     theMissionInfoDTO.getStringToConvert(), alliesTeamName
                     , theMissionInfoDTO.getInitialStartingPosition(),
                     theMissionInfoDTO.getSizeOfMission());
@@ -165,6 +166,7 @@ public AgentDecryptionManager(UiAdapterInterface uiAdapterInterface,SimpleBoolea
             helper(combinations, data, start + 1, end, index);
         }
     }
+
 
 
 }
