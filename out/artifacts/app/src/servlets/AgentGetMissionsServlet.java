@@ -17,6 +17,7 @@ public class AgentGetMissionsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try (PrintWriter out = response.getWriter()) {
+            Thread.currentThread().setName("AgentGetMissionsServlet");
             AlliesMissionsManager alliesMissionsManager = ServletUtils.getAlliesMissionsManager(getServletContext());
             String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
             String amountOfMissionsString = request.getParameter(ParametersConstants.AMOUNT_OF_MISSIONS_PER_AGENT);
