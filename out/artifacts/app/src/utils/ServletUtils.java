@@ -2,7 +2,7 @@ package utils;
 
 import managers.agent.AgentsManager;
 import managers.bruteForce.AlliesMissionsManager;
-import managers.bruteForce.BruteForceResultsInfoManager;
+import managers.bruteForce.BruteForceResultsManager;
 import managers.uBoatEngine.AlliesManager;
 import managers.uBoatEngine.UBoatAvailableContestsManager;
 import managers.users.UserManager;
@@ -17,11 +17,12 @@ public class ServletUtils {
     private static final String USER_MANAGER_ATTRIBUTE_NAME = "userManager";
     private static final String CHAT_MANAGER_ATTRIBUTE_NAME = "chatManager";
     private static final String MEDIATORS_MANAGER_ATTRIBUTE_NAME = "MediatorForEngineManager";
-    private static final String BRUTE_FORCE_RESULTS_MANAGER_ATTRIBUTE_NAME = "bruteForceResultsInfoManager";
+    //private static final String BRUTE_FORCE_RESULTS_MANAGER_ATTRIBUTE_NAME = "bruteForceResultsInfoManager";
     private static final String AGENTS_INFO_MANAGER_ATTRIBUTE_NAME = "agentsInfoManager";
     private static final String ALLIES_MANAGER_ATTRIBUTE_NAME = "alliesManager";
     private static final String UBOAT_AVAILABLE_CONTESTS_ATTRIBUTE_NAME = "uBoatAvailableContests";
     private static final String ALLIES_MISSIONS_MANAGER_ATTRIBUTE_NAME = "alliesMissionsManager";
+    private static final String BRUTE_FORCE_RESULTS_MANAGER_ATTRIBUTE_NAME = "bruteForceResultsManager";
 
     /*
     Note how the synchronization is done only on the question and\or creation of the relevant managers and once they exists -
@@ -73,13 +74,13 @@ public class ServletUtils {
         return (MediatorForEngineManager) servletContext.getAttribute(MEDIATORS_MANAGER_ATTRIBUTE_NAME);
     }
 
-    public static BruteForceResultsInfoManager getBruteForceResultsInfoManager(ServletContext servletContext) {
+    public static BruteForceResultsManager getBruteForceResultsManager(ServletContext servletContext) {
         synchronized (bruteForceResultsInfoLock) {
             if (servletContext.getAttribute(BRUTE_FORCE_RESULTS_MANAGER_ATTRIBUTE_NAME) == null) {
-                servletContext.setAttribute(BRUTE_FORCE_RESULTS_MANAGER_ATTRIBUTE_NAME, new MediatorForEngineManager());
+                servletContext.setAttribute(BRUTE_FORCE_RESULTS_MANAGER_ATTRIBUTE_NAME, new BruteForceResultsManager());
             }
         }
-        return (BruteForceResultsInfoManager) servletContext.getAttribute(MEDIATORS_MANAGER_ATTRIBUTE_NAME);
+        return (BruteForceResultsManager) servletContext.getAttribute(BRUTE_FORCE_RESULTS_MANAGER_ATTRIBUTE_NAME);
     }
 
 /*    public static ChatManager getChatManager(ServletContext servletContext) {
