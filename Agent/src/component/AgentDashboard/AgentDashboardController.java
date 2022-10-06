@@ -67,10 +67,12 @@ public class AgentDashboardController {
 
     private final String JAXB_XML_GAME_PACKAGE_NAME = "schemaGenerated";
     private SimpleBooleanProperty isMissionEndedProperty;
+    private List<BruteForceResultDTO> resultDTOList;
 
     @FXML
     public void initialize() {
         isMissionEndedProperty=new SimpleBooleanProperty(false);
+        resultDTOList=new ArrayList<>();
        /* isMissionEndedProperty.addListener((obser)->{
             if(isMissionEndedProperty.getValue())
 
@@ -249,16 +251,21 @@ public class AgentDashboardController {
     }
     private synchronized void saveResultsOnServer(BlockingQueue<BruteForceResultDTO> bruteForceResultDTOBlockingQueue) throws InterruptedException {
        new Thread(()->{
-           List<BruteForceResultDTO> resultDTOList=new ArrayList<>();
-            bruteForceResultDTOBlockingQueue.drainTo(resultDTOList);
+
+           while (bruteForceResultDTOBlockingQueue.size()!=0) {
+               resultDTOList.add(bruteForceResultDTOBlockingQueue.poll());
+           }
+
           saveResultsInServer(resultDTOList);
        }).start();
 
     }
     private synchronized void updateResultsOnAgent(BlockingQueue<BruteForceResultDTO> bruteForceResultDTOBlockingQueue) throws InterruptedException {
-        List<BruteForceResultDTO> resultDTOList=new ArrayList<>();
-        bruteForceResultDTOBlockingQueue.drainTo(resultDTOList);
-        //saveResultsInServer(resultDTOList);
+      /*  List<BruteForceResultDTO> resultDTOList=new ArrayList<>();
+        while (bruteForceResultDTOBlockingQueue.size()!=0) {
+            resultDTOList.add(bruteForceResultDTOBlockingQueue.poll());
+            //saveResultsInServer(resultDTOList);
+        }*/
         ObservableList<BruteForceResultDTO> alliesDTOObservableList =getTeamsAgentsDataTableViewDTOList(resultDTOList);
         createAlliesInfoDTOTableView(alliesDTOObservableList);
 
