@@ -103,7 +103,7 @@
     /*-fx-font-weight: bold;*/
     -fx-font-size: 20;
 }
-.table-view .scroll-bar * {
+/*.table-view .scroll-bar * {
     -fx-min-width: 0;
     -fx-pref-width: 0;
     -fx-max-width: 0;
@@ -111,7 +111,7 @@
     -fx-min-height: 0;
     -fx-pref-height: 0;
     -fx-max-height: 0;
-}
+}*/
 .table-column{
     -fx-alignment: center;
 }
