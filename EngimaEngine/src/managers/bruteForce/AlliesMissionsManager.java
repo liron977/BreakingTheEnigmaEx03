@@ -21,13 +21,15 @@ public class AlliesMissionsManager {
     public synchronized Map<String,  BlockingQueue<TheMissionInfoDTO>> alliesMissionsManagerMap() {
         return Collections.unmodifiableMap(alliesMissionsManagerMap);
     }
-    public synchronized void addMissionInfoIntoMissionBlockingQueue (String alliesTeamName, TheMissionInfoDTO theMissionInfo) throws InterruptedException {
+    public synchronized boolean addMissionInfoIntoMissionBlockingQueue (String alliesTeamName, TheMissionInfoDTO theMissionInfo) throws InterruptedException {
         BlockingQueue<TheMissionInfoDTO>  missionInfoBlockingQueue = getMissionsBlockingQueueByAlliesTeamName(alliesTeamName);
+        boolean isAddedToBlockingQueue=false;
         if (missionInfoBlockingQueue == null) {
             missionInfoBlockingQueue = new LinkedBlockingQueue<TheMissionInfoDTO>(1000);
         }
-        missionInfoBlockingQueue.put(theMissionInfo);
+        isAddedToBlockingQueue= missionInfoBlockingQueue.offer(theMissionInfo);
         alliesMissionsManagerMap.put(alliesTeamName, missionInfoBlockingQueue);
+        return isAddedToBlockingQueue;
         }
     public synchronized TheMissionInfoDTO getMissionFromBlockingQueue(String alliesTeamName) throws InterruptedException {
       try {

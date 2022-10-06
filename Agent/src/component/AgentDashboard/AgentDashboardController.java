@@ -115,21 +115,22 @@ public class AgentDashboardController {
                 Type theMissionInfoList = new TypeToken<ArrayList<TheMissionInfoDTO>>() {}.getType();
                 List<TheMissionInfoDTO> theMissionInfoListFromGson = null;
                 try {
-                    threadPoolExecutor.prestartAllCoreThreads();
+
                   /*  System.out.println("started threadpool");
                     System.out.println("check");
 */
                     theMissionInfoListFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
                     TheMachineEngine theMachineEngine= getTheMachineEngineInputstream();
                     setTheMachineEngine(theMachineEngine);
-                    AgentDecryptionManager decryptionManager=new AgentDecryptionManager(theMachineEngine
+                    AgentDecryptionManager decryptionManager=new AgentDecryptionManager(threadPoolExecutor,theMachineEngine
                             ,selectedAlliesTeamName,
                             theMissionInfoListFromGson
                             ,missionsInfoBlockingQueue);
                     decryptionManager.createMission();
-                   // threadPoolExecutor.shutdown();
-                    //threadPoolExecutor.awaitTermination(Integer.MAX_VALUE, TimeUnit.HOURS);
-                    //getMissions();
+                   threadPoolExecutor.shutdown();
+                    threadPoolExecutor.awaitTermination(Integer.MAX_VALUE, TimeUnit.HOURS);
+                    setThreadPoolSize(amountOfThreads);
+                    getMissions();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 } catch (Exception e) {

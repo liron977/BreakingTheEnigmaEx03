@@ -17,6 +17,7 @@ public class AgentThreadTask extends Task<Boolean> {
 
     @Override
     protected Boolean call() throws Exception {
+        Thread.currentThread().setName("AgentThreadTask");
         agentDashboardController.getMissions();
         return Boolean.TRUE;
 

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class AgentDecryptionManager {
     private MachineEngine machineEngine;
@@ -16,14 +17,16 @@ public class AgentDecryptionManager {
     private String alliesTeamName;
     private List<TheMissionInfoDTO> theMissionInfoDTOList;
     private  BlockingQueue<Runnable> missionsInfoBlockingQueue;
+    ThreadPoolExecutor threadPoolExecutor;
 
-public AgentDecryptionManager(TheMachineEngine theMachineEngine
+public AgentDecryptionManager(ThreadPoolExecutor threadPoolExecutor,TheMachineEngine theMachineEngine
         , String alliesTeamName, List<TheMissionInfoDTO> theMissionInfoDTOList,
                               BlockingQueue<Runnable> missionsInfoBlockingQueue){
    this.machineEngine=new MachineEngine(theMachineEngine);
    this.theMissionInfoDTOList=theMissionInfoDTOList;
    this.alliesTeamName=alliesTeamName;
    this.missionsInfoBlockingQueue=missionsInfoBlockingQueue;
+   this.threadPoolExecutor=threadPoolExecutor;
 }
     public void createMission() throws Exception {
     /*String level=machineEngine.getBattlefieldLevel();
@@ -36,6 +39,7 @@ public AgentDecryptionManager(TheMachineEngine theMachineEngine
         } else {
             createImpossibleLevelMission();
         }*/
+        threadPoolExecutor.prestartAllCoreThreads();
         for (TheMissionInfoDTO theMissionInfoDTO : theMissionInfoDTOList) {
 
             machineEngine.getTheMachineEngine().updateUsedRotors(theMissionInfoDTO.getUsedRotors());
@@ -50,7 +54,7 @@ public AgentDecryptionManager(TheMachineEngine theMachineEngine
                     theMissionInfoDTO.getSizeOfMission());
             missionsInfoBlockingQueue.put(agentMissionRunnable);
         }
-
+int x=0;
 
     }
 

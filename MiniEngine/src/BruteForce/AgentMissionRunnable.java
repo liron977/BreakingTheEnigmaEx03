@@ -41,7 +41,7 @@ public class AgentMissionRunnable implements Runnable {
 
     public void getConvertedStringsFounded() throws InterruptedException {
         int index = 0;
-
+Thread.currentThread().setName("AgentMissionRunnable");
         while (index<sizeOfMission){
 if(initialStartingPosition.equals(" 'T")&&machineEngineCopy.getTheMachineEngine().getReflector().getReflectorId().equals("II")){
     int x=0;
@@ -60,7 +60,7 @@ if(machineEngineCopy.getTheMachineEngine().getReflector().getReflectorId().equal
                 System.out.println(bruteForceResultDTO.getCodeDescription());
             }
             initialStartingPosition= machineEngineCopy.createPossiblePosition(initialStartingPosition);
-
+            index++;
         }
     }
 
