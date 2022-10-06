@@ -25,7 +25,7 @@ public AgentDecryptionManager(TheMachineEngine theMachineEngine
    this.alliesTeamName=alliesTeamName;
    this.missionsInfoBlockingQueue=missionsInfoBlockingQueue;
 }
-    public void createMission() throws Exception {
+    public synchronized void createMission() throws Exception {
     /*String level=machineEngine.getBattlefieldLevel();
         if (level.equals("Easy")) {
             createLowLevelMission();

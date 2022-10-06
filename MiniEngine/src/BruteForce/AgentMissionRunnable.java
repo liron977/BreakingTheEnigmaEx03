@@ -39,7 +39,7 @@ public class AgentMissionRunnable implements Runnable {
         return resultsBlockingQueue;
     }
 
-    public void getConvertedStringsFounded() throws InterruptedException {
+    public synchronized void getConvertedStringsFounded() throws InterruptedException {
         int index = 0;
 
         while (index<sizeOfMission){
@@ -62,6 +62,7 @@ if(machineEngineCopy.getTheMachineEngine().getReflector().getReflectorId().equal
             initialStartingPosition= machineEngineCopy.createPossiblePosition(initialStartingPosition);
 
         }
+        System.out.println(index+"index");
     }
 
     @Override
