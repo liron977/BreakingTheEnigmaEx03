@@ -68,6 +68,7 @@ public class AgentDashboardController {
     private final String JAXB_XML_GAME_PACKAGE_NAME = "schemaGenerated";
     private SimpleBooleanProperty isMissionEndedProperty;
     private List<BruteForceResultDTO> resultDTOList;
+    private List<BruteForceResultDTO> resultDTOListForAgent;
 
     @FXML
     public void initialize() {
@@ -80,8 +81,8 @@ public class AgentDashboardController {
 */
 
     }
-    public void saveResultsInServer(List<BruteForceResultDTO> bruteForceResultDTOList){
-
+    public void saveResultsInServer(){
+        List<BruteForceResultDTO> bruteForceResultDTOList=resultDTOList;
         String bruteForceResultDTOListGson = Constants.GSON_INSTANCE.toJson(bruteForceResultDTOList);
         RequestBody body = RequestBody.create(
                 MediaType.parse("application/json"), bruteForceResultDTOListGson);
@@ -120,6 +121,7 @@ public class AgentDashboardController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
 
 
     }
@@ -243,26 +245,24 @@ public class AgentDashboardController {
                 );
     }
     private synchronized void saveResultsOnServer(BlockingQueue<BruteForceResultDTO> bruteForceResultDTOBlockingQueue) throws InterruptedException {
-       new Thread(()->{
+       /*new Thread(()->{*/
            resultDTOList=new ArrayList<>();
 
            while (bruteForceResultDTOBlockingQueue.size()!=0) {
                resultDTOList.add(bruteForceResultDTOBlockingQueue.poll());
            }
-           for (BruteForceResultDTO brute:resultDTOList) {
-               System.out.println("in controller "+Thread.currentThread().getName());
-               System.out.println(brute.getConvertedString()+" "+brute.getCodeDescription()+" "+brute.getTheMissionNumber());
-           }
-          saveResultsInServer(resultDTOList);
-           Platform.runLater(()-> {
+           saveResultsInServer();
+           resultDTOListForAgent=resultDTOList;
+
                try {
+
                    updateResultsOnAgent();
                } catch (InterruptedException e) {
                    throw new RuntimeException(e);
                }
-           });
 
-       }).start();
+
+     /*  }).start();*/
 
     }
     private synchronized void updateResultsOnAgent() throws InterruptedException {
@@ -270,9 +270,15 @@ public class AgentDashboardController {
         while (bruteForceResultDTOBlockingQueue.size()!=0) {
             resultDTOList.add(bruteForceResultDTOBlockingQueue.poll());
             //saveResultsInServer(resultDTOList);
-        }*/
-        ObservableList<BruteForceResultDTO> alliesDTOObservableList =getTeamsAgentsDataTableViewDTOList(resultDTOList);
-        createAlliesInfoDTOTableView(alliesDTOObservableList);
+        }
+*/
+           for (BruteForceResultDTO brute:resultDTOList) {
+                    System.out.println("in runnable"+Thread.currentThread().getName());
+                    System.out.println(brute.getConvertedString()+" "+brute.getCodeDescription()+" "+brute.getTheMissionNumber());
+                }
+           Platform.runLater(()->{
+        ObservableList<BruteForceResultDTO> alliesDTOObservableList =getTeamsAgentsDataTableViewDTOList(resultDTOListForAgent);
+        createAlliesInfoDTOTableView(alliesDTOObservableList);});
 
     }
     private synchronized void createAlliesInfoDTOTableView(ObservableList<BruteForceResultDTO> alliesInfoDTOList ) {
