@@ -76,6 +76,7 @@ public class AgentDashboardController {
     public void initialize() {
         isMissionEndedProperty=new SimpleBooleanProperty(false);
         resultDTOList=new ArrayList<>();
+        resultDTOListForAgent=new ArrayList<>();
        /* isMissionEndedProperty.addListener((obser)->{
             if(isMissionEndedProperty.getValue())
 
@@ -86,6 +87,7 @@ public class AgentDashboardController {
     public synchronized void saveResultsInServer(){
         resultDTOListForAgent=resultDTOList;
         List<BruteForceResultDTO> bruteForceResultDTOList=resultDTOList;
+        resultDTOList=new ArrayList<>();
         String bruteForceResultDTOListGson = Constants.GSON_INSTANCE.toJson(bruteForceResultDTOList);
         RequestBody body = RequestBody.create(
                 MediaType.parse("application/json"), bruteForceResultDTOListGson);
@@ -245,8 +247,8 @@ public class AgentDashboardController {
     }
     private synchronized void saveResultsOnServer(BlockingQueue<BruteForceResultDTO> bruteForceResultDTOBlockingQueue) throws InterruptedException {
         /*new Thread(()->{*/
-        resultDTOList=new ArrayList<>();
-        resultDTOListForAgent=new ArrayList<>();
+        //resultDTOList=new ArrayList<>();
+       // resultDTOListForAgent=new ArrayList<>();
         while (bruteForceResultDTOBlockingQueue.size()!=0) {
             resultDTOList.add(bruteForceResultDTOBlockingQueue.poll());
         }
