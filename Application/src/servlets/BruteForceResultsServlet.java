@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
 
 public class BruteForceResultsServlet extends HttpServlet {
     @Override
@@ -24,10 +25,17 @@ public class BruteForceResultsServlet extends HttpServlet {
         Gson gson=new Gson();
         Type bruteForceResultsListType = new TypeToken<ArrayList<BruteForceResultDTO>>() {}.getType();
         List<BruteForceResultDTO> bruteForceResultDTOListFromGson = gson.fromJson(request.getReader(), bruteForceResultsListType);
-        try {
-            bruteForceResultsManager.addBruteForceResultsIntoBlockingQueue(theAlliesTeamName,bruteForceResultDTOListFromGson);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        if(bruteForceResultDTOListFromGson!=null) {
+            try {
+                bruteForceResultsManager.addBruteForceResultsIntoBlockingQueue(theAlliesTeamName, bruteForceResultDTOListFromGson);
+                BlockingQueue<BruteForceResultDTO> queue = bruteForceResultsManager.getResultsBlockingQueueByAlliesTeamName(theAlliesTeamName);
+                System.out.println("*************************");
+                for (BruteForceResultDTO brute : queue) {
+                    System.out.println(brute.getConvertedString() + " " + brute.getCodeDescription() + " " + brute.getTheMissionNumber() + "IN SERVLET");
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
