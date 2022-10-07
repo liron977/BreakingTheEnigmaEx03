@@ -183,6 +183,8 @@ public class AgentLoginController {
     }
 
     public void executeLogin(){
+        agentNameTextField.setDisable(true);
+        loginButton.setDisable(true);
         String finalUrl =HttpUrl
                 .parse(Constants.LOGIN_PAGE)
                 .newBuilder()
@@ -193,13 +195,18 @@ public class AgentLoginController {
 
         HttpClientUtil.runAsync(finalUrl, new Callback() {
             @Override public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Platform.runLater(() ->
-                        errorMessageProperty.set("Something went wrong: " + e.getMessage())
+                Platform.runLater(() ->{
+                            agentNameTextField.setDisable(false);
+                            loginButton.setDisable(false);
+                    errorMessageProperty.set("Something went wrong: " + e.getMessage());
+                        }
                 );
             }
 
             @Override public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.code() != 200) {
+                    agentNameTextField.setDisable(false);
+                    loginButton.setDisable(false);
                     String responseBody = response.body().string();
                     Platform.runLater(() ->
                             errorMessageProperty.set("Something went wrong: " + responseBody)

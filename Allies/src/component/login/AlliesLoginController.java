@@ -67,13 +67,15 @@ public class AlliesLoginController {
     }
 
     @FXML private void loginButtonClicked(ActionEvent event) {
+
         alliesTeamName = uBoatNameTextField.getText();
 
         if (alliesTeamName.isEmpty()) {
             errorMessageProperty.set("User name is empty. You can't login with empty user name");
             return;
         }
-
+        uBoatNameTextField.setDisable(true);
+        loginButton.setDisable(true);
         String finalUrl = HttpUrl
                 .parse(Constants.ALLIES_LOGIN)
                 .newBuilder()
@@ -86,16 +88,23 @@ public class AlliesLoginController {
 
 
             @Override public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Platform.runLater(() ->
-                        errorMessageProperty.set("Something went wrong: " + e.getMessage())
+                Platform.runLater(() ->{
+                            uBoatNameTextField.setDisable(false);
+                            loginButton.setDisable(false);
+                            errorMessageProperty.set("Something went wrong: " + e.getMessage());
+                        }
                 );
             }
 
             @Override public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.code() != 200) {
                     String responseBody = response.body().string();
-                    Platform.runLater(() ->
-                            errorMessageProperty.set("Something went wrong: " + responseBody)
+                    Platform.runLater(() ->{
+                        uBoatNameTextField.setDisable(false);
+                        loginButton.setDisable(false);
+                        errorMessageProperty.set("Something went wrong: " + responseBody);
+
+                            }
                     );
                 }
                 else {

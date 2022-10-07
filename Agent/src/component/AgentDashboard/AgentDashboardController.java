@@ -1,6 +1,7 @@
 package component.AgentDashboard;
 
 import BruteForce.AgentDecryptionManager;
+import bruteForce.AlliesDTO;
 import bruteForce.BruteForceResultDTO;
 import com.google.gson.reflect.TypeToken;
 import engine.theEnigmaEngine.SchemaGenerated;
@@ -17,6 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import machineDTO.TheMachineEngineDTO;
 import okhttp3.*;
+import org.jetbrains.annotations.NotNull;
 import schemaGenerated.CTEEnigma;
 import utils.Constants;
 import utils.http.HttpClientUtil;
@@ -80,8 +82,8 @@ public class AgentDashboardController {
 */
 
     }
-  /*  public void saveResultsInServer(){
-        System.out.println(Thread.currentThread().getId() +"saveResultsInServer");
+    public synchronized void saveResultsInServer(){
+        resultDTOListForAgent=resultDTOList;
         List<BruteForceResultDTO> bruteForceResultDTOList=resultDTOList;
         String bruteForceResultDTOListGson = Constants.GSON_INSTANCE.toJson(bruteForceResultDTOList);
         RequestBody body = RequestBody.create(
@@ -99,14 +101,14 @@ public class AgentDashboardController {
                 .build();
         Call call = HttpClientUtil.getOkHttpClient().newCall(request);
         try {
-           // Response response = call.execute();
+            // Response response = call.execute();
             HttpClientUtil.runAsyncPost(finalUrl,body, new Callback() {
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
                     Platform.runLater(() -> {
                         {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                                alert.setContentText("not ok");
+                            alert.setContentText("not ok");
                             alert.getDialogPane().setExpanded(true);
                             alert.showAndWait();
                         }
@@ -120,9 +122,9 @@ public class AgentDashboardController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }*/
+    }
 
-        public void setSelectedAlliesTeamName(String selectedAlliesTeamName) {
+    public void setSelectedAlliesTeamName(String selectedAlliesTeamName) {
         this.selectedAlliesTeamName = selectedAlliesTeamName;
         contestInfoController.setAlliesTeamName(selectedAlliesTeamName);
         alliesTeamNameLabel.setText(selectedAlliesTeamName);
@@ -137,7 +139,7 @@ public class AgentDashboardController {
     public void setAmountOfThreads(int amountOfThreads) {
         this.amountOfThreads = amountOfThreads;
         this.listOfPossiblePosition = new ArrayList<>();
-       setThreadPoolSize(amountOfThreads);
+        setThreadPoolSize(amountOfThreads);
     }
 
     public void setThreadPoolSize(int amountOfThreads) {
@@ -147,7 +149,7 @@ public class AgentDashboardController {
 
     public void getMissions() {
 
-      //  System.out.println("Im here");
+        System.out.println("Im here");
         String finalUrl = HttpUrl
                 .parse(Constants.AGENT_GET_MISSIONS)
                 .newBuilder()
@@ -202,7 +204,7 @@ public class AgentDashboardController {
                 if(response.code()==409) {
                     Platform.runLater(() -> {
                         {
-                          String  message = "The Missions ended";
+                            String  message = "The Missions ended";
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
                             try {
                                 alert.setContentText(response.body().string() + message);
@@ -217,9 +219,9 @@ public class AgentDashboardController {
             }
         }catch(IOException e){
 
-            }
-
         }
+
+    }
 
     public void setTheMachineEngine(TheMachineEngine theMachineEngine){
         TheMachineEngineDTO theMachineEngineDTO=getTheMachineEngineInfo();
@@ -229,52 +231,47 @@ public class AgentDashboardController {
     }
     private UIAdapter createUIAdapter() {
         return new UIAdapter(
-                resultsBlockingQueue -> {
+                bruteForceResultDTOList -> {
                     try {
-                        System.out.println(Thread.currentThread().getId()+" ui adapter");
-                        updateResultsOnAgent(resultsBlockingQueue);
+                        saveResultsOnServer(bruteForceResultDTOList);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
 
                 }
 
-                );
+        );
     }
     private synchronized void saveResultsOnServer(BlockingQueue<BruteForceResultDTO> bruteForceResultDTOBlockingQueue) throws InterruptedException {
-       /*new Thread(()->{*/
-           resultDTOList=new ArrayList<>();
-            resultDTOListForAgent=new ArrayList<>();
-           while (bruteForceResultDTOBlockingQueue.size()!=0) {
-               resultDTOList.add(bruteForceResultDTOBlockingQueue.poll());
-           }
-
-        //saveResultsInServer();
-        for (BruteForceResultDTO brute:resultDTOList) {
-            //System.out.println("in runnable"+Thread.currentThread().getName());
-            resultDTOListForAgent.add(brute);
-           // System.out.println(brute.getConvertedString()+" "+brute.getCodeDescription()+" "+brute.getTheMissionNumber()+"BEFORE TABLE VIE");
+        /*new Thread(()->{*/
+        resultDTOList=new ArrayList<>();
+        resultDTOListForAgent=new ArrayList<>();
+        while (bruteForceResultDTOBlockingQueue.size()!=0) {
+            resultDTOList.add(bruteForceResultDTOBlockingQueue.poll());
         }
+
+        saveResultsInServer();
+
 
       /*  for (BruteForceResultDTO brute:resultDTOList) {
            // System.out.println("in runnable"+Thread.currentThread().getName());
             System.out.println(brute.getConvertedString()+" "+brute.getCodeDescription()+" "+brute.getTheMissionNumber()+"AFTER");
         }*/
-          /*     try {
-                   for (BruteForceResultDTO brute:resultDTOList) {
-                      // System.out.println("in runnable"+Thread.currentThread().getName());
-                      // System.out.println(brute.getConvertedString()+" "+brute.getCodeDescription()+" "+brute.getTheMissionNumber()+"BEFORE TABLE VIEW");
-                   }
-                   updateResultsOnAgent(resultsBlockingQueue);
-               } catch (InterruptedException e) {
-                   throw new RuntimeException(e);
-               }*/
+        try {
+            for (BruteForceResultDTO brute:resultDTOList) {
+                // System.out.println("in runnable"+Thread.currentThread().getName());
+                System.out.println(brute.getConvertedString()+" "+brute.getCodeDescription()+" "+brute.getTheMissionNumber()+"BEFORE TABLE VIEW");
+            }
+            updateResultsOnAgent();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
 
-     /*  }).start();*/
+        /*  }).start();*/
 
     }
-    private synchronized void updateResultsOnAgent(BlockingQueue<BruteForceResultDTO> resultsBlockingQueue) throws InterruptedException {
+    private synchronized void updateResultsOnAgent() throws InterruptedException {
       /*  List<BruteForceResultDTO> resultDTOList=new ArrayList<>();
         while (bruteForceResultDTOBlockingQueue.size()!=0) {
             resultDTOList.add(bruteForceResultDTOBlockingQueue.poll());
@@ -285,45 +282,45 @@ public class AgentDashboardController {
                     System.out.println("in runnable"+Thread.currentThread().getName());
                     System.out.println(brute.getConvertedString()+" "+brute.getCodeDescription()+" "+brute.getTheMissionNumber());
                 }*/
-        resultDTOList=new ArrayList<>();
-        resultDTOListForAgent=new ArrayList<>();
-        while (resultsBlockingQueue.size()!=0) {
-            resultDTOList.add(resultsBlockingQueue.poll());
-        }
             Platform.runLater(() -> {
-                System.out.println(Thread.currentThread().getId()+" run later update ui");
-                for (BruteForceResultDTO brute : resultDTOList) {
-                     //System.out.println("in runnable"+Thread.currentThread().getName());
+   /*             for (BruteForceResultDTO brute : resultDTOList) {
+                    // System.out.println("in runnable"+Thread.currentThread().getName());
+                    if(brute.getConvertedString().equals("OR")){
+                        int x=0;
+                    }
                     System.out.println(brute.getConvertedString() + " " + brute.getCodeDescription() + " " + brute.getTheMissionNumber() + "before ");
-                }
+                }*/
                 ObservableList<BruteForceResultDTO> alliesDTOObservableList = getTeamsAgentsDataTableViewDTOList(resultDTOListForAgent);
                 createAlliesInfoDTOTableView(alliesDTOObservableList);
             });
-
     }
     private synchronized void createAlliesInfoDTOTableView(ObservableList<BruteForceResultDTO> alliesInfoDTOList ) {
-        for (BruteForceResultDTO brute:alliesInfoDTOList) {
-            System.out.println("in table view"+Thread.currentThread().getId());
-             System.out.println(brute.getConvertedString()+" "+brute.getCodeDescription()+" "+brute.getTheMissionNumber()+"After ");
+        for (BruteForceResultDTO bu:alliesInfoDTOList) {
+            if(bu.getConvertedString().equals("SHE")){
+                int c=0;
+            }
         }
 
+
         if(bruteForceResultTableView.getItems().size()==0) {
-            bruteForceResultTableView.setItems(alliesInfoDTOList);
+
             bruteForceResultTableView.getColumns().clear();
             bruteForceResultTableView.getColumns().addAll(missionNumberColumn, stringColumn, codeConfigurationColumn);
+            bruteForceResultTableView.setItems(alliesInfoDTOList);
         }
         else{
             bruteForceResultTableView.getItems().addAll(alliesInfoDTOList);
         }
+        resultDTOListForAgent=new ArrayList<>();
         resultDTOList=new ArrayList<>();
     }
 
     private synchronized ObservableList<BruteForceResultDTO> getTeamsAgentsDataTableViewDTOList(List<BruteForceResultDTO> alliesDTO) {
 
-        for (BruteForceResultDTO brute:alliesDTO) {
-            // System.out.println("in runnable"+Thread.currentThread().getName());
-          //  System.out.println(brute.getConvertedString()+" "+brute.getCodeDescription()+" "+brute.getTheMissionNumber()+"After ");
-        }
+//        for (BruteForceResultDTO brute:alliesDTO) {
+//            // System.out.println("in runnable"+Thread.currentThread().getName());
+//            System.out.println(brute.getConvertedString()+" "+brute.getCodeDescription()+" "+brute.getTheMissionNumber()+"After ");
+//        }
         ObservableList<BruteForceResultDTO> alliesDTOList =null;
         try {
             alliesDTOList = FXCollections.observableArrayList(alliesDTO);
@@ -373,7 +370,7 @@ public class AgentDashboardController {
             } else {
                 ByteArrayInputStream byteArrayInputStream = Constants.GSON_INSTANCE.fromJson(response.body().string(), ByteArrayInputStream.class);
 
-              TheMachineEngine theMachineEngine= buildTheMachineEngineUboat(byteArrayInputStream);
+                TheMachineEngine theMachineEngine= buildTheMachineEngineUboat(byteArrayInputStream);
 
                 return theMachineEngine;
 
@@ -414,7 +411,7 @@ public class AgentDashboardController {
                 });
             } else {
                 TheMachineEngineDTO theMachineEngineDTO = Constants.GSON_INSTANCE.fromJson(response.body().string(), TheMachineEngineDTO.class);
-                 return theMachineEngineDTO;
+                return theMachineEngineDTO;
             }
         } catch (IOException e) {
 
@@ -521,7 +518,7 @@ public class AgentDashboardController {
         catch (IOException e) {
 
             }*/
-             }
+    }
     public void setPrimaryStage(Stage primaryStageIn) {
         primaryStage = primaryStageIn;
         //scene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
