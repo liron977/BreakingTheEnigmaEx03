@@ -18,6 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import machineDTO.TheMachineEngineDTO;
 import okhttp3.*;
+import org.jetbrains.annotations.NotNull;
 import schemaGenerated.CTEEnigma;
 import utils.Constants;
 import utils.http.HttpClientUtil;
@@ -99,34 +100,30 @@ public class AgentDashboardController {
                 .build();
         Call call = HttpClientUtil.getOkHttpClient().newCall(request);
         try {
-            Response response = call.execute();
-            if (response.code() != 200) {
-                Platform.runLater(() -> {
-                    {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        try {
-                            alert.setContentText(response.body().string());
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
+           // Response response = call.execute();
+            HttpClientUtil.runAsyncPost(finalUrl,body, new Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    Platform.runLater(() -> {
+                        {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.setContentText("not ok");
+                            alert.getDialogPane().setExpanded(true);
+                            alert.showAndWait();
                         }
-                        alert.getDialogPane().setExpanded(true);
-                        alert.showAndWait();
-                    }
-                });
-            } else {
+                    });
+                }
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
 
-            }
-        } catch (IOException e) {
-
+                }
+            });
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
-
     }
 
-    public void setSelectedAlliesTeamName(String selectedAlliesTeamName) {
+        public void setSelectedAlliesTeamName(String selectedAlliesTeamName) {
         this.selectedAlliesTeamName = selectedAlliesTeamName;
         contestInfoController.setAlliesTeamName(selectedAlliesTeamName);
         alliesTeamNameLabel.setText(selectedAlliesTeamName);
@@ -247,15 +244,23 @@ public class AgentDashboardController {
     private synchronized void saveResultsOnServer(BlockingQueue<BruteForceResultDTO> bruteForceResultDTOBlockingQueue) throws InterruptedException {
        /*new Thread(()->{*/
            resultDTOList=new ArrayList<>();
-
+            resultDTOListForAgent=new ArrayList<>();
            while (bruteForceResultDTOBlockingQueue.size()!=0) {
                resultDTOList.add(bruteForceResultDTOBlockingQueue.poll());
            }
+
            saveResultsInServer();
+
            resultDTOListForAgent=resultDTOList;
-
+      /*  for (BruteForceResultDTO brute:resultDTOList) {
+           // System.out.println("in runnable"+Thread.currentThread().getName());
+            System.out.println(brute.getConvertedString()+" "+brute.getCodeDescription()+" "+brute.getTheMissionNumber()+"AFTER");
+        }*/
                try {
-
+                   for (BruteForceResultDTO brute:resultDTOList) {
+                       // System.out.println("in runnable"+Thread.currentThread().getName());
+                       System.out.println(brute.getConvertedString()+" "+brute.getCodeDescription()+" "+brute.getTheMissionNumber()+"BEFORE TABLE VIEW");
+                   }
                    updateResultsOnAgent();
                } catch (InterruptedException e) {
                    throw new RuntimeException(e);
@@ -272,14 +277,20 @@ public class AgentDashboardController {
             //saveResultsInServer(resultDTOList);
         }
 */
-           for (BruteForceResultDTO brute:resultDTOList) {
+   /*        for (BruteForceResultDTO brute:resultDTOList) {
                     System.out.println("in runnable"+Thread.currentThread().getName());
                     System.out.println(brute.getConvertedString()+" "+brute.getCodeDescription()+" "+brute.getTheMissionNumber());
+                }*/
+        synchronized (this) {
+            Platform.runLater(() -> {
+                for (BruteForceResultDTO brute : resultDTOList) {
+                    // System.out.println("in runnable"+Thread.currentThread().getName());
+                    System.out.println(brute.getConvertedString() + " " + brute.getCodeDescription() + " " + brute.getTheMissionNumber() + "before ");
                 }
-           Platform.runLater(()->{
-        ObservableList<BruteForceResultDTO> alliesDTOObservableList =getTeamsAgentsDataTableViewDTOList(resultDTOListForAgent);
-        createAlliesInfoDTOTableView(alliesDTOObservableList);});
-
+                ObservableList<BruteForceResultDTO> alliesDTOObservableList = getTeamsAgentsDataTableViewDTOList(resultDTOListForAgent);
+                createAlliesInfoDTOTableView(alliesDTOObservableList);
+            });
+        }
     }
     private synchronized void createAlliesInfoDTOTableView(ObservableList<BruteForceResultDTO> alliesInfoDTOList ) {
         if(bruteForceResultTableView.getItems().size()==0) {
@@ -290,10 +301,15 @@ public class AgentDashboardController {
         else{
             bruteForceResultTableView.getItems().addAll(alliesInfoDTOList);
         }
+        resultDTOList=new ArrayList<>();
     }
 
     private synchronized ObservableList<BruteForceResultDTO> getTeamsAgentsDataTableViewDTOList(List<BruteForceResultDTO> alliesDTO) {
 
+        for (BruteForceResultDTO brute:alliesDTO) {
+            // System.out.println("in runnable"+Thread.currentThread().getName());
+            System.out.println(brute.getConvertedString()+" "+brute.getCodeDescription()+" "+brute.getTheMissionNumber()+"After ");
+        }
         ObservableList<BruteForceResultDTO> alliesDTOList =null;
         try {
             alliesDTOList = FXCollections.observableArrayList(alliesDTO);

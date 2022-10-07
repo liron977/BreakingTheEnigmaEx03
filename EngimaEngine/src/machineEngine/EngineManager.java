@@ -1065,7 +1065,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     public List<String> getMachineReflectorsSetId(){
         return this.theMachineEngine.getReflectorsId();
     }
-    public void decreaseMaxAmountOfMissions(){
+    public synchronized void decreaseMaxAmountOfMissions(){
         maxAmountOfMissions--;
     }
 
