@@ -106,6 +106,7 @@ public class UBoatLoginController {
                      /*   mainWindowUBoatController.updateAlliesTableView();*/
                         primaryStage.setScene(sControllerScene);
                         primaryStage.centerOnScreen();
+                        primaryStage.setTitle("Enigma-UBoat: "+userName);
                         primaryStage.show();
                        // loadFileController.setMediator(mediator);
                     });
@@ -123,7 +124,7 @@ public class UBoatLoginController {
             Parent root1 = fxmlLoader.load(superScreenUrl.openStream());
            mainWindowUBoatController =fxmlLoader.getController();
             mainWindowUBoatController.setPrimaryStage(primaryStage);
-            primaryStage.setTitle("Enigma-UBoat");
+          //  primaryStage.setTitle("Enigma-UBoat: "+userName);
             sControllerScene = new Scene(root1);
             primaryStage.setMinHeight(300f);
             primaryStage.setMinWidth(400f);

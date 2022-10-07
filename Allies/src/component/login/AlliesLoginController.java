@@ -119,6 +119,7 @@ public class AlliesLoginController {
                         mainWindowAlliesController.updateUBoatContestTableView();
                         primaryStage.setScene(mainWindowAlliesControllerScene);
                         primaryStage.centerOnScreen();
+                        primaryStage.setTitle("Enigma-Allies App: "+alliesTeamName);
                         primaryStage.show();
                        // loadFileController.setMediator(mediator);
                     });
@@ -138,7 +139,7 @@ public class AlliesLoginController {
             Parent root1 = fxmlLoader.load(superScreenUrl.openStream());
             mainWindowAlliesController=fxmlLoader.getController();
             mainWindowAlliesController.setPrimaryStage(primaryStage);
-            primaryStage.setTitle("Enigma-Allies");
+            //primaryStage.setTitle("Enigma-Allies- "+alliesTeamName);
             mainWindowAlliesControllerScene = new Scene(root1);
             primaryStage.setMinHeight(300f);
             primaryStage.setMinWidth(400f);

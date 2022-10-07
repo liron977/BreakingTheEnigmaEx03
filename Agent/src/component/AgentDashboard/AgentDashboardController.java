@@ -50,6 +50,7 @@ public class AgentDashboardController {
     private Stage primaryStage;
     @FXML
     private TableView contestInfo;
+
     @FXML
     ContestInfoController contestInfoController;
     AgentDecryptionManager decryptionManager;
@@ -526,4 +527,5 @@ public class AgentDashboardController {
     public void startContestTableViewRefresher(){
         contestInfoController.startContestTableViewRefresher();
     }
+
 }
