@@ -11,15 +11,15 @@ public class  UIAdapter implements UiAdapterInterface {
 
 /*    private Consumer<List<BruteForceResultDTO>> updateServer;*/
     private Consumer<BlockingQueue<BruteForceResultDTO>> saveResultsOnServer;
-    private Consumer<BlockingQueue<BruteForceResultDTO>> updateResultsOnAgent;
+//    private Consumer<BlockingQueue<BruteForceResultDTO>> updateResultsOnAgent;
 
     //To delete!
     int count = 0;
 
 
-    public UIAdapter(Consumer<BlockingQueue<BruteForceResultDTO>> saveResultsOnServer,Consumer<BlockingQueue<BruteForceResultDTO>> updateResultsOnAgent) {
+    public UIAdapter(Consumer<BlockingQueue<BruteForceResultDTO>> saveResultsOnServer) {
         this.saveResultsOnServer = saveResultsOnServer;
-        this.updateResultsOnAgent=updateResultsOnAgent;
+//        this.updateResultsOnAgent=updateResultsOnAgent;
      /*   this.updateServer = updateServer;*/
 
     }
@@ -30,13 +30,13 @@ public class  UIAdapter implements UiAdapterInterface {
     }*/
 
     @Override
-    public void updateResults(BlockingQueue<BruteForceResultDTO> bruteForceResultDTO) {
+    public void saveResultsOnServer(BlockingQueue<BruteForceResultDTO> bruteForceResultDTO) {
         saveResultsOnServer.accept(bruteForceResultDTO);
     }
-    @Override
+  /*  @Override
     public void updateResultsOnAgent(BlockingQueue<BruteForceResultDTO> bruteForceResultDTO) {
        Platform.runLater(()-> updateResultsOnAgent.accept(bruteForceResultDTO));
-    }
+    }*/
 
 
 

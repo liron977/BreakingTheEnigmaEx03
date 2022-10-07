@@ -2,7 +2,6 @@ package BruteForce;
 
 import MachineEngine.MachineEngine;
 import bruteForce.BruteForceResultDTO;
-import javafx.beans.property.SimpleBooleanProperty;
 import machineDTO.ConvertedStringDTO;
 
 import java.util.List;
@@ -48,7 +47,7 @@ public class AgentMissionRunnable implements Runnable {
 
     public synchronized void getConvertedStringsFounded() throws InterruptedException {
         int index = 0;
-Thread.currentThread().setName("AgentMissionRunnable");
+Thread.currentThread().setName("AgentMissionRunnable "+missionNumber);
         while (index<sizeOfMission){
             machineEngineCopy.chooseManuallyStartingPosition(initialStartingPosition);
             machineEngineCopy.createCurrentCodeDescriptionDTO();
@@ -58,8 +57,8 @@ Thread.currentThread().setName("AgentMissionRunnable");
                 BruteForceResultDTO bruteForceResultDTO = new BruteForceResultDTO(missionNumber,convertedStringDTOTemp.getConvertedString(), alliesTeamName, convertedStringCode);
                 bruteForceResultDTO.setTheMissionNumber(missionNumber);
                 resultsBlockingQueue.put(bruteForceResultDTO);
-                System.out.println(bruteForceResultDTO.getConvertedString());
-                System.out.println(bruteForceResultDTO.getCodeDescription());
+               /* System.out.println(bruteForceResultDTO.getConvertedString());
+                System.out.println(bruteForceResultDTO.getCodeDescription());*/
             }
             if(index==999999998){
                 int x=0;
@@ -76,8 +75,14 @@ Thread.currentThread().setName("AgentMissionRunnable");
     private void publishResults() throws InterruptedException {
         synchronized (this){
             if(resultsBlockingQueue.size()>0) {
-                uiAdapterInterface.updateResults(resultsBlockingQueue);
-                uiAdapterInterface.updateResultsOnAgent(resultsBlockingQueue);
+                uiAdapterInterface.saveResultsOnServer(resultsBlockingQueue);
+
+              /*  for (BruteForceResultDTO brute:resultsBlockingQueue) {
+                    System.out.println("in runnable"+Thread.currentThread().getName());
+                    System.out.println(brute.getConvertedString()+" "+brute.getCodeDescription()+" "+brute.getTheMissionNumber());
+                }*/
+
+                //uiAdapterInterface.updateResultsOnAgent(resultsBlockingQueue);
             }
         }
        // System.out.println(index+"index");

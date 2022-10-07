@@ -80,7 +80,7 @@ public class AgentDashboardController {
 */
 
     }
-    public void saveResultsInServer( List<BruteForceResultDTO> bruteForceResultDTOList){
+    public void saveResultsInServer(List<BruteForceResultDTO> bruteForceResultDTOList){
 
         String bruteForceResultDTOListGson = Constants.GSON_INSTANCE.toJson(bruteForceResultDTOList);
         RequestBody body = RequestBody.create(
@@ -238,29 +238,34 @@ public class AgentDashboardController {
                         throw new RuntimeException(e);
                     }
 
-                },
-                bruteForceResultDTOList -> {
-                    try {
-                        updateResultsOnAgent(bruteForceResultDTOList);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-
                 }
+
                 );
     }
     private synchronized void saveResultsOnServer(BlockingQueue<BruteForceResultDTO> bruteForceResultDTOBlockingQueue) throws InterruptedException {
        new Thread(()->{
+           resultDTOList=new ArrayList<>();
 
            while (bruteForceResultDTOBlockingQueue.size()!=0) {
                resultDTOList.add(bruteForceResultDTOBlockingQueue.poll());
            }
-
+           for (BruteForceResultDTO brute:resultDTOList) {
+               System.out.println("in controller "+Thread.currentThread().getName());
+               System.out.println(brute.getConvertedString()+" "+brute.getCodeDescription()+" "+brute.getTheMissionNumber());
+           }
           saveResultsInServer(resultDTOList);
+           Platform.runLater(()-> {
+               try {
+                   updateResultsOnAgent();
+               } catch (InterruptedException e) {
+                   throw new RuntimeException(e);
+               }
+           });
+
        }).start();
 
     }
-    private synchronized void updateResultsOnAgent(BlockingQueue<BruteForceResultDTO> bruteForceResultDTOBlockingQueue) throws InterruptedException {
+    private synchronized void updateResultsOnAgent() throws InterruptedException {
       /*  List<BruteForceResultDTO> resultDTOList=new ArrayList<>();
         while (bruteForceResultDTOBlockingQueue.size()!=0) {
             resultDTOList.add(bruteForceResultDTOBlockingQueue.poll());
@@ -283,8 +288,13 @@ public class AgentDashboardController {
 
     private synchronized ObservableList<BruteForceResultDTO> getTeamsAgentsDataTableViewDTOList(List<BruteForceResultDTO> alliesDTO) {
 
-        ObservableList<BruteForceResultDTO> alliesDTOList;
-        alliesDTOList = FXCollections.observableArrayList(alliesDTO);
+        ObservableList<BruteForceResultDTO> alliesDTOList =null;
+        try {
+            alliesDTOList = FXCollections.observableArrayList(alliesDTO);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
         missionNumberColumn.setCellValueFactory(
                 new PropertyValueFactory<>("theMissionNumber")
         );
