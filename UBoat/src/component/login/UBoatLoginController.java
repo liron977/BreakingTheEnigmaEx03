@@ -70,7 +70,8 @@ public class UBoatLoginController {
             errorMessageProperty.set("User name is empty. You can't login with empty user name");
             return;
         }
-
+        loginButton.setDisable(true);
+        uBoatNameTextField.setDisable(true);
         String finalUrl = HttpUrl
                 .parse(Constants.LOGIN_PAGE)
                 .newBuilder()
@@ -82,17 +83,22 @@ public class UBoatLoginController {
         HttpClientUtil.runAsync(finalUrl, new Callback() { //todo i guess it should be sync no?
 
             @Override public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Platform.runLater(() ->
-                        errorMessageProperty.set("Something went wrong: " + e.getMessage())
+                Platform.runLater(() ->{
+                            loginButton.setDisable(false);
+                            uBoatNameTextField.setDisable(false);
+                            errorMessageProperty.set("Something went wrong: " + e.getMessage());
+                        }
                 );
             }
 
             @Override public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.code() != 200) {
                     String responseBody = response.body().string();
-                    Platform.runLater(() ->
-                            errorMessageProperty.set("Something went wrong: " + responseBody)
-                    );
+                    Platform.runLater(() ->{
+                            loginButton.setDisable(false);
+                    uBoatNameTextField.setDisable(false);
+                            errorMessageProperty.set("Something went wrong: " + responseBody);
+                    } );
                 }
                 else {
                     mainWindowUBoatController.setUserName(userName);
@@ -100,6 +106,7 @@ public class UBoatLoginController {
                      /*   mainWindowUBoatController.updateAlliesTableView();*/
                         primaryStage.setScene(sControllerScene);
                         primaryStage.centerOnScreen();
+                        primaryStage.setTitle("Enigma-UBoat: "+userName);
                         primaryStage.show();
                        // loadFileController.setMediator(mediator);
                     });
@@ -117,7 +124,7 @@ public class UBoatLoginController {
             Parent root1 = fxmlLoader.load(superScreenUrl.openStream());
            mainWindowUBoatController =fxmlLoader.getController();
             mainWindowUBoatController.setPrimaryStage(primaryStage);
-            primaryStage.setTitle("Enigma-UBoat");
+          //  primaryStage.setTitle("Enigma-UBoat: "+userName);
             sControllerScene = new Scene(root1);
             primaryStage.setMinHeight(300f);
             primaryStage.setMinWidth(400f);

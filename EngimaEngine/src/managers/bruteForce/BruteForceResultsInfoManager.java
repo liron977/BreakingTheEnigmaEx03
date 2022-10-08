@@ -26,6 +26,7 @@ public class BruteForceResultsInfoManager {
 
 
 
+
    /* public boolean isBattleExists(String battleName) {
         return bruteForceResultsMap.containsKey(battleName);
     }*/

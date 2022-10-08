@@ -25,6 +25,14 @@ public class UBoatAvailableContestsManager {
     }
         return null;
     }
+    public synchronized String getUboatNameByAlliesTeamName(String alliesTeamName){
+        for (EngineManager engineManager : uBoatAvailableContestsMap.values()){
+            if(engineManager.isAlliesExists(alliesTeamName)){
+                return engineManager.getBattleField().getBattleName();
+            }
+        }
+        return null;
+    }
     public synchronized Map<String,EngineManager> getUBoatAvailableContestsMap() {
         return uBoatAvailableContestsMap;
     }
