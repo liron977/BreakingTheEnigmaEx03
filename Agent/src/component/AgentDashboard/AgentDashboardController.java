@@ -76,6 +76,7 @@ public class AgentDashboardController {
     private List<BruteForceResultDTO> resultDTOListForAgent;
     private SimpleIntegerProperty amountOfAskedMissions;
     private SimpleIntegerProperty amountOfDoneMissions;
+    private ObservableList<BruteForceResultDTO> bruteForceResultsDTOObservableList;
 
     @FXML
     public void initialize() {
@@ -84,6 +85,11 @@ public class AgentDashboardController {
         amountOfDoneMissions=new SimpleIntegerProperty(0);
         resultDTOList=new ArrayList<>();
         resultDTOListForAgent=new ArrayList<>();
+
+        bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
+        bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);
+      //  bruteForceResultTableView.getColumns().addAll(missionNumberColumn, stringColumn, codeConfigurationColumn);
+
        /* isMissionEndedProperty.addListener((obser)->{
             if(isMissionEndedProperty.getValue())
 
@@ -91,11 +97,11 @@ public class AgentDashboardController {
 */
 
     }
-    public synchronized void saveResultsInServer(){
-        resultDTOListForAgent=resultDTOList;
-        List<BruteForceResultDTO> bruteForceResultDTOList=resultDTOList;
-        resultDTOList=new ArrayList<>();
-        String bruteForceResultDTOListGson = Constants.GSON_INSTANCE.toJson(bruteForceResultDTOList);
+    public synchronized void saveResultsInServer(List<BruteForceResultDTO> bruteForceResultDTOBlockingQueue){
+      //  resultDTOListForAgent=resultDTOList;
+       // List<BruteForceResultDTO> bruteForceResultDTOList=resultDTOList;
+       // resultDTOList=new ArrayList<>();
+        String bruteForceResultDTOListGson = Constants.GSON_INSTANCE.toJson(bruteForceResultDTOBlockingQueue);
         RequestBody body = RequestBody.create(
                 MediaType.parse("application/json"), bruteForceResultDTOListGson);
 
@@ -253,36 +259,32 @@ public class AgentDashboardController {
 
                     });
     }
-    private synchronized void saveResultsOnServer(BlockingQueue<BruteForceResultDTO> bruteForceResultDTOBlockingQueue) throws InterruptedException {
+    private  void saveResultsOnServer(List<BruteForceResultDTO> bruteForceResultDTOBlockingQueue) throws InterruptedException {
         /*new Thread(()->{*/
         //resultDTOList=new ArrayList<>();
        // resultDTOListForAgent=new ArrayList<>();
-        while (bruteForceResultDTOBlockingQueue.size()!=0) {
-            resultDTOList.add(bruteForceResultDTOBlockingQueue.poll());
-        }
 
-        saveResultsInServer();
+        saveResultsInServer(bruteForceResultDTOBlockingQueue);
 
 
       /*  for (BruteForceResultDTO brute:resultDTOList) {
            // System.out.println("in runnable"+Thread.currentThread().getName());
             System.out.println(brute.getConvertedString()+" "+brute.getCodeDescription()+" "+brute.getTheMissionNumber()+"AFTER");
         }*/
-        try {
             for (BruteForceResultDTO brute:resultDTOList) {
                 // System.out.println("in runnable"+Thread.currentThread().getName());
                 System.out.println(brute.getConvertedString()+" "+brute.getCodeDescription()+" "+brute.getTheMissionNumber()+"BEFORE TABLE VIEW");
             }
-            updateResultsOnAgent();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+            Platform.runLater(() -> {
+               // bruteForceResultsDTOObservableList.addAll(bruteForceResultDTOBlockingQueue);
+                createAlliesInfoDTOTableView(bruteForceResultDTOBlockingQueue);
 
+            });
 
         /*  }).start();*/
 
     }
-    private synchronized void updateResultsOnAgent() throws InterruptedException {
+    private void updateResultsOnAgent() throws InterruptedException {
       /*  List<BruteForceResultDTO> resultDTOList=new ArrayList<>();
         while (bruteForceResultDTOBlockingQueue.size()!=0) {
             resultDTOList.add(bruteForceResultDTOBlockingQueue.poll());
@@ -301,22 +303,18 @@ public class AgentDashboardController {
                     }
                     System.out.println(brute.getConvertedString() + " " + brute.getCodeDescription() + " " + brute.getTheMissionNumber() + "before ");
                 }*/
-                ObservableList<BruteForceResultDTO> alliesDTOObservableList = getTeamsAgentsDataTableViewDTOList(resultDTOListForAgent);
-                createAlliesInfoDTOTableView(alliesDTOObservableList);
+               // ObservableList<BruteForceResultDTO> alliesDTOObservableList = getTeamsAgentsDataTableViewDTOList(resultDTOListForAgent);
+                createAlliesInfoDTOTableView(bruteForceResultsDTOObservableList);
             });
     }
-    private synchronized void createAlliesInfoDTOTableView(ObservableList<BruteForceResultDTO> alliesInfoDTOList ) {
-        for (BruteForceResultDTO bu:alliesInfoDTOList) {
-            if(bu.getConvertedString().equals("SHE")){
-                int c=0;
-            }
-        }
+    private synchronized void createAlliesInfoDTOTableView(List<BruteForceResultDTO> alliesInfoDTOListFromMission ) {
+        bruteForceResultsDTOObservableList.addAll(alliesInfoDTOListFromMission);
          amountOfDoneMissions.setValue(amountOfDoneMissions.getValue()+1);
         //updateAmountDoneMissionsPerAgent(amountOfDoneMissions.getValue());
 
 
 
-        if(bruteForceResultTableView.getItems().size()==0) {
+      /*  if(bruteForceResultTableView.getItems().size()==0) {
 
             bruteForceResultTableView.getColumns().clear();
             bruteForceResultTableView.getColumns().addAll(missionNumberColumn, stringColumn, codeConfigurationColumn);
@@ -326,18 +324,18 @@ public class AgentDashboardController {
             bruteForceResultTableView.getItems().addAll(alliesInfoDTOList);
         }
         resultDTOListForAgent=new ArrayList<>();
-        resultDTOList=new ArrayList<>();
+        resultDTOList=new ArrayList<>();*/
     }
 
-    private synchronized ObservableList<BruteForceResultDTO> getTeamsAgentsDataTableViewDTOList(List<BruteForceResultDTO> alliesDTO) {
+    private ObservableList<BruteForceResultDTO> getTeamsAgentsDataTableViewDTOList(List<BruteForceResultDTO> alliesDTO) {
 
 //        for (BruteForceResultDTO brute:alliesDTO) {
 //            // System.out.println("in runnable"+Thread.currentThread().getName());
 //            System.out.println(brute.getConvertedString()+" "+brute.getCodeDescription()+" "+brute.getTheMissionNumber()+"After ");
 //        }
-        ObservableList<BruteForceResultDTO> alliesDTOList =null;
+       // ObservableList<BruteForceResultDTO> alliesDTOList =null;
         try {
-            alliesDTOList = FXCollections.observableArrayList(alliesDTO);
+            bruteForceResultsDTOObservableList = FXCollections.observableArrayList(alliesDTO);
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -352,7 +350,7 @@ public class AgentDashboardController {
                 new PropertyValueFactory<>("codeDescription")
         );
 
-        return alliesDTOList;
+        return bruteForceResultsDTOObservableList;
     }
     public TheMachineEngine getTheMachineEngineInputstream(){
 

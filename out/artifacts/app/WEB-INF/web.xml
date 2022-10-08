@@ -177,5 +177,23 @@
         <url-pattern>/BruteForceResultsServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>UboatGetBruteForceResultServlet</servlet-name>
+        <servlet-class>servlets.UboatGetBruteForceResultServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UboatGetBruteForceResultServlet</servlet-name>
+        <url-pattern>/UboatGetBruteForceResultServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AlliesGetBruteForceResultServlet</servlet-name>
+        <servlet-class>servlets.AlliesGetBruteForceResultServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AlliesGetBruteForceResultServlet</servlet-name>
+        <url-pattern>/AlliesGetBruteForceResultServlet</url-pattern>
+    </servlet-mapping>
+
 
 </web-app>

@@ -32,7 +32,7 @@ public class BruteForceResultsServlet extends HttpServlet {
             try {
                 uboatBruteForceResultsMapManager.addBruteForceResultsIntoList(battleName,bruteForceResultDTOListFromGson);
                 bruteForceResultsManager.addBruteForceResultsIntoList(theAlliesTeamName, bruteForceResultDTOListFromGson);
-                List<BruteForceResultDTO> list = bruteForceResultsManager.getBruteForceListByAlliesTeamName(theAlliesTeamName);
+                List<BruteForceResultDTO> list = uboatBruteForceResultsMapManager.getBruteForceListByUboatName(battleName);
                 System.out.println("*************************");
                 for (BruteForceResultDTO brute : list) {
                     System.out.println(brute.getConvertedString() + " " + brute.getCodeDescription() + " " + brute.getTheMissionNumber() + "IN SERVLET");

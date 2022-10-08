@@ -23,11 +23,13 @@ public class BruteForceResultTableViewRefresher extends TimerTask {
         private final IntegerProperty chatVersion;
         private final BooleanProperty shouldUpdate;
         private int requestNumber;
+        private String battleFieldName;
 
-    public BruteForceResultTableViewRefresher(List<String> selectedAlliesTeamList, IntegerProperty chatVersion, BooleanProperty shouldUpdate, Consumer<BruteForceResultAndVersion> bruteForceTableViewConsumer) {
+    public BruteForceResultTableViewRefresher(String battleFieldName, IntegerProperty chatVersion, BooleanProperty shouldUpdate, Consumer<BruteForceResultAndVersion> bruteForceTableViewConsumer) {
             this.bruteForceTableViewConsumer = bruteForceTableViewConsumer;
             this.chatVersion = chatVersion;
             this.shouldUpdate = shouldUpdate;
+            this.battleFieldName=battleFieldName;
             requestNumber = 0;
         }
 
@@ -42,9 +44,9 @@ public class BruteForceResultTableViewRefresher extends TimerTask {
 
             //noinspection ConstantConditions
             String finalUrl = HttpUrl
-                    .parse(Constants.BRUTE_FORCE_RESULTS)
+                    .parse(Constants.UBOAT_BRUTE_FORCE_RESULTS)
                     .newBuilder()
-                    .addQueryParameter("bruteForceResultVersion", String.valueOf(chatVersion.get()))
+                    .addQueryParameter("battlefield",battleFieldName)
                     .addQueryParameter("bruteForceResultVersion", String.valueOf(chatVersion.get()))
                     .build()
                     .toString();

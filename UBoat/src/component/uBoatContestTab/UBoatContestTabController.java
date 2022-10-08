@@ -715,12 +715,14 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         timer.schedule(alliesRegisteredTeamsRefresher, REFRESH_RATE, REFRESH_RATE);
     }
     private void updateBruteForceResultsTableView(BruteForceResultAndVersion bruteForceResultAndVersionWithVersion) {
-        if (bruteForceResultAndVersionWithVersion.getVersion() != chatVersion.get()) {
+        if (bruteForceResultAndVersionWithVersion != null) {
+            if (bruteForceResultAndVersionWithVersion.getVersion() != chatVersion.get()) {
 
-            Platform.runLater(() -> {
-                chatVersion.set(bruteForceResultAndVersionWithVersion.getVersion());
-                updateBruteForceResultInfoList(bruteForceResultAndVersionWithVersion.getEntries());
-            });
+                Platform.runLater(() -> {
+                    chatVersion.set(bruteForceResultAndVersionWithVersion.getVersion());
+                    updateBruteForceResultInfoList(bruteForceResultAndVersionWithVersion.getEntries());
+                });
+            }
         }
     }
     private ObservableList<BruteForceResultDTO> getBruteForceResultDataTableViewDTOList(List<BruteForceResultDTO> bruteForceResult) {
@@ -756,6 +758,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     }
     public void startContestTableViewRefresher() {
         BruteForceResultTableViewRefresher = new BruteForceResultTableViewRefresher(
+                battleName,
                 chatVersion,
                 autoUpdate,
                 this::updateBruteForceResultsTableView);

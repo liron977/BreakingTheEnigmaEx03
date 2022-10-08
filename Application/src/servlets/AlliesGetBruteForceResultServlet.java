@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import managers.bruteForce.AlliesBruteForceResultsMapManager;
-import managers.bruteForce.UboatBruteForceResultsMapManager;
 import utils.BruteForceResultAndVersion;
 import utils.ServletUtils;
 
@@ -15,7 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-public class AlliesGetBruteForceResult extends HttpServlet {
+public class AlliesGetBruteForceResultServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         response.setContentType("application/json");

@@ -4,13 +4,14 @@ import BruteForce.UiAdapterInterface;
 import bruteForce.BruteForceResultDTO;
 import javafx.application.Platform;
 
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.function.Consumer;
 
 public class  UIAdapter implements UiAdapterInterface {
 
     /*    private Consumer<List<BruteForceResultDTO>> updateServer;*/
-    private Consumer<BlockingQueue<BruteForceResultDTO>> saveResultsOnServer;
+    private Consumer<List<BruteForceResultDTO>> saveResultsOnServer;
     private Consumer<Integer> amountDoneMissionsPerAgent;
 //    private Consumer<BlockingQueue<BruteForceResultDTO>> updateResultsOnAgent;
 
@@ -18,7 +19,7 @@ public class  UIAdapter implements UiAdapterInterface {
     int count = 0;
 
 
-    public UIAdapter(Consumer<BlockingQueue<BruteForceResultDTO>> saveResultsOnServer,Consumer<Integer> amountDoneMissionsPerAgent) {
+    public UIAdapter(Consumer<List<BruteForceResultDTO>> saveResultsOnServer,Consumer<Integer> amountDoneMissionsPerAgent) {
         this.saveResultsOnServer = saveResultsOnServer;
         this.amountDoneMissionsPerAgent=amountDoneMissionsPerAgent;
 //        this.updateResultsOnAgent=updateResultsOnAgent;
@@ -32,7 +33,7 @@ public class  UIAdapter implements UiAdapterInterface {
     }*/
 
     @Override
-    public void saveResultsOnServer(BlockingQueue<BruteForceResultDTO> bruteForceResultDTO) {
+    public void saveResultsOnServer(List<BruteForceResultDTO> bruteForceResultDTO) {
         saveResultsOnServer.accept(bruteForceResultDTO);
     }
   /*  @Override

@@ -2,8 +2,8 @@ package utils;
 
 import managers.agent.AgentsManager;
 import managers.bruteForce.AlliesMissionsManager;
-import managers.bruteForce.BruteForceResultsListManager;
-import managers.bruteForce.BruteForceResultsMapManager;
+import managers.bruteForce.UboatBruteForceResultsMapManager;
+import managers.bruteForce.AlliesBruteForceResultsMapManager;
 import managers.uBoatEngine.AlliesManager;
 import managers.uBoatEngine.UBoatAvailableContestsManager;
 import managers.users.UserManager;
@@ -24,7 +24,8 @@ public class ServletUtils {
     private static final String UBOAT_AVAILABLE_CONTESTS_ATTRIBUTE_NAME = "uBoatAvailableContests";
     private static final String ALLIES_MISSIONS_MANAGER_ATTRIBUTE_NAME = "alliesMissionsManager";
     private static final String BRUTE_FORCE_RESULTS_MANAGER_ATTRIBUTE_NAME = "bruteForceResultsManager";
-    private static final String BRUTE_FORCE_RESULTS_LIST_MANAGER_ATTRIBUTE_NAME = "bruteForceResultsListManager";
+    private static final String ALLIES_BRUTE_FORCE_RESULTS_LIST_MANAGER_ATTRIBUTE_NAME = "bruteForceResultsListManager";
+    private static final String UBOAT_BRUTE_FORCE_RESULTS_LIST_MANAGER_ATTRIBUTE_NAME = "bruteForceResultsListManagerForUboat";
 
     /*
     Note how the synchronization is done only on the question and\or creation of the relevant managers and once they exists -
@@ -38,6 +39,8 @@ public class ServletUtils {
     private static final Object uBoatAvailableContestsLock = new Object();
     private static final Object alliesManagerLock = new Object();
     private static final Object alliesMissionsManagerLock = new Object();
+    private static final Object uboatBruteForceResultManagerLock = new Object();
+    private static final Object alliesBruteForceResultManagerLock = new Object();
     public static UserManager getUserManager(ServletContext servletContext) {
 
         synchronized (userManagerLock) {
@@ -76,13 +79,13 @@ public class ServletUtils {
         return (MediatorForEngineManager) servletContext.getAttribute(MEDIATORS_MANAGER_ATTRIBUTE_NAME);
     }
 
-    public static BruteForceResultsMapManager getBruteForceResultsManager(ServletContext servletContext) {
+    public static AlliesBruteForceResultsMapManager getBruteForceResultsManager(ServletContext servletContext) {
         synchronized (bruteForceResultsInfoLock) {
             if (servletContext.getAttribute(BRUTE_FORCE_RESULTS_MANAGER_ATTRIBUTE_NAME) == null) {
-                servletContext.setAttribute(BRUTE_FORCE_RESULTS_MANAGER_ATTRIBUTE_NAME, new BruteForceResultsMapManager());
+                servletContext.setAttribute(BRUTE_FORCE_RESULTS_MANAGER_ATTRIBUTE_NAME, new AlliesBruteForceResultsMapManager());
             }
         }
-        return (BruteForceResultsMapManager) servletContext.getAttribute(BRUTE_FORCE_RESULTS_MANAGER_ATTRIBUTE_NAME);
+        return (AlliesBruteForceResultsMapManager) servletContext.getAttribute(BRUTE_FORCE_RESULTS_MANAGER_ATTRIBUTE_NAME);
     }
 
 /*    public static ChatManager getChatManager(ServletContext servletContext) {
@@ -120,12 +123,20 @@ public class ServletUtils {
         }
         return (AlliesMissionsManager) servletContext.getAttribute(ALLIES_MISSIONS_MANAGER_ATTRIBUTE_NAME);
     }
-    public static BruteForceResultsListManager getBruteForceResultsListManager(ServletContext servletContext) {
-        synchronized (bruteForceResultsInfoLock) {
-            if (servletContext.getAttribute(BRUTE_FORCE_RESULTS_LIST_MANAGER_ATTRIBUTE_NAME) == null) {
-                servletContext.setAttribute(BRUTE_FORCE_RESULTS_LIST_MANAGER_ATTRIBUTE_NAME, new BruteForceResultsListManager());
+    public static AlliesBruteForceResultsMapManager getAlliesBruteForceResultsListManager(ServletContext servletContext) {
+        synchronized (alliesBruteForceResultManagerLock) {
+            if (servletContext.getAttribute(ALLIES_BRUTE_FORCE_RESULTS_LIST_MANAGER_ATTRIBUTE_NAME) == null) {
+                servletContext.setAttribute(ALLIES_BRUTE_FORCE_RESULTS_LIST_MANAGER_ATTRIBUTE_NAME, new AlliesBruteForceResultsMapManager());
             }
         }
-        return (BruteForceResultsListManager) servletContext.getAttribute(BRUTE_FORCE_RESULTS_LIST_MANAGER_ATTRIBUTE_NAME);
+        return (AlliesBruteForceResultsMapManager) servletContext.getAttribute(ALLIES_BRUTE_FORCE_RESULTS_LIST_MANAGER_ATTRIBUTE_NAME);
+    }
+    public static UboatBruteForceResultsMapManager getUboatBruteForceResultsMapManager(ServletContext servletContext) {
+        synchronized (uboatBruteForceResultManagerLock) {
+            if (servletContext.getAttribute(UBOAT_BRUTE_FORCE_RESULTS_LIST_MANAGER_ATTRIBUTE_NAME) == null) {
+                servletContext.setAttribute(UBOAT_BRUTE_FORCE_RESULTS_LIST_MANAGER_ATTRIBUTE_NAME, new UboatBruteForceResultsMapManager());
+            }
+        }
+        return (UboatBruteForceResultsMapManager) servletContext.getAttribute(UBOAT_BRUTE_FORCE_RESULTS_LIST_MANAGER_ATTRIBUTE_NAME);
     }
 }
