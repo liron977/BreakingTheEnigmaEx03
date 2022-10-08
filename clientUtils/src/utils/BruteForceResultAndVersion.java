@@ -1,4 +1,4 @@
-package component.uBoatContestTab;
+package utils;
 
 import bruteForce.BruteForceResultDTO;
 

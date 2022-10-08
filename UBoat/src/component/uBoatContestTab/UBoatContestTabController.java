@@ -6,7 +6,6 @@ import bruteForce.BruteForceSettingsDTO;
 import com.google.gson.Gson;
 import component.mainWindowUBoat.MainWindowUBoatController;
 import component.uBoatMachineTab.machineTab.CurrentConfigurationTableViewController;
-import javafx.beans.binding.Bindings;
 import machineEngine.EngineManager;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -22,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import machineDTO.ConvertedStringProcessDTO;
 import okhttp3.*;
 import uiMediator.Mediator;
+import utils.BruteForceResultAndVersion;
 import utils.Constants;
 import utils.EventsHandler;
 import utils.http.HttpClientUtil;
@@ -762,7 +762,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         }
     }
     public void startContestTableViewRefresher() {
-        BruteForceResultTableViewRefresher = new BruteForceResultTableViewRefresher(
+        BruteForceResultTableViewRefresher = new UboatBruteForceResultTableViewRefresher(
                 battleName.trim(),
                 contestResultsInfoVersion,
                 autoUpdate,

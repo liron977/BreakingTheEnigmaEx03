@@ -1,9 +1,12 @@
 package component.alliesContest;
 
 import bruteForce.AlliesDTO;
+import bruteForce.BruteForceResultDTO;
 import component.mainWindowAllies.MainWindowAlliesController;
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import okhttp3.*;
+import utils.BruteForceResultAndVersion;
 import utils.Constants;
 import utils.http.HttpClientUtil;
 
@@ -43,11 +47,24 @@ public class AlliesContestController {
     private Timer timer;
     private TimerTask alliesRegisteredTeamsRefresher;
     private SimpleBooleanProperty autoUpdate;
-
+    @FXML
+    private TableColumn<BruteForceResultDTO, String> stringColumn;
+    @FXML
+    private TableColumn<BruteForceResultDTO, String> alliesNameColumn;
+    @FXML
+    private TableColumn<BruteForceResultDTO, String> codeConfigurationColumn;
+    @FXML
+    private TableView<BruteForceResultDTO> contestCandidatesTableView;
+    private IntegerProperty totalBruteResultAmount;
+    private TimerTask alliesBruteForceResultTableViewRefresher;
+    private Timer alliesBruteForceResultTableViewRefresherTimer;
+    private IntegerProperty contestResultsInfoVersion;
 
     @FXML
     public void initialize(){
         autoUpdate=new SimpleBooleanProperty(true);
+        totalBruteResultAmount=new SimpleIntegerProperty(0);
+        this.contestResultsInfoVersion =new SimpleIntegerProperty();
 
 
     }
@@ -143,6 +160,68 @@ public class AlliesContestController {
         );
 
         return alliesDTOList;
+    }
+
+    private void updateBruteForceResultsTableView(BruteForceResultAndVersion bruteForceResultAndVersionWithVersion) {
+        if (bruteForceResultAndVersionWithVersion != null) {
+            if (bruteForceResultAndVersionWithVersion.getVersion() != contestResultsInfoVersion.get()) {
+
+                Platform.runLater(() -> {
+                    contestResultsInfoVersion.set(bruteForceResultAndVersionWithVersion.getVersion());
+                    updateBruteForceResultInfoList(bruteForceResultAndVersionWithVersion.getEntries());
+                });
+            }
+        }
+    }
+    private ObservableList<BruteForceResultDTO> getBruteForceResultDataTableViewDTOList(List<BruteForceResultDTO> bruteForceResult) {
+
+        ObservableList<BruteForceResultDTO> bruteForceResultDTOObservableList;
+        bruteForceResultDTOObservableList = FXCollections.observableArrayList(bruteForceResult);
+        stringColumn.setCellValueFactory(
+                new PropertyValueFactory<>("convertedString")
+        );
+        alliesNameColumn.setCellValueFactory(
+                new PropertyValueFactory<>("alliesTeamName")
+        );
+        codeConfigurationColumn.setCellValueFactory(
+                new PropertyValueFactory<>("codeDescription")
+        );
+
+        return bruteForceResultDTOObservableList;
+    }
+    private void updateBruteForceResultInfoList(List<BruteForceResultDTO> bruteForceResultDTOList) {
+        ObservableList<BruteForceResultDTO> bruteForceResultDTOObservableList =getBruteForceResultDataTableViewDTOList(bruteForceResultDTOList);
+        createContestInfoDTOTableView(bruteForceResultDTOObservableList);
+        totalBruteResultAmount.set(bruteForceResultDTOList.size());
+    }
+    private void createContestInfoDTOTableView(ObservableList<BruteForceResultDTO> bruteForceResultDTOList ) {
+        if (contestCandidatesTableView.getItems().isEmpty()) {
+            contestCandidatesTableView.setItems(bruteForceResultDTOList);
+            contestCandidatesTableView.getColumns().clear();
+            contestCandidatesTableView.getColumns().addAll(stringColumn, alliesNameColumn, codeConfigurationColumn);
+        }
+        else {
+            contestCandidatesTableView.getItems().addAll(bruteForceResultDTOList);
+        }
+    }
+    public void startContestTableViewRefresher() {
+        alliesBruteForceResultTableViewRefresher = new AlliesBruteForceResultTableViewRefresher(
+                alliesTeamName.trim(),
+                contestResultsInfoVersion,
+                autoUpdate,
+                this::updateBruteForceResultsTableView);
+        alliesBruteForceResultTableViewRefresherTimer = new Timer();
+        timer.schedule(alliesBruteForceResultTableViewRefresher, REFRESH_RATE, REFRESH_RATE);
+    }
+    public void close() throws IOException {
+        activeTeamsDetailsTableView.getItems().clear();
+        contestResultsInfoVersion.set(0);
+        if (alliesRegisteredTeamsRefresher != null && timer!= null && alliesBruteForceResultTableViewRefresherTimer != null &&alliesRegisteredTeamsRefresher!=null) {
+            alliesRegisteredTeamsRefresher.cancel();
+            alliesRegisteredTeamsRefresher.cancel();
+            timer.cancel();
+            alliesBruteForceResultTableViewRefresherTimer.cancel();
+        }
     }
 
 }

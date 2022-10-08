@@ -1,6 +1,5 @@
 package component.uBoatContestTab;
 
-import bruteForce.BruteForceResultDTO;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import okhttp3.Call;
@@ -8,17 +7,17 @@ import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
+import utils.BruteForceResultAndVersion;
 import utils.Constants;
 import utils.http.HttpClientUtil;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.TimerTask;
 import java.util.function.Consumer;
 
 import static utils.Constants.GSON_INSTANCE;
 
-public class BruteForceResultTableViewRefresher extends TimerTask {
+public class UboatBruteForceResultTableViewRefresher extends TimerTask {
 
         private final Consumer<BruteForceResultAndVersion> bruteForceTableViewConsumer;
         private final IntegerProperty chatVersion;
@@ -26,7 +25,7 @@ public class BruteForceResultTableViewRefresher extends TimerTask {
         private int requestNumber;
         private String battleFieldName;
 
-    public BruteForceResultTableViewRefresher(String battleFieldName, IntegerProperty chatVersion, BooleanProperty shouldUpdate, Consumer<BruteForceResultAndVersion> bruteForceTableViewConsumer) {
+    public UboatBruteForceResultTableViewRefresher(String battleFieldName, IntegerProperty chatVersion, BooleanProperty shouldUpdate, Consumer<BruteForceResultAndVersion> bruteForceTableViewConsumer) {
             this.bruteForceTableViewConsumer = bruteForceTableViewConsumer;
             this.chatVersion = chatVersion;
             this.shouldUpdate = shouldUpdate;
