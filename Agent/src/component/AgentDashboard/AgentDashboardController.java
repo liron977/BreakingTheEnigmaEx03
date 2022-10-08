@@ -133,6 +133,7 @@ public class AgentDashboardController {
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                     amountOfDoneMissions.setValue(amountOfDoneMissions.getValue()+1);
+                  String res = response.body().string();
                 }
             });
         } catch (Exception e) {

@@ -65,6 +65,7 @@ public void setSelectedBattleFieldName(String selectedBattleFieldName){
         contestTabButton.setDisable(false);
         alliesTabPane.getSelectionModel().select(contestTabButton);
         alliesContestController.startAlliesInfoTableViewRefresher();
+        alliesContestController.startContestTableViewRefresher();
 
     }
 }

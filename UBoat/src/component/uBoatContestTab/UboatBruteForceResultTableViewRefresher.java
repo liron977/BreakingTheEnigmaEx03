@@ -7,17 +7,17 @@ import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
+import utils.BruteForceResultAndVersion;
 import utils.Constants;
 import utils.http.HttpClientUtil;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.TimerTask;
 import java.util.function.Consumer;
 
 import static utils.Constants.GSON_INSTANCE;
 
-public class BruteForceResultTableViewRefresher extends TimerTask {
+public class UboatBruteForceResultTableViewRefresher extends TimerTask {
 
         private final Consumer<BruteForceResultAndVersion> bruteForceTableViewConsumer;
         private final IntegerProperty chatVersion;
@@ -25,7 +25,7 @@ public class BruteForceResultTableViewRefresher extends TimerTask {
         private int requestNumber;
         private String battleFieldName;
 
-    public BruteForceResultTableViewRefresher(String battleFieldName, IntegerProperty chatVersion, BooleanProperty shouldUpdate, Consumer<BruteForceResultAndVersion> bruteForceTableViewConsumer) {
+    public UboatBruteForceResultTableViewRefresher(String battleFieldName, IntegerProperty chatVersion, BooleanProperty shouldUpdate, Consumer<BruteForceResultAndVersion> bruteForceTableViewConsumer) {
             this.bruteForceTableViewConsumer = bruteForceTableViewConsumer;
             this.chatVersion = chatVersion;
             this.shouldUpdate = shouldUpdate;
@@ -47,7 +47,7 @@ public class BruteForceResultTableViewRefresher extends TimerTask {
                     .parse(Constants.UBOAT_BRUTE_FORCE_RESULTS)
                     .newBuilder()
                     .addQueryParameter("battlefield",battleFieldName)
-                    .addQueryParameter("bruteForceResultVersion", String.valueOf(chatVersion.get()))
+                    .addQueryParameter("UboatBruteForceResultVersion", String.valueOf(chatVersion.get()))
                     .build()
                     .toString();
 
@@ -63,6 +63,7 @@ public class BruteForceResultTableViewRefresher extends TimerTask {
                     if (response.isSuccessful()) {
                         String rawBody = response.body().string();
                         BruteForceResultAndVersion chatLinesWithVersion = GSON_INSTANCE.fromJson(rawBody, BruteForceResultAndVersion.class);
+
                         bruteForceTableViewConsumer.accept(chatLinesWithVersion);
                     } else {
                     }

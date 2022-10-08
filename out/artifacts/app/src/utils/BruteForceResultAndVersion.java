@@ -12,4 +12,12 @@ public class BruteForceResultAndVersion {
             this.entries = entries;
             this.version = version;
         }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public List<BruteForceResultDTO> getEntries() {
+        return entries;
+    }
 }

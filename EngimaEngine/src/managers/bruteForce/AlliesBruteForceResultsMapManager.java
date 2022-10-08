@@ -63,10 +63,13 @@ public class AlliesBruteForceResultsMapManager {
     }
     public synchronized List<BruteForceResultDTO> getbruteForceResultDTOEntries(int fromIndex,String alliesTeamName){
         List<BruteForceResultDTO>  bruteForceResultsList = getBruteForceListByAlliesTeamName(alliesTeamName);
-        if (fromIndex < 0 || fromIndex > bruteForceResultsList.size()) {
-            fromIndex = 0;
+        if(bruteForceResultsList!=null) {
+            if (fromIndex < 0 || fromIndex > bruteForceResultsList.size()) {
+                fromIndex = 0;
+            }
+            return bruteForceResultsList.subList(fromIndex, bruteForceResultsList.size());
         }
-        return bruteForceResultsList.subList(fromIndex, bruteForceResultsList.size());
+        return null;
     }
 
     public int getVersion(String alliesTeamName) {

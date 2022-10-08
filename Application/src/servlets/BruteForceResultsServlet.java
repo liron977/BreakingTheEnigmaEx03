@@ -21,7 +21,7 @@ public class BruteForceResultsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
-        AlliesBruteForceResultsMapManager bruteForceResultsManager=ServletUtils.getBruteForceResultsManager(getServletContext());
+        AlliesBruteForceResultsMapManager alliesBruteForceResultsListManager=ServletUtils.getAlliesBruteForceResultsListManager(getServletContext());
         UBoatAvailableContestsManager uBoatAvailableContestsManager=ServletUtils.getUBoatAvailableContestsManager(getServletContext());
         String battleName=uBoatAvailableContestsManager.getUboatNameByAlliesTeamName(theAlliesTeamName);
         UboatBruteForceResultsMapManager uboatBruteForceResultsMapManager=ServletUtils.getUboatBruteForceResultsMapManager(getServletContext());
@@ -31,12 +31,12 @@ public class BruteForceResultsServlet extends HttpServlet {
         if(bruteForceResultDTOListFromGson!=null) {
             try {
                 uboatBruteForceResultsMapManager.addBruteForceResultsIntoList(battleName,bruteForceResultDTOListFromGson);
-                bruteForceResultsManager.addBruteForceResultsIntoList(theAlliesTeamName, bruteForceResultDTOListFromGson);
-                List<BruteForceResultDTO> list = uboatBruteForceResultsMapManager.getBruteForceListByUboatName(battleName);
+                alliesBruteForceResultsListManager.addBruteForceResultsIntoList(theAlliesTeamName, bruteForceResultDTOListFromGson);
+/*                List<BruteForceResultDTO> list = uboatBruteForceResultsMapManager.getBruteForceListByUboatName(battleName);
                 System.out.println("*************************");
                 for (BruteForceResultDTO brute : list) {
                     System.out.println(brute.getConvertedString() + " " + brute.getCodeDescription() + " " + brute.getTheMissionNumber() + "IN SERVLET");
-                }
+                }*/
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
