@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fx:id="userInputBruteForceLogic" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="503.0" prefWidth="857.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="253.0" minWidth="700.0" prefHeight="500.0">
+         <columnConstraints>
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="414.0000305175781" vgrow="ALWAYS" />
+            <RowConstraints maxHeight="74.66668701171875" minHeight="10.0" prefHeight="60.999969482421875" vgrow="ALWAYS" />
+         </rowConstraints>
+         <children>
+            <Button id="saveSettingsButton" fx:id="saveSettingsButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#saveSettingsButtonOnActionListener" prefHeight="146.0" prefWidth="844.0" text="Save Settings" GridPane.rowIndex="1">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <GridPane.margin>
+                  <Insets top="10.0" />
+               </GridPane.margin></Button>
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="471.0" prefWidth="844.0">
+               <children>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="488.0" prefWidth="411.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label id="GeneralLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="331.0" text="Please select words from the dictionary">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="searchTextField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#searchTextFieldOnListener" prefHeight="25.0" prefWidth="275.0" />
+                        <ListView id="userInputBruteForce" fx:id="listView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#listViewClickOnItem" prefHeight="121.0" prefWidth="408.0" />
+                        <Label id="GeneralLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="The selected words are :" />
+                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="100.0" minWidth="400.0" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                           <children>
+                              <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" prefHeight="68.0" prefWidth="275.0" HBox.hgrow="ALWAYS">
+                                 <content>
+                                    <TextArea fx:id="stringToConvertTextArea" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="62.0" prefWidth="291.0" />
+                                 </content>
+                              </ScrollPane>
+                              <Button id="saveSettingsButton" fx:id="decryptButton" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#decryptButtonOnAction" prefHeight="85.0" prefWidth="94.0" text="Decrypt" />
+                           </children>
+                        </HBox>
+                        <Label id="GeneralLabel" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="218.0" text="The converted string is:" />
+                        <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="58.0" prefWidth="417.0">
+                           <content>
+                              <TextArea fx:id="convertedStringTextArea" editable="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" />
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </VBox>
+                  <Separator maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="426.0" prefWidth="12.0">
+                     <HBox.margin>
+                        <Insets bottom="2.0" />
+                     </HBox.margin>
+                     <padding>
+                        <Insets bottom="2.0" />
+                     </padding></Separator>
+                  <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="427.0" prefWidth="419.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label id="GeneralLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="313.0" text="Please choose amount of agents">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Slider fx:id="amountOfAgentsSlider" majorTickUnit="1.0" max="50.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" min="1.0" minorTickCount="0" prefHeight="38.0" prefWidth="433.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                        <Separator maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="3.0" prefWidth="416.0" />
+                        <Label id="GeneralLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="313.0" text="Please insert the mission size" />
+                        <TextField fx:id="sizeOfMission" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="168.0" />
+                        <Separator maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1.0" prefWidth="416.0" />
+                        <Label id="GeneralLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="320.0" text="Please choose difficulty level " />
+                        <ComboBox id="saveSettingsButton" fx:id="difficultyLevelComboBox" promptText="Difficulty level" />
+                        <Label fx:id="amountOfMissions" />
+                        <Separator maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="3.0" prefWidth="416.0" />
+                        <Label id="GeneralLabel" fx:id="currentConfigurationLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="286.0" text="The current configuration:" />
+                        <HBox minHeight="80.0" minWidth="200.0" prefHeight="104.0" prefWidth="425.0">
+                           <children>
+                              <fx:include fx:id="currentCodeConfiguration" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" source="../../../UBoat/src/component/uBoatMachineTab/machineTab/CodeConfigurationTableView.fxml" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                        <Button id="saveSettingsButton" fx:id="resetButton" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#resetButtonOnAction" prefHeight="25.0" prefWidth="131.0" text="Reset Configuration">
+                           <VBox.margin>
+                              <Insets top="2.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </GridPane>
+   </content>
+</ScrollPane>

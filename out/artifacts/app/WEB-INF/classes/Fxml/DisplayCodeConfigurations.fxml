@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<ScrollPane id="presentInfoSection" fx:id="displayCodeConfiguration" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="296.0" prefWidth="469.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.DisplayCodeConfigurationController">
+   <content>
+      <GridPane alignment="CENTER" hgap="50.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="300.0" minWidth="700.0" prefHeight="292.0" prefWidth="465.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="87.33332824707031" minHeight="10.0" prefHeight="51.33332824707031" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="151.3333282470703" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="204.00001525878906" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="216.66665649414062" minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="243.66668701171875" minHeight="10.0" prefHeight="43.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="64.0" minHeight="10.0" prefHeight="62.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label id="lighterLabel" fx:id="titleLable" alignment="CENTER" contentDisplay="CENTER" GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
+            <Label id="lighterLabel" fx:id="currentConfigurationLabel" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label id="lighterLabel" fx:id="originalConfigurationLabel" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label id="lighterLabel" fx:id="currentConfigurationValueLabel" alignment="CENTER" contentDisplay="CENTER" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </Label>
+            <Label id="lighterLabel" fx:id="originalConfigurationValueLabel" alignment="CENTER" contentDisplay="CENTER" GridPane.halignment="LEFT" GridPane.rowIndex="4" />
+         </children>
+      </GridPane>
+   </content>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</ScrollPane>

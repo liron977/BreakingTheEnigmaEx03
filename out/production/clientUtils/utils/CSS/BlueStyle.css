@@ -1,0 +1,272 @@
+.root {
+    -fx-background-color: white;
+    fx-base: white;
+    -fx-background: white;
+-fx-border-color: white;
+    /* make controls (buttons, thumb, etc.) slightly lighter */
+    -fx-color: derive(-fx-base, 10%);
+
+    /* text fields and table rows background */
+    -fx-control-inner-background:white;
+    /* version of -fx-control-inner-background for alternative rows */
+    -fx-control-inner-background-alt: derive(-fx-control-inner-background, 2.5%);
+
+
+    /* A bright blue for highlighting/accenting objects.  For example: selected
+     * text; selected items in menus, lists, trees, and tables; progress bars */
+    -fx-accent: rgb(213, 217, 222);
+
+    /* color of non-focused yet selected elements */
+    -fx-selection-bar-non-focused: rgb(50, 50, 50);
+}
+
+.singleWordTile {
+    -fx-background-color: #d5d9de;
+    -fx-border-width: 5px;
+    -fx-border-color: #0e1b45;
+    -fx-background-radius: 5.0;
+}
+.singleDecryptionScroller{
+    -fx-background: #d5d9de;
+    -fx-background-color: #d5d9de;
+}
+
+#GeneralLabel {
+    -fx-font-family: Verdana;
+    -fx-font-size: 14;
+    /*-fx-font-weight: bold;*/
+    -fx-text-fill: white;
+    -fx-background-color: #0f265e;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.9) , 4, 0.0 , 0 , 1 );
+    -fx-background-radius: 8, 7, 6;
+    -fx-alignment: center;
+}
+#LoginTitle {
+    -fx-font-family: Verdana;
+    -fx-font-size: 16;
+    /*-fx-font-weight: bold;*/
+    -fx-text-fill: white;
+    -fx-background-color: #0f265e;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.9) , 4, 0.0 , 0 , 1 );
+    -fx-background-radius: 8, 7, 6;
+    -fx-alignment: center;
+}
+
+#dynamic .label {
+    -fx-font-family: Verdana;
+    -fx-font-size: 14;
+    /*-fx-font-weight: bold;*/
+    -fx-text-fill: white;
+    -fx-background-color: #0f265e;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.9) , 4, 0.0 , 0 , 1 );
+    -fx-background-radius: 8, 7, 6;
+    -fx-alignment: center;
+}
+#lighterDynamic .label{
+    -fx-font-family: Verdana;
+    /* -fx-font-weight: bold;*/
+    -fx-text-fill: #0f265e;
+    -fx-font-size: 14;
+    -fx-text-alignment: center;
+}
+#dynamicA .text-area {
+    -fx-font-family: Verdana;
+    -fx-font-size: 14;
+    /*-fx-font-weight: bold;*/
+    -fx-text-fill: white;
+    -fx-background-color: #0f265e;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.9) , 4, 0.0 , 0 , 1 );
+    -fx-background-radius: 8, 7, 6;
+    -fx-alignment: center;
+}
+
+
+#saveSettingsButton{
+
+    -fx-font-family: "Arial Narrow";
+    -fx-effect: dropshadow( one-pass-box , black , 8 , 0.0 , 2 , 0 );
+    -fx-text-fill: rgb(19, 49, 145);
+    -fx-border-color: rgb(19, 49, 145);
+    -fx-border-radius: 3;
+    -fx-padding: 1 4 4 4;
+    /*-fx-font-weight: bold;*/
+    -fx-font-size: 15;
+}
+#bigButton{
+
+    -fx-font-family: "Arial Narrow";
+    -fx-effect: dropshadow( one-pass-box , black , 8 , 0.0 , 2 , 0 );
+    -fx-text-fill: rgb(19, 49, 145);
+    -fx-border-color: rgb(19, 49, 145);
+    -fx-border-radius: 3;
+    -fx-padding: 1 4 4 4;
+    /*-fx-font-weight: bold;*/
+    -fx-font-size: 20;
+}
+/*.table-view .scroll-bar * {
+    -fx-min-width: 0;
+    -fx-pref-width: 0;
+    -fx-max-width: 0;
+
+    -fx-min-height: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+}*/
+.table-column{
+    -fx-alignment: center;
+}
+
+.button:hover{
+    -fx-background-color: #5a9ccc;
+
+}
+
+
+
+.button:pressed{
+    -fx-background-color: #00e7ff;
+
+}
+#TabButton{
+
+    -fx-font-family: "Arial Narrow";
+    -fx-effect: dropshadow( one-pass-box , black , 8 , 0.0 , 2 , 0 );
+    -fx-text-fill: rgb(19, 49, 145);
+    -fx-border-color: rgb(19, 49, 145);
+    -fx-border-radius: 3;
+    -fx-padding: 1 4 4 4;
+    /*-fx-font-weight: bold;*/
+    -fx-font-size: 23;
+}
+
+.scroll-pane > .scroll-bar > .thumb{
+    -fx-background-color: #0f265e ;
+}
+#presentInfoSection{
+    -fx-background-color: white;
+    -fx-border-color:white;
+    -fx-background-radius: 40;
+
+}
+#lighterLabel{
+    -fx-font-family: Verdana;
+   /* -fx-font-weight: bold;*/
+    -fx-text-fill: #0f265e;
+    -fx-font-size: 14;
+    -fx-text-alignment: center;
+
+}
+
+#applicationTitleLabel{
+    -fx-font-family: Verdana;
+    /* -fx-font-weight: bold;*/
+    -fx-text-fill: #0f265e;
+    -fx-font-size: 22;
+    -fx-text-alignment: center;
+
+}
+#dashboardTable .table-view .column-header .label{
+    -fx-font-family: Verdana;
+    /* -fx-font-weight: bold;*/
+    -fx-text-fill: #3467bb;
+    -fx-font-size: 12;
+    -fx-text-alignment: center;
+
+}
+#codeConfigurationLabel{
+    -fx-font-family: Verdana;
+    /* -fx-font-weight: bold;*/
+    -fx-text-fill: #0f265e;
+    -fx-font-size: 12;
+    -fx-text-alignment: center;
+
+}
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+.radio-button{
+    -fx-font-family: Verdana;
+    /* -fx-font-weight: bold;*/
+    -fx-text-fill: #0f265e;
+    -fx-font-size: 14;
+    -fx-text-alignment: center;
+}
+
+#wheelsImage{
+    -fx-background-image: url("iconRotor.png");
+    -fx-background-radius: 30;
+    -fx-background-size: cover;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.9) , 4, 0.0 , 0 , 1 );
+    -fx-background-radius: 8, 7, 6;
+    -fx-background-insets: 0, 1, 2;
+
+    -fx-opacity: 0.5;
+
+
+}
+#description{
+    -fx-font-family: Verdana;
+    /* -fx-font-weight: bold;*/
+    -fx-text-fill: white;
+    -fx-font-size: 14;
+    -fx-text-alignment: center;
+
+}
+#paneDetail{
+    /*-fx-background-color: #3d4c75;*/
+    -fx-background-color: radial-gradient(center 80% 50%, radius 120%, #3c6bb7, #364670);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.9) , 4, 0.0 , 0 , 1 );
+    /* -fx-opacity: 0.6;*/
+    /*-fx-background-radius: 8, 7, 6;*/
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 100;
+}
+#MachineDetailsTitle{
+    -fx-font-family: Verdana;
+    -fx-font-size: 18;
+    /*-fx-font-weight: bold;*/
+    -fx-text-fill: #0f265e;
+    /* -fx-background-color: white;*/
+    /*  -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.9) , 4, 0.0 , 0 , 1 );
+      -fx-background-color: radial-gradient(center 20% 50% , radius 100%, #8c9dcb ,transparent);*/
+    -fx-background-radius: 8, 7, 6;
+
+
+
+}
+#LoadFilePath{
+    -fx-background-color: white;
+    -fx-background-radius: 8, 7, 6;
+    -fx-font-size: 16;
+    -fx-font-family:Verdana ;
+}
+
+#theEnigmaMachineTitle{
+    -fx-font-size: 25px;
+    -fx-font-family:Verdana;
+    /* -fx-font-weight: bold;*/
+-fx-fill: white;
+    /*-fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );*/
+-fx-text-fill: #0f265e;
+    /*-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.9) , 4, 0.0 , 0 , 1 );
+    -fx-background-color: radial-gradient(center 20% 50% , radius 100%, #8c9dcb ,transparent);*/
+-fx-background-radius: 8, 7, 6;
+}
+
+#keyBoardButton .button{
+    -fx-background-color: #265bd2;
+    -fx-text-fill: white;
+      -fx-border-color: #2b2d75;
+    -fx-font-size: 16;
+}
+
+#loadFileScroller .scroll-pane > .viewport {
+    -fx-background-color: transparent;
+
+}
+
+#loadFileScroller{
+    -fx-border-color:white;
+    -fx-background-radius: 8, 7, 6;
+
+}
