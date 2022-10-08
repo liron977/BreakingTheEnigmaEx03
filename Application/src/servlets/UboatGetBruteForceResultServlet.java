@@ -57,7 +57,7 @@ public class UboatGetBruteForceResultServlet extends HttpServlet {
         Gson gson = new Gson();
         String jsonResponse = gson.toJson(bruteForceResultAndVersion);
         //logServerMessage("Server Chat version: " + bruteForceResultManagerCounter + ", User '" + teamName + "' Chat version: " + bruteForceResultVersion);
-        logServerMessage(jsonResponse);
+       // logServerMessage(jsonResponse);
 
         try (PrintWriter out = response.getWriter()) {
             out.print(jsonResponse);
