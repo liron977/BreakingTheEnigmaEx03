@@ -20,14 +20,14 @@ import static utils.Constants.GSON_INSTANCE;
 public class AlliesBruteForceResultTableViewRefresher extends TimerTask {
 
     private final Consumer<BruteForceResultAndVersion> bruteForceTableViewConsumer;
-    private final IntegerProperty chatVersion;
+    private final IntegerProperty bruteForceResultTableViewVersion;
     private final BooleanProperty shouldUpdate;
     private int requestNumber;
     private String alliesTeamName;
 
-    public AlliesBruteForceResultTableViewRefresher(String alliesTeamName, IntegerProperty chatVersion, BooleanProperty shouldUpdate, Consumer<BruteForceResultAndVersion> bruteForceTableViewConsumer) {
+    public AlliesBruteForceResultTableViewRefresher(String alliesTeamName, IntegerProperty bruteForceResultTableViewVersion, BooleanProperty shouldUpdate, Consumer<BruteForceResultAndVersion> bruteForceTableViewConsumer) {
         this.bruteForceTableViewConsumer = bruteForceTableViewConsumer;
-        this.chatVersion = chatVersion;
+        this.bruteForceResultTableViewVersion = bruteForceResultTableViewVersion;
         this.shouldUpdate = shouldUpdate;
         this.alliesTeamName = alliesTeamName;
         requestNumber = 0;
@@ -40,14 +40,14 @@ public class AlliesBruteForceResultTableViewRefresher extends TimerTask {
             return;
         }
 
-        final int finalRequestNumber = ++requestNumber;
+       // final int finalRequestNumber = ++requestNumber;
 
         //noinspection ConstantConditions
         String finalUrl = HttpUrl
                 .parse(Constants.ALLIES_BRUTE_FORCE_RESULTS)
                 .newBuilder()
                 .addQueryParameter("alliesTeamName", alliesTeamName)
-                .addQueryParameter("AlliesBruteForceResultVersion", String.valueOf(chatVersion.get()))
+                .addQueryParameter("AlliesBruteForceResultVersion", String.valueOf(bruteForceResultTableViewVersion.get()))
                 .build()
                 .toString();
 

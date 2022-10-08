@@ -36,7 +36,13 @@ public class AlliesGetBruteForceResultServlet extends HttpServlet {
         synchronized (getServletContext()) {
             bruteForceResultManagerCounter = alliesBruteForceResultsManager.getVersion(teamName);
             bruteForceResultDTOEntries = alliesBruteForceResultsManager.getbruteForceResultDTOEntries(bruteForceResultVersion, teamName);
+            if(bruteForceResultDTOEntries!=null) {
+                for (BruteForceResultDTO brute : bruteForceResultDTOEntries) {
+                    System.out.println(brute.getConvertedString() + " " + brute.getCodeDescription() + " " + brute.getTheMissionNumber() + "IN SERVLET");
+                }
+            }
         }
+
 
         // log and create the response json string
         BruteForceResultAndVersion bruteForceResultAndVersion = new BruteForceResultAndVersion(bruteForceResultDTOEntries, bruteForceResultManagerCounter);

@@ -18,6 +18,7 @@ import utils.BruteForceResultAndVersion;
 import utils.Constants;
 import utils.http.HttpClientUtil;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.util.List;
 import java.util.Timer;
@@ -25,7 +26,7 @@ import java.util.TimerTask;
 
 import static utils.Constants.REFRESH_RATE;
 
-public class AlliesContestController {
+public class AlliesContestController implements Closeable {
     MainWindowAlliesController mainWindowAlliesController;
 
     @FXML
@@ -213,6 +214,7 @@ public class AlliesContestController {
         alliesBruteForceResultTableViewRefresherTimer = new Timer();
         timer.schedule(alliesBruteForceResultTableViewRefresher, REFRESH_RATE, REFRESH_RATE);
     }
+    @Override
     public void close() throws IOException {
         activeTeamsDetailsTableView.getItems().clear();
         contestResultsInfoVersion.set(0);

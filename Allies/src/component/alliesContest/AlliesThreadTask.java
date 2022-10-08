@@ -9,6 +9,7 @@ import utils.Constants;
 import utils.http.HttpClientUtil;
 
 import java.io.IOException;
+import java.security.SecureRandom;
 
 public class AlliesThreadTask extends Task<Boolean> {
     // private UiAdapterInterface UiAdapter;
@@ -64,8 +65,10 @@ public class AlliesThreadTask extends Task<Boolean> {
                     });
                 }
             } else {
+                String res = response.body().string();
                 Platform.runLater(() -> {
                     {
+
                     }
                 });
             }
