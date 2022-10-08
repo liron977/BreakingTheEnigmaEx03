@@ -18,13 +18,13 @@ import static utils.Constants.GSON_INSTANCE;
 
 public class BruteForceResultTableViewRefresher extends TimerTask {
 
-        private final Consumer<BruteForceResultAndVersion> chatlinesConsumer;
+        private final Consumer<BruteForceResultAndVersion> bruteForceTableViewConsumer;
         private final IntegerProperty chatVersion;
         private final BooleanProperty shouldUpdate;
         private int requestNumber;
 
-    public BruteForceResultTableViewRefresher(IntegerProperty chatVersion, BooleanProperty shouldUpdate, Consumer<BruteForceResultAndVersion> chatlinesConsumer) {
-            this.chatlinesConsumer = chatlinesConsumer;
+    public BruteForceResultTableViewRefresher(IntegerProperty chatVersion, BooleanProperty shouldUpdate, Consumer<BruteForceResultAndVersion> bruteForceTableViewConsumer) {
+            this.bruteForceTableViewConsumer = bruteForceTableViewConsumer;
             this.chatVersion = chatVersion;
             this.shouldUpdate = shouldUpdate;
             requestNumber = 0;
@@ -59,7 +59,7 @@ public class BruteForceResultTableViewRefresher extends TimerTask {
                     if (response.isSuccessful()) {
                         String rawBody = response.body().string();
                         BruteForceResultAndVersion chatLinesWithVersion = GSON_INSTANCE.fromJson(rawBody, BruteForceResultAndVersion.class);
-                        chatlinesConsumer.accept(chatLinesWithVersion);
+                        bruteForceTableViewConsumer.accept(chatLinesWithVersion);
                     } else {
                     }
                 }

@@ -58,6 +58,8 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     @FXML
     private TableView<AlliesDTO> activeTeamsDetailsTableView;
     @FXML
+    private TableView<BruteForceResultDTO> contestCandidatesTableView;
+    @FXML
     private TableColumn<AlliesDTO, String> missionSizeColumn;
     @FXML
     private TableColumn<AlliesDTO, String> agentsAmountColumn;
@@ -106,6 +108,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     private List<EventsHandler> handlers = new ArrayList<>();
     ConvertedStringProcessDTO convertedStringProcessDTO;
     private IntegerProperty totalAlliesRegisteredTeamsAmount;
+    private IntegerProperty totalBruteResultAmount;
     private TimerTask alliesRegisteredTeamsRefresher;
     private TimerTask BruteForceResultTableViewRefresher;
     private Timer BruteForceResultTableViewRefresherTimer;
@@ -125,6 +128,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         this.isConvertedStringIsLegal = true;
         this.isBruteForceSettingDefined = new SimpleBooleanProperty(false);
         totalAlliesRegisteredTeamsAmount=new SimpleIntegerProperty(0);
+        totalBruteResultAmount=new SimpleIntegerProperty(0);
         this.chatVersion=new SimpleIntegerProperty(0);
         autoUpdate=new SimpleBooleanProperty(true);
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -710,30 +714,14 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         timer = new Timer();
         timer.schedule(alliesRegisteredTeamsRefresher, REFRESH_RATE, REFRESH_RATE);
     }
-    private void updateBruteForceRsultTableView(BruteForceResultAndVersion bruteForceResultAndVersionWithVersion) {
-    /*    if (bruteForceResultAndVersionWithVersion.getVersion() != chatVersion.get()) {
-            String deltaChatLines = bruteForceResultAndVersionWithVersion
-                    .getEntries()
-                    .stream()
-                    .map(bruteForceResultDTO -> {
-                        //long time = singleChatLine.getTime();
-                        return String.format(CHAT_LINE_FORMATTING, time, time, time, singleChatLine.getUsername(), singleChatLine.getChatString());
-                    }).collect(Collectors.joining());
+    private void updateBruteForceResultsTableView(BruteForceResultAndVersion bruteForceResultAndVersionWithVersion) {
+        if (bruteForceResultAndVersionWithVersion.getVersion() != chatVersion.get()) {
 
             Platform.runLater(() -> {
-                chatVersion.set(chatLinesWithVersion.getVersion());
-
-                if (autoScroll.get()) {
-                    mainChatLinesTextArea.appendText(deltaChatLines);
-                    mainChatLinesTextArea.selectPositionCaret(mainChatLinesTextArea.getLength());
-                    mainChatLinesTextArea.deselect();
-                } else {
-                    int originalCaretPosition = mainChatLinesTextArea.getCaretPosition();
-                    mainChatLinesTextArea.appendText(deltaChatLines);
-                    mainChatLinesTextArea.positionCaret(originalCaretPosition);
-                }
+                chatVersion.set(bruteForceResultAndVersionWithVersion.getVersion());
+                updateBruteForceResultInfoList(bruteForceResultAndVersionWithVersion.getEntries());
             });
-        }*/
+        }
     }
     private ObservableList<BruteForceResultDTO> getBruteForceResultDataTableViewDTOList(List<BruteForceResultDTO> bruteForceResult) {
 
@@ -749,14 +737,29 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                 new PropertyValueFactory<>("codeDescription")
         );
 
-        return ;
+        return bruteForceResultDTOObservableList;
     }
-    public void startListRefresher() {
+    private void updateBruteForceResultInfoList(List<BruteForceResultDTO> bruteForceResultDTOList) {
+            ObservableList<BruteForceResultDTO> bruteForceResultDTOObservableList =getBruteForceResultDataTableViewDTOList(bruteForceResultDTOList);
+            createContestInfoDTOTableView(bruteForceResultDTOObservableList);
+            totalBruteResultAmount.set(bruteForceResultDTOList.size());
+    }
+    private void createContestInfoDTOTableView(ObservableList<BruteForceResultDTO> bruteForceResultDTOList ) {
+        if (contestCandidatesTableView.getItems().isEmpty()) {
+            contestCandidatesTableView.setItems(bruteForceResultDTOList);
+            contestCandidatesTableView.getColumns().clear();
+            contestCandidatesTableView.getColumns().addAll(stringColumn, alliesNameColumn, codeConfigurationColumn);
+        }
+        else {
+            contestCandidatesTableView.getItems().addAll(bruteForceResultDTOList);
+        }
+    }
+    public void startContestTableViewRefresher() {
         BruteForceResultTableViewRefresher = new BruteForceResultTableViewRefresher(
                 chatVersion,
                 autoUpdate,
-                this::updateChatLines);
+                this::updateBruteForceResultsTableView);
         BruteForceResultTableViewRefresherTimer= new Timer();
-        timer.schedule(chatAreaRefresher, REFRESH_RATE, REFRESH_RATE);
+        timer.schedule(BruteForceResultTableViewRefresher, REFRESH_RATE, REFRESH_RATE);
     }
 }
