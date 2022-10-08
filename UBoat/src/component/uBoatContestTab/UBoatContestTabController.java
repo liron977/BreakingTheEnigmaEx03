@@ -6,6 +6,7 @@ import bruteForce.BruteForceSettingsDTO;
 import com.google.gson.Gson;
 import component.mainWindowUBoat.MainWindowUBoatController;
 import component.uBoatMachineTab.machineTab.CurrentConfigurationTableViewController;
+import javafx.beans.binding.Bindings;
 import machineEngine.EngineManager;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -68,7 +69,9 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
 
     @FXML
     private TableColumn<BruteForceResultDTO, String> stringColumn;
+    @FXML
     private TableColumn<BruteForceResultDTO, String> alliesNameColumn;
+    @FXML
     private TableColumn<BruteForceResultDTO, String> codeConfigurationColumn;
 
     private Timer timer;
@@ -112,9 +115,10 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     private TimerTask alliesRegisteredTeamsRefresher;
     private TimerTask BruteForceResultTableViewRefresher;
     private Timer BruteForceResultTableViewRefresherTimer;
-    private IntegerProperty chatVersion;
+    private IntegerProperty contestResultsInfoVersion;
 
     private  SimpleBooleanProperty autoUpdate;
+
 
     public UBoatContestTabController() {
         alert = new Alert(Alert.AlertType.ERROR);
@@ -129,7 +133,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         this.isBruteForceSettingDefined = new SimpleBooleanProperty(false);
         totalAlliesRegisteredTeamsAmount=new SimpleIntegerProperty(0);
         totalBruteResultAmount=new SimpleIntegerProperty(0);
-        this.chatVersion=new SimpleIntegerProperty(0);
+        this.contestResultsInfoVersion =new SimpleIntegerProperty();
         autoUpdate=new SimpleBooleanProperty(true);
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
@@ -548,8 +552,8 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     }
 
     public void setBattleName(String battleName) {
-        currentCodeConfigurationController.setBattleName(battleName);
-        this.battleName = battleName;
+        currentCodeConfigurationController.setBattleName(battleName.trim());
+        this.battleName = battleName.trim();
     }
 
     @FXML
@@ -687,6 +691,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     public void close() throws IOException {
         activeTeamsDetailsTableView.getItems().clear();
         totalAlliesRegisteredTeamsAmount.set(0);
+        contestResultsInfoVersion.set(0);
         if (alliesRegisteredTeamsRefresher != null && timer!= null && BruteForceResultTableViewRefresherTimer!= null &&alliesRegisteredTeamsRefresher!=null) {
             alliesRegisteredTeamsRefresher.cancel();
             alliesRegisteredTeamsRefresher.cancel();
@@ -710,16 +715,16 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         alliesRegisteredTeamsRefresher = new AlliesRegisteredTeamsInfoTablesViewRefresher(
                 this::updateRegisteredAlliesInfoList,
                 autoUpdate,
-                battleName);
+                battleName.trim());
         timer = new Timer();
         timer.schedule(alliesRegisteredTeamsRefresher, REFRESH_RATE, REFRESH_RATE);
     }
     private void updateBruteForceResultsTableView(BruteForceResultAndVersion bruteForceResultAndVersionWithVersion) {
         if (bruteForceResultAndVersionWithVersion != null) {
-            if (bruteForceResultAndVersionWithVersion.getVersion() != chatVersion.get()) {
+            if (bruteForceResultAndVersionWithVersion.getVersion() != contestResultsInfoVersion.get()) {
 
                 Platform.runLater(() -> {
-                    chatVersion.set(bruteForceResultAndVersionWithVersion.getVersion());
+                    contestResultsInfoVersion.set(bruteForceResultAndVersionWithVersion.getVersion());
                     updateBruteForceResultInfoList(bruteForceResultAndVersionWithVersion.getEntries());
                 });
             }
@@ -758,8 +763,8 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     }
     public void startContestTableViewRefresher() {
         BruteForceResultTableViewRefresher = new BruteForceResultTableViewRefresher(
-                battleName,
-                chatVersion,
+                battleName.trim(),
+                contestResultsInfoVersion,
                 autoUpdate,
                 this::updateBruteForceResultsTableView);
         BruteForceResultTableViewRefresherTimer= new Timer();

@@ -24,6 +24,18 @@ public class UboatGetBruteForceResultServlet extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
         UboatBruteForceResultsMapManager  uboatBruteForceResultsManager = ServletUtils.getUboatBruteForceResultsMapManager(getServletContext());
+        if(uboatBruteForceResultsManager==null) {
+            return;
+        }
+
+   /*     List<BruteForceResultDTO> list = uboatBruteForceResultsManager.getBruteForceListByUboatName(teamName);
+        System.out.println("*************************");
+        for (BruteForceResultDTO brute : list) {
+            System.out.println(brute.getConvertedString() + " " + brute.getCodeDescription() + " " + brute.getTheMissionNumber() + "IN SERVLET");
+        }*/
+
+
+
         int bruteForceResultVersion = ServletUtils.getIntParameter(request, ParametersConstants.UBOAT_BRUTE_FORCE_RESULT_VERSION_PARAMETER);
         if (bruteForceResultVersion == ParametersConstants.INT_PARAMETER_ERROR) {
             return;
@@ -35,6 +47,10 @@ public class UboatGetBruteForceResultServlet extends HttpServlet {
             bruteForceResultManagerCounter = uboatBruteForceResultsManager.getVersion(teamName);
             bruteForceResultDTOEntries = uboatBruteForceResultsManager.getbruteForceResultDTOEntries(bruteForceResultVersion,teamName);
         }
+    /*    for (BruteForceResultDTO brute : bruteForceResultDTOEntries) {
+            System.out.println(brute.getConvertedString() + " " + brute.getCodeDescription() + " " + brute.getTheMissionNumber() + "IN SERVLET");
+        }
+*/
 
         // log and create the response json string
        BruteForceResultAndVersion bruteForceResultAndVersion = new BruteForceResultAndVersion(bruteForceResultDTOEntries, bruteForceResultManagerCounter);

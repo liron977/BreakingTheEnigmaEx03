@@ -1,5 +1,6 @@
 package component.uBoatContestTab;
 
+import bruteForce.BruteForceResultDTO;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import okhttp3.Call;
@@ -47,7 +48,7 @@ public class BruteForceResultTableViewRefresher extends TimerTask {
                     .parse(Constants.UBOAT_BRUTE_FORCE_RESULTS)
                     .newBuilder()
                     .addQueryParameter("battlefield",battleFieldName)
-                    .addQueryParameter("bruteForceResultVersion", String.valueOf(chatVersion.get()))
+                    .addQueryParameter("UboatBruteForceResultVersion", String.valueOf(chatVersion.get()))
                     .build()
                     .toString();
 
@@ -63,6 +64,7 @@ public class BruteForceResultTableViewRefresher extends TimerTask {
                     if (response.isSuccessful()) {
                         String rawBody = response.body().string();
                         BruteForceResultAndVersion chatLinesWithVersion = GSON_INSTANCE.fromJson(rawBody, BruteForceResultAndVersion.class);
+
                         bruteForceTableViewConsumer.accept(chatLinesWithVersion);
                     } else {
                     }
