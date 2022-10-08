@@ -3,14 +3,12 @@ package managers.bruteForce;
 import bruteForce.BruteForceResultDTO;
 
 import java.util.*;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
-public class BruteForceResultsMapManager {
+public class AlliesBruteForceResultsMapManager {
 
     private final Map<String, List<BruteForceResultDTO>> bruteForceResultsManagerMap;
 
-        public BruteForceResultsMapManager() {
+        public AlliesBruteForceResultsMapManager() {
             bruteForceResultsManagerMap = new HashMap<>();
         }
         public synchronized List<BruteForceResultDTO> getBruteForceListByAlliesTeamName(String alliesTeamName) {
@@ -30,7 +28,7 @@ public class BruteForceResultsMapManager {
             bruteForceResultsManagerMap.put(alliesTeamName, bruteForceResultsList);
 
         }
-    public synchronized void addBruteForceResultsIntoBlockingQueue (String alliesTeamName, List<BruteForceResultDTO> bruteForceResultsDTOList) throws InterruptedException {
+    public synchronized void addBruteForceResultsIntoList(String alliesTeamName, List<BruteForceResultDTO> bruteForceResultsDTOList) throws InterruptedException {
         List<BruteForceResultDTO>  bruteForceResultsList = getBruteForceListByAlliesTeamName(alliesTeamName);
         if (bruteForceResultsList == null) {
             bruteForceResultsList = new ArrayList<>();
@@ -73,7 +71,10 @@ public class BruteForceResultsMapManager {
 
     public int getVersion(String alliesTeamName) {
         List<BruteForceResultDTO>  bruteForceResultsList = getBruteForceListByAlliesTeamName(alliesTeamName);
-        return bruteForceResultsList.size();
+       if(bruteForceResultsList!=null) {
+           return bruteForceResultsList.size();
+       }
+       return 0;
     }
 
 

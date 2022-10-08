@@ -11,6 +11,7 @@ import utils.Constants;
 import utils.http.HttpClientUtil;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.TimerTask;
 import java.util.function.Consumer;
 
@@ -23,7 +24,7 @@ public class BruteForceResultTableViewRefresher extends TimerTask {
         private final BooleanProperty shouldUpdate;
         private int requestNumber;
 
-    public BruteForceResultTableViewRefresher(IntegerProperty chatVersion, BooleanProperty shouldUpdate, Consumer<BruteForceResultAndVersion> bruteForceTableViewConsumer) {
+    public BruteForceResultTableViewRefresher(List<String> selectedAlliesTeamList, IntegerProperty chatVersion, BooleanProperty shouldUpdate, Consumer<BruteForceResultAndVersion> bruteForceTableViewConsumer) {
             this.bruteForceTableViewConsumer = bruteForceTableViewConsumer;
             this.chatVersion = chatVersion;
             this.shouldUpdate = shouldUpdate;
@@ -43,6 +44,7 @@ public class BruteForceResultTableViewRefresher extends TimerTask {
             String finalUrl = HttpUrl
                     .parse(Constants.BRUTE_FORCE_RESULTS)
                     .newBuilder()
+                    .addQueryParameter("bruteForceResultVersion", String.valueOf(chatVersion.get()))
                     .addQueryParameter("bruteForceResultVersion", String.valueOf(chatVersion.get()))
                     .build()
                     .toString();
