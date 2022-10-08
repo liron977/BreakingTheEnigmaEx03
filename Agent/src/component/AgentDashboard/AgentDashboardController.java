@@ -9,6 +9,7 @@ import engine.theEnigmaEngine.TheMachineEngine;
 import engine.theEnigmaEngine.UBoatBattleField;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -66,15 +67,21 @@ public class AgentDashboardController {
 
     @FXML
     private Label alliesTeamNameLabel;
+    @FXML
+    private Label amountDoneMissionsPerAgentLabel;
 
     private final String JAXB_XML_GAME_PACKAGE_NAME = "schemaGenerated";
     private SimpleBooleanProperty isMissionEndedProperty;
     private List<BruteForceResultDTO> resultDTOList;
     private List<BruteForceResultDTO> resultDTOListForAgent;
+    private SimpleIntegerProperty amountOfAskedMissions;
+    private SimpleIntegerProperty amountOfDoneMissions;
 
     @FXML
     public void initialize() {
         isMissionEndedProperty=new SimpleBooleanProperty(false);
+        amountOfAskedMissions=new SimpleIntegerProperty(0);
+        amountOfDoneMissions=new SimpleIntegerProperty(0);
         resultDTOList=new ArrayList<>();
         resultDTOListForAgent=new ArrayList<>();
        /* isMissionEndedProperty.addListener((obser)->{
@@ -119,7 +126,7 @@ public class AgentDashboardController {
                 }
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-
+                    amountOfDoneMissions.setValue(amountOfDoneMissions.getValue()+1);
                 }
             });
         } catch (Exception e) {
@@ -176,6 +183,7 @@ public class AgentDashboardController {
                     System.out.println("check");
 */
                     theMissionInfoListFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
+                    amountOfAskedMissions.setValue(amountOfAskedMissions.getValue()+theMissionInfoListFromGson.size());
                     TheMachineEngine theMachineEngine = getTheMachineEngineInputstream();
                     setTheMachineEngine(theMachineEngine);
                     UIAdapter UIAdapter =  createUIAdapter();
@@ -239,11 +247,11 @@ public class AgentDashboardController {
                         saveResultsOnServer(bruteForceResultDTOList);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
-                    }
+                    }},
+                    amountDoneMissionsPerAgent->{
+                        amountDoneMissionsPerAgentLabel.setText(String.valueOf(amountDoneMissionsPerAgent));
 
-                }
-
-        );
+                    });
     }
     private synchronized void saveResultsOnServer(BlockingQueue<BruteForceResultDTO> bruteForceResultDTOBlockingQueue) throws InterruptedException {
         /*new Thread(()->{*/
@@ -303,6 +311,9 @@ public class AgentDashboardController {
                 int c=0;
             }
         }
+         amountOfDoneMissions.setValue(amountOfDoneMissions.getValue()+1);
+        //updateAmountDoneMissionsPerAgent(amountOfDoneMissions.getValue());
+
 
 
         if(bruteForceResultTableView.getItems().size()==0) {

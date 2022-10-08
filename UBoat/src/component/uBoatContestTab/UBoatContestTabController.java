@@ -1,6 +1,7 @@
 package component.uBoatContestTab;
 
 import bruteForce.AlliesDTO;
+import bruteForce.BruteForceResultDTO;
 import bruteForce.BruteForceSettingsDTO;
 import com.google.gson.Gson;
 import component.mainWindowUBoat.MainWindowUBoatController;
@@ -63,6 +64,11 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     @FXML
     private TableColumn<AlliesDTO, String> alliesTeamNameColumn;
 
+    @FXML
+    private TableColumn<BruteForceResultDTO, String> stringColumn;
+    private TableColumn<BruteForceResultDTO, String> alliesNameColumn;
+    private TableColumn<BruteForceResultDTO, String> codeConfigurationColumn;
+
     private Timer timer;
 
     /* @FXML
@@ -101,6 +107,10 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     ConvertedStringProcessDTO convertedStringProcessDTO;
     private IntegerProperty totalAlliesRegisteredTeamsAmount;
     private TimerTask alliesRegisteredTeamsRefresher;
+    private TimerTask BruteForceResultTableViewRefresher;
+    private Timer BruteForceResultTableViewRefresherTimer;
+    private IntegerProperty chatVersion;
+
     private  SimpleBooleanProperty autoUpdate;
 
     public UBoatContestTabController() {
@@ -115,6 +125,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         this.isConvertedStringIsLegal = true;
         this.isBruteForceSettingDefined = new SimpleBooleanProperty(false);
         totalAlliesRegisteredTeamsAmount=new SimpleIntegerProperty(0);
+        this.chatVersion=new SimpleIntegerProperty(0);
         autoUpdate=new SimpleBooleanProperty(true);
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
@@ -672,9 +683,11 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     public void close() throws IOException {
         activeTeamsDetailsTableView.getItems().clear();
         totalAlliesRegisteredTeamsAmount.set(0);
-        if (alliesRegisteredTeamsRefresher != null && timer != null) {
+        if (alliesRegisteredTeamsRefresher != null && timer!= null && BruteForceResultTableViewRefresherTimer!= null &&alliesRegisteredTeamsRefresher!=null) {
+            alliesRegisteredTeamsRefresher.cancel();
             alliesRegisteredTeamsRefresher.cancel();
             timer.cancel();
+            BruteForceResultTableViewRefresherTimer.cancel();
         }
     }
     private void updateRegisteredAlliesInfoList(List<AlliesDTO> alliesInfoDTOList) {
@@ -696,5 +709,54 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                 battleName);
         timer = new Timer();
         timer.schedule(alliesRegisteredTeamsRefresher, REFRESH_RATE, REFRESH_RATE);
+    }
+    private void updateBruteForceRsultTableView(BruteForceResultAndVersion bruteForceResultAndVersionWithVersion) {
+    /*    if (bruteForceResultAndVersionWithVersion.getVersion() != chatVersion.get()) {
+            String deltaChatLines = bruteForceResultAndVersionWithVersion
+                    .getEntries()
+                    .stream()
+                    .map(bruteForceResultDTO -> {
+                        //long time = singleChatLine.getTime();
+                        return String.format(CHAT_LINE_FORMATTING, time, time, time, singleChatLine.getUsername(), singleChatLine.getChatString());
+                    }).collect(Collectors.joining());
+
+            Platform.runLater(() -> {
+                chatVersion.set(chatLinesWithVersion.getVersion());
+
+                if (autoScroll.get()) {
+                    mainChatLinesTextArea.appendText(deltaChatLines);
+                    mainChatLinesTextArea.selectPositionCaret(mainChatLinesTextArea.getLength());
+                    mainChatLinesTextArea.deselect();
+                } else {
+                    int originalCaretPosition = mainChatLinesTextArea.getCaretPosition();
+                    mainChatLinesTextArea.appendText(deltaChatLines);
+                    mainChatLinesTextArea.positionCaret(originalCaretPosition);
+                }
+            });
+        }*/
+    }
+    private ObservableList<BruteForceResultDTO> getBruteForceResultDataTableViewDTOList(List<BruteForceResultDTO> bruteForceResult) {
+
+        ObservableList<BruteForceResultDTO> bruteForceResultDTOObservableList;
+        bruteForceResultDTOObservableList = FXCollections.observableArrayList(bruteForceResult);
+        stringColumn.setCellValueFactory(
+                new PropertyValueFactory<>("convertedString")
+        );
+        alliesNameColumn.setCellValueFactory(
+                new PropertyValueFactory<>("alliesTeamName")
+        );
+        codeConfigurationColumn.setCellValueFactory(
+                new PropertyValueFactory<>("codeDescription")
+        );
+
+        return ;
+    }
+    public void startListRefresher() {
+        BruteForceResultTableViewRefresher = new BruteForceResultTableViewRefresher(
+                chatVersion,
+                autoUpdate,
+                this::updateChatLines);
+        BruteForceResultTableViewRefresherTimer= new Timer();
+        timer.schedule(chatAreaRefresher, REFRESH_RATE, REFRESH_RATE);
     }
 }

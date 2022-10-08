@@ -5,6 +5,7 @@ import bruteForce.BruteForceResultDTO;
 import bruteForce.TheMissionInfoDTO;
 import engine.theEnigmaEngine.TheMachineEngine;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,6 +26,7 @@ public class AgentDecryptionManager {
     SimpleBooleanProperty isMissionEndedProperty;
     private boolean isMissionsFinished = false;
     UiAdapterInterface uiAdapterInterface;
+    SimpleIntegerProperty amountOfDoneMissions;
 
 public AgentDecryptionManager(UiAdapterInterface uiAdapterInterface,SimpleBooleanProperty isMissionEndedProperty,ThreadPoolExecutor threadPoolExecutor, TheMachineEngine theMachineEngine
         , String alliesTeamName, List<TheMissionInfoDTO> theMissionInfoDTOList,
@@ -36,6 +38,7 @@ public AgentDecryptionManager(UiAdapterInterface uiAdapterInterface,SimpleBoolea
    this.threadPoolExecutor=threadPoolExecutor;
    this.isMissionEndedProperty=isMissionEndedProperty;
    this.uiAdapterInterface=uiAdapterInterface;
+   this.amountOfDoneMissions=new SimpleIntegerProperty(0);
 }
     public void createMission() throws Exception {
     int missionsCounter=0;
@@ -52,7 +55,7 @@ public AgentDecryptionManager(UiAdapterInterface uiAdapterInterface,SimpleBoolea
             AgentMissionRunnable agentMissionRunnable = new AgentMissionRunnable(lastStartingPos,missionsCounter,uiAdapterInterface,machineEngineCopy,
                     theMissionInfoDTO.getStringToConvert(), alliesTeamName
                     , theMissionInfoDTO.getInitialStartingPosition(),
-                    theMissionInfoDTO.getSizeOfMission());
+                    theMissionInfoDTO.getSizeOfMission(),amountOfDoneMissions);
             missionsCounter++;
             missionsInfoBlockingQueue.put(agentMissionRunnable);
         }

@@ -2,6 +2,8 @@ package BruteForce;
 
 import MachineEngine.MachineEngine;
 import bruteForce.BruteForceResultDTO;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import machineDTO.ConvertedStringDTO;
 
 import java.util.List;
@@ -21,9 +23,12 @@ public class AgentMissionRunnable implements Runnable {
     UiAdapterInterface uiAdapterInterface;
     int missionNumber=0;
     String lastStartingPos;
+   // SimpleIntegerProperty amountOfDecipheringStringsProperty;
+   SimpleIntegerProperty amountOfDoneMissions;
     public AgentMissionRunnable(String lastStartingPos,int missionNumber,UiAdapterInterface uiAdapterInterface,MachineEngine machineEngineCopy,
                                 String stringToConvert, String alliesTeamName
-            , String initialStartingPosition, int sizeOfMission) {
+            , String initialStartingPosition, int sizeOfMission
+    ,SimpleIntegerProperty amountOfDoneMissions) {
 
         this.machineEngineCopy = machineEngineCopy;
         this.stringToConvert = stringToConvert;
@@ -33,8 +38,9 @@ public class AgentMissionRunnable implements Runnable {
         this.resultsBlockingQueue= new LinkedBlockingQueue<>();
         this.missionNumber=missionNumber;
         this.lastStartingPos=lastStartingPos;
-
+        //this.amountOfDecipheringStringsProperty=new SimpleIntegerProperty(0);
         this.uiAdapterInterface=uiAdapterInterface;
+       this.amountOfDoneMissions=amountOfDoneMissions;
     }
 
     public void setResultsBlockingQueue(BlockingQueue<BruteForceResultDTO> resultsBlockingQueue) {
@@ -73,6 +79,7 @@ public class AgentMissionRunnable implements Runnable {
 
     }
     private void publishResults() throws InterruptedException {
+       // amountOfDoneMissions.setValue(amountOfDoneMissions.getValue()+1);
         synchronized (this){
             if(resultsBlockingQueue.size()>0) {
                 uiAdapterInterface.saveResultsOnServer(resultsBlockingQueue);
@@ -85,6 +92,7 @@ public class AgentMissionRunnable implements Runnable {
                 //uiAdapterInterface.updateResultsOnAgent(resultsBlockingQueue);
             }
         }
+       // uiAdapterInterface.updateAmountDoneMissionsPerAgent(amountOfDoneMissions.getValue());
         // System.out.println(index+"index");
     }
 

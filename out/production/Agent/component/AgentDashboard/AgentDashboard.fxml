@@ -31,6 +31,11 @@
                   </TableView>
                </content>
             </ScrollPane>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="amountDoneMissionsPerAgentLabel" text="Label" />
+               </children>
+            </HBox>
          </children>
       </VBox>
   </content>
