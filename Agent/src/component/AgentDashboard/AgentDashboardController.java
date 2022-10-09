@@ -212,8 +212,8 @@ public class AgentDashboardController {
         this.threadPoolExecutor = new ThreadPoolExecutor(amountOfThreads, amountOfThreads, 0L, TimeUnit.MILLISECONDS, missionsInfoBlockingQueue);
     }
 
-    public void getMissions() {
-
+    public boolean getMissions() {
+boolean isMissionsEnded=false;
         System.out.println("Im here");
         String finalUrl = HttpUrl
                 .parse(Constants.AGENT_GET_MISSIONS)
@@ -249,7 +249,7 @@ public class AgentDashboardController {
                     threadPoolExecutor.shutdown();
                     threadPoolExecutor.awaitTermination(Integer.MAX_VALUE, TimeUnit.HOURS);
                     setThreadPoolSize(amountOfThreads);
-                    getMissions();
+                    isMissionsEnded=false;
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 } catch (Exception e) {
@@ -277,14 +277,16 @@ public class AgentDashboardController {
                             }
                             alert.getDialogPane().setExpanded(true);
                             alert.showAndWait();
+
                         }
                     });
+                    isMissionsEnded=true;
                 }
             }
         }catch(IOException e){
 
         }
-
+return isMissionsEnded;
     }
 
     public void setTheMachineEngine(TheMachineEngine theMachineEngine){
