@@ -41,7 +41,7 @@
                               <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <fx:include fx:id="alliesContest" source="../alliesContest/AlliesContest.fxml" />
+                              <fx:include fx:id="alliesContest" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" source="../alliesContest/AlliesContest.fxml" />
                            </children>
                         </GridPane>
                   </content>

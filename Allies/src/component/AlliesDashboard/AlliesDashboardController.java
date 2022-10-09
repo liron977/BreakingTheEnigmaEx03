@@ -266,6 +266,7 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
         private void checkboxWasSelected(UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO ){
     isContestSelected.setValue(false);
             selectedContestDTO=uBoatContestInfoWithCheckBoxDTO;
+            mainWindowAlliesController.setConvertedString(selectedContestDTO.getConvertedString());
         uBoatContestInfoWithCheckBoxDTOList=contestsDataTableView.getItems();
         uBoatContestInfoWithCheckBoxDTO.setSelected(true);
         for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTOFromList : uBoatContestInfoWithCheckBoxDTOList) {

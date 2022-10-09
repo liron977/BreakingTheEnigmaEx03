@@ -46,6 +46,13 @@ public class UboatGetBruteForceResultServlet extends HttpServlet {
         synchronized (getServletContext()) {
             bruteForceResultManagerCounter = uboatBruteForceResultsManager.getVersion(teamName);
             bruteForceResultDTOEntries = uboatBruteForceResultsManager.getbruteForceResultDTOEntries(bruteForceResultVersion,teamName);
+            BruteForceResultAndVersion bruteForceResultAndVersion = new BruteForceResultAndVersion(bruteForceResultDTOEntries, bruteForceResultManagerCounter);
+            Gson gson = new Gson();
+            String jsonResponse = gson.toJson(bruteForceResultAndVersion);
+            try (PrintWriter out = response.getWriter()) {
+                out.print(jsonResponse);
+                out.flush();
+            }
         }
     /*    for (BruteForceResultDTO brute : bruteForceResultDTOEntries) {
             System.out.println(brute.getConvertedString() + " " + brute.getCodeDescription() + " " + brute.getTheMissionNumber() + "IN SERVLET");
@@ -53,16 +60,7 @@ public class UboatGetBruteForceResultServlet extends HttpServlet {
 */
 
         // log and create the response json string
-       BruteForceResultAndVersion bruteForceResultAndVersion = new BruteForceResultAndVersion(bruteForceResultDTOEntries, bruteForceResultManagerCounter);
-        Gson gson = new Gson();
-        String jsonResponse = gson.toJson(bruteForceResultAndVersion);
-        //logServerMessage("Server Chat version: " + bruteForceResultManagerCounter + ", User '" + teamName + "' Chat version: " + bruteForceResultVersion);
-       // logServerMessage(jsonResponse);
 
-        try (PrintWriter out = response.getWriter()) {
-            out.print(jsonResponse);
-            out.flush();
-        }
 
     }
 

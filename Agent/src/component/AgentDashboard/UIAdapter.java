@@ -13,15 +13,17 @@ public class  UIAdapter implements UiAdapterInterface {
     /*    private Consumer<List<BruteForceResultDTO>> updateServer;*/
     private Consumer<List<BruteForceResultDTO>> saveResultsOnServer;
     private Consumer<Integer> amountDoneMissionsPerAgent;
+    private Consumer<Integer> amountOfMissionsInTheQueuePerAgent;
 //    private Consumer<BlockingQueue<BruteForceResultDTO>> updateResultsOnAgent;
 
     //To delete!
     int count = 0;
 
 
-    public UIAdapter(Consumer<List<BruteForceResultDTO>> saveResultsOnServer,Consumer<Integer> amountDoneMissionsPerAgent) {
+    public UIAdapter(Consumer<List<BruteForceResultDTO>> saveResultsOnServer,Consumer<Integer> amountDoneMissionsPerAgent,Consumer<Integer> amountOfMissionsInTheQueuePerAgent) {
         this.saveResultsOnServer = saveResultsOnServer;
         this.amountDoneMissionsPerAgent=amountDoneMissionsPerAgent;
+        this.amountOfMissionsInTheQueuePerAgent=amountOfMissionsInTheQueuePerAgent;
 //        this.updateResultsOnAgent=updateResultsOnAgent;
         /*   this.updateServer = updateServer;*/
 
@@ -44,6 +46,10 @@ public class  UIAdapter implements UiAdapterInterface {
 
     public void updateAmountDoneMissionsPerAgent(int amountDoneMissionsPerAgentIn) {
         Platform.runLater(()->amountDoneMissionsPerAgent.accept(amountDoneMissionsPerAgentIn));
+    }
+    public void updateAmountMissionsInTheQueuePerAgent(int amountMissionsInTheQueue){
+        Platform.runLater(()->amountOfMissionsInTheQueuePerAgent.accept(amountMissionsInTheQueue));
+
     }
 
 

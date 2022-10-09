@@ -15,6 +15,7 @@
           <element id="module-output" name="JavafxUI" />
           <element id="module-output" name="EnigmaUI" />
           <element id="module-output" name="EngimaEngine" />
+          <element id="module-output" name="MiniEngine" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="google-gson-2" />

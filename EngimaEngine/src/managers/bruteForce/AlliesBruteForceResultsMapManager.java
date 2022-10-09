@@ -72,7 +72,7 @@ public class AlliesBruteForceResultsMapManager {
         return null;
     }
 
-    public int getVersion(String alliesTeamName) {
+    public synchronized int getVersion(String alliesTeamName) {
         List<BruteForceResultDTO>  bruteForceResultsList = getBruteForceListByAlliesTeamName(alliesTeamName);
        if(bruteForceResultsList!=null) {
            return bruteForceResultsList.size();

@@ -28,7 +28,11 @@ public class AgentDecryptionManager {
     UiAdapterInterface uiAdapterInterface;
     SimpleIntegerProperty amountOfDoneMissions;
 
-public AgentDecryptionManager(UiAdapterInterface uiAdapterInterface,SimpleBooleanProperty isMissionEndedProperty,ThreadPoolExecutor threadPoolExecutor, TheMachineEngine theMachineEngine
+    SimpleIntegerProperty currentAmountOfMissionsInTheQueue;
+    SimpleIntegerProperty amountOfAskedMissionsProperty;
+
+public AgentDecryptionManager(SimpleIntegerProperty amountOfAskedMissionsProperty,SimpleIntegerProperty amountOfDoneMissions,UiAdapterInterface uiAdapterInterface,
+                              SimpleBooleanProperty isMissionEndedProperty,ThreadPoolExecutor threadPoolExecutor, TheMachineEngine theMachineEngine
         , String alliesTeamName, List<TheMissionInfoDTO> theMissionInfoDTOList,
                               BlockingQueue<Runnable> missionsInfoBlockingQueue){
    this.machineEngine=new MachineEngine(theMachineEngine);
@@ -38,7 +42,8 @@ public AgentDecryptionManager(UiAdapterInterface uiAdapterInterface,SimpleBoolea
    this.threadPoolExecutor=threadPoolExecutor;
    this.isMissionEndedProperty=isMissionEndedProperty;
    this.uiAdapterInterface=uiAdapterInterface;
-   this.amountOfDoneMissions=new SimpleIntegerProperty(0);
+   this.amountOfDoneMissions=amountOfDoneMissions;
+   this.amountOfAskedMissionsProperty=amountOfAskedMissionsProperty;
 }
     public void createMission() throws Exception {
     int missionsCounter=0;
@@ -52,7 +57,7 @@ public AgentDecryptionManager(UiAdapterInterface uiAdapterInterface,SimpleBoolea
             }
             machineEngine.chooseManuallyReflect(theMissionInfoDTO.getReflector());
             MachineEngine machineEngineCopy = machineEngine.cloneMachineEngine();
-            AgentMissionRunnable agentMissionRunnable = new AgentMissionRunnable(lastStartingPos,missionsCounter,uiAdapterInterface,machineEngineCopy,
+            AgentMissionRunnable agentMissionRunnable = new AgentMissionRunnable(amountOfAskedMissionsProperty,lastStartingPos,missionsCounter,uiAdapterInterface,machineEngineCopy,
                     theMissionInfoDTO.getStringToConvert(), alliesTeamName
                     , theMissionInfoDTO.getInitialStartingPosition(),
                     theMissionInfoDTO.getSizeOfMission(),amountOfDoneMissions);

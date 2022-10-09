@@ -13,11 +13,11 @@ public class BruteForceResultAndVersion {
             this.version = version;
         }
 
-    public int getVersion() {
+    public synchronized int getVersion() {
         return version;
     }
 
-    public List<BruteForceResultDTO> getEntries() {
+    public synchronized List<BruteForceResultDTO> getEntries() {
         return entries;
     }
 }

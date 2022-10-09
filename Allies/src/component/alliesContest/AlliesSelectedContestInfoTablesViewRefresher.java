@@ -1,6 +1,8 @@
-package component.AgentDashboard;
+package component.alliesContest;
 
+import bruteForce.AlliesDTO;
 import bruteForce.UBoatContestInfoWithoutCheckBoxDTO;
+import com.google.gson.reflect.TypeToken;
 import javafx.beans.property.BooleanProperty;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -11,27 +13,28 @@ import utils.Constants;
 import utils.http.HttpClientUtil;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TimerTask;
 import java.util.function.Consumer;
 
-public class ContestInfoRefresher extends TimerTask {
-    private final Consumer<UBoatContestInfoWithoutCheckBoxDTO> updateContestInfoTableView;
+public class AlliesSelectedContestInfoTablesViewRefresher extends TimerTask {
+    private final Consumer<UBoatContestInfoWithoutCheckBoxDTO> updateSelectedContestInfoTablesView;
     private final BooleanProperty shouldUpdate;
-
     private String alliesTeamName;
 
-
-    public ContestInfoRefresher(Consumer<UBoatContestInfoWithoutCheckBoxDTO> updateContestInfoTableView, BooleanProperty shouldUpdate, String alliesTeamName) {
-        this.updateContestInfoTableView = updateContestInfoTableView;
-        this.shouldUpdate=shouldUpdate;
+    public AlliesSelectedContestInfoTablesViewRefresher(Consumer<UBoatContestInfoWithoutCheckBoxDTO> updateSelectedContestInfoTablesView, BooleanProperty shouldUpdate, String alliesTeamName) {
+        this.updateSelectedContestInfoTablesView = updateSelectedContestInfoTablesView;
+        this.shouldUpdate = shouldUpdate;
         this.alliesTeamName=alliesTeamName;
     }
-
-
-
     @Override
     public void run() {
 
+        if (!shouldUpdate.get()) {
+            return;
+        }
         String finalUrl = HttpUrl
                 .parse(Constants.CONTEST_INFO)
                 .newBuilder()
@@ -50,15 +53,14 @@ public class ContestInfoRefresher extends TimerTask {
                     }
                 });*/
             }
+
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 //String jsonArrayOfUsersNames = response.body().string();
-                //Type UBoatContestInfoType = new TypeToken<ArrayList<UBoatContestInfoWithoutCheckBoxDTO>>() {}.getType();
+
                 UBoatContestInfoWithoutCheckBoxDTO dtoFromGson=Constants.GSON_INSTANCE.fromJson(response.body().string(),UBoatContestInfoWithoutCheckBoxDTO.class);
-
-                if(dtoFromGson!=null) {
-
-                    updateContestInfoTableView.accept(dtoFromGson);
+                if((dtoFromGson!=null)) {
+                    updateSelectedContestInfoTablesView.accept((dtoFromGson));
                 }
             }
         });

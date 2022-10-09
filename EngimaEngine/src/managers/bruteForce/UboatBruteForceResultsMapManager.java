@@ -77,7 +77,7 @@ public class UboatBruteForceResultsMapManager {
         return null;
     }
 
-    public int getVersion(String uboatName) {
+    public synchronized int  getVersion(String uboatName) {
         List<BruteForceResultDTO> bruteForceResultsList = getBruteForceListByUboatName(uboatName);
         if (bruteForceResultsList != null) {
             return bruteForceResultsList.size();

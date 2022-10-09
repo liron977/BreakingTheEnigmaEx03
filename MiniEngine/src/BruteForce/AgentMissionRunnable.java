@@ -24,7 +24,8 @@ public class AgentMissionRunnable implements Runnable {
     String lastStartingPos;
    // SimpleIntegerProperty amountOfDecipheringStringsProperty;
    SimpleIntegerProperty amountOfDoneMissions;
-    public AgentMissionRunnable(String lastStartingPos,int missionNumber,UiAdapterInterface uiAdapterInterface,MachineEngine machineEngineCopy,
+    SimpleIntegerProperty amountOfAskedMissionsProperty;
+    public AgentMissionRunnable(SimpleIntegerProperty amountOfAskedMissionsProperty,String lastStartingPos,int missionNumber,UiAdapterInterface uiAdapterInterface,MachineEngine machineEngineCopy,
                                 String stringToConvert, String alliesTeamName
             , String initialStartingPosition, int sizeOfMission
     ,SimpleIntegerProperty amountOfDoneMissions) {
@@ -40,6 +41,7 @@ public class AgentMissionRunnable implements Runnable {
         //this.amountOfDecipheringStringsProperty=new SimpleIntegerProperty(0);
         this.uiAdapterInterface=uiAdapterInterface;
        this.amountOfDoneMissions=amountOfDoneMissions;
+       this.amountOfAskedMissionsProperty=amountOfAskedMissionsProperty;
     }
 
     public void setResultsList(List<BruteForceResultDTO> resultsList) {
@@ -62,11 +64,6 @@ public class AgentMissionRunnable implements Runnable {
                 BruteForceResultDTO bruteForceResultDTO = new BruteForceResultDTO(missionNumber,convertedStringDTOTemp.getConvertedString(), alliesTeamName, convertedStringCode);
                 bruteForceResultDTO.setTheMissionNumber(missionNumber);
                 resultsList.add(bruteForceResultDTO);
-               /* System.out.println(bruteForceResultDTO.getConvertedString());
-                System.out.println(bruteForceResultDTO.getCodeDescription());*/
-            }
-            if(index==999999998){
-                int x=0;
             }
             if(initialStartingPosition.equals(lastStartingPos)){
                 break;
@@ -78,21 +75,19 @@ public class AgentMissionRunnable implements Runnable {
 
     }
     private void publishResults() throws InterruptedException {
-       // amountOfDoneMissions.setValue(amountOfDoneMissions.getValue()+1);
+
         synchronized (this){
+            amountOfDoneMissions.setValue(amountOfDoneMissions.getValue()+1);
+            int amountOfMissionsInTheQueue=amountOfAskedMissionsProperty.getValue()-amountOfDoneMissions.getValue();
+            uiAdapterInterface.updateAmountMissionsInTheQueuePerAgent(amountOfMissionsInTheQueue);
+
             if(resultsList.size()>0) {
                 uiAdapterInterface.saveResultsOnServer(resultsList);
 
-              /*  for (BruteForceResultDTO brute:resultsBlockingQueue) {
-                    System.out.println("in runnable"+Thread.currentThread().getName());
-                    System.out.println(brute.getConvertedString()+" "+brute.getCodeDescription()+" "+brute.getTheMissionNumber());
-                }*/
-
-                //uiAdapterInterface.updateResultsOnAgent(resultsBlockingQueue);
             }
         }
-       // uiAdapterInterface.updateAmountDoneMissionsPerAgent(amountOfDoneMissions.getValue());
-        // System.out.println(index+"index");
+        uiAdapterInterface.updateAmountDoneMissionsPerAgent(amountOfDoneMissions.getValue());
+
     }
 
     @Override

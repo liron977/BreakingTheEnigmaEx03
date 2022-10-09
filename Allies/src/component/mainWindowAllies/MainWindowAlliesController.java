@@ -61,11 +61,15 @@ public void setSelectedBattleFieldName(String selectedBattleFieldName){
         alliesDashboardController.setAlliesTeamName(alliesTeamName);
         alliesContestController.setAlliesTeamName(alliesTeamName);
     }
+    public void setConvertedString(String convertedString){
+        alliesContestController.setConvertedString(convertedString);
+    }
     public void changeToContestTab(){
         contestTabButton.setDisable(false);
         alliesTabPane.getSelectionModel().select(contestTabButton);
         alliesContestController.startAlliesInfoTableViewRefresher();
-        alliesContestController.startContestTableViewRefresher();
+        alliesContestController.startContestResultsTableViewRefresher();
+        alliesContestController.startContestInfoTableViewRefresher();
 
     }
 }

@@ -18,6 +18,7 @@ public class UBoatContestInfoWithCheckBoxDTO {
     private IntegerProperty amountOfActiveDecryptionTeams;
     private CheckBox selectionContestColumn;
     private Boolean isSelected;
+    private String convertedString;
 
     public UBoatContestInfoWithCheckBoxDTO(UBoatContestInfoWithoutCheckBoxDTO uBoatContestInfoWithoutCheckBoxDTO){
         this.battleFieldName=new SimpleStringProperty(uBoatContestInfoWithoutCheckBoxDTO.getBattleFieldName());
@@ -26,8 +27,13 @@ public class UBoatContestInfoWithCheckBoxDTO {
         this.contestLevel=new SimpleStringProperty(uBoatContestInfoWithoutCheckBoxDTO.getContestLevel());
         this.amountOfNeededDecryptionTeams=new SimpleIntegerProperty(uBoatContestInfoWithoutCheckBoxDTO.getAmountOfNeededDecryptionTeams());
         this.amountOfActiveDecryptionTeams=new SimpleIntegerProperty(uBoatContestInfoWithoutCheckBoxDTO.getAmountOfActiveDecryptionTeams());
+        this.convertedString=uBoatContestInfoWithoutCheckBoxDTO.getConvertedString();
         this.selectionContestColumn = new CheckBox();
         this.isSelected=false;
+    }
+
+    public String getConvertedString() {
+        return convertedString;
     }
 
     public int getAmountOfActiveDecryptionTeams() {

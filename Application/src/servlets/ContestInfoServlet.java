@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
 
-public class ContestInfoForAgentServlet extends HttpServlet {
+public class ContestInfoServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -41,7 +41,7 @@ public class ContestInfoForAgentServlet extends HttpServlet {
     }
     public void createUBoatContestInfoWithoutCheckBoxDTO(EngineManager engineManager,String battleFieldName,PrintWriter out){
         UBoatBattleField uBoatBattleField=engineManager.getBattleField();
-        UBoatContestInfoWithoutCheckBoxDTO uBoatContestInfoDTO=new UBoatContestInfoWithoutCheckBoxDTO(battleFieldName,
+        UBoatContestInfoWithoutCheckBoxDTO uBoatContestInfoDTO=new UBoatContestInfoWithoutCheckBoxDTO(uBoatBattleField.getConvertedString(),battleFieldName,
                 uBoatBattleField.getUploadedByName(),uBoatBattleField.getContestStatus(),
                 uBoatBattleField.getLevel(),uBoatBattleField.getAlliesNeededTeamsAmount()
                 ,uBoatBattleField.getAlliesActiveTeamsAmount());

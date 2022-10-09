@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="463.0" prefWidth="731.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.alliesContest.AlliesContestController">
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="463.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.alliesContest.AlliesContestController">
   <content>
       <HBox spacing="5.0">
          <children>
@@ -38,14 +38,26 @@
                </children>
             </VBox>
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <VBox prefHeight="461.0" prefWidth="407.0">
+            <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
                <children>
-                  <TableView fx:id="activeTeamsDetailsTableView" prefHeight="121.0" prefWidth="402.0">
+                  <TableView fx:id="activeTeamsDetailsTableView" prefHeight="111.0" prefWidth="635.0">
                     <columns>
                       <TableColumn fx:id="alliesTeamNameColumn" prefWidth="146.0" text="Team Name" />
                       <TableColumn fx:id="agentsAmountColumn" prefWidth="123.33334350585938" text="Agents Amount" />
-                        <TableColumn fx:id="missionSizeColumn" prefWidth="136.66668701171875" text="Mission Size" />
+                        <TableColumn fx:id="missionSizeColumn" prefWidth="325.3333435058594" text="Mission Size" />
                     </columns>
+                  </TableView>
+                  <TableView fx:id="contestDataTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="200.0" prefHeight="63.0" prefWidth="478.0">
+                     <columns>
+                        <TableColumn id="columnLabel" fx:id="battleFieldNameColumn" prefWidth="112.6666589975357" text="Battle Field" />
+                        <TableColumn id="columnLabel" fx:id="encryptedStringColumn" prefWidth="119.33333587646484" text="Encrypted String" />
+                        <TableColumn fx:id="uBoatUserNameColumn" prefWidth="106.00001525878906" text="Uploaded By" />
+                        <TableColumn fx:id="contestStatusColumn" minWidth="0.0" prefWidth="70.00001525878906" text="Status" />
+                        <TableColumn fx:id="contestLevelColumn" minWidth="0.0" prefWidth="68.0" text="Level" />
+                        <TableColumn fx:id="amountOfNeededDecryptionTeamsColumn" prefWidth="132.6666259765625" text="Needed Allies Amount" />
+                        <TableColumn fx:id="amountOfActiveDecryptionTeamsColumn" prefWidth="141.99996948242188" text="Active Allies Amount" />
+                        <TableColumn id="columnLabel" fx:id="battleFieldNameColumn1" prefWidth="112.6666589975357" text="Battle Field" />
+                     </columns>
                   </TableView>
                   <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Please enter the mission size" />
                   <TextField fx:id="missionSizeTextField" prefHeight="25.0" prefWidth="397.0">

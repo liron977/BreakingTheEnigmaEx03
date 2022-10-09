@@ -143,12 +143,12 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>ContestInfoForAgentServlet</servlet-name>
-        <servlet-class>servlets.ContestInfoForAgentServlet</servlet-class>
+        <servlet-name>ContestInfoServlet</servlet-name>
+        <servlet-class>servlets.ContestInfoServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ContestInfoForAgentServlet</servlet-name>
-        <url-pattern>/ContestInfoForAgentServlet</url-pattern>
+        <servlet-name>ContestInfoServlet</servlet-name>
+        <url-pattern>/ContestInfoServlet</url-pattern>
     </servlet-mapping>
 
     <servlet>

@@ -30,7 +30,7 @@ public class UBoatContestsServlet extends HttpServlet {
                 for (String battleFieldName : uBoatAvailableContestsManagerMap.keySet()) {
                     EngineManager engineManager=uBoatAvailableContestsManagerMap.get(battleFieldName);
                     UBoatBattleField uBoatBattleField=engineManager.getBattleField();
-                    UBoatContestInfoWithoutCheckBoxDTO uBoatContestInfoDTO=new UBoatContestInfoWithoutCheckBoxDTO(battleFieldName,
+                    UBoatContestInfoWithoutCheckBoxDTO uBoatContestInfoDTO=new UBoatContestInfoWithoutCheckBoxDTO(uBoatBattleField.getConvertedString(),battleFieldName,
                             uBoatBattleField.getUploadedByName(),uBoatBattleField.getContestStatus(),
                             uBoatBattleField.getLevel(),uBoatBattleField.getAlliesNeededTeamsAmount()
                             ,uBoatBattleField.getAlliesActiveTeamsAmount());

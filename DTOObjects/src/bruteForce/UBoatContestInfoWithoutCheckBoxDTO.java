@@ -9,10 +9,12 @@ public class UBoatContestInfoWithoutCheckBoxDTO {
     private int amountOfActiveDecryptionTeams;
 //   private CheckBox select;
   /*  private Boolean isSelected;*/
+private String convertedString;
 
-    public UBoatContestInfoWithoutCheckBoxDTO(String battleFieldName, String uBoatUserName,
+    public UBoatContestInfoWithoutCheckBoxDTO(String convertedString,String battleFieldName, String uBoatUserName,
                                               String contestStatus, String contestLevel,
                                               int amountOfNeededDecryptionTeams, int amountOfActiveDecryptionTeams){
+       this.convertedString=convertedString;
         this.battleFieldName=battleFieldName;
         this.uBoatUserName=uBoatUserName;
         this.contestStatus=contestStatus;
@@ -22,6 +24,9 @@ public class UBoatContestInfoWithoutCheckBoxDTO {
         //this.select = new CheckBox();
     }
 
+    public String getConvertedString() {
+        return convertedString;
+    }
 
     public int getAmountOfActiveDecryptionTeams() {
         return amountOfActiveDecryptionTeams;

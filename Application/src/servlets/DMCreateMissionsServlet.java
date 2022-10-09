@@ -79,7 +79,7 @@ public class DMCreateMissionsServlet extends HttpServlet {
             }
 
             missionsCounter=missionsCounter.intValue()+1;
-            System.out.println(missionsCounter.intValue());
+      /*      System.out.println(missionsCounter.intValue());*/
             initialStartingPosition = engineManager.getNextStartingPositionByString(sizeOfMission);
         }
 
@@ -125,11 +125,11 @@ public class DMCreateMissionsServlet extends HttpServlet {
                 createMediumLevelMission(missionsCounter,engineManager,amountOfSubListsToCreate,sizeOfMission,theAlliesTeamName,stringToConvert);
             }
             missionsCounterInImpossible=missionsCounterInImpossible++;
-            System.out.println("missionsCounterInImpossible"+missionsCounterInImpossible.intValue());
+           //System.out.println("missionsCounterInImpossible"+missionsCounterInImpossible.intValue());
         }
         AlliesMissionsManager alliesMissionsManager=ServletUtils.getAlliesMissionsManager(getServletContext());
 
-        System.out.println("missions in bq:"+alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size());
+      //  System.out.println("missions in bq:"+alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size());
 
 
     }
