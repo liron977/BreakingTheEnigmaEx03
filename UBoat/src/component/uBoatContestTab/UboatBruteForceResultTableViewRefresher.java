@@ -63,8 +63,9 @@ public class UboatBruteForceResultTableViewRefresher extends TimerTask {
                     if (response.isSuccessful()) {
                         String rawBody = response.body().string();
                         BruteForceResultAndVersion chatLinesWithVersion = GSON_INSTANCE.fromJson(rawBody, BruteForceResultAndVersion.class);
-
-                        bruteForceTableViewConsumer.accept(chatLinesWithVersion);
+                        if(chatLinesWithVersion!=null) {
+                            bruteForceTableViewConsumer.accept(chatLinesWithVersion);
+                        }
                     } else {
                     }
                 }
