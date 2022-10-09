@@ -101,12 +101,11 @@ public class AgentDashboardController {
         bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);
         amountOfMissionsInTheQueue.addListener((observ)->updateMissionsStatus());
         amountOfCandidatesStrings.textProperty().addListener((observ)->{
-                if(!String.valueOf(agentInfoDTO.getAmountOfCandidatesStrings()).equals(amountOfCandidatesStrings.getText()))
+            if(!String.valueOf(agentInfoDTO.getAmountOfCandidatesStrings()).equals(amountOfCandidatesStrings.getText()))
         {
-                updateMissionsStatus();}});
-
-
-
+            updateMissionsStatus();
+        }
+        });
     }
     public synchronized void saveResultsInServer(List<BruteForceResultDTO> bruteForceResultDTOBlockingQueue){
         String bruteForceResultDTOListGson = Constants.GSON_INSTANCE.toJson(bruteForceResultDTOBlockingQueue);
