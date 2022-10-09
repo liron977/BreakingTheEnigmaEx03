@@ -194,6 +194,14 @@
         <servlet-name>AlliesGetBruteForceResultServlet</servlet-name>
         <url-pattern>/AlliesGetBruteForceResultServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>AgentMissionsStatusServlet</servlet-name>
+        <servlet-class>servlets.AgentMissionsStatusServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AgentMissionsStatusServlet</servlet-name>
+        <url-pattern>/AgentMissionsStatusServlet</url-pattern>
+    </servlet-mapping>
 
 
 </web-app>

@@ -18,6 +18,17 @@ private int agentsAmount;
         alliesAgents=new ArrayList<>();
         this.battlefieldName="";
     }
+    public void setAgentMissionsStatus(String agentName,int amountOfCandidatesStrings,int amountOfReceivedMissions, int amountOfMissionsToExecute){
+        for (AlliesAgent agent:alliesAgents) {
+            if(agent.getAgentName().equals(agentName)){
+                agent.setAmountOfMissionsToExecute(amountOfMissionsToExecute);
+                agent.setAmountOfCandidatesStrings(amountOfCandidatesStrings);
+                agent.setAmountOfReceivedMissions(amountOfReceivedMissions);
+            }
+
+        }
+    }
+
 
     public String getBattlefieldName() {
         return battlefieldName;

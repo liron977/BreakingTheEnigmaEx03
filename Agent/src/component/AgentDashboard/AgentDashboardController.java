@@ -1,6 +1,7 @@
 package component.AgentDashboard;
 
 import BruteForce.AgentDecryptionManager;
+import bruteForce.AgentInfoDTO;
 import bruteForce.BruteForceResultDTO;
 import com.google.gson.reflect.TypeToken;
 import engine.theEnigmaEngine.SchemaGenerated;
@@ -82,6 +83,8 @@ public class AgentDashboardController {
     private List<BruteForceResultDTO> resultDTOListForAgent;
     private SimpleIntegerProperty amountOfAskedMissionsProperty;
     private SimpleIntegerProperty amountOfDoneMissions;
+    private SimpleIntegerProperty amountOfMissionsInTheQueue;
+    private AgentInfoDTO agentInfoDTO;
 
 
     private ObservableList<BruteForceResultDTO> bruteForceResultsDTOObservableList;
@@ -93,8 +96,15 @@ public class AgentDashboardController {
         amountOfDoneMissions=new SimpleIntegerProperty(0);
         resultDTOList=new ArrayList<>();
         resultDTOListForAgent=new ArrayList<>();
+        amountOfMissionsInTheQueue=new SimpleIntegerProperty(0);
         bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
         bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);
+        amountOfMissionsInTheQueue.addListener((observ)->updateMissionsStatus());
+        amountOfCandidatesStrings.textProperty().addListener((observ)->{
+                if(!String.valueOf(agentInfoDTO.getAmountOfCandidatesStrings()).equals(amountOfCandidatesStrings.getText()))
+        {
+                updateMissionsStatus();}});
+
 
 
     }
@@ -136,6 +146,48 @@ public class AgentDashboardController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+    private void updateMissionsStatus(){
+        agentInfoDTO.setAmountOfMissionsToExecute(amountOfMissionsInTheQueue.getValue());
+        agentInfoDTO.setAmountOfReceivedMissions(amountOfAskedMissionsProperty.getValue());
+        agentInfoDTO.setAmountOfCandidatesStrings(bruteForceResultsDTOObservableList.size());
+        String agentInfoDTOGson = Constants.GSON_INSTANCE.toJson(agentInfoDTO);
+        RequestBody body = RequestBody.create(
+                MediaType.parse("application/json"), agentInfoDTOGson);
+
+        String finalUrl = HttpUrl
+                .parse(Constants.AGENTS_MISSIONS_STATUS)
+                .newBuilder()
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrl)
+                .post(body)
+                .build();
+        Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+        try {
+            HttpClientUtil.runAsyncPost(finalUrl,body, new Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    Platform.runLater(() -> {
+                        {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setContentText("not ok");
+                            alert.getDialogPane().setExpanded(true);
+                            alert.showAndWait();
+                        }
+                    });
+                }
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    // amountOfDoneMissions.setValue(amountOfDoneMissions.getValue()+1);
+                    String res = response.body().string();
+                }
+            });
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public void setSelectedAlliesTeamName(String selectedAlliesTeamName) {
@@ -190,7 +242,7 @@ public class AgentDashboardController {
                     TheMachineEngine theMachineEngine = getTheMachineEngineInputstream();
                     setTheMachineEngine(theMachineEngine);
                     UIAdapter UIAdapter =  createUIAdapter();
-                    decryptionManager = new AgentDecryptionManager(amountOfAskedMissionsProperty,amountOfDoneMissions,UIAdapter,isMissionEndedProperty,threadPoolExecutor, theMachineEngine
+                    decryptionManager = new AgentDecryptionManager(amountOfMissionsInTheQueue,amountOfAskedMissionsProperty,amountOfDoneMissions,UIAdapter,isMissionEndedProperty,threadPoolExecutor, theMachineEngine
                             , selectedAlliesTeamName,
                             theMissionInfoListFromGson
                             , missionsInfoBlockingQueue);
@@ -421,4 +473,7 @@ public class AgentDashboardController {
         contestInfoController.startContestTableViewRefresher();
     }
 
+    public void setAgentInfoDTO(AgentInfoDTO agentInfoDTO) {
+        this.agentInfoDTO = agentInfoDTO;
+    }
 }

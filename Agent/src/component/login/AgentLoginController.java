@@ -106,6 +106,7 @@ public class AgentLoginController {
      boolean dataIsEmpty=isDataEmpty();
      if(dataIsValid && !dataIsEmpty){
          agentInfoDTO=new AgentInfoDTO(agentName,threadsAmount,missionAmount,selectedAlliesTeamName);
+
          executeLogin();
      }
     }
@@ -239,6 +240,7 @@ public class AgentLoginController {
             Parent root1 = fxmlLoader.load(superScreenUrl.openStream());
             agentDashboardController=fxmlLoader.getController();
             agentDashboardController.setPrimaryStage(primaryStage);
+            agentDashboardController.setAgentInfoDTO(agentInfoDTO);
             agentDashboardController.setAmountOfMissionsPerAgent(String.valueOf(missionAmount));
             agentDashboardController.setSelectedAlliesTeamName(selectedAlliesTeamName);
             agentDashboardController.setAmountOfThreads(threadsAmount);

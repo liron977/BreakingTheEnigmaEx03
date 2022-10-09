@@ -1,8 +1,10 @@
 package component.alliesContest;
 
+import bruteForce.AgentInfoDTO;
 import bruteForce.AlliesDTO;
 import bruteForce.BruteForceResultDTO;
 import bruteForce.UBoatContestInfoWithoutCheckBoxDTO;
+import component.AlliesDashboard.AgentsTablesViewRefresher;
 import component.mainWindowAllies.MainWindowAlliesController;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -48,6 +50,8 @@ public class AlliesContestController implements Closeable {
     private TableColumn<AlliesDTO, String> alliesTeamNameColumn;
     private Timer timer;
     private TimerTask alliesRegisteredTeamsRefresher;
+    private Timer agentsTableViewTimer;
+    private TimerTask agentsTableViewRefresher;
     private SimpleBooleanProperty autoUpdate;
 
     @FXML
@@ -77,6 +81,19 @@ public class AlliesContestController implements Closeable {
     private TableColumn<UBoatContestInfoWithoutCheckBoxDTO, String> amountOfActiveDecryptionTeamsColumn;
     @FXML
     private TableColumn<UBoatContestInfoWithoutCheckBoxDTO, String> amountOfNeededDecryptionTeamsColumn;
+
+    @FXML
+    private TableView<AgentInfoDTO> agentsMissionsStatusTableView;
+    @FXML
+    private TableColumn<AgentInfoDTO, String> agentNameColumn;
+    @FXML
+    private TableColumn<AgentInfoDTO, String> amountOfCandidatesStringsColumn;
+
+    @FXML
+    private TableColumn<AgentInfoDTO, String> amountOfMissionsReceivedColumn;
+
+    @FXML
+    private TableColumn<AgentInfoDTO, String> amountOfMissionsToExecuteColumn;
 
     private IntegerProperty totalBruteResultAmount;
     private TimerTask alliesBruteForceResultTableViewRefresher;
@@ -303,6 +320,47 @@ public class AlliesContestController implements Closeable {
             timer.cancel();
             alliesBruteForceResultTableViewRefresherTimer.cancel();
         }
+    }
+
+    private ObservableList<AgentInfoDTO> getTeamsAgentsMissionsStatusTableViewDTOList(List<AgentInfoDTO> agentInfoDTO) {
+
+        ObservableList<AgentInfoDTO> agentInfoDTOList;
+
+        agentInfoDTOList = FXCollections.observableArrayList(agentInfoDTO);
+        agentNameColumn.setCellValueFactory(
+                new PropertyValueFactory<>("agentName")
+        );
+        amountOfCandidatesStringsColumn.setCellValueFactory(
+                new PropertyValueFactory<>("amountOfCandidatesStrings")
+        );
+        amountOfMissionsToExecuteColumn.setCellValueFactory(
+                new PropertyValueFactory<>("amountOfMissionsToExecute")
+        );
+        amountOfMissionsReceivedColumn.setCellValueFactory(
+                new PropertyValueFactory<>("amountOfReceivedMissions")
+        );
+
+        return agentInfoDTOList;
+    }
+    private void updateAgentsInfoList(List<AgentInfoDTO> agentInfoDTOList) {
+        Platform.runLater(() -> {
+            ObservableList<AgentInfoDTO> agentInfoDTOObservableList =getTeamsAgentsMissionsStatusTableViewDTOList(agentInfoDTOList);
+            createAgentsInfoDTOTableView(agentInfoDTOObservableList);
+            //totalAgentsAmount.set(agentInfoDTOList.size());
+        });
+    }
+    private void createAgentsInfoDTOTableView(ObservableList<AgentInfoDTO> agentInfoDTOList ) {
+        agentsMissionsStatusTableView.setItems(agentInfoDTOList);
+        agentsMissionsStatusTableView.getColumns().clear();
+        agentsMissionsStatusTableView.getColumns().addAll(agentNameColumn, amountOfCandidatesStringsColumn, amountOfMissionsToExecuteColumn,amountOfMissionsReceivedColumn);
+    }
+    public void startAgentsTableViewRefresher() {
+        agentsTableViewRefresher = new AgentsTablesViewRefresher(
+                this::updateAgentsInfoList,
+                autoUpdate,
+                alliesTeamName);
+        agentsTableViewTimer = new Timer();
+        agentsTableViewTimer.schedule(agentsTableViewRefresher, REFRESH_RATE, REFRESH_RATE);
     }
 
 }

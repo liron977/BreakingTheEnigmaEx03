@@ -59,6 +59,14 @@
                         <TableColumn id="columnLabel" fx:id="battleFieldNameColumn1" prefWidth="112.6666589975357" text="Battle Field" />
                      </columns>
                   </TableView>
+                  <TableView fx:id="agentsMissionsStatusTableView" prefHeight="93.0" prefWidth="635.0">
+                    <columns>
+                      <TableColumn fx:id="agentNameColumn" prefWidth="75.0" text="Agent Name" />
+                      <TableColumn fx:id="amountOfCandidatesStringsColumn" prefWidth="190.66669464111328" text="Amount Of Candidates Strings" />
+                        <TableColumn fx:id="amountOfMissionsToExecuteColumn" prefWidth="194.66668701171875" text="Amount Of Missions To Execute" />
+                        <TableColumn fx:id="amountOfMissionsReceivedColumn" prefWidth="175.99996948242188" text="Amount Of Missions Received" />
+                    </columns>
+                  </TableView>
                   <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Please enter the mission size" />
                   <TextField fx:id="missionSizeTextField" prefHeight="25.0" prefWidth="397.0">
                      <VBox.margin>

@@ -291,7 +291,7 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
         timer.schedule(uBoatContestsRefresher, REFRESH_RATE, REFRESH_RATE);
     }
     @FXML
-    void readyButtonOnAction(ActionEvent event) {
+    void readyButtonOnAction(ActionEvent event) throws IOException {
         if(selectedContestDTO!=null) {
             mainWindowAlliesController.setSelectedBattleFieldName(selectedContestDTO.getBattleFieldName());
             mainWindowAlliesController.changeToContestTab();

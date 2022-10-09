@@ -15,6 +15,7 @@ public class Constants {
     public static final String GET_DICTIONARY= "http://localhost:8080/app/GetDictionaryServlet";
     public static final String ENCRYPT= "http://localhost:8080/app/EncryptServlet";
     public static final String AGENTS_INFO_TABLE_VIEW= "http://localhost:8080/app/AgentsInfoServlet";
+    public static final String AGENTS_MISSIONS_STATUS= "http://localhost:8080/app/AgentMissionsStatusServlet";
     public static final String ALLIES_TEAM_NAMES= "http://localhost:8080/app/AlliesTeamNamesServlet";
     public static final String UBOATS_CONTESTS_INFO= "http://localhost:8080/app/UBoatContestsServlet";
     public static final String UBOATS_CONTESTS_SETTINGS= "http://localhost:8080/app/UBoatContestSettingsServlet";

@@ -22,10 +22,11 @@ public class AgentMissionRunnable implements Runnable {
     UiAdapterInterface uiAdapterInterface;
     int missionNumber=0;
     String lastStartingPos;
+    SimpleIntegerProperty amountOfMissionsInTheQueue;
    // SimpleIntegerProperty amountOfDecipheringStringsProperty;
    SimpleIntegerProperty amountOfDoneMissions;
     SimpleIntegerProperty amountOfAskedMissionsProperty;
-    public AgentMissionRunnable(SimpleIntegerProperty amountOfAskedMissionsProperty,String lastStartingPos,int missionNumber,UiAdapterInterface uiAdapterInterface,MachineEngine machineEngineCopy,
+    public AgentMissionRunnable(SimpleIntegerProperty amountOfMissionsInTheQueue,SimpleIntegerProperty amountOfAskedMissionsProperty,String lastStartingPos,int missionNumber,UiAdapterInterface uiAdapterInterface,MachineEngine machineEngineCopy,
                                 String stringToConvert, String alliesTeamName
             , String initialStartingPosition, int sizeOfMission
     ,SimpleIntegerProperty amountOfDoneMissions) {
@@ -42,6 +43,7 @@ public class AgentMissionRunnable implements Runnable {
         this.uiAdapterInterface=uiAdapterInterface;
        this.amountOfDoneMissions=amountOfDoneMissions;
        this.amountOfAskedMissionsProperty=amountOfAskedMissionsProperty;
+       this.amountOfMissionsInTheQueue=amountOfMissionsInTheQueue;
     }
 
     public void setResultsList(List<BruteForceResultDTO> resultsList) {
@@ -77,16 +79,18 @@ public class AgentMissionRunnable implements Runnable {
     private void publishResults() throws InterruptedException {
 
         synchronized (this){
-            amountOfDoneMissions.setValue(amountOfDoneMissions.getValue()+1);
-            int amountOfMissionsInTheQueue=amountOfAskedMissionsProperty.getValue()-amountOfDoneMissions.getValue();
-            uiAdapterInterface.updateAmountMissionsInTheQueuePerAgent(amountOfMissionsInTheQueue);
 
             if(resultsList.size()>0) {
                 uiAdapterInterface.saveResultsOnServer(resultsList);
 
             }
+            amountOfDoneMissions.setValue(amountOfDoneMissions.getValue()+1);
+            uiAdapterInterface.updateAmountDoneMissionsPerAgent(amountOfDoneMissions.getValue());
+            amountOfMissionsInTheQueue.setValue(amountOfAskedMissionsProperty.getValue()-amountOfDoneMissions.getValue());
+            uiAdapterInterface.updateAmountMissionsInTheQueuePerAgent(amountOfMissionsInTheQueue.getValue());
+
+
         }
-        uiAdapterInterface.updateAmountDoneMissionsPerAgent(amountOfDoneMissions.getValue());
 
     }
 

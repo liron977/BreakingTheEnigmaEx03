@@ -1,7 +1,7 @@
 package managers.agent;
 
 import bruteForce.AgentInfoDTO;
-import bruteForce.DecryptionInfoDTO;
+import engine.theEnigmaEngine.Allies;
 
 import java.util.*;
 
@@ -20,8 +20,25 @@ public class AgentsManager {
             agentManagerMap.put(teamName, bruteForceResultsList);
         }
     }
+    public List<AgentInfoDTO> getAgentsByAlliesTeamName(String alliesTeamName){
+        return agentManagerMap.get(alliesTeamName);
+
+    }
 
     public synchronized Map<String, List<AgentInfoDTO>> getAgentManagerMap() {
         return Collections.unmodifiableMap(agentManagerMap);
+    }
+    public synchronized boolean updateAgentMissionStatus(AgentInfoDTO agentInfoDTO){
+        List<AgentInfoDTO> agents= getAgentsByAlliesTeamName(agentInfoDTO.getAlliesTeamName());
+        for (AgentInfoDTO agent:agents) {
+            if(agent.getAgentName().equals(agentInfoDTO.getAgentName())){
+                agent.setAmountOfMissionsToExecute(agentInfoDTO.getAmountOfMissionsToExecute());
+                agent.setAmountOfCandidatesStrings(agentInfoDTO.getAmountOfCandidatesStrings());
+                agent.setAmountOfReceivedMissions(agentInfoDTO.getAmountOfReceivedMissions());
+                return true;
+            }
+
+        }
+        return false;
     }
 }

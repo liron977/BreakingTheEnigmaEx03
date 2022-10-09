@@ -14,17 +14,33 @@ public class AlliesAgent implements Serializable {
 
     private ThreadPoolExecutor threadPoolExecutor;
     private BlockingQueue<Runnable> blockingQueue;
-
+    private int amountOfCandidatesStrings;
+    private int amountOfReceivedMissions;
+    private int amountOfMissionsToExecute;
 
     public AlliesAgent( String agentName, int threadsAmount,int missionsAmount, String alliesTeamName){
         this.agentName=agentName;
         this.missionsAmount=missionsAmount;
         this.threadsAmount=threadsAmount;
         this.alliesTeamName=alliesTeamName;
+        this.amountOfCandidatesStrings=0;
+        this.amountOfMissionsToExecute=0;
+        this.amountOfReceivedMissions=0;
         /*
         blockingQueue = new LinkedBlockingQueue<Runnable>(missionsAmount);
         this.threadPoolExecutor = new ThreadPoolExecutor(threadsAmount, threadsAmount, 0L, TimeUnit.MILLISECONDS, blockingQueue);
        */
+    }
+    public void setAmountOfCandidatesStrings(int amountOfCandidatesStrings) {
+        this.amountOfCandidatesStrings = amountOfCandidatesStrings;
+    }
+
+    public void setAmountOfMissionsToExecute(int amountOfMissionsToExecute) {
+        this.amountOfMissionsToExecute = amountOfMissionsToExecute;
+    }
+
+    public void setAmountOfReceivedMissions(int amountOfReceivedMissions) {
+        this.amountOfReceivedMissions = amountOfReceivedMissions;
     }
 
     public void setBlockingQueue(BlockingQueue<Runnable> blockingQueue) {

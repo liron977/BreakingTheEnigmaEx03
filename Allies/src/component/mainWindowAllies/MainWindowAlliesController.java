@@ -8,6 +8,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class MainWindowAlliesController {
 
     @FXML
@@ -64,12 +66,14 @@ public void setSelectedBattleFieldName(String selectedBattleFieldName){
     public void setConvertedString(String convertedString){
         alliesContestController.setConvertedString(convertedString);
     }
-    public void changeToContestTab(){
+    public void changeToContestTab() throws IOException {
         contestTabButton.setDisable(false);
         alliesTabPane.getSelectionModel().select(contestTabButton);
         alliesContestController.startAlliesInfoTableViewRefresher();
         alliesContestController.startContestResultsTableViewRefresher();
         alliesContestController.startContestInfoTableViewRefresher();
+        alliesContestController.startAgentsTableViewRefresher();
+        alliesDashboardController.close();
 
     }
 }

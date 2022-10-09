@@ -1,5 +1,6 @@
 package managers.uBoatEngine;
 
+import bruteForce.AgentInfoDTO;
 import engine.theEnigmaEngine.Allies;
 import engine.theEnigmaEngine.AlliesAgent;
 
@@ -19,9 +20,17 @@ public class AlliesManager {
         return alliesManagerMap.get(alliesTeamName);
 
     }
-    public void addAgentToAllies(AlliesAgent agent,String alliesTeamName){
+    public synchronized void addAgentToAllies(AlliesAgent agent,String alliesTeamName){
         Allies allies=getAlliesByAlliesTeamName(alliesTeamName);
         allies.addAgent(agent);
+    }
+    public synchronized boolean updateAgentMissionStatus(AgentInfoDTO agentInfoDTO){
+       Allies allies= getAlliesByAlliesTeamName(agentInfoDTO.getAlliesTeamName());
+       if(allies!=null) {
+           allies.setAgentMissionsStatus(agentInfoDTO.getAgentName(), agentInfoDTO.getAmountOfCandidatesStrings(), agentInfoDTO.getAmountOfReceivedMissions(), agentInfoDTO.getAmountOfMissionsToExecute());
+           return true;
+       }
+       return false;
     }
     /*public synchronized EngineManager getEngineMangerByAlliesTeamName(String alliesTeamName){
         for (EngineManager engineManager : uBoatAvailableContestsMap.values()){
