@@ -345,6 +345,7 @@ public class AlliesContestController implements Closeable {
             createAgentsInfoDTOTableView(agentInfoDTOObservableList);
             //amountOfDoneMissions.setText(agentInfoDTOObservableList.);
             //totalAgentsAmount.set(agentInfoDTOList.size());
+            int x=0;
         });
     }
     private void createAgentsInfoDTOTableView(ObservableList<AgentInfoDTO> agentInfoDTOList ) {
