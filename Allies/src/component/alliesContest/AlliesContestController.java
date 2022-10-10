@@ -4,7 +4,6 @@ import bruteForce.*;
 import component.AlliesDashboard.AgentsTablesViewRefresher;
 import component.mainWindowAllies.MainWindowAlliesController;
 import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -21,6 +20,7 @@ import utils.http.HttpClientUtil;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -370,24 +370,40 @@ public class AlliesContestController implements Closeable {
         agentsTableViewTimer.schedule(agentsTableViewRefresher, REFRESH_RATE, REFRESH_RATE);
     }
     public void startContestStatusRefresher() {
-        contestStatusRefresher = new ContestStatusRefresher(
-                this::updateContestStatus,autoUpdate,alliesTeamName);
+        contestStatusRefresher = new ContestStatusRefresher("allies",""
+                ,this::updateContestStatus,autoUpdate,alliesTeamName);
         timer = new Timer();
         timer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
     }
 
-    private void updateContestStatus(ContestStatusInfoDTO contestStatusInfoDTO) {
+    private void updateContestStatus(ContestStatusInfoDTO contestStatusInfoDTO)  {
+
         if (!isContestEnded.getValue()) {
             Platform.runLater(() -> {
                 this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());
                 this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
                 if (isContestEnded.getValue()&&!isMessageDisplayedForFirstTime) {
                     isMessageDisplayedForFirstTime=true;
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     String message = "The contest ended" + "\n" + "The winning team is " + alliesWinnerTeamName;
                     alert.setContentText(message);
                     alert.getDialogPane().setExpanded(true);
-                    alert.showAndWait();
+                    Optional<ButtonType> result=alert.showAndWait();
+                    if(result.get()==ButtonType.OK){
+                        try {
+                            setConfirmed();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        deleteValues();
+                        try {
+                            mainWindowAlliesController.changeToAlliesDashboardTab();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+
+                    //alert.showAndWait();
                     try {
                         close();
                     } catch (IOException e) {
@@ -399,7 +415,7 @@ public class AlliesContestController implements Closeable {
 
     @Override
     public void close() throws IOException {
-      //  activeTeamsDetailsTableView.getItems().clear();
+      // activeTeamsDetailsTableView.getItems().clear();
         contestResultsInfoVersion.set(0);
         if (contestStatusRefresher != null&&agentsTableViewRefresher != null
                 &&alliesRegisteredTeamsRefresher != null&&contestInfoRefresher != null
@@ -446,9 +462,68 @@ public class AlliesContestController implements Closeable {
         }
         return amountWithCommas.reverse().toString();
     }
+    public void deleteValues(){
+        activeTeamsDetailsTableView.getItems().clear();
+        dmAmountOfCreatedMissionsLabel.setText("0");
+        amountOfDoneMissions.setText("0");
+        totalAmountOfCreatedMissionsLabel.setText("0");
+        missionSizeTextField.setText("0");
+        selectedBattleField="";
+        autoUpdate=new SimpleBooleanProperty(true);
+        contestCandidatesTableView.getItems().clear();
+        agentsMissionsStatusTableView.getItems().clear();
+        totalBruteResultAmount.setValue(0);
+        contestResultsInfoVersion.setValue(0);
+        convertedString="";
+        isContestEnded.setValue(false);
+        alliesWinnerTeamName="";
+        isMessageDisplayedForFirstTime=false;
+    }
+    public void setConfirmed() throws IOException {
+        RequestBody body = RequestBody.create(
+                MediaType.parse("application/json"), "");
+
+        String finalUrl = HttpUrl
+                .parse(Constants.CONTEST_STATUS)
+                .newBuilder()
+                .addQueryParameter("alliesTeamName", alliesTeamName)
+                .build()
+                .toString();
+
+        Request request = new Request.Builder()
+                .url(finalUrl)
+                .post(body)
+                .build();
+
+        Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+        Response response = call.execute();
+        if (response.code() == 200) {
+            System.out.println("ok");
+        }
+/*
+            Platform.runLater(() -> {
+
+                alert.setContentText("You registered to the contest " + selectedBattleField + " successfully");
+                alert.getDialogPane().setExpanded(true);
+                alert.showAndWait();
+            })*/;
+
+//            String stringToConvert=Constants.GSON_INSTANCE.fromJson(response.body().string(),String.class);
+//            if(stringToConvert!=null) {
+//                AlliesThreadTask threadTask=new AlliesThreadTask(stringToConvert,Integer.parseInt(missionSizeTextField.getText()),alliesTeamName);
+//                new Thread(threadTask).start();
+//            }
+//        } else {
+//            if (response.code() == 409) {
+//                alert.setContentText("The contest " + selectedBattleField + " is full, please select another one");
+//                alert.getDialogPane().setExpanded(true);
+//                alert.showAndWait();
+//            }
+//        }
+    }
+    }
 /*    public void updateTotalAmountOfMissionsToCreate(){
         amountOfCreatedMissionsRefresher = new DMAmountOfCreatedMissionsRefresher(
                 this::updateAmountOfCreatedMissions,autoUpdate,alliesTeamName);
     }*/
 
-}

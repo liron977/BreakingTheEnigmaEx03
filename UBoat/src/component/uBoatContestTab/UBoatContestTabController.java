@@ -765,7 +765,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         timer.schedule(BruteForceResultTableViewRefresher, REFRESH_RATE, REFRESH_RATE);
     }
     public void startContestStatusRefresher() {
-        contestStatusRefresher = new ContestStatusRefresher(
+        contestStatusRefresher = new ContestStatusRefresher("uboat",battleName.trim(),
                 this::updateContestStatus,autoUpdate,"");
         timer = new Timer();
         timer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
@@ -777,11 +777,13 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                 // this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
                 if (isContestEnded.getValue()&&!isMessageDisplayedForFirstTime) {
                     isMessageDisplayedForFirstTime=true;
-                   /* Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                   Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     String message = "The contest ended" + "\n" + "The winning team is " + alliesWinnerTeamName;
                     alert.setContentText(message);
                     alert.getDialogPane().setExpanded(true);
-                    alert.showAndWait();*/
+                    alert.showAndWait();
+                    activeTeamsDetailsTableView.getItems().clear();
+                    readyButton.setDisable(false);
                     try {
                         close();
                     } catch (IOException e) {

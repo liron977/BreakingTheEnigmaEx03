@@ -1088,5 +1088,10 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     public String getAlliesWinnwerTeamName() {
         return battleField.getAlliesWinnwerTeamName();
     }
-
+    public void setAlliesConfirmedGameOver(boolean alliesConfirmedGameOver) {
+        battleField.setAlliesConfirmedGameOver(alliesConfirmedGameOver);
+    }
+    public boolean getIsAlliesConfirmedGameOver(){
+      return battleField.getIsAlliesConfirmedGameOver();
+    }
 }

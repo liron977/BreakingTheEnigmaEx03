@@ -13,19 +13,26 @@ import utils.ServletUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class GetContestStatusServlet extends HttpServlet {
+public class ContestStatusServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try (PrintWriter out = response.getWriter()) {
             response.setContentType("application/json");
-            String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
+            String battleName;
             UBoatAvailableContestsManager uBoatAvailableContestsManager = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
-            String battleName = uBoatAvailableContestsManager.getUboatNameByAlliesTeamName(theAlliesTeamName);
+            if(request.getParameter(ParametersConstants.ROLE).equals("uboat")){
+                battleName=request.getParameter(ParametersConstants.BATTLE_FIELD);
+            }
+            else {
+                String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
+                 battleName = uBoatAvailableContestsManager.getUboatNameByAlliesTeamName(theAlliesTeamName);
+            }
             if (battleName != null) {
                 EngineManager engineManager = uBoatAvailableContestsManager.getEngineManagerByBattleFieldName(battleName);
                 ContestStatusInfoDTO contestStatusInfoDTO = new ContestStatusInfoDTO(
                         engineManager.getIsContestEnded(),
-                        engineManager.getAlliesWinnwerTeamName());
+                        engineManager.getAlliesWinnwerTeamName(),
+                        engineManager.getIsAlliesConfirmedGameOver());
                 Gson gson = new Gson();
                 String json = gson.toJson(contestStatusInfoDTO);
                 out.println(json);
@@ -34,6 +41,16 @@ public class GetContestStatusServlet extends HttpServlet {
         }
         catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
+        UBoatAvailableContestsManager uBoatAvailableContestsManager = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
+        String battleName = uBoatAvailableContestsManager.getUboatNameByAlliesTeamName(theAlliesTeamName);
+        if (battleName != null) {
+            EngineManager engineManager = uBoatAvailableContestsManager.getEngineManagerByBattleFieldName(battleName);
+            engineManager.setAlliesConfirmedGameOver(true);
         }
     }
 }

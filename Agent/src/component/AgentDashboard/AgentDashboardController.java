@@ -222,8 +222,9 @@ public class AgentDashboardController implements Closeable {
     }
 
     public boolean getMissions() {
-        boolean isMissionsEnded = false;
+        boolean isMissionsEnded = true;
         if(!isContestEnded.getValue()) {
+            isMissionsEnded = false;
             System.out.println("Im here");
             String finalUrl = HttpUrl
                     .parse(Constants.AGENT_GET_MISSIONS)
@@ -279,6 +280,9 @@ public class AgentDashboardController implements Closeable {
                     if (response.code() == 409) {
                         Platform.runLater(() -> {
                             {
+                                if(isContestEnded.getValue()){
+                                    return;
+                                }
                                 String message = "The Missions ended";
                                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                                 try {
@@ -490,13 +494,26 @@ return isMissionsEnded;
         this.agentInfoDTO = agentInfoDTO;
     }
     public void startContestStatusRefresher() {
-        contestStatusRefresher = new ContestStatusRefresher(
+        contestStatusRefresher = new ContestStatusRefresher("agent","",
                 this::updateContestStatus,autoUpdate,selectedAlliesTeamName);
         timer = new Timer();
         timer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
     }
     private void updateContestStatus(ContestStatusInfoDTO contestStatusInfoDTO) {
-        if (!isContestEnded.getValue()) {
+        if(isMessageDisplayedForFirstTime) {
+            if (contestStatusInfoDTO.getIsAlliesConfirmedGameOver()) {
+                    Platform.runLater(() -> {
+                        try {
+                            close();
+                            initValues();
+                            return;
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+               });
+            }
+        }
+      else  if (!isContestEnded.getValue()) {
             Platform.runLater(() -> {
                 this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());
                 this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
@@ -507,14 +524,15 @@ return isMissionsEnded;
                     alert.setContentText(message);
                     alert.getDialogPane().setExpanded(true);
                     alert.showAndWait();
-                    try {
+              /*      try {
                         close();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
-                    }
+                    }*/
                 }});
         }
     }
+
     public String displayTextWithCommas(int amount){
         StringBuilder amountWithCommas= new StringBuilder("");
         int counter=0;
@@ -530,6 +548,26 @@ return isMissionsEnded;
             amount=amount/10;
         }
         return amountWithCommas.reverse().toString();
+    }
+    public void initValues(){
+        setThreadPoolSize(amountOfThreads);
+        listOfPossiblePosition=new ArrayList<>();
+        contestInfo.getItems().clear();
+        bruteForceResultTableView.getItems().clear();
+        amountDoneMissionsPerAgentLabel.setText("");
+        amountOfAskedMissionsLabel.setText("");
+        currentAmountOfMissionsInTheQueue.setText("");
+        amountOfCandidatesStrings.setText("");
+        isMissionEndedProperty.setValue(false);
+        resultDTOList=new ArrayList<>();
+        amountOfAskedMissionsProperty.setValue(0);
+        amountOfDoneMissions.setValue(0);
+        amountOfMissionsInTheQueue.setValue(0);
+        isContestEnded.setValue(false);
+        alliesWinnerTeamName="";
+        bruteForceResultsDTOObservableList= FXCollections.observableArrayList();
+       isMessageDisplayedForFirstTime=false;
+
     }
     @Override
     public void close() throws IOException {

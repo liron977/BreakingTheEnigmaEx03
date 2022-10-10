@@ -18,6 +18,7 @@ public class UBoatBattleField implements Serializable {
     private List<Allies> alliesRegisteredToContest;
     private boolean isContestEnded;
     private String alliesWinnwerTeamName;
+    private boolean isAlliesConfirmedGameOver;
 
    public UBoatBattleField(String battleName, int alliesNeededTeamsAmount, String level){
        this.battleName=battleName;
@@ -30,6 +31,7 @@ public class UBoatBattleField implements Serializable {
        alliesRegisteredToContest=new ArrayList<>();
        this.isContestEnded=false;
        this.alliesWinnwerTeamName="";
+       this.isAlliesConfirmedGameOver=false;
    }
 public boolean isAlliesExists(String alliesTeamName){
     for (Allies allies:alliesRegisteredToContest) {
@@ -120,5 +122,11 @@ public boolean isAlliesExists(String alliesTeamName){
     }
     public void setAlliesWinnwerTeamName(String alliesWinnwerTeamName) {
         this.alliesWinnwerTeamName = alliesWinnwerTeamName;
+    }
+    public void setAlliesConfirmedGameOver(boolean alliesConfirmedGameOver) {
+        isAlliesConfirmedGameOver = alliesConfirmedGameOver;
+    }
+    public boolean getIsAlliesConfirmedGameOver(){
+        return isAlliesConfirmedGameOver;
     }
 }

@@ -31,7 +31,7 @@ public class Constants {
     public static final String BRUTE_FORCE_RESULTS="http://localhost:8080/app/BruteForceResultsServlet";
     public static final String ALLIES_BRUTE_FORCE_RESULTS="http://localhost:8080/app/AlliesGetBruteForceResultServlet";
     public static final String UBOAT_BRUTE_FORCE_RESULTS="http://localhost:8080/app/UboatGetBruteForceResultServlet";
-    public static final String GET_CONTEST_STATUS="http://localhost:8080/app/GetContestStatusServlet";
+    public static final String CONTEST_STATUS ="http://localhost:8080/app/ContestStatusServlet";
     public static final String DM_GET_AMOUNT_OF_CREATED_MISSIONS="http://localhost:8080/app/DMGetAmountOfCreatedMissionServlet";
 
     public static final Gson GSON_INSTANCE = new Gson();

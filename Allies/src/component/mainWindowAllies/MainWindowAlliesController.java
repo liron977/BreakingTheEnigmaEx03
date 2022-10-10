@@ -76,6 +76,11 @@ public void setSelectedBattleFieldName(String selectedBattleFieldName){
         alliesContestController.startContestStatusRefresher();
         alliesContestController.startDMAmountOfCreatedMissionsRefresherRefresher();
         alliesDashboardController.close();
-
+    }
+    public void changeToAlliesDashboardTab() throws IOException {
+        dashboardTabButton.setDisable(false);
+        contestTabButton.setDisable(true);
+        alliesTabPane.getSelectionModel().select(dashboardTabButton);
+        alliesContestController.close();
     }
 }
