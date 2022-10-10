@@ -1,13 +1,13 @@
 package component.AgentDashboard;
 
 import BruteForce.AgentDecryptionManager;
-import bruteForce.AgentInfoDTO;
-import bruteForce.BruteForceResultDTO;
+import bruteForce.*;
 import com.google.gson.reflect.TypeToken;
 import engine.theEnigmaEngine.SchemaGenerated;
 import engine.theEnigmaEngine.TheMachineEngine;
 import engine.theEnigmaEngine.UBoatBattleField;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
@@ -29,14 +29,17 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import bruteForce.TheMissionInfoDTO;
+
+import static constants.Constants.REFRESH_RATE;
 
 
-public class AgentDashboardController {
+public class AgentDashboardController implements Closeable {
     @FXML
     private Button getMissions;
 
@@ -83,8 +86,11 @@ public class AgentDashboardController {
     private SimpleIntegerProperty amountOfDoneMissions;
     private SimpleIntegerProperty amountOfMissionsInTheQueue;
     private AgentInfoDTO agentInfoDTO;
-
-
+    private Timer timer;
+    private TimerTask contestStatusRefresher;
+    BooleanProperty autoUpdate;
+    private boolean isContestEnded;
+    private String alliesWinnerTeamName;
     private ObservableList<BruteForceResultDTO> bruteForceResultsDTOObservableList;
 
     @FXML
@@ -94,7 +100,10 @@ public class AgentDashboardController {
         amountOfDoneMissions=new SimpleIntegerProperty(0);
         resultDTOList=new ArrayList<>();
         resultDTOListForAgent=new ArrayList<>();
+        isContestEnded=false;
+        alliesWinnerTeamName="";
         amountOfMissionsInTheQueue=new SimpleIntegerProperty(0);
+        this.autoUpdate=new SimpleBooleanProperty(true);
         bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
         bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);
         amountOfMissionsInTheQueue.addListener((observ)->updateMissionsStatus());
@@ -211,78 +220,80 @@ public class AgentDashboardController {
     }
 
     public boolean getMissions() {
-boolean isMissionsEnded=false;
-        System.out.println("Im here");
-        String finalUrl = HttpUrl
-                .parse(Constants.AGENT_GET_MISSIONS)
-                .newBuilder()
-                .addQueryParameter("alliesTeamName", selectedAlliesTeamName)
-                .addQueryParameter("amountOfMissionsPerAgent", amountOfMissionsPerAgent)
-                .build()
-                .toString();
-        Request request = new Request.Builder()
-                .url(finalUrl)
-                .build();
-        Call call = HttpClientUtil.getOkHttpClient().newCall(request);
-        try {
-            Response response = call.execute();
-            if (response.code() == 200) {
-                Type theMissionInfoList = new TypeToken<ArrayList<TheMissionInfoDTO>>() {
-                }.getType();
-                List<TheMissionInfoDTO> theMissionInfoListFromGson = null;
-                try {
-                    theMissionInfoListFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
-                    amountOfAskedMissionsProperty.setValue(amountOfAskedMissionsProperty.getValue()+theMissionInfoListFromGson.size());
-                    Platform.runLater(()-> {
-                        amountOfAskedMissionsLabel.setText("Amount Of Asked Missions : " + amountOfAskedMissionsProperty.getValue());
-                    });
-                    TheMachineEngine theMachineEngine = getTheMachineEngineInputstream();
-                    setTheMachineEngine(theMachineEngine);
-                    UIAdapter UIAdapter =  createUIAdapter();
-                    decryptionManager = new AgentDecryptionManager(amountOfMissionsInTheQueue,amountOfAskedMissionsProperty,amountOfDoneMissions,UIAdapter,isMissionEndedProperty,threadPoolExecutor, theMachineEngine
-                            , selectedAlliesTeamName,
-                            theMissionInfoListFromGson
-                            , missionsInfoBlockingQueue);
-                    decryptionManager.createMission();
-                    threadPoolExecutor.shutdown();
-                    threadPoolExecutor.awaitTermination(Integer.MAX_VALUE, TimeUnit.HOURS);
-                    setThreadPoolSize(amountOfThreads);
-                    isMissionsEnded=false;
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-                Platform.runLater(() -> {
-                    {
-
+        boolean isMissionsEnded = false;
+        if(!isContestEnded) {
+            System.out.println("Im here");
+            String finalUrl = HttpUrl
+                    .parse(Constants.AGENT_GET_MISSIONS)
+                    .newBuilder()
+                    .addQueryParameter("alliesTeamName", selectedAlliesTeamName)
+                    .addQueryParameter("amountOfMissionsPerAgent", amountOfMissionsPerAgent)
+                    .build()
+                    .toString();
+            Request request = new Request.Builder()
+                    .url(finalUrl)
+                    .build();
+            Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+            try {
+                Response response = call.execute();
+                if (response.code() == 200) {
+                    Type theMissionInfoList = new TypeToken<ArrayList<TheMissionInfoDTO>>() {
+                    }.getType();
+                    List<TheMissionInfoDTO> theMissionInfoListFromGson = null;
+                    try {
+                        theMissionInfoListFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
+                        amountOfAskedMissionsProperty.setValue(amountOfAskedMissionsProperty.getValue() + theMissionInfoListFromGson.size());
+                        Platform.runLater(() -> {
+                            amountOfAskedMissionsLabel.setText("Amount Of Asked Missions : " + amountOfAskedMissionsProperty.getValue());
+                        });
+                        TheMachineEngine theMachineEngine = getTheMachineEngineInputstream();
+                        setTheMachineEngine(theMachineEngine);
+                        UIAdapter UIAdapter = createUIAdapter();
+                        decryptionManager = new AgentDecryptionManager(amountOfMissionsInTheQueue, amountOfAskedMissionsProperty, amountOfDoneMissions, UIAdapter, isMissionEndedProperty, threadPoolExecutor, theMachineEngine
+                                , selectedAlliesTeamName,
+                                theMissionInfoListFromGson
+                                , missionsInfoBlockingQueue);
+                        decryptionManager.createMission();
+                        threadPoolExecutor.shutdown();
+                        threadPoolExecutor.awaitTermination(Integer.MAX_VALUE, TimeUnit.HOURS);
+                        setThreadPoolSize(amountOfThreads);
+                        isMissionsEnded = false;
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
                     }
-
-                });
-
-            }
-            if (response.code() != 200) {
-
-                if(response.code()==409) {
                     Platform.runLater(() -> {
                         {
-                            String  message = "The Missions ended";
-                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                            try {
-                                alert.setContentText(response.body().string() + message);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                            alert.getDialogPane().setExpanded(true);
-                            alert.showAndWait();
 
                         }
-                    });
-                    isMissionsEnded=true;
-                }
-            }
-        }catch(IOException e){
 
+                    });
+
+                }
+                if (response.code() != 200) {
+
+                    if (response.code() == 409) {
+                        Platform.runLater(() -> {
+                            {
+                                String message = "The Missions ended";
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                try {
+                                    alert.setContentText(response.body().string() + message);
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                alert.getDialogPane().setExpanded(true);
+                                alert.showAndWait();
+
+                            }
+                        });
+                        isMissionsEnded = true;
+                    }
+                }
+            } catch (IOException e) {
+
+            }
         }
 return isMissionsEnded;
     }
@@ -474,5 +485,39 @@ return isMissionsEnded;
 
     public void setAgentInfoDTO(AgentInfoDTO agentInfoDTO) {
         this.agentInfoDTO = agentInfoDTO;
+    }
+    public void startContestStatusRefresher() {
+        contestStatusRefresher = new ContestStatusRefresher(
+                this::updateContestStatus,autoUpdate,selectedAlliesTeamName);
+        timer = new Timer();
+        timer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
+    }
+    private void updateContestStatus(ContestStatusInfoDTO contestStatusInfoDTO) {
+        Platform.runLater(() -> {
+                    this.isContestEnded = contestStatusInfoDTO.isContestEnded();
+                    this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
+                    if (isContestEnded) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        String message = "The contest ended" + "\n" + "The winning team is " + alliesWinnerTeamName;
+                        alert.setContentText(message);
+                        alert.getDialogPane().setExpanded(true);
+                        alert.showAndWait();
+                        try {
+                            close();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+        });
+    }
+    @Override
+    public void close() throws IOException {
+        this.isContestEnded = false;
+        this.alliesWinnerTeamName = "";
+        if (contestStatusRefresher != null) {
+            contestStatusRefresher.cancel();
+            contestInfoController.close();
+            timer.cancel();
+        }
     }
 }

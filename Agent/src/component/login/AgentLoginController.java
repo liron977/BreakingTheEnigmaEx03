@@ -243,6 +243,7 @@ public class AgentLoginController {
             agentDashboardController.setSelectedAlliesTeamName(selectedAlliesTeamName);
             agentDashboardController.setAmountOfThreads(threadsAmount);
             agentDashboardController.startContestTableViewRefresher();
+            agentDashboardController.startContestStatusRefresher();
             primaryStage.setTitle("Agent: "+agentName);
             mainWindowAlliesControllerScene = new Scene(root1);
             primaryStage.setMinHeight(300f);

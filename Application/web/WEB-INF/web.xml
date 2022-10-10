@@ -202,6 +202,14 @@
         <servlet-name>AgentMissionsStatusServlet</servlet-name>
         <url-pattern>/AgentMissionsStatusServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>GetContestStatusServlet</servlet-name>
+        <servlet-class>servlets.GetContestStatusServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetContestStatusServlet</servlet-name>
+        <url-pattern>/GetContestStatusServlet</url-pattern>
+    </servlet-mapping>
 
 
 </web-app>

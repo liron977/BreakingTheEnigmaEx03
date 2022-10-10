@@ -692,7 +692,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         activeTeamsDetailsTableView.getItems().clear();
         totalAlliesRegisteredTeamsAmount.set(0);
         contestResultsInfoVersion.set(0);
-        if (alliesRegisteredTeamsRefresher != null && timer!= null && BruteForceResultTableViewRefresherTimer!= null &&alliesRegisteredTeamsRefresher!=null) {
+        if (alliesRegisteredTeamsRefresher != null && timer!= null && BruteForceResultTableViewRefresherTimer!= null) {
             alliesRegisteredTeamsRefresher.cancel();
             alliesRegisteredTeamsRefresher.cancel();
             timer.cancel();

@@ -13,7 +13,7 @@ import utils.ServletUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class GetContestStatus extends HttpServlet {
+public class GetContestStatusServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try (PrintWriter out = response.getWriter()) {

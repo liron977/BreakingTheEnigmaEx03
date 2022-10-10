@@ -1,5 +1,7 @@
 package component.AgentDashboard;
 
+import bruteForce.ContestStatusInfoDTO;
+import bruteForce.ContestStatusRefresher;
 import bruteForce.UBoatContestInfoWithoutCheckBoxDTO;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -10,13 +12,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import utils.EventsHandler;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import static constants.Constants.REFRESH_RATE;
 
-public class ContestInfoController {
+public class ContestInfoController implements Closeable {
     @FXML
     private TableColumn<UBoatContestInfoWithoutCheckBoxDTO, String> amountOfActiveDecryptionTeamsColumn;
 
@@ -94,4 +99,13 @@ public class ContestInfoController {
         timer = new Timer();
         timer.schedule(contestInfoRefresher, REFRESH_RATE, REFRESH_RATE);
     }
+    @Override
+    public void close() throws IOException {
+        contestsDataTableView.getItems().clear();
+        if (contestInfoRefresher != null) {
+            contestInfoRefresher.cancel();
+            timer.cancel();
+        }
+    }
+
 }
