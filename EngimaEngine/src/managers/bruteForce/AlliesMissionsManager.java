@@ -51,9 +51,14 @@ public class AlliesMissionsManager {
         alliesMissionsManagerMap.put(alliesTeamName,new LinkedBlockingQueue<TheMissionInfoDTO>(1000) );
 
     }
-
-
     public synchronized void removeAliesTeam(String alliesTeamName) {
         alliesMissionsManagerMap.remove(alliesTeamName);
+    }
+    public synchronized int getCurrentAmountOfCreatedMissions(String alliesTeamName){
+        BlockingQueue<TheMissionInfoDTO> missionsInfoBlockingQueue=alliesMissionsManagerMap.get(alliesTeamName);
+        if(missionsInfoBlockingQueue==null){
+            return 0;
+        }
+        return missionsInfoBlockingQueue.size();
     }
 }

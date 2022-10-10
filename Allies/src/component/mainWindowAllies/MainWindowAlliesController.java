@@ -74,6 +74,7 @@ public void setSelectedBattleFieldName(String selectedBattleFieldName){
         alliesContestController.startContestInfoTableViewRefresher();
         alliesContestController.startAgentsTableViewRefresher();
         alliesContestController.startContestStatusRefresher();
+        alliesContestController.startDMAmountOfCreatedMissionsRefresherRefresher();
         alliesDashboardController.close();
 
     }

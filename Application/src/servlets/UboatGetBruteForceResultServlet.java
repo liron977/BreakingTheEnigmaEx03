@@ -27,20 +27,10 @@ public class UboatGetBruteForceResultServlet extends HttpServlet {
         if(uboatBruteForceResultsManager==null) {
             return;
         }
-
-   /*     List<BruteForceResultDTO> list = uboatBruteForceResultsManager.getBruteForceListByUboatName(teamName);
-        System.out.println("*************************");
-        for (BruteForceResultDTO brute : list) {
-            System.out.println(brute.getConvertedString() + " " + brute.getCodeDescription() + " " + brute.getTheMissionNumber() + "IN SERVLET");
-        }*/
-
-
-
         int bruteForceResultVersion = ServletUtils.getIntParameter(request, ParametersConstants.UBOAT_BRUTE_FORCE_RESULT_VERSION_PARAMETER);
         if (bruteForceResultVersion == ParametersConstants.INT_PARAMETER_ERROR) {
             return;
         }
-
         int bruteForceResultManagerCounter = 0;
         List<BruteForceResultDTO> bruteForceResultDTOEntries;
         synchronized (getServletContext()) {
@@ -54,16 +44,7 @@ public class UboatGetBruteForceResultServlet extends HttpServlet {
                 out.flush();
             }
         }
-    /*    for (BruteForceResultDTO brute : bruteForceResultDTOEntries) {
-            System.out.println(brute.getConvertedString() + " " + brute.getCodeDescription() + " " + brute.getTheMissionNumber() + "IN SERVLET");
-        }
-*/
-
-        // log and create the response json string
-
-
     }
-
     private void logServerMessage(String message){
         System.out.println(message);
     }

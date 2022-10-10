@@ -14,6 +14,7 @@ import managers.uBoatEngine.UBoatAvailableContestsManager;
 import utils.ServletUtils;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -60,6 +61,7 @@ public class DMCreateMissionsServlet extends HttpServlet {
             ,String theAlliesTeamName,String stringToConvert) throws Exception {
        // BlockingQueue<bruteForce.TheMissionInfo> theMissionInfoBlockingQueuelockingQueue = new LinkedBlockingQueue<bruteForce.TheMissionInfo>(1000);
         AlliesMissionsManager alliesMissionsManager=ServletUtils.getAlliesMissionsManager(getServletContext());
+        AlliesManager alliesManager=ServletUtils.getAlliesManager(getServletContext());
        // BlockingQueue<bruteForce.TheMissionInfo> theMissionInfoBlockingQueuelockingQueue=alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName);
        // int missionsCounter = 0;
         boolean isAddedToBlockingQueue=false;
@@ -77,7 +79,7 @@ public class DMCreateMissionsServlet extends HttpServlet {
                     isAddedToBlockingQueue = alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName, theMissionInfo);
                 }
             }
-
+            alliesManager.increaseAmountOfCreatedMission(theAlliesTeamName);
             missionsCounter=missionsCounter.intValue()+1;
       /*      System.out.println(missionsCounter.intValue());*/
             initialStartingPosition = engineManager.getNextStartingPositionByString(sizeOfMission);
@@ -155,94 +157,6 @@ public class DMCreateMissionsServlet extends HttpServlet {
     }
     private void updateEngineManager(EngineManager engineManagerCopy, EngineManager engineManager) {
         engineManager.setStartingPositionValues(engineManagerCopy.getTheLastStartingPos(), engineManagerCopy.getLastIndex(), engineManagerCopy.getFirstList(), engineManagerCopy.getCountPossibleStartingPosition());
-/*    }
-
-    public List<String> getFinalPositionByMissionSize(int sizeOfMission) {
-        StringBuilder stringToAdd = new StringBuilder();
-        String initialStartingPosition = theLastStartingPos;
-        String keyboard = getTheMachineEngine().getKeyboard();
-        int nextSignalIndex = 0;
-        String lastSignal = "";
-        int amountOfStartingPos = 0;
-        boolean happened = true;
-
-
-        stringToAdd.append(initialStartingPosition, 0, initialStartingPosition.length());
-        for (int i = 0; i < initialStartingPosition.length(); i++) {
-            lastSignal = lastSignal + String.valueOf(keyboard.charAt(keyboard.length() - 1));
-        }
-        while (amountOfStartingPos < sizeOfMission && !possibleStartingPositionList.contains(lastSignal)) {
-
-            if (sizeOfMission > keyboard.length()) {
-                for (int j = 0; j < keyboard.length() & amountOfStartingPos < (sizeOfMission) && lastIndex < keyboard.length(); j++) {
-                    stringToAdd.setCharAt(initialStartingPosition.length() - 1, keyboard.charAt(lastIndex));
-                    lastIndex++;
-                    if (!stringToAdd.toString().equals(theLastStartingPos) || firstList) {
-                        firstList = false;
-                        possibleStartingPositionList.add(stringToAdd.toString());
-                        amountOfStartingPos++;
-                    } else {
-                    }
-
-
-                }
-
-            } else {
-
-                for (int j = 0; (j < (sizeOfMission) && (lastIndex < keyboard.length()) && (amountOfStartingPos < sizeOfMission)); j++) {
-                    stringToAdd.setCharAt(initialStartingPosition.length() - 1, keyboard.charAt(lastIndex));
-                    lastIndex++;
-                    if (!stringToAdd.toString().equals(theLastStartingPos) || firstList) {
-                        firstList = false;
-                        possibleStartingPositionList.add(stringToAdd.toString());
-                        amountOfStartingPos++;
-                    } else {
-                        happened = false;
-                        if (!happened && !firstList) {
-                            sizeOfMission++;
-                            happened = true;
-                        }
-                    }
-                }
-                if (!firstList) {
-                    sizeOfMission--;
-                }
-            }
-
-            for (int i = stringToAdd.length() - 1; amountOfStartingPos <= sizeOfMission && i > 0; i--) {
-                lastIndex = 0;
-                if (stringToAdd.charAt(i) != keyboard.charAt(keyboard.length() - 1) || amountOfStartingPos >= sizeOfMission) {
-                    break;
-                } else {
-                    if (stringToAdd.charAt(i - 1) != keyboard.charAt(keyboard.length() - 1)) {
-                        char signalToReplace = stringToAdd.charAt(i - 1);
-                        nextSignalIndex = keyboard.indexOf(signalToReplace) + 1;
-                        for (int k = i; k <= stringToAdd.length() - 1; k++) {
-                            stringToAdd.setCharAt(k, keyboard.charAt(0));
-                        }
-                        stringToAdd.setCharAt(i - 1, keyboard.charAt(nextSignalIndex));
-                        i = 0;
-                    }
-                }
-            }
-        }
-        this.amountOfPossibleStartingPositionList = Long.valueOf(possibleStartingPositionList.size());
-        if(possibleStartingPositionList.contains("'''")){
-            int x=0;
-        }
-        theLastStartingPos = possibleStartingPositionList.get(possibleStartingPositionList.size() - 1);
-        lastIndex = keyboard.indexOf(theLastStartingPos.charAt(theLastStartingPos.length() - 1));
-        //return possibleStartingPositionList;
-         *//*  for (String s : possibleStartingPositionList) {
-               System.out.println(s);
-           }
-         *//*  countPossibleStartingPosition=countPossibleStartingPosition+possibleStartingPositionList.size();
-
-
-         *//* System.out.println("*************");*//*
-
-        return possibleStartingPositionList;
-    }*/
     }
     public static void getAllPermutationsOfRotorsPosition(int length, String[] rotorsId, List<String[]> optionalRotorsPosition) {
         String[] tmpArray;
@@ -300,6 +214,5 @@ public class DMCreateMissionsServlet extends HttpServlet {
             helper(combinations, data, start + 1, end, index);
         }
     }
-
 
 }

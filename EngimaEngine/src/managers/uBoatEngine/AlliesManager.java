@@ -32,24 +32,17 @@ public class AlliesManager {
        }
        return false;
     }
-    /*public synchronized EngineManager getEngineMangerByAlliesTeamName(String alliesTeamName){
-        for (EngineManager engineManager : uBoatAvailableContestsMap.values()){
-            if(engineManager.isAlliesExists(alliesTeamName)){
-                return engineManager;
-            }
+    public synchronized void increaseAmountOfCreatedMission(String alliesTeamName){
+        Allies allies= getAlliesByAlliesTeamName(alliesTeamName);
+        if(allies!=null) {
+           allies.increaseAmountOfCreatedMissions();
         }
-        return null;
-    }*/
+    }
+    public int getAmountOfCreadedMission(String alliesTeamName){
+        Allies allies= getAlliesByAlliesTeamName(alliesTeamName);
+        return allies.getAmountOfCreatedMissions();
+        }
     public synchronized  Map<String, Allies> getAlliesManagerMap() {
         return  alliesManagerMap;
     }
-
-   /* public synchronized void addGraph(String graphName, Mediator newMed) {
-        mediatorsMap.put(graphName,newMed);
-    }
-    public synchronized Map<String,Mediator> getMediatorsMap() {
-        return Collections.unmodifiableMap(mediatorsMap);
-    }
-    public boolean isGraphExists(String graphName) {return mediatorsMap.containsKey(graphName);}
-*/
 }

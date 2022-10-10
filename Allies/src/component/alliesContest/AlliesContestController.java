@@ -31,7 +31,10 @@ public class AlliesContestController implements Closeable {
 
     @FXML
     private Button submitButton;
-
+    @FXML
+    private Label dmAmountOfCreatedMissionsLabel;
+    @FXML
+    private Label amountOfDoneMissions;
     @FXML
     private TextField missionSizeTextField;
 
@@ -98,12 +101,13 @@ public class AlliesContestController implements Closeable {
     private IntegerProperty contestResultsInfoVersion;
     private Timer contestInfoRefresherTimer;
     private TimerTask contestInfoRefresher;
-  private   String convertedString;
+    private String convertedString;
 
     private TimerTask contestStatusRefresher;
     private SimpleBooleanProperty isContestEnded;
     private String alliesWinnerTeamName;
     private boolean isMessageDisplayedForFirstTime;
+    private TimerTask amountOfCreatedMissionsRefresher;
 
     @FXML
     public void initialize(){
@@ -339,6 +343,7 @@ public class AlliesContestController implements Closeable {
         Platform.runLater(() -> {
             ObservableList<AgentInfoDTO> agentInfoDTOObservableList =getTeamsAgentsMissionsStatusTableViewDTOList(agentInfoDTOList);
             createAgentsInfoDTOTableView(agentInfoDTOObservableList);
+            //amountOfDoneMissions.setText(agentInfoDTOObservableList.);
             //totalAgentsAmount.set(agentInfoDTOList.size());
         });
     }
@@ -361,6 +366,11 @@ public class AlliesContestController implements Closeable {
         timer = new Timer();
         timer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
     }
+ /*   private void updateAmountOfDoneMissions(){
+        for (AgentInfoDTO agentInfoDTO:) {
+
+        }
+    }*/
     private void updateContestStatus(ContestStatusInfoDTO contestStatusInfoDTO) {
         if (!isContestEnded.getValue()) {
             Platform.runLater(() -> {
@@ -381,9 +391,10 @@ public class AlliesContestController implements Closeable {
                 }});
         }
     }
+
     @Override
     public void close() throws IOException {
-        activeTeamsDetailsTableView.getItems().clear();
+      //  activeTeamsDetailsTableView.getItems().clear();
         contestResultsInfoVersion.set(0);
         if (contestStatusRefresher != null&&agentsTableViewRefresher != null
                 &&alliesRegisteredTeamsRefresher != null&&contestInfoRefresher != null
@@ -396,6 +407,19 @@ public class AlliesContestController implements Closeable {
             agentsTableViewTimer.cancel();
             alliesBruteForceResultTableViewRefresherTimer.cancel();
             timer.cancel();
+        }
+    }
+    public void startDMAmountOfCreatedMissionsRefresherRefresher() {
+        amountOfCreatedMissionsRefresher = new DMAmountOfCreatedMissionsRefresher(
+                this::updateAmountOfCreatedMissions,autoUpdate,alliesTeamName);
+        timer = new Timer();
+        timer.schedule(amountOfCreatedMissionsRefresher, REFRESH_RATE, REFRESH_RATE);
+    }
+    private void updateAmountOfCreatedMissions(String amountOfCreatedMissions ) {
+        if (!isContestEnded.getValue()) {
+            Platform.runLater(() ->
+                dmAmountOfCreatedMissionsLabel.setText("The amount of created missions: "+amountOfCreatedMissions)
+              );
         }
     }
 

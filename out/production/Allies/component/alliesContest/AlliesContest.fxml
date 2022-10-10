@@ -40,6 +40,11 @@
             <Separator orientation="VERTICAL" prefHeight="200.0" />
             <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
                <children>
+                  <HBox prefHeight="74.0" prefWidth="635.0">
+                     <children>
+                        <Label fx:id="dmAmountOfCreatedMissionsLabel" />
+                     </children>
+                  </HBox>
                   <TableView fx:id="activeTeamsDetailsTableView" prefHeight="111.0" prefWidth="635.0">
                     <columns>
                       <TableColumn fx:id="alliesTeamNameColumn" prefWidth="146.0" text="Team Name" />

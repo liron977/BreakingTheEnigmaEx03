@@ -19,16 +19,18 @@ public class GetContestStatusServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             response.setContentType("application/json");
             String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
-            UBoatAvailableContestsManager uBoatAvailableContestsManager= ServletUtils.getUBoatAvailableContestsManager(getServletContext());
-            String battleName=uBoatAvailableContestsManager.getUboatNameByAlliesTeamName(theAlliesTeamName);
-            EngineManager engineManager=uBoatAvailableContestsManager.getEngineManagerByBattleFieldName(battleName);
-            ContestStatusInfoDTO contestStatusInfoDTO=new ContestStatusInfoDTO(
-                    engineManager.getIsContestEnded(),
-                    engineManager.getAlliesWinnwerTeamName());
-            Gson gson = new Gson();
-            String json = gson.toJson(contestStatusInfoDTO);
-            out.println(json);
-            out.flush();
+            UBoatAvailableContestsManager uBoatAvailableContestsManager = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
+            String battleName = uBoatAvailableContestsManager.getUboatNameByAlliesTeamName(theAlliesTeamName);
+            if (battleName != null) {
+                EngineManager engineManager = uBoatAvailableContestsManager.getEngineManagerByBattleFieldName(battleName);
+                ContestStatusInfoDTO contestStatusInfoDTO = new ContestStatusInfoDTO(
+                        engineManager.getIsContestEnded(),
+                        engineManager.getAlliesWinnwerTeamName());
+                Gson gson = new Gson();
+                String json = gson.toJson(contestStatusInfoDTO);
+                out.println(json);
+                out.flush();
+            }
         }
         catch (Exception e) {
             throw new RuntimeException(e);

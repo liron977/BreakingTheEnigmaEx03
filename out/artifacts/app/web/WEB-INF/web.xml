@@ -210,6 +210,14 @@
         <servlet-name>GetContestStatusServlet</servlet-name>
         <url-pattern>/GetContestStatusServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>DMGetAmountOfCreatedMissionServlet</servlet-name>
+        <servlet-class>servlets.DMGetAmountOfCreatedMissionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DMGetAmountOfCreatedMissionServlet</servlet-name>
+        <url-pattern>/DMGetAmountOfCreatedMissionServlet</url-pattern>
+    </servlet-mapping>
 
 
 </web-app>
