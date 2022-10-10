@@ -1,0 +1,263 @@
+.root{
+    /*    -fx-control-inner-background: rgb(17, 17, 17);
+        -fx-background-color: #0a0a0a;*/
+    -fx-base: rgb(50, 50, 50);
+    -fx-background: rgb(50, 50, 50);
+    /* make controls (buttons, thumb, etc.) slightly lighter */
+    -fx-color: derive(-fx-base, 10%);
+
+    /* text fields and table rows background */
+    -fx-control-inner-background: rgb(20, 20, 20);
+    /* version of -fx-control-inner-background for alternative rows */
+    -fx-control-inner-background-alt: derive(-fx-control-inner-background, 2.5%);
+
+    /* text colors depending on background's brightness */
+    -fx-light-text-color: rgb(220, 220, 220);
+    -fx-mid-text-color: rgb(100, 100, 100);
+    -fx-dark-text-color: rgb(234, 227, 227);
+
+    /* A bright blue for highlighting/accenting objects.  For example: selected
+     * text; selected items in menus, lists, trees, and tables; progress bars */
+    -fx-accent: rgb(213, 217, 222);
+
+    /* color of non-focused yet selected elements */
+    -fx-selection-bar-non-focused: rgb(50, 50, 50);
+    -fx-font-family: Serif;
+    -fx-font-size: 15;
+}
+.singleWordTile {
+    -fx-background-color: rgb(77, 74, 77);
+    -fx-border-width: 5px;
+    -fx-border-color: #151415;
+    -fx-background-radius: 5.0;
+    -fx-font-family: Serif;
+    -fx-font-size: 17;
+}
+.singleDecryptionScroller{
+    -fx-background: #918f91;
+    -fx-background-color: #737173;
+    -fx-font-family:Serif;
+    -fx-font-size: 17;
+}
+
+#GeneralLabel {
+    -fx-font-family: Serif;
+    -fx-font-size: 16;
+    /*-fx-font-weight: bold;*/
+
+    -fx-text-fill: white;
+//-fx-background-color: #858181;
+    /* -fx-effect: dropshadow( three-pass-box , rgba(58, 56, 56, 0.9), 4, 0.0 , 0 , 1 );*/
+    -fx-background-radius: 8, 7, 6;
+    -fx-alignment: center;
+}
+#userInputBruteForce{
+    -fx-font-family:Serif;
+    -fx-light-text-color: rgb(10, 10, 10);
+    -fx-mid-text-color: rgb(100, 100, 100);
+    -fx-control-inner-background: rgb(213, 217, 222);
+    -fx-font-weight: bold;
+    -fx-font-size: 17;
+}
+
+#saveSettingsButton{
+    -fx-background-radius: 30px;
+    -fx-border-radius: 50px;
+    -fx-font-family: Serif;
+//-fx-effect: dropshadow( one-pass-box , #f8f6f6, 8 , 0.0 , 2 , 0 );
+    -fx-text-fill: white;
+//-fx-border-color: rgb(91, 88, 91);
+//-fx-border-radius: 3;
+// /*-fx-padding: 1 4 4 4;*/
+    /*-fx-font-weight: bold;*/
+    -fx-font-size: 15;
+}
+#hbox{
+    -fx-background-radius: 30px;
+    -fx-border-radius: 50px;
+    -fx-font-family:Serif;
+    -fx-effect: dropshadow( one-pass-box , #f8f6f6, 8 , 0.0 , 2 , 0 );
+    -fx-text-fill: #171617;
+//-fx-border-color: rgb(91, 88, 91);
+// -fx-border-radius: 3;
+    -fx-padding: 1 4 4 4;
+}
+#bigButton{
+    -fx-background-radius: 30px;
+    -fx-border-radius: 50px;
+    -fx-font-family:Serif;
+//-fx-effect: dropshadow( one-pass-box , #d5d9de, 8 , 0.0 , 2 , 0 );
+    -fx-text-fill: white;
+    -fx-border-color: rgb(91, 88, 91);
+//-fx-border-radius: 50;
+    -fx-padding: 1 4 4 4;
+    -fx-font-weight: bold;
+    -fx-font-size: 20;
+}
+#keyBoardButton .button{
+    -fx-text-fill: white;
+    -fx-background-radius: 30px;
+    /* // -fx-border-radius: 50px;*/
+    -fx-font-family: Serif;
+    -fx-effect: dropshadow( one-pass-box , #d5d9de, 8 , 0.0 , 2 , 0 );
+    -fx-border-color: rgb(91, 88, 91);
+    /*  //-fx-border-radius: 3;
+      //-fx-padding: 1 4 4 4;*/
+    -fx-font-weight: bold;
+    -fx-border-radius: 50%;
+    -fx-font-size: 15;
+}
+#TabButton{
+    -fx-background-radius: 30px;
+    -fx-border-radius: 50px;
+    /*-fx-padding: 20px;*/
+    -fx-font-family:Serif;
+//-fx-effect: dropshadow( one-pass-box , #d5d9de, 8 , 0.0 , 2 , 0 );
+    -fx-text-fill: #171617;
+    -fx-border-color:white;
+//-fx-border-radius: 50%;
+    -fx-border-width: 1;
+//-fx-font-weight: normal;
+    /*-fx-padding: 1 4 4 4;*/
+    -fx-font-weight: bold;
+    -fx-font-size: 16;
+}
+
+.scroll-pane > .scroll-bar > .thumb{
+    -fx-background-color: #171617;
+    -fx-border-color: rgb(91, 88, 91);
+}
+#presentInfoSection{
+    -fx-background-radius: 30px;
+    -fx-border-radius: 50px;
+    -fx-font-family:Serif;
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-fill: white;
+//-fx-background-color: white;
+// -fx-border-color: #8f8a8a;
+    -fx-light-text-color: rgb(220, 220, 220);
+    -fx-mid-text-color: rgb(100, 100, 100);
+    -fx-dark-text-color: rgb(20, 20, 20);
+    -fx-font-size: 17;
+
+// -fx-background-radius: 40;
+
+}
+#lighterLabel{
+
+    -fx-font-family: Serif;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+
+    -fx-font-size: 15;
+    -fx-text-alignment: center;
+
+}
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+.radio-button{
+    -fx-background-radius: 30px;
+    -fx-border-radius: 50px;
+    -fx-font-family: Serif;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+
+    -fx-font-size: 17;
+    -fx-text-alignment: center;
+}
+
+#wheelsImage{
+    -fx-background-image: url("iconRotor.png");
+    -fx-background-radius: 30;
+    -fx-background-size: cover;
+    -fx-effect: dropshadow( three-pass-box , rgb(213, 217, 222), 4, 0.0 , 0 , 1 );
+    -fx-background-radius: 8, 7, 6;
+    -fx-background-insets: 0, 1, 2;
+
+    -fx-opacity: 0.5;
+
+
+}
+#lighterDynamic .label{
+    -fx-font-family: Verdana;
+    -fx-font-weight: bold;
+    -fx-text-fill:white;
+    -fx-font-size: 17;
+    -fx-text-alignment: center;
+}
+#dynamic .label {
+    -fx-font-family: Serif;
+    -fx-font-size: 17;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: black;
+    /*-fx-effect: dropshadow( three-pass-box , rgb(213, 217, 222), 4, 0.0 , 0 , 1 );*/
+    -fx-background-radius: 8, 7, 6;
+    -fx-alignment: center;
+}
+#description{
+    -fx-font-family:Serif;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-font-size: 17;
+    -fx-text-alignment: center;
+
+}
+#paneDetail{
+    /*-fx-background-color: #3d4c75;*/
+    -fx-font-family:Serif;
+    -fx-background-color: radial-gradient(center 80% 50%, radius 120%, rgb(77, 74, 77), #0a0a0a);
+    -fx-effect: dropshadow( three-pass-box , rgb(213, 217, 222), 4, 0.0 , 0 , 1 );
+    /* -fx-opacity: 0.6;*/
+    /*-fx-background-radius: 8, 7, 6;*/
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 100;
+    -fx-font-size: 17;
+}
+#MachineDetailsTitle{
+    -fx-font-family: Serif;
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+    -fx-text-fill:white;
+    /* -fx-background-color: white;*/
+    /*  -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.9) , 4, 0.0 , 0 , 1 );
+      -fx-background-color: radial-gradient(center 20% 50% , radius 100%, #8c9dcb ,transparent);*/
+    -fx-background-radius: 8, 7, 6;
+
+
+
+}
+#LoadFilePath{
+    -fx-background-radius: 30px;
+    -fx-border-radius: 50px;
+    -fx-background-color: #111111;
+//-fx-background-radius: 8, 7, 6;
+    -fx-font-size: 17;
+    -fx-font-family:Serif;
+}
+
+#theEnigmaMachineTitle{
+    -fx-font-size: 25px;
+    -fx-font-family:Serif;
+    -fx-font-weight: bold;
+    -fx-fill: white;
+    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
+    -fx-text-fill: #111111;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.9) , 4, 0.0 , 0 , 1 );
+    -fx-background-color: radial-gradient(center 20% 50% , radius 100%, #d9d4d4,transparent);
+    -fx-background-radius: 8, 7, 6;
+}
+.table-view .scroll-bar * {
+    -fx-min-width: 0;
+    -fx-pref-width: 0;
+    -fx-max-width: 0;
+
+    -fx-min-height: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+}
+.table-column{
+    -fx-alignment: center;
+}
