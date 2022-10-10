@@ -43,7 +43,16 @@
                   <HBox prefHeight="74.0" prefWidth="635.0">
                      <children>
                         <Label fx:id="dmAmountOfCreatedMissionsLabel" />
-                        <Label fx:id="amountOfDoneMissions" />
+                        <Label fx:id="amountOfDoneMissions">
+                           <HBox.margin>
+                              <Insets left="30.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="totalAmountOfCreatedMissionsLabel">
+                           <HBox.margin>
+                              <Insets left="30.0" />
+                           </HBox.margin>
+                        </Label>
                      </children>
                   </HBox>
                   <TableView fx:id="activeTeamsDetailsTableView" prefHeight="111.0" prefWidth="635.0">

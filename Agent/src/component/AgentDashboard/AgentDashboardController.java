@@ -246,7 +246,7 @@ public class AgentDashboardController implements Closeable {
                         theMissionInfoListFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
                         amountOfAskedMissionsProperty.setValue(amountOfAskedMissionsProperty.getValue() + theMissionInfoListFromGson.size());
                         Platform.runLater(() -> {
-                            amountOfAskedMissionsLabel.setText("Amount Of Asked Missions : " + amountOfAskedMissionsProperty.getValue());
+                            amountOfAskedMissionsLabel.setText("Amount Of Asked Missions : " + displayTextWithCommas(amountOfAskedMissionsProperty.getValue()));
                         });
                         TheMachineEngine theMachineEngine = getTheMachineEngineInputstream();
                         setTheMachineEngine(theMachineEngine);
@@ -316,11 +316,11 @@ return isMissionsEnded;
                         throw new RuntimeException(e);
                     }},
                     amountDoneMissionsPerAgent->{
-                        amountDoneMissionsPerAgentLabel.setText("Amount Of Done Missions : "+String.valueOf(amountDoneMissionsPerAgent));
+                        amountDoneMissionsPerAgentLabel.setText("Amount Of Done Missions : "+displayTextWithCommas(amountDoneMissionsPerAgent));
 
                     },
                 amountOfMissionsInTheQueue->{
-                    currentAmountOfMissionsInTheQueue.setText("Amount Of Missions In The Queue : "+String.valueOf(amountOfMissionsInTheQueue));
+                    currentAmountOfMissionsInTheQueue.setText("Amount Of Missions In The Queue : "+displayTextWithCommas(amountOfMissionsInTheQueue));
                 });
     }
     private  void saveResultsOnServer(List<BruteForceResultDTO> bruteForceResultDTOBlockingQueue) throws InterruptedException {
@@ -514,6 +514,22 @@ return isMissionsEnded;
                     }
                 }});
         }
+    }
+    public String displayTextWithCommas(int amount){
+        StringBuilder amountWithCommas= new StringBuilder("");
+        int counter=0;
+        if(amount==0){
+            return "0";
+        }
+        while (amount>0){
+            if((counter%3==0)&&(counter!=0)){
+                amountWithCommas=amountWithCommas.append(",");
+            }
+            counter++;
+            amountWithCommas=amountWithCommas.append(amount%10);
+            amount=amount/10;
+        }
+        return amountWithCommas.reverse().toString();
     }
     @Override
     public void close() throws IOException {

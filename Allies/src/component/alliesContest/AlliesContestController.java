@@ -36,6 +36,8 @@ public class AlliesContestController implements Closeable {
     @FXML
     private Label amountOfDoneMissions;
     @FXML
+    private Label totalAmountOfCreatedMissionsLabel;
+    @FXML
     private TextField missionSizeTextField;
 
     private String alliesTeamName;
@@ -343,15 +345,21 @@ public class AlliesContestController implements Closeable {
         Platform.runLater(() -> {
             ObservableList<AgentInfoDTO> agentInfoDTOObservableList =getTeamsAgentsMissionsStatusTableViewDTOList(agentInfoDTOList);
             createAgentsInfoDTOTableView(agentInfoDTOObservableList);
-            //amountOfDoneMissions.setText(agentInfoDTOObservableList.);
+            amountOfDoneMissions.setText("The amount of done missions: "+displayTextWithCommas(updateAmountOfDoneMissions(agentInfoDTOObservableList)));
             //totalAgentsAmount.set(agentInfoDTOList.size());
-            int x=0;
         });
     }
     private void createAgentsInfoDTOTableView(ObservableList<AgentInfoDTO> agentInfoDTOList ) {
         agentsMissionsStatusTableView.setItems(agentInfoDTOList);
         agentsMissionsStatusTableView.getColumns().clear();
         agentsMissionsStatusTableView.getColumns().addAll(agentNameColumn, amountOfCandidatesStringsColumn, amountOfMissionsToExecuteColumn,amountOfMissionsReceivedColumn);
+    }
+    private Long updateAmountOfDoneMissions(ObservableList<AgentInfoDTO> agentInfoDTOList){
+        Long amountOfDoneMissions=0L;
+        for (AgentInfoDTO agentInfoDTO:agentInfoDTOList) {
+            amountOfDoneMissions+=agentInfoDTO.getAmountOfDoneMissions();
+        }
+        return amountOfDoneMissions;
     }
     public void startAgentsTableViewRefresher() {
         agentsTableViewRefresher = new AgentsTablesViewRefresher(
@@ -367,11 +375,7 @@ public class AlliesContestController implements Closeable {
         timer = new Timer();
         timer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
     }
- /*   private void updateAmountOfDoneMissions(){
-        for (AgentInfoDTO agentInfoDTO:) {
 
-        }
-    }*/
     private void updateContestStatus(ContestStatusInfoDTO contestStatusInfoDTO) {
         if (!isContestEnded.getValue()) {
             Platform.runLater(() -> {
@@ -416,12 +420,35 @@ public class AlliesContestController implements Closeable {
         timer = new Timer();
         timer.schedule(amountOfCreatedMissionsRefresher, REFRESH_RATE, REFRESH_RATE);
     }
-    private void updateAmountOfCreatedMissions(String amountOfCreatedMissions ) {
+    private void updateAmountOfCreatedMissions(DMAmountOfMissionsInfoDTO dmAmountOfMissionsInfoDTO ) {
         if (!isContestEnded.getValue()) {
-            Platform.runLater(() ->
-                dmAmountOfCreatedMissionsLabel.setText("The amount of created missions: "+amountOfCreatedMissions)
-              );
+            Platform.runLater(() ->{
+                dmAmountOfCreatedMissionsLabel.setText("The amount of created missions: "
+                        +displayTextWithCommas(dmAmountOfMissionsInfoDTO.getAmountOfCreatedMissions()));
+                    totalAmountOfCreatedMissionsLabel.setText("The maximum amount of missions: "
+                            +displayTextWithCommas(dmAmountOfMissionsInfoDTO.getTotalAmountOfCreatedMissions()));
+            });
         }
     }
+    public String displayTextWithCommas(Long amount){
+        StringBuilder amountWithCommas= new StringBuilder("");
+        int counter=0;
+        if(amount==0){
+            return "0";
+        }
+        while (amount>0){
+            if((counter%3==0)&&(counter!=0)){
+                amountWithCommas=amountWithCommas.append(",");
+            }
+            counter++;
+            amountWithCommas=amountWithCommas.append(amount%10);
+            amount=amount/10;
+        }
+        return amountWithCommas.reverse().toString();
+    }
+/*    public void updateTotalAmountOfMissionsToCreate(){
+        amountOfCreatedMissionsRefresher = new DMAmountOfCreatedMissionsRefresher(
+                this::updateAmountOfCreatedMissions,autoUpdate,alliesTeamName);
+    }*/
 
 }

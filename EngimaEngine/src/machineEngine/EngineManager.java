@@ -739,8 +739,8 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         }
 
       return maxAmountOfMissionsWithCommas.reverse().toString();
-
     }
+
     public long factorial(int n) {
         long fact = 1;
         for (int i = 2; i <= n; i++) {

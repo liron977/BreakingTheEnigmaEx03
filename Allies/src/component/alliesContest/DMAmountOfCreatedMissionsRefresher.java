@@ -1,6 +1,9 @@
 package component.alliesContest;
 
+import bruteForce.AlliesDTO;
+import bruteForce.DMAmountOfMissionsInfoDTO;
 import bruteForce.UBoatContestInfoWithoutCheckBoxDTO;
+import com.google.gson.reflect.TypeToken;
 import constants.Constants;
 import javafx.beans.property.BooleanProperty;
 import okhttp3.Call;
@@ -11,15 +14,18 @@ import org.jetbrains.annotations.NotNull;
 import utils.http.HttpClientUtil;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TimerTask;
 import java.util.function.Consumer;
 
 public class DMAmountOfCreatedMissionsRefresher extends TimerTask {
-    private final Consumer<String> updateAmountOfCreatedMissionConsumer;
+    private final Consumer<DMAmountOfMissionsInfoDTO> updateAmountOfCreatedMissionConsumer;
     private final BooleanProperty shouldUpdate;
     private String alliesTeamName;
 
-    public DMAmountOfCreatedMissionsRefresher(Consumer<String> updateAmountOfCreatedMissionConsumer, BooleanProperty shouldUpdate, String alliesTeamName) {
+    public DMAmountOfCreatedMissionsRefresher(Consumer<DMAmountOfMissionsInfoDTO> updateAmountOfCreatedMissionConsumer, BooleanProperty shouldUpdate, String alliesTeamName) {
         this.updateAmountOfCreatedMissionConsumer = updateAmountOfCreatedMissionConsumer;
         this.shouldUpdate = shouldUpdate;
         this.alliesTeamName=alliesTeamName;
@@ -52,9 +58,11 @@ public class DMAmountOfCreatedMissionsRefresher extends TimerTask {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 //String jsonArrayOfUsersNames = response.body().string();
-                String amountOfCreatedMissions=response.body().string();
-                if((amountOfCreatedMissions!=null)) {
-                    updateAmountOfCreatedMissionConsumer.accept((amountOfCreatedMissions));
+                Type dMAmountOfMissionsInfoDTOType = new TypeToken<DMAmountOfMissionsInfoDTO>() {}.getType();
+                DMAmountOfMissionsInfoDTO dtoFromGson=Constants.GSON_INSTANCE.fromJson(response.body().string(),dMAmountOfMissionsInfoDTOType);
+               // String amountOfCreatedMissions=response.body().string();
+                if((dtoFromGson!=null)) {
+                    updateAmountOfCreatedMissionConsumer.accept(dtoFromGson);
                 }
             }
         });

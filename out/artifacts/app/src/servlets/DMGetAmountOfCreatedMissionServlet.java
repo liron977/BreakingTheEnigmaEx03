@@ -1,5 +1,7 @@
 package servlets;
 
+import bruteForce.DMAmountOfMissionsInfoDTO;
+import com.google.gson.Gson;
 import constants.ParametersConstants;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,8 +19,13 @@ public class DMGetAmountOfCreatedMissionServlet extends HttpServlet {
             response.setContentType("application/json");
             AlliesManager alliesManager= ServletUtils.getAlliesManager(getServletContext());
             String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
-            int amountOfCreatedMissions=alliesManager.getAmountOfCreadedMission(theAlliesTeamName);
-            out.println(amountOfCreatedMissions);
+            Long amountOfCreatedMissions=alliesManager.getAmountOfCreadedMission(theAlliesTeamName);
+            Long totalAmountOfCreatedMissions= alliesManager.getTotalAmountOfCreadedMission(theAlliesTeamName);
+            DMAmountOfMissionsInfoDTO dmAmountOfMissionsInfoDTO=new
+                    DMAmountOfMissionsInfoDTO(totalAmountOfCreatedMissions,amountOfCreatedMissions);
+            Gson gson = new Gson();
+            String json = gson.toJson(dmAmountOfMissionsInfoDTO);
+            out.println(json);
             out.flush();
         } catch (Exception e) {
             throw new RuntimeException(e);

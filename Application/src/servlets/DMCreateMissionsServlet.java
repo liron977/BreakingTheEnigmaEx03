@@ -45,6 +45,7 @@ public class DMCreateMissionsServlet extends HttpServlet {
       engineManager.setMaxAmountOfMissions(level, sizeOfMission);
 
         Long amountOfSubListsToCreate = calculateAmountOfMissionsToCreate(engineManager, sizeOfMission);
+        updateTotalAmountOfMissions(engineManager,sizeOfMission,theAlliesTeamName);
            if (level.equals("Easy")) {
             createLowLevelMission(0,engineManager, amountOfSubListsToCreate, sizeOfMission,theAlliesTeamName,stringToConvert);
         } else if (level.equals("Medium")) {
@@ -79,14 +80,13 @@ public class DMCreateMissionsServlet extends HttpServlet {
                     isAddedToBlockingQueue = alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName, theMissionInfo);
                 }
             }
-            alliesManager.increaseAmountOfCreatedMission(theAlliesTeamName);
+            if(theAlliesTeamName!=null&&alliesManager!=null) {
+                alliesManager.increaseAmountOfCreatedMission(theAlliesTeamName);
+            }
             missionsCounter=missionsCounter.intValue()+1;
       /*      System.out.println(missionsCounter.intValue());*/
             initialStartingPosition = engineManager.getNextStartingPositionByString(sizeOfMission);
         }
-
-
-        int x=0;
     }
 
     public void createMediumLevelMission(Integer missionsCounter,EngineManager engineManager,
@@ -154,6 +154,11 @@ public class DMCreateMissionsServlet extends HttpServlet {
             amountOfSubListsToCreate++;
         }
         return amountOfSubListsToCreate;
+    }
+    public void updateTotalAmountOfMissions(EngineManager engineManager, int sizeOfMission,String theAlliesTeamName){
+        AlliesManager alliesManager=ServletUtils.getAlliesManager(getServletContext());
+        long maxAmountOfMissions =(engineManager.setMaxAmountOfMissions(engineManager.getLevel(), sizeOfMission));
+        alliesManager.setTotalAmountOfCreadedMission(theAlliesTeamName,maxAmountOfMissions);
     }
     private void updateEngineManager(EngineManager engineManagerCopy, EngineManager engineManager) {
         engineManager.setStartingPositionValues(engineManagerCopy.getTheLastStartingPos(), engineManagerCopy.getLastIndex(), engineManagerCopy.getFirstList(), engineManagerCopy.getCountPossibleStartingPosition());

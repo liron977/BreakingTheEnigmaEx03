@@ -12,6 +12,7 @@ public class Allies implements Serializable {
    private String battlefieldName;
    private int agentsAmount;
    private int amountOfCreatedMissions;
+   private Long totalAmountOfMissionToCreate;
     public Allies( String alliesName){
         this.alliesName=alliesName;
         this.missionSize=0;
@@ -19,6 +20,7 @@ public class Allies implements Serializable {
         alliesAgents=new ArrayList<>();
         this.battlefieldName="";
         this.amountOfCreatedMissions=0;
+        this.totalAmountOfMissionToCreate=0l;
     }
     public void setAgentMissionsStatus(String agentName,int amountOfCandidatesStrings,int amountOfReceivedMissions, int amountOfMissionsToExecute){
         for (AlliesAgent agent:alliesAgents) {
@@ -40,6 +42,14 @@ public class Allies implements Serializable {
     }
     public void increaseAmountOfCreatedMissions(){
         this.amountOfCreatedMissions=this.amountOfCreatedMissions+1;
+    }
+
+    public void setTotalAmountOfMissionToCreate(Long totalAmountOfMissionToCreate) {
+        this.totalAmountOfMissionToCreate = totalAmountOfMissionToCreate;
+    }
+
+    public Long getTotalAmountOfMissionToCreate() {
+        return totalAmountOfMissionToCreate;
     }
 
     public String getBattlefieldName() {

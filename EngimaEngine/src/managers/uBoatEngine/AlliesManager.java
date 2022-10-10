@@ -38,10 +38,18 @@ public class AlliesManager {
            allies.increaseAmountOfCreatedMissions();
         }
     }
-    public int getAmountOfCreadedMission(String alliesTeamName){
+    public synchronized Long getAmountOfCreadedMission(String alliesTeamName){
         Allies allies= getAlliesByAlliesTeamName(alliesTeamName);
-        return allies.getAmountOfCreatedMissions();
+        return Long.valueOf(allies.getAmountOfCreatedMissions());
         }
+    public synchronized Long getTotalAmountOfCreadedMission(String alliesTeamName){
+        Allies allies= getAlliesByAlliesTeamName(alliesTeamName);
+        return Long.valueOf(allies.getTotalAmountOfMissionToCreate());
+    }
+    public synchronized void setTotalAmountOfCreadedMission(String alliesTeamName,Long totalAmountOfCreadedMission){
+        Allies allies= getAlliesByAlliesTeamName(alliesTeamName);
+         allies.setTotalAmountOfMissionToCreate(totalAmountOfCreadedMission);
+    }
     public synchronized  Map<String, Allies> getAlliesManagerMap() {
         return  alliesManagerMap;
     }
