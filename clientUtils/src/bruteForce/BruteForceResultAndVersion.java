@@ -1,25 +1,26 @@
-package utils;
-
-import bruteForce.BruteForceResultDTO;
+package bruteForce;
 
 import java.io.*;
 import java.util.List;
 
-public class BruteForceResultAndVersion implements Serializable {
-         private List<BruteForceResultDTO> entries;
-         private int version;
+public class BruteForceResultAndVersion implements Serializable{
+    private int version;
+    private List<BruteForceResultDTO> entries;
 
-        public BruteForceResultAndVersion(List<BruteForceResultDTO> entries, int version) {
-            this.entries = entries;
-            this.version = version;
-        }
-
-    public synchronized int getVersion() {
+    public int getVersion() {
         return version;
     }
 
-    public synchronized List<BruteForceResultDTO> getEntries() {
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public List<BruteForceResultDTO> getEntries() {
         return entries;
+    }
+
+    public void setEntries(List<BruteForceResultDTO> entries) {
+        this.entries = entries;
     }
     public BruteForceResultAndVersion cloneBruteForceResultAndVersion() {
         try {

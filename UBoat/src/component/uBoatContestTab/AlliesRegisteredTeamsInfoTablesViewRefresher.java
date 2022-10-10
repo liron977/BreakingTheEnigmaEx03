@@ -2,15 +2,13 @@ package component.uBoatContestTab;
 
 import bruteForce.AlliesDTO;
 import com.google.gson.reflect.TypeToken;
-import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
-import javafx.scene.control.Alert;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
-import utils.Constants;
+import constants.Constants;
 import utils.http.HttpClientUtil;
 
 import java.io.IOException;

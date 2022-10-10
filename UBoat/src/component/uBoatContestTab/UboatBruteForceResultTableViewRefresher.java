@@ -7,15 +7,15 @@ import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
-import utils.BruteForceResultAndVersion;
-import utils.Constants;
+import bruteForce.BruteForceResultAndVersion;
+import constants.Constants;
 import utils.http.HttpClientUtil;
 
 import java.io.IOException;
 import java.util.TimerTask;
 import java.util.function.Consumer;
 
-import static utils.Constants.GSON_INSTANCE;
+import static constants.Constants.GSON_INSTANCE;
 
 public class UboatBruteForceResultTableViewRefresher extends TimerTask {
 

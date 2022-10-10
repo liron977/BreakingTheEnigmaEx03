@@ -21,8 +21,8 @@ import javafx.scene.input.MouseEvent;
 import machineDTO.ConvertedStringProcessDTO;
 import okhttp3.*;
 import uiMediator.Mediator;
-import utils.BruteForceResultAndVersion;
-import utils.Constants;
+import bruteForce.BruteForceResultAndVersion;
+import constants.Constants;
 import utils.EventsHandler;
 import utils.http.HttpClientUtil;
 
@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static utils.Constants.REFRESH_RATE;
+import static constants.Constants.REFRESH_RATE;
 
 public class UBoatContestTabController implements EventsHandler, Closeable {
 

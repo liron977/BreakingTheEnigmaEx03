@@ -17,8 +17,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import okhttp3.*;
-import utils.BruteForceResultAndVersion;
-import utils.Constants;
+import bruteForce.BruteForceResultAndVersion;
+import constants.Constants;
 import utils.http.HttpClientUtil;
 
 import java.io.Closeable;
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static utils.Constants.REFRESH_RATE;
+import static constants.Constants.REFRESH_RATE;
 
 public class AlliesContestController implements Closeable {
     MainWindowAlliesController mainWindowAlliesController;

@@ -14,7 +14,10 @@ public class UBoatBattleField implements Serializable {
    private String contestStatus;
     private String uploadedBy;
     private String convertedString;
+    private String stringToConvert;
     private List<Allies> alliesRegisteredToContest;
+    private boolean isContestEnded;
+    private String alliesWinnwerTeamName;
 
    public UBoatBattleField(String battleName, int alliesNeededTeamsAmount, String level){
        this.battleName=battleName;
@@ -23,7 +26,10 @@ public class UBoatBattleField implements Serializable {
        this.alliesActiveTeamsAmount=0;
        this.contestStatus="Wait..";
        this.convertedString="";
+       this.stringToConvert="";
        alliesRegisteredToContest=new ArrayList<>();
+       this.isContestEnded=false;
+       this.alliesWinnwerTeamName="";
    }
 public boolean isAlliesExists(String alliesTeamName){
     for (Allies allies:alliesRegisteredToContest) {
@@ -93,5 +99,26 @@ public boolean isAlliesExists(String alliesTeamName){
     }
     public int getAlliesSizeOfMission(){
       return alliesRegisteredToContest.get(0).getMissionSize();
+    }
+
+    public String getStringToConvert() {
+        return stringToConvert;
+    }
+
+    public void setStringToConvert(String stringToConvert) {
+        this.stringToConvert = stringToConvert;
+    }
+
+    public void setIsContestEnded(boolean contestEnded) {
+        isContestEnded = contestEnded;
+    }
+    public boolean getIsContestEnded() {
+       return isContestEnded;
+    }
+    public String getAlliesWinnwerTeamName() {
+        return alliesWinnwerTeamName;
+    }
+    public void setAlliesWinnwerTeamName(String alliesWinnwerTeamName) {
+        this.alliesWinnwerTeamName = alliesWinnwerTeamName;
     }
 }

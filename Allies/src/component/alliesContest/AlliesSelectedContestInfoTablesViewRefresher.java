@@ -1,21 +1,16 @@
 package component.alliesContest;
 
-import bruteForce.AlliesDTO;
 import bruteForce.UBoatContestInfoWithoutCheckBoxDTO;
-import com.google.gson.reflect.TypeToken;
 import javafx.beans.property.BooleanProperty;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
-import utils.Constants;
+import constants.Constants;
 import utils.http.HttpClientUtil;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.TimerTask;
 import java.util.function.Consumer;
 

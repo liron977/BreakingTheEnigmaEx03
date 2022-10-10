@@ -3,13 +3,11 @@ package component.alliesContest;
 import com.google.gson.Gson;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
-import javafx.scene.control.Alert;
 import okhttp3.*;
-import utils.Constants;
+import constants.Constants;
 import utils.http.HttpClientUtil;
 
 import java.io.IOException;
-import java.security.SecureRandom;
 
 public class AlliesThreadTask extends Task<Boolean> {
     // private UiAdapterInterface UiAdapter;

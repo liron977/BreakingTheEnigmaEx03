@@ -14,7 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static utils.Constants.REFRESH_RATE;
+import static constants.Constants.REFRESH_RATE;
 
 public class ContestInfoController {
     @FXML

@@ -30,13 +30,15 @@ public class BruteForceResultsServlet extends HttpServlet {
         List<BruteForceResultDTO> bruteForceResultDTOListFromGson = gson.fromJson(request.getReader(), bruteForceResultsListType);
         if(bruteForceResultDTOListFromGson!=null) {
             try {
-                uboatBruteForceResultsMapManager.addBruteForceResultsIntoList(battleName,bruteForceResultDTOListFromGson);
-                alliesBruteForceResultsListManager.addBruteForceResultsIntoList(theAlliesTeamName, bruteForceResultDTOListFromGson);
+                synchronized (getServletContext()) {
+                    uboatBruteForceResultsMapManager.addBruteForceResultsIntoList(battleName, bruteForceResultDTOListFromGson);
+                    alliesBruteForceResultsListManager.addBruteForceResultsIntoList(theAlliesTeamName, bruteForceResultDTOListFromGson);
 /*                List<BruteForceResultDTO> list = uboatBruteForceResultsMapManager.getBruteForceListByUboatName(battleName);
                 System.out.println("*************************");
                 for (BruteForceResultDTO brute : list) {
                     System.out.println(brute.getConvertedString() + " " + brute.getCodeDescription() + " " + brute.getTheMissionNumber() + "IN SERVLET");
                 }*/
+                }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

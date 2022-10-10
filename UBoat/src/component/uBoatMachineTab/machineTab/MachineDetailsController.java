@@ -16,7 +16,7 @@ import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.Response;
 import uiMediator.Mediator;
-import utils.Constants;
+import constants.Constants;
 import utils.EventsHandler;
 import utils.http.HttpClientUtil;
 

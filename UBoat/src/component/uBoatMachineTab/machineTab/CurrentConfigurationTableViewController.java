@@ -13,10 +13,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import machineDTO.LimitedCodeConfigurationDTO;
 
-import machineDTO.TheMachineSettingsDTO;
 import okhttp3.*;
 import uiMediator.Mediator;
-import utils.Constants;
+import constants.Constants;
 import utils.EventsHandler;
 import utils.http.HttpClientUtil;
 

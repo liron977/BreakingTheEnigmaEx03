@@ -69,6 +69,8 @@ public class EncryptServlet extends HttpServlet {
                                     }
                                     convertedString = engineManager.getConvertedString(stringToConvertWithoutExcludedSignals).getConvertedString().toUpperCase();
                                     convertedStringProcessDTO = new ConvertedStringProcessDTO(stringToConvertWithoutExcludedSignals, convertedString,exceptionList);
+                                    engineManager.getBattleField().setStringToConvert(stringToConvertWithoutExcludedSignals);
+                                    engineManager.getBattleField().setConvertedString(convertedString);
                                     if (plugsBoard != null) {
                                         engineManager.getTheMachineEngine().getPlugsBoard().setPairsOfSwappingCharacter(listOfPairsOfSwappingCharacter);
                                     }

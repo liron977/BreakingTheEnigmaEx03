@@ -1,8 +1,10 @@
 package managers.uBoatEngine;
 
+import bruteForce.BruteForceResultDTO;
 import machineEngine.EngineManager;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UBoatAvailableContestsManager {
@@ -33,9 +35,25 @@ public class UBoatAvailableContestsManager {
         }
         return null;
     }
+    public synchronized boolean isStringToConvertFound(String battleFieldName, List<BruteForceResultDTO> bruteForceResultDTOListFromGson){
+        EngineManager engineManager=getEngineManagerByBattleFieldName(battleFieldName);
+        String stringToConvertFromEngine=engineManager.getStringToConvert();
+        for (BruteForceResultDTO bruteForceResult:bruteForceResultDTOListFromGson) {
+            if(bruteForceResult.getConvertedString().equals(stringToConvertFromEngine)){
+                return true;
+            }
+        }
+        return false;
+    }
     public synchronized Map<String,EngineManager> getUBoatAvailableContestsMap() {
         return uBoatAvailableContestsMap;
     }
+    public synchronized void updateContestStatus(String battleFieldName,String alliesWinnerTeamName){
+        EngineManager engineManager=getEngineManagerByBattleFieldName(battleFieldName);
+        engineManager.setIsContestEnded(true);
+        engineManager.setAlliesWinnwerTeamName(alliesWinnerTeamName);
+    }
+
 
 /*    public boolean isUBoatContestsAvailable(MediatorForEngineManager newUBoatAvailableContest) {
         return uBoatAvailableContestsMap.contains(newUBoatAvailableContest) ;

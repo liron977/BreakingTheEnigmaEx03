@@ -4,7 +4,6 @@ import bruteForce.AgentInfoDTO;
 import com.sun.istack.internal.NotNull;
 import component.AgentDashboard.AgentDashboardController;
 import component.AgentDashboard.AgentThreadTask;
-import component.AgentDashboard.ContestInfoRefresher;
 import component.AgentDashboard.GetMissionsRefresher;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,8 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import okhttp3.*;
-import uiMediator.Mediator;
-import utils.Constants;
+import constants.Constants;
 import utils.http.HttpClientUtil;
 
 import java.io.IOException;
@@ -28,7 +26,7 @@ import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static utils.Constants.REFRESH_RATE;
+import static constants.Constants.REFRESH_RATE;
 
 public class AgentLoginController {
 

@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static utils.Constants.REFRESH_RATE;
+import static constants.Constants.REFRESH_RATE;
 
 public class AlliesDashboardController implements Closeable {
 

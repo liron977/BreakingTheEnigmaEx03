@@ -14,7 +14,7 @@ import machineDTO.TheMachineSettingsDTO;
 
 import okhttp3.*;
 import uiMediator.Mediator;
-import utils.Constants;
+import constants.Constants;
 import utils.EventsHandler;
 import utils.http.HttpClientUtil;
 

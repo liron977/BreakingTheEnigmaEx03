@@ -66,7 +66,7 @@ public class DMCreateMissionsServlet extends HttpServlet {
        String initialStartingPosition= engineManager.getInitialStartingPosition();
         int missionIndex = 0;
 
-        for (int i = 0; i < amountOfSubListsToCreate; i++) {
+        for (int i = 0; i < amountOfSubListsToCreate&&!engineManager.getIsContestEnded(); i++) {
             missionsCounter++;
             missionIndex = i;
             TheMissionInfoDTO theMissionInfo =new TheMissionInfoDTO(initialStartingPosition, sizeOfMission, /*engineManagerCopy,*/stringToConvert,engineManager.getMachineUsedRotorsIdArray(),engineManager.getMachineReflectorId());
@@ -91,6 +91,9 @@ public class DMCreateMissionsServlet extends HttpServlet {
                                          Long amountOfSubListsToCreate,int sizeOfMission
             ,String theAlliesTeamName,String stringToConvert) throws Exception {
         for (String reflectorId : engineManager.getTheMachineEngine().getReflectorsSet().getReflectorsId()) {
+            if(engineManager.getIsContestEnded()){
+                break;
+            }
             engineManager.chooseManuallyReflect(reflectorId);
             createLowLevelMission(missionsCounter,engineManager,amountOfSubListsToCreate,sizeOfMission,theAlliesTeamName,stringToConvert);
         }
@@ -104,6 +107,9 @@ public class DMCreateMissionsServlet extends HttpServlet {
         List<String[]> optionalRotorsPositionList = new ArrayList<>();
         getAllPermutationsOfRotorsPosition(concatRotorsPosition.length, concatRotorsPosition, optionalRotorsPositionList);
         for (String[] optionalRotorsPosition : optionalRotorsPositionList) {
+            if(engineManager.getIsContestEnded()){
+                break;
+            }
             engineManager.getTheMachineEngine().updateUsedRotors(optionalRotorsPosition);
             createMediumLevelMission(missionsCounter,engineManager,amountOfSubListsToCreate,sizeOfMission,theAlliesTeamName,stringToConvert);
         }
@@ -118,9 +124,15 @@ public class DMCreateMissionsServlet extends HttpServlet {
         List<String[]> optionalRotorsList = new ArrayList<>();
         optionalRotorsList = getOptionalRotors(engineManager);
         for (String[] optionalRotors : optionalRotorsList) {
+            if(engineManager.getIsContestEnded()){
+                break;
+            }
             List<String[]> optionalRotorsPositionList = new ArrayList<>();
             getAllPermutationsOfRotorsPosition(optionalRotors.length, optionalRotors, optionalRotorsPositionList);
             for (String[] optionalRotorsPosition : optionalRotorsPositionList) {
+                if(engineManager.getIsContestEnded()){
+                    break;
+                }
                 engineManager.getTheMachineEngine().updateUsedRotors(optionalRotorsPosition);
                 createMediumLevelMission(missionsCounter,engineManager,amountOfSubListsToCreate,sizeOfMission,theAlliesTeamName,stringToConvert);
             }

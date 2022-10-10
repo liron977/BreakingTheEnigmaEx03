@@ -53,6 +53,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     Long maxAmountOfMissions=0L;
 
 
+
     @Override
     public ListOfExceptionsDTO load(String filePath) throws Exception {
       CTEEnigma cteEnigma = readFromXmlFile(filePath);
@@ -1072,4 +1073,20 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     public Long getMaxAmountOfMissions() {
         return maxAmountOfMissions;
     }
+    public String getStringToConvert(){
+        return battleField.getStringToConvert();
+    }
+    public boolean getIsContestEnded() {
+       return battleField.getIsContestEnded();
+    }
+    public void setIsContestEnded(boolean status) {
+      battleField.setIsContestEnded(status);
+    }
+    public void setAlliesWinnwerTeamName(String alliesWinnwerTeamName ) {
+        battleField.setAlliesWinnwerTeamName(alliesWinnwerTeamName);
+    }
+    public String getAlliesWinnwerTeamName() {
+        return battleField.getAlliesWinnwerTeamName();
+    }
+
 }
