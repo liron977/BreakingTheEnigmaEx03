@@ -31,6 +31,9 @@ public class AgentGetMissionsServlet extends HttpServlet {
             if(engineManager.getMaxAmountOfMissions()<=0){
                 response.setStatus(HttpServletResponse.SC_CONFLICT);
             }
+           else if(engineManager.getIsContestEnded()){
+                response.setStatus(HttpServletResponse.SC_GONE);
+            }
             else {
                 while (counter < amountOfMissions) {
                     try {

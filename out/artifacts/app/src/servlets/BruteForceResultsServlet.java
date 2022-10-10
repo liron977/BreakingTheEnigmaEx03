@@ -33,6 +33,9 @@ public class BruteForceResultsServlet extends HttpServlet {
                 synchronized (getServletContext()) {
                     uboatBruteForceResultsMapManager.addBruteForceResultsIntoList(battleName, bruteForceResultDTOListFromGson);
                     alliesBruteForceResultsListManager.addBruteForceResultsIntoList(theAlliesTeamName, bruteForceResultDTOListFromGson);
+                    if(uBoatAvailableContestsManager.isStringToConvertFound(battleName,bruteForceResultDTOListFromGson)){
+                        uBoatAvailableContestsManager.updateContestStatus(battleName,theAlliesTeamName);
+                    }
 /*                List<BruteForceResultDTO> list = uboatBruteForceResultsMapManager.getBruteForceListByUboatName(battleName);
                 System.out.println("*************************");
                 for (BruteForceResultDTO brute : list) {

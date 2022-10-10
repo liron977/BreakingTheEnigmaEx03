@@ -2,6 +2,7 @@ package BruteForce;
 
 import MachineEngine.MachineEngine;
 import bruteForce.BruteForceResultDTO;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import machineDTO.ConvertedStringDTO;
 
@@ -26,10 +27,11 @@ public class AgentMissionRunnable implements Runnable {
    // SimpleIntegerProperty amountOfDecipheringStringsProperty;
    SimpleIntegerProperty amountOfDoneMissions;
     SimpleIntegerProperty amountOfAskedMissionsProperty;
+    SimpleBooleanProperty isContestEnded;
     public AgentMissionRunnable(SimpleIntegerProperty amountOfMissionsInTheQueue,SimpleIntegerProperty amountOfAskedMissionsProperty,String lastStartingPos,int missionNumber,UiAdapterInterface uiAdapterInterface,MachineEngine machineEngineCopy,
                                 String stringToConvert, String alliesTeamName
             , String initialStartingPosition, int sizeOfMission
-    ,SimpleIntegerProperty amountOfDoneMissions) {
+    ,SimpleIntegerProperty amountOfDoneMissions,SimpleBooleanProperty  isContestEnded) {
 
         this.machineEngineCopy = machineEngineCopy;
         this.stringToConvert = stringToConvert;
@@ -44,6 +46,7 @@ public class AgentMissionRunnable implements Runnable {
        this.amountOfDoneMissions=amountOfDoneMissions;
        this.amountOfAskedMissionsProperty=amountOfAskedMissionsProperty;
        this.amountOfMissionsInTheQueue=amountOfMissionsInTheQueue;
+       this.isContestEnded=isContestEnded;
     }
 
     public void setResultsList(List<BruteForceResultDTO> resultsList) {
@@ -58,6 +61,9 @@ public class AgentMissionRunnable implements Runnable {
         int index = 0;
         Thread.currentThread().setName("AgentMissionRunnable "+missionNumber);
         while (index<sizeOfMission){
+            if(isContestEnded.getValue()){
+               return;
+            }
             machineEngineCopy.chooseManuallyStartingPosition(initialStartingPosition);
             machineEngineCopy.createCurrentCodeDescriptionDTO();
             String convertedStringCode = machineEngineCopy.getCurrentCodeDescription();
@@ -79,7 +85,6 @@ public class AgentMissionRunnable implements Runnable {
     private void publishResults() throws InterruptedException {
 
         synchronized (this){
-
             if(resultsList.size()>0) {
                 uiAdapterInterface.saveResultsOnServer(resultsList);
 

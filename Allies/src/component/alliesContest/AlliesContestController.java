@@ -1,12 +1,10 @@
 package component.alliesContest;
 
-import bruteForce.AgentInfoDTO;
-import bruteForce.AlliesDTO;
-import bruteForce.BruteForceResultDTO;
-import bruteForce.UBoatContestInfoWithoutCheckBoxDTO;
+import bruteForce.*;
 import component.AlliesDashboard.AgentsTablesViewRefresher;
 import component.mainWindowAllies.MainWindowAlliesController;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -17,7 +15,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import okhttp3.*;
-import bruteForce.BruteForceResultAndVersion;
 import constants.Constants;
 import utils.http.HttpClientUtil;
 
@@ -103,13 +100,19 @@ public class AlliesContestController implements Closeable {
     private TimerTask contestInfoRefresher;
   private   String convertedString;
 
+    private TimerTask contestStatusRefresher;
+    private SimpleBooleanProperty isContestEnded;
+    private String alliesWinnerTeamName;
+    private boolean isMessageDisplayedForFirstTime;
+
     @FXML
     public void initialize(){
         autoUpdate=new SimpleBooleanProperty(true);
         totalBruteResultAmount=new SimpleIntegerProperty(0);
         this.contestResultsInfoVersion =new SimpleIntegerProperty();
-
-
+        isContestEnded=new SimpleBooleanProperty(false);
+        alliesWinnerTeamName="";
+        isMessageDisplayedForFirstTime=false;
     }
 
     public void setConvertedString(String convertedString) {
@@ -310,17 +313,7 @@ public class AlliesContestController implements Closeable {
         contestInfoRefresherTimer = new Timer();
         timer.schedule(contestInfoRefresher, REFRESH_RATE, REFRESH_RATE);
     }
-    @Override
-    public void close() throws IOException {
-        activeTeamsDetailsTableView.getItems().clear();
-        contestResultsInfoVersion.set(0);
-        if (alliesRegisteredTeamsRefresher != null && timer!= null && alliesBruteForceResultTableViewRefresherTimer != null &&alliesRegisteredTeamsRefresher!=null) {
-            alliesRegisteredTeamsRefresher.cancel();
-            alliesRegisteredTeamsRefresher.cancel();
-            timer.cancel();
-            alliesBruteForceResultTableViewRefresherTimer.cancel();
-        }
-    }
+
 
     private ObservableList<AgentInfoDTO> getTeamsAgentsMissionsStatusTableViewDTOList(List<AgentInfoDTO> agentInfoDTO) {
 
@@ -361,6 +354,49 @@ public class AlliesContestController implements Closeable {
                 alliesTeamName);
         agentsTableViewTimer = new Timer();
         agentsTableViewTimer.schedule(agentsTableViewRefresher, REFRESH_RATE, REFRESH_RATE);
+    }
+    public void startContestStatusRefresher() {
+        contestStatusRefresher = new ContestStatusRefresher(
+                this::updateContestStatus,autoUpdate,alliesTeamName);
+        timer = new Timer();
+        timer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
+    }
+    private void updateContestStatus(ContestStatusInfoDTO contestStatusInfoDTO) {
+        if (!isContestEnded.getValue()) {
+            Platform.runLater(() -> {
+                this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());
+                this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
+                if (isContestEnded.getValue()&&!isMessageDisplayedForFirstTime) {
+                    isMessageDisplayedForFirstTime=true;
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    String message = "The contest ended" + "\n" + "The winning team is " + alliesWinnerTeamName;
+                    alert.setContentText(message);
+                    alert.getDialogPane().setExpanded(true);
+                    alert.showAndWait();
+                    try {
+                        close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }});
+        }
+    }
+    @Override
+    public void close() throws IOException {
+        activeTeamsDetailsTableView.getItems().clear();
+        contestResultsInfoVersion.set(0);
+        if (contestStatusRefresher != null&&agentsTableViewRefresher != null
+                &&alliesRegisteredTeamsRefresher != null&&contestInfoRefresher != null
+                &&agentsTableViewTimer != null
+                &&alliesBruteForceResultTableViewRefresherTimer != null) {
+            contestStatusRefresher.cancel();
+            agentsTableViewRefresher.cancel();
+            alliesRegisteredTeamsRefresher.cancel();
+            contestInfoRefresher.cancel();
+            agentsTableViewTimer.cancel();
+            alliesBruteForceResultTableViewRefresherTimer.cancel();
+            timer.cancel();
+        }
     }
 
 }

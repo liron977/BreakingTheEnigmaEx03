@@ -30,11 +30,13 @@ public class AgentDecryptionManager {
 
     SimpleIntegerProperty amountOfMissionsInTheQueue;
     SimpleIntegerProperty amountOfAskedMissionsProperty;
+    private SimpleBooleanProperty  isContestEnded;
 
 public AgentDecryptionManager(SimpleIntegerProperty amountOfMissionsInTheQueue,SimpleIntegerProperty amountOfAskedMissionsProperty,SimpleIntegerProperty amountOfDoneMissions,UiAdapterInterface uiAdapterInterface,
                               SimpleBooleanProperty isMissionEndedProperty,ThreadPoolExecutor threadPoolExecutor, TheMachineEngine theMachineEngine
         , String alliesTeamName, List<TheMissionInfoDTO> theMissionInfoDTOList,
-                              BlockingQueue<Runnable> missionsInfoBlockingQueue){
+                              BlockingQueue<Runnable> missionsInfoBlockingQueue
+               , SimpleBooleanProperty  isContestEnded){
    this.machineEngine=new MachineEngine(theMachineEngine);
    this.theMissionInfoDTOList=theMissionInfoDTOList;
    this.alliesTeamName=alliesTeamName;
@@ -45,6 +47,7 @@ public AgentDecryptionManager(SimpleIntegerProperty amountOfMissionsInTheQueue,S
    this.amountOfDoneMissions=amountOfDoneMissions;
    this.amountOfAskedMissionsProperty=amountOfAskedMissionsProperty;
    this.amountOfMissionsInTheQueue=amountOfMissionsInTheQueue;
+    this.isContestEnded=isContestEnded;
     amountOfMissionsInTheQueue.setValue(0);
 }
     public void createMission() throws Exception {
@@ -52,25 +55,25 @@ public AgentDecryptionManager(SimpleIntegerProperty amountOfMissionsInTheQueue,S
     String lastStartingPos=machineEngine.getLastStartingPos();
         threadPoolExecutor.prestartAllCoreThreads();
         for (TheMissionInfoDTO theMissionInfoDTO : theMissionInfoDTOList) {
-
-            machineEngine.getTheMachineEngine().updateUsedRotors(theMissionInfoDTO.getUsedRotors());
-            if(theMissionInfoDTO.getReflector().equals("II")){
-                int x=0;
+            if (isContestEnded.getValue()) {
+                break;
             }
-            machineEngine.chooseManuallyReflect(theMissionInfoDTO.getReflector());
-            MachineEngine machineEngineCopy = machineEngine.cloneMachineEngine();
-            AgentMissionRunnable agentMissionRunnable = new AgentMissionRunnable(amountOfMissionsInTheQueue,amountOfAskedMissionsProperty,lastStartingPos,missionsCounter,uiAdapterInterface,machineEngineCopy,
-                    theMissionInfoDTO.getStringToConvert(), alliesTeamName
-                    , theMissionInfoDTO.getInitialStartingPosition(),
-                    theMissionInfoDTO.getSizeOfMission(),amountOfDoneMissions);
-            missionsCounter++;
-            missionsInfoBlockingQueue.put(agentMissionRunnable);
-        }
+                machineEngine.getTheMachineEngine().updateUsedRotors(theMissionInfoDTO.getUsedRotors());
+                if (theMissionInfoDTO.getReflector().equals("II")) {
+                    int x = 0;
+                }
+                machineEngine.chooseManuallyReflect(theMissionInfoDTO.getReflector());
+                MachineEngine machineEngineCopy = machineEngine.cloneMachineEngine();
+                AgentMissionRunnable agentMissionRunnable = new AgentMissionRunnable(amountOfMissionsInTheQueue, amountOfAskedMissionsProperty, lastStartingPos, missionsCounter, uiAdapterInterface, machineEngineCopy,
+                        theMissionInfoDTO.getStringToConvert(), alliesTeamName
+                        , theMissionInfoDTO.getInitialStartingPosition(),
+                        theMissionInfoDTO.getSizeOfMission(), amountOfDoneMissions
+                ,isContestEnded);
+                missionsCounter++;
+                missionsInfoBlockingQueue.put(agentMissionRunnable);
+            }
         threadPoolExecutor.shutdown();
         threadPoolExecutor.awaitTermination(Integer.MAX_VALUE, TimeUnit.HOURS);
-
-
-
     }
 
 

@@ -89,9 +89,10 @@ public class AgentDashboardController implements Closeable {
     private Timer timer;
     private TimerTask contestStatusRefresher;
     BooleanProperty autoUpdate;
-    private boolean isContestEnded;
+    private SimpleBooleanProperty isContestEnded;
     private String alliesWinnerTeamName;
     private ObservableList<BruteForceResultDTO> bruteForceResultsDTOObservableList;
+    private boolean isMessageDisplayedForFirstTime;
 
     @FXML
     public void initialize() {
@@ -100,8 +101,9 @@ public class AgentDashboardController implements Closeable {
         amountOfDoneMissions=new SimpleIntegerProperty(0);
         resultDTOList=new ArrayList<>();
         resultDTOListForAgent=new ArrayList<>();
-        isContestEnded=false;
+        isContestEnded=new SimpleBooleanProperty(false);
         alliesWinnerTeamName="";
+        isMessageDisplayedForFirstTime=false;
         amountOfMissionsInTheQueue=new SimpleIntegerProperty(0);
         this.autoUpdate=new SimpleBooleanProperty(true);
         bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
@@ -221,7 +223,7 @@ public class AgentDashboardController implements Closeable {
 
     public boolean getMissions() {
         boolean isMissionsEnded = false;
-        if(!isContestEnded) {
+        if(!isContestEnded.getValue()) {
             System.out.println("Im here");
             String finalUrl = HttpUrl
                     .parse(Constants.AGENT_GET_MISSIONS)
@@ -252,7 +254,8 @@ public class AgentDashboardController implements Closeable {
                         decryptionManager = new AgentDecryptionManager(amountOfMissionsInTheQueue, amountOfAskedMissionsProperty, amountOfDoneMissions, UIAdapter, isMissionEndedProperty, threadPoolExecutor, theMachineEngine
                                 , selectedAlliesTeamName,
                                 theMissionInfoListFromGson
-                                , missionsInfoBlockingQueue);
+                                , missionsInfoBlockingQueue
+                                 ,isContestEnded);
                         decryptionManager.createMission();
                         threadPoolExecutor.shutdown();
                         threadPoolExecutor.awaitTermination(Integer.MAX_VALUE, TimeUnit.HOURS);
@@ -493,27 +496,29 @@ return isMissionsEnded;
         timer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
     }
     private void updateContestStatus(ContestStatusInfoDTO contestStatusInfoDTO) {
-        Platform.runLater(() -> {
-                    this.isContestEnded = contestStatusInfoDTO.isContestEnded();
-                    this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
-                    if (isContestEnded) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        String message = "The contest ended" + "\n" + "The winning team is " + alliesWinnerTeamName;
-                        alert.setContentText(message);
-                        alert.getDialogPane().setExpanded(true);
-                        alert.showAndWait();
-                        try {
-                            close();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
+        if (!isContestEnded.getValue()) {
+            Platform.runLater(() -> {
+                this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());
+                this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
+                if (isContestEnded.getValue()&&!isMessageDisplayedForFirstTime) {
+                    isMessageDisplayedForFirstTime=true;
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    String message = "The contest ended" + "\n" + "The winning team is " + alliesWinnerTeamName;
+                    alert.setContentText(message);
+                    alert.getDialogPane().setExpanded(true);
+                    alert.showAndWait();
+                    try {
+                        close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
-        });
+                }});
+        }
     }
     @Override
     public void close() throws IOException {
-        this.isContestEnded = false;
-        this.alliesWinnerTeamName = "";
+      //  this.isContestEnded.set(false);
+      //  this.alliesWinnerTeamName = "";
         if (contestStatusRefresher != null) {
             contestStatusRefresher.cancel();
             contestInfoController.close();

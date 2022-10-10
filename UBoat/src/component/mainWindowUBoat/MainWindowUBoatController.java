@@ -173,5 +173,6 @@ public void setTheMachineSettingsDTO(TheMachineSettingsDTO theMachineSettingsDTO
     public void updateAlliesTableView(){
         contestTabController.startAlliesInfoTableViewRefresher();
         contestTabController.startContestTableViewRefresher();
+        contestTabController.startContestStatusRefresher();
     }
     }

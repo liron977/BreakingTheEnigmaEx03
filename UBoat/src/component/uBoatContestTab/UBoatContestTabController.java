@@ -1,8 +1,6 @@
 package component.uBoatContestTab;
 
-import bruteForce.AlliesDTO;
-import bruteForce.BruteForceResultDTO;
-import bruteForce.BruteForceSettingsDTO;
+import bruteForce.*;
 import com.google.gson.Gson;
 import component.mainWindowUBoat.MainWindowUBoatController;
 import component.uBoatMachineTab.machineTab.CurrentConfigurationTableViewController;
@@ -21,7 +19,6 @@ import javafx.scene.input.MouseEvent;
 import machineDTO.ConvertedStringProcessDTO;
 import okhttp3.*;
 import uiMediator.Mediator;
-import bruteForce.BruteForceResultAndVersion;
 import constants.Constants;
 import utils.EventsHandler;
 import utils.http.HttpClientUtil;
@@ -118,6 +115,11 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     private IntegerProperty contestResultsInfoVersion;
 
     private  SimpleBooleanProperty autoUpdate;
+    private TimerTask contestStatusRefresher;
+    private SimpleBooleanProperty isContestEnded;
+    private String alliesWinnerTeamName;
+    private boolean isMessageDisplayedForFirstTime;
+
 
 
     public UBoatContestTabController() {
@@ -134,6 +136,9 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         totalAlliesRegisteredTeamsAmount=new SimpleIntegerProperty(0);
         totalBruteResultAmount=new SimpleIntegerProperty(0);
         this.contestResultsInfoVersion =new SimpleIntegerProperty();
+        isContestEnded=new SimpleBooleanProperty(false);
+        alliesWinnerTeamName="";
+        isMessageDisplayedForFirstTime=false;
         autoUpdate=new SimpleBooleanProperty(true);
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
@@ -687,18 +692,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         return alliesDTOList;
     }
 
-    @Override
-    public void close() throws IOException {
-        activeTeamsDetailsTableView.getItems().clear();
-        totalAlliesRegisteredTeamsAmount.set(0);
-        contestResultsInfoVersion.set(0);
-        if (alliesRegisteredTeamsRefresher != null && timer!= null && BruteForceResultTableViewRefresherTimer!= null) {
-            alliesRegisteredTeamsRefresher.cancel();
-            alliesRegisteredTeamsRefresher.cancel();
-            timer.cancel();
-            BruteForceResultTableViewRefresherTimer.cancel();
-        }
-    }
+
     private void updateRegisteredAlliesInfoList(List<AlliesDTO> alliesInfoDTOList) {
         Platform.runLater(() -> {
             ObservableList<AlliesDTO> alliesDTOObservableList =getTeamsAgentsDataTableViewDTOList(alliesInfoDTOList);
@@ -769,5 +763,44 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                 this::updateBruteForceResultsTableView);
         BruteForceResultTableViewRefresherTimer= new Timer();
         timer.schedule(BruteForceResultTableViewRefresher, REFRESH_RATE, REFRESH_RATE);
+    }
+    public void startContestStatusRefresher() {
+        contestStatusRefresher = new ContestStatusRefresher(
+                this::updateContestStatus,autoUpdate,"");
+        timer = new Timer();
+        timer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
+    }
+    private void updateContestStatus(ContestStatusInfoDTO contestStatusInfoDTO) {
+        if (!isContestEnded.getValue()) {
+            Platform.runLater(() -> {
+                this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());
+                // this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
+                if (isContestEnded.getValue()&&!isMessageDisplayedForFirstTime) {
+                    isMessageDisplayedForFirstTime=true;
+                   /* Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    String message = "The contest ended" + "\n" + "The winning team is " + alliesWinnerTeamName;
+                    alert.setContentText(message);
+                    alert.getDialogPane().setExpanded(true);
+                    alert.showAndWait();*/
+                    try {
+                        close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }});
+        }
+    }
+    @Override
+    public void close() throws IOException {
+        activeTeamsDetailsTableView.getItems().clear();
+        totalAlliesRegisteredTeamsAmount.set(0);
+        contestResultsInfoVersion.set(0);
+        if (contestStatusRefresher!=null&&alliesRegisteredTeamsRefresher != null && timer!= null && BruteForceResultTableViewRefresherTimer!= null) {
+            alliesRegisteredTeamsRefresher.cancel();
+            alliesRegisteredTeamsRefresher.cancel();
+            contestStatusRefresher.cancel();
+            BruteForceResultTableViewRefresherTimer.cancel();
+            timer.cancel();
+        }
     }
 }

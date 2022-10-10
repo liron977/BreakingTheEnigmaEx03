@@ -73,6 +73,7 @@ public void setSelectedBattleFieldName(String selectedBattleFieldName){
         alliesContestController.startContestResultsTableViewRefresher();
         alliesContestController.startContestInfoTableViewRefresher();
         alliesContestController.startAgentsTableViewRefresher();
+        alliesContestController.startContestStatusRefresher();
         alliesDashboardController.close();
 
     }
