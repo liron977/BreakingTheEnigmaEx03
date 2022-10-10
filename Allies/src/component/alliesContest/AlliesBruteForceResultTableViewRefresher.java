@@ -64,6 +64,7 @@ public class AlliesBruteForceResultTableViewRefresher extends TimerTask {
                     String rawBody = response.body().string();
                     BruteForceResultAndVersion chatLinesWithVersion = GSON_INSTANCE.fromJson(rawBody, BruteForceResultAndVersion.class);
                     if(chatLinesWithVersion!=null) {
+                       // BruteForceResultAndVersion chatLinesWithVersionCloned=chatLinesWithVersion.cloneBruteForceResultAndVersion();
                         bruteForceTableViewConsumer.accept(chatLinesWithVersion);
                     }
                 } else {

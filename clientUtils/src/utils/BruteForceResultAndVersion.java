@@ -2,9 +2,10 @@ package utils;
 
 import bruteForce.BruteForceResultDTO;
 
+import java.io.*;
 import java.util.List;
 
-public class BruteForceResultAndVersion {
+public class BruteForceResultAndVersion implements Serializable{
     private int version;
     private List<BruteForceResultDTO> entries;
 
@@ -22,5 +23,19 @@ public class BruteForceResultAndVersion {
 
     public void setEntries(List<BruteForceResultDTO> entries) {
         this.entries = entries;
+    }
+    public BruteForceResultAndVersion cloneBruteForceResultAndVersion() {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(this);
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            return (BruteForceResultAndVersion) ois.readObject();
+        } catch (IOException e) {
+            return null;
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
     }
 }

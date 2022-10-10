@@ -1,6 +1,8 @@
 package bruteForce;
 
-public class BruteForceResultDTO {
+import java.io.Serializable;
+
+public class BruteForceResultDTO implements Serializable {
     private String convertedString;
     private String alliesTeamName;
     private String codeDescription;
