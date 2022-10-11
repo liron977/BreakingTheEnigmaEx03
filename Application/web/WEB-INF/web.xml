@@ -218,6 +218,23 @@
         <servlet-name>DMGetAmountOfCreatedMissionServlet</servlet-name>
         <url-pattern>/DMGetAmountOfCreatedMissionServlet</url-pattern>
     </servlet-mapping>
+   <servlet>
+        <servlet-name>ClearContestUboatServlet</servlet-name>
+        <servlet-class>servlets.ClearContestUboatServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ClearContestUboatServlet</servlet-name>
+        <url-pattern>/ClearContestUboatServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UpdateContestStatusAgentServlet</servlet-name>
+        <servlet-class>servlets.UpdateContestStatusAgentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateContestStatusAgentServlet</servlet-name>
+        <url-pattern>/UpdateContestStatusAgentServlet</url-pattern>
+    </servlet-mapping>
 
 
 </web-app>

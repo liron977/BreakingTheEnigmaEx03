@@ -1,7 +1,5 @@
 package engine.theEnigmaEngine;
 
-import bruteForce.AlliesDTO;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +31,7 @@ public class UBoatBattleField implements Serializable {
        this.isUboatReady=false;
        alliesRegisteredToContest=new ArrayList<>();
        this.isContestEnded=false;
+       this.isConvertedStringSet=false;
        this.alliesWinnwerTeamName="";
        this.isAlliesConfirmedGameOver=false;
    }
@@ -43,6 +42,9 @@ public boolean isAlliesExists(String alliesTeamName){
         }
     }
      return false;
+}
+public void setIsAlliesConfirmedGameOver(){
+    isAlliesConfirmedGameOver=false;
 }
     public void addAgentToAllies(AlliesAgent agent,String alliesTeamName){
         for (Allies a:alliesRegisteredToContest) {
@@ -118,6 +120,7 @@ public boolean getIsConvertedStringSet(){
         }
     }
 
+
     public String getConvertedString() {
         return convertedString;
     }
@@ -136,9 +139,17 @@ public boolean getIsConvertedStringSet(){
     public void setIsContestEnded(boolean contestEnded) {
         isContestEnded = contestEnded;
     }
-    public void clearAlliesActiveTeams(){
+    public void clearValues(){
        alliesActiveTeamsAmount=0;
+        this.contestStatus="Wait..";
+        this.convertedString="";
+        this.stringToConvert="";
+        this.isUboatReady=false;
         alliesRegisteredToContest=new ArrayList<>();
+        this.isContestEnded=false;
+        this.alliesWinnwerTeamName="";
+        this.isConvertedStringSet=false;
+       // this.isAlliesConfirmedGameOver=false;
     }
     public boolean getIsContestEnded() {
        return isContestEnded;

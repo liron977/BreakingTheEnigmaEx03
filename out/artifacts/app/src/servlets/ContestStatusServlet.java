@@ -62,7 +62,7 @@ public class ContestStatusServlet extends HttpServlet {
             alliesManager.clearAlliesValues(theAlliesTeamName);
             alliesGetBruteForceResultServlet.clearBruteForceResults(theAlliesTeamName);
             alliesMissionsManager.clearMissionFromBlockingQueue(theAlliesTeamName);
-            engineManager.clearAlliesActiveTeams();
+            engineManager.clearBattleFieldValues();
         }
     }
 }

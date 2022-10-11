@@ -53,7 +53,12 @@ public class UBoatAvailableContestsManager {
         engineManager.setIsContestEnded(true);
         engineManager.setAlliesWinnwerTeamName(alliesWinnerTeamName);
     }
-
+public synchronized void clearValues(String battleFieldName){
+    EngineManager engineManager=getEngineManagerByBattleFieldName(battleFieldName);
+    if(engineManager!=null) {
+        engineManager.clearBattleFieldValues();
+    }
+}
 
 /*    public boolean isUBoatContestsAvailable(MediatorForEngineManager newUBoatAvailableContest) {
         return uBoatAvailableContestsMap.contains(newUBoatAvailableContest) ;

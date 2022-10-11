@@ -870,6 +870,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
 /*    public void setUploadedBy(String uploadedBy) {
         this.uploadedBy = uploadedBy;
     }*/
+
     public ListOfExceptionsDTO loadFileByInputStream(InputStream inputStream,String uploadedBy) throws Exception {
         this.inputStream=inputStream;
         CTEEnigma cteEnigma = this.deserializeFrom(inputStream);
@@ -1095,8 +1096,11 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     public void setIsContestEnded(boolean status) {
       battleField.setIsContestEnded(status);
     }
-    public void clearAlliesActiveTeams(){
-        battleField.clearAlliesActiveTeams();
+    public void clearBattleFieldValues(){
+        battleField.clearValues();
+    }
+    public void setIsAlliesConfirmedGameOver(){
+        battleField.setIsAlliesConfirmedGameOver();
     }
 
     public void setAlliesWinnwerTeamName(String alliesWinnwerTeamName ) {

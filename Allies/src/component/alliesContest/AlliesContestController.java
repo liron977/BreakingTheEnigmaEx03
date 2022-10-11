@@ -411,6 +411,13 @@ public class AlliesContestController implements Closeable {
                             throw new RuntimeException(e);
                         }
                     }
+                    else if(result.get()==ButtonType.CANCEL){
+                        try {
+                            close();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
 
                     //alert.showAndWait();
                     try {
@@ -433,6 +440,7 @@ public class AlliesContestController implements Closeable {
             contestStatusRefresher.cancel();
             agentsTableViewRefresher.cancel();
             alliesRegisteredTeamsRefresher.cancel();
+            alliesBruteForceResultTableViewRefresher.cancel();
             contestInfoRefresher.cancel();
             agentsTableViewTimer.cancel();
             alliesBruteForceResultTableViewRefresherTimer.cancel();
@@ -473,6 +481,7 @@ public class AlliesContestController implements Closeable {
     }
     public void deleteValues(){
         activeTeamsDetailsTableView.getItems().clear();
+        contestCandidatesTableView.getItems().clear();
         dmAmountOfCreatedMissionsLabel.setText("0");
         amountOfDoneMissions.setText("0");
         totalAmountOfCreatedMissionsLabel.setText("0");

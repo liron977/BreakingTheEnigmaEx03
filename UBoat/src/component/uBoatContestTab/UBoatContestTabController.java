@@ -792,6 +792,15 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                     alert.showAndWait();
                     activeTeamsDetailsTableView.getItems().clear();
                     readyButton.setDisable(false);
+                    Optional<ButtonType> result=alert.showAndWait();
+                    if(result.get()==ButtonType.OK) {
+                        clearContestValues();
+                        try {
+                            close();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
                     try {
                         close();
                     } catch (IOException e) {
@@ -800,11 +809,55 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                 }});
         }
     }
+    public void clearContestValues(){
+
+            RequestBody body = RequestBody.create(
+                    MediaType.parse("application/json"), "");
+            String finalUrl = HttpUrl
+                    .parse(Constants.CLEAR_CONTEST_UBOAT)
+                    .newBuilder()
+                    .addQueryParameter("battlefield", battleName.trim())
+                    .build()
+                    .toString();
+            Request request = new Request.Builder()
+                    .url(finalUrl)
+                    .post(body)
+                    .build();
+            Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+            try {
+                Response response = call.execute();
+                if (response.code() != 200) {
+               /* Platform.runLater(() -> {
+                    {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        try {
+                            alert.setContentText(response.body().string());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        alert.getDialogPane().setExpanded(true);
+                        alert.showAndWait();
+                    }
+                });*/
+                } else {
+
+                }
+
+            } catch (IOException e) {
+            }
+
+
+    }
+
+
     @Override
     public void close() throws IOException {
         activeTeamsDetailsTableView.getItems().clear();
+        contestCandidatesTableView.getItems().clear();
         totalAlliesRegisteredTeamsAmount.set(0);
         contestResultsInfoVersion.set(0);
+        convertedStringTextArea.clear();
+        stringToConvertTextArea.clear();
         if (BruteForceResultTableViewRefresher!=null&&contestStatusRefresher!=null&&alliesRegisteredTeamsRefresher != null && timer!= null && BruteForceResultTableViewRefresherTimer!= null) {
             alliesRegisteredTeamsRefresher.cancel();
             alliesRegisteredTeamsRefresher.cancel();

@@ -148,7 +148,7 @@ public class AgentDashboardController implements Closeable {
                     Platform.runLater(() -> {
                         {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                            alert.setContentText("not ok");
+                            alert.setContentText("saveResultsInServer-Agent");
                             alert.getDialogPane().setExpanded(true);
                             alert.showAndWait();
                         }
@@ -189,7 +189,7 @@ public class AgentDashboardController implements Closeable {
                     Platform.runLater(() -> {
                         {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                            alert.setContentText("not ok");
+                            alert.setContentText("updateMissionsStatus -Agent");
                             alert.getDialogPane().setExpanded(true);
                             alert.showAndWait();
                         }
@@ -516,6 +516,7 @@ return isMissionsEnded;
                         try {
                             close();
                             initValues();
+                            updateAgentStatus();
                             return;
                         } catch (IOException e) {
                             throw new RuntimeException(e);
@@ -544,7 +545,43 @@ return isMissionsEnded;
                 }});
         }
     }
+private void updateAgentStatus(){
 
+    RequestBody body = RequestBody.create(
+            MediaType.parse("application/json"), "");
+    String finalUrl = HttpUrl
+            .parse(Constants.UPDATE_CONTEST_STATUS_AGENT)
+            .newBuilder()
+            .addQueryParameter("alliesTeamName", selectedAlliesTeamName)
+            .build()
+            .toString();
+    Request request = new Request.Builder()
+            .url(finalUrl)
+            .post(body)
+            .build();
+    Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+    try {
+        Response response = call.execute();
+        if (response.code() != 200) {
+           /* Platform.runLater(() -> {
+                {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    try {
+                        alert.setContentText(response.body().string());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    alert.getDialogPane().setExpanded(true);
+                    alert.showAndWait();
+                }
+            });*/
+        } else {
+
+        }
+    } catch (IOException e) {
+    }
+
+}
     public String displayTextWithCommas(int amount){
         StringBuilder amountWithCommas= new StringBuilder("");
         int counter=0;

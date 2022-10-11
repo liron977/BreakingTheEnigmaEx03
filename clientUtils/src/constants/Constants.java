@@ -33,6 +33,8 @@ public class Constants {
     public static final String UBOAT_BRUTE_FORCE_RESULTS="http://localhost:8080/app/UboatGetBruteForceResultServlet";
     public static final String CONTEST_STATUS ="http://localhost:8080/app/ContestStatusServlet";
     public static final String DM_GET_AMOUNT_OF_CREATED_MISSIONS="http://localhost:8080/app/DMGetAmountOfCreatedMissionServlet";
+    public static final String CLEAR_CONTEST_UBOAT="http://localhost:8080/app/ClearContestUboatServlet";
+    public static final String UPDATE_CONTEST_STATUS_AGENT="http://localhost:8080/app/UpdateContestStatusAgentServlet";
 
     public static final Gson GSON_INSTANCE = new Gson();
     public final static int REFRESH_RATE = 500;
