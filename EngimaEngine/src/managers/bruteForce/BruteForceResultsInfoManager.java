@@ -5,7 +5,7 @@ import bruteForce.DecryptionInfoDTO;
 import java.util.*;
 
 public class BruteForceResultsInfoManager {
-    private final Map<String, List<DecryptionInfoDTO>> bruteForceResultsMap = new HashMap<>();
+  /*  private final Map<String, List<DecryptionInfoDTO>> bruteForceResultsMap = new HashMap<>();
 
     public BruteForceResultsInfoManager() {
     }
@@ -27,8 +27,8 @@ public class BruteForceResultsInfoManager {
 
 
 
-   /* public boolean isBattleExists(String battleName) {
+   *//* public boolean isBattleExists(String battleName) {
         return bruteForceResultsMap.containsKey(battleName);
-    }*/
-
+    }*//*
+*/
 }

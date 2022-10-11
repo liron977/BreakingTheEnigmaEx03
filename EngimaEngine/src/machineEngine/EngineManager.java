@@ -1079,9 +1079,16 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     public boolean getIsContestEnded() {
        return battleField.getIsContestEnded();
     }
+    public String getContestStatus() {
+       return battleField.getContestStatus();
+    }
     public void setIsContestEnded(boolean status) {
       battleField.setIsContestEnded(status);
     }
+    public void clearAlliesActiveTeams(){
+        battleField.clearAlliesActiveTeams();
+    }
+
     public void setAlliesWinnwerTeamName(String alliesWinnwerTeamName ) {
         battleField.setAlliesWinnwerTeamName(alliesWinnwerTeamName);
     }

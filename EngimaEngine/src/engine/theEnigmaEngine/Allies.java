@@ -78,7 +78,12 @@ public class Allies implements Serializable {
     public String getAlliesName() {
         return alliesName;
     }
-
+    public void clearAlliesValues(){
+    totalAmountOfMissionToCreate=0L;
+    amountOfCreatedMissions=0;
+    battlefieldName="";
+    missionSize=0;
+     }
     public void setAlliesName(String alliesName) {
         this.alliesName = alliesName;
     }

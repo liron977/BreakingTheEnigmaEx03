@@ -50,6 +50,13 @@ public class AlliesManager {
         Allies allies= getAlliesByAlliesTeamName(alliesTeamName);
          allies.setTotalAmountOfMissionToCreate(totalAmountOfCreadedMission);
     }
+    public synchronized void clearAlliesValues(String alliesTeamName){
+        Allies allies= getAlliesByAlliesTeamName(alliesTeamName);
+        if(allies!=null){
+            allies.clearAlliesValues();
+        }
+
+    }
     public synchronized  Map<String, Allies> getAlliesManagerMap() {
         return  alliesManagerMap;
     }

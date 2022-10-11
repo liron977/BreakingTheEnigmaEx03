@@ -30,6 +30,11 @@ public class UboatBruteForceResultsMapManager {
         bruteForceResultsManagerMap.put(uboatName, bruteForceResultsList);
 
     }
+    public synchronized void clearBruteForceResults(String uboatName){
+        List<BruteForceResultDTO> bruteForceResultsList = getBruteForceListByUboatName(uboatName);
+        bruteForceResultsList=new ArrayList<>();
+
+    }
 
     public synchronized void addBruteForceResultsIntoList(String uboatName, List<BruteForceResultDTO> bruteForceResultsDTOList) throws InterruptedException {
         List<BruteForceResultDTO> bruteForceResultsList = getBruteForceListByUboatName(uboatName);

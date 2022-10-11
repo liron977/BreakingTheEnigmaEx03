@@ -630,24 +630,29 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     }
     @FXML
     void readyButtonOnAction(ActionEvent event) throws Exception {
-        String stringToConvert = convertedStringTextArea.getText();
-        String stringToConvertGson = Constants.GSON_INSTANCE.toJson(stringToConvert);
-        RequestBody body = RequestBody.create(
-                MediaType.parse("application/json"), stringToConvertGson);
-        String finalUrl = HttpUrl
-                .parse(Constants.UBOATS_CONTESTS_SETTINGS)
-                .newBuilder()
-                .addQueryParameter("battlefield", battleName.trim())
-                .build()
-                .toString();
-        Request request = new Request.Builder()
-                .url(finalUrl)
-                .post(body)
-                .build();
-        Call call = HttpClientUtil.getOkHttpClient().newCall(request);
-        try {
-            Response response = call.execute();
-            if (response.code() != 200) {
+        if(convertedStringTextArea.getText().isEmpty()){
+            List<String> error=new ArrayList<>();
+            error.add("Please decrypt message");
+            displayExceptions(error);
+        }else {
+            String stringToConvert = convertedStringTextArea.getText();
+            String stringToConvertGson = Constants.GSON_INSTANCE.toJson(stringToConvert);
+            RequestBody body = RequestBody.create(
+                    MediaType.parse("application/json"), stringToConvertGson);
+            String finalUrl = HttpUrl
+                    .parse(Constants.UBOATS_CONTESTS_SETTINGS)
+                    .newBuilder()
+                    .addQueryParameter("battlefield", battleName.trim())
+                    .build()
+                    .toString();
+            Request request = new Request.Builder()
+                    .url(finalUrl)
+                    .post(body)
+                    .build();
+            Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+            try {
+                Response response = call.execute();
+                if (response.code() != 200) {
                /* Platform.runLater(() -> {
                     {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -660,8 +665,8 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                         alert.showAndWait();
                     }
                 });*/
-            } else {
-                readyButton.setDisable(true);
+                } else {
+                    readyButton.setDisable(true);
                     Platform.runLater(() -> {
                         {
                           /*  stringToConvertTextArea.setText(convertedStringProcessDTO.getStringToConvertWithoutExcludedSignals());
@@ -670,7 +675,9 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                         }
                     });
                 }
-        } catch (IOException e) {
+
+            } catch (IOException e) {
+            }
         }
 
     }
@@ -780,6 +787,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     String message = "The contest ended" + "\n" + "The winning team is " + alliesWinnerTeamName;
                     alert.setContentText(message);
+                    alert.setTitle("UBoat");
                     alert.getDialogPane().setExpanded(true);
                     alert.showAndWait();
                     activeTeamsDetailsTableView.getItems().clear();
@@ -797,9 +805,10 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         activeTeamsDetailsTableView.getItems().clear();
         totalAlliesRegisteredTeamsAmount.set(0);
         contestResultsInfoVersion.set(0);
-        if (contestStatusRefresher!=null&&alliesRegisteredTeamsRefresher != null && timer!= null && BruteForceResultTableViewRefresherTimer!= null) {
+        if (BruteForceResultTableViewRefresher!=null&&contestStatusRefresher!=null&&alliesRegisteredTeamsRefresher != null && timer!= null && BruteForceResultTableViewRefresherTimer!= null) {
             alliesRegisteredTeamsRefresher.cancel();
             alliesRegisteredTeamsRefresher.cancel();
+            BruteForceResultTableViewRefresher.cancel();
             contestStatusRefresher.cancel();
             BruteForceResultTableViewRefresherTimer.cancel();
             timer.cancel();

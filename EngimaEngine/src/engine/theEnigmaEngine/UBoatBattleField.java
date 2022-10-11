@@ -51,9 +51,13 @@ public boolean isAlliesExists(String alliesTeamName){
    public boolean addAllies(Allies allies){
       // Allies newAllies=new Allies(alliesDTO.getAlliesName());
        //newAllies.setMissionSize(alliesDTO.getMissionSize());
+
        if(alliesActiveTeamsAmount<alliesNeededTeamsAmount){
            alliesRegisteredToContest.add(allies);
            alliesActiveTeamsAmount++;
+           if(alliesActiveTeamsAmount==alliesNeededTeamsAmount){
+               contestStatus="Active";
+           }
            return true;
        }
        return false;
@@ -113,6 +117,10 @@ public boolean isAlliesExists(String alliesTeamName){
 
     public void setIsContestEnded(boolean contestEnded) {
         isContestEnded = contestEnded;
+    }
+    public void clearAlliesActiveTeams(){
+       alliesActiveTeamsAmount=0;
+        alliesRegisteredToContest=new ArrayList<>();
     }
     public boolean getIsContestEnded() {
        return isContestEnded;

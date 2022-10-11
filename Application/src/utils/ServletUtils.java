@@ -123,7 +123,7 @@ public class ServletUtils {
         }
         return (AlliesMissionsManager) servletContext.getAttribute(ALLIES_MISSIONS_MANAGER_ATTRIBUTE_NAME);
     }
-    public static AlliesBruteForceResultsMapManager getAlliesBruteForceResultsListManager(ServletContext servletContext) {
+    public static AlliesBruteForceResultsMapManager getAlliesBruteForceResultsMapManager(ServletContext servletContext) {
         synchronized (alliesBruteForceResultManagerLock) {
             if (servletContext.getAttribute(ALLIES_BRUTE_FORCE_RESULTS_LIST_MANAGER_ATTRIBUTE_NAME) == null) {
                 servletContext.setAttribute(ALLIES_BRUTE_FORCE_RESULTS_LIST_MANAGER_ATTRIBUTE_NAME, new AlliesBruteForceResultsMapManager());

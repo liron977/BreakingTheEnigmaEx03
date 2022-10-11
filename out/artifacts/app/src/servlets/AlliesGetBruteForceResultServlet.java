@@ -22,7 +22,7 @@ public class AlliesGetBruteForceResultServlet extends HttpServlet {
         if (teamName == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
-        AlliesBruteForceResultsMapManager alliesBruteForceResultsManager = ServletUtils.getAlliesBruteForceResultsListManager(getServletContext());
+        AlliesBruteForceResultsMapManager alliesBruteForceResultsManager = ServletUtils.getAlliesBruteForceResultsMapManager(getServletContext());
         if(alliesBruteForceResultsManager==null){
             return;
         }

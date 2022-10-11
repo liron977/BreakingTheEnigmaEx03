@@ -387,6 +387,7 @@ public class AlliesContestController implements Closeable {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     String message = "The contest ended" + "\n" + "The winning team is " + alliesWinnerTeamName;
                     alert.setContentText(message);
+                    alert.setTitle("Allies");
                     alert.getDialogPane().setExpanded(true);
                     Optional<ButtonType> result=alert.showAndWait();
                     if(result.get()==ButtonType.OK){
@@ -526,4 +527,3 @@ public class AlliesContestController implements Closeable {
         amountOfCreatedMissionsRefresher = new DMAmountOfCreatedMissionsRefresher(
                 this::updateAmountOfCreatedMissions,autoUpdate,alliesTeamName);
     }*/
-

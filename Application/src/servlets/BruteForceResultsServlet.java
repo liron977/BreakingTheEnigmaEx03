@@ -21,7 +21,7 @@ public class BruteForceResultsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
-        AlliesBruteForceResultsMapManager alliesBruteForceResultsListManager=ServletUtils.getAlliesBruteForceResultsListManager(getServletContext());
+        AlliesBruteForceResultsMapManager alliesBruteForceResultsListManager=ServletUtils.getAlliesBruteForceResultsMapManager(getServletContext());
         UBoatAvailableContestsManager uBoatAvailableContestsManager=ServletUtils.getUBoatAvailableContestsManager(getServletContext());
         String battleName=uBoatAvailableContestsManager.getUboatNameByAlliesTeamName(theAlliesTeamName);
         UboatBruteForceResultsMapManager uboatBruteForceResultsMapManager=ServletUtils.getUboatBruteForceResultsMapManager(getServletContext());

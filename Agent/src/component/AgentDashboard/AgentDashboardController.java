@@ -93,6 +93,7 @@ public class AgentDashboardController implements Closeable {
     private String alliesWinnerTeamName;
     private ObservableList<BruteForceResultDTO> bruteForceResultsDTOObservableList;
     private boolean isMessageDisplayedForFirstTime;
+    private boolean isContestActive;
 
     @FXML
     public void initialize() {
@@ -104,6 +105,7 @@ public class AgentDashboardController implements Closeable {
         isContestEnded=new SimpleBooleanProperty(false);
         alliesWinnerTeamName="";
         isMessageDisplayedForFirstTime=false;
+        isContestActive=false;
         amountOfMissionsInTheQueue=new SimpleIntegerProperty(0);
         this.autoUpdate=new SimpleBooleanProperty(true);
         bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
@@ -222,8 +224,8 @@ public class AgentDashboardController implements Closeable {
     }
 
     public boolean getMissions() {
-        boolean isMissionsEnded = true;
-        if(!isContestEnded.getValue()) {
+        boolean isMissionsEnded = false;
+        if(!isContestEnded.getValue()&&isContestActive) {
             isMissionsEnded = false;
             System.out.println("Im here");
             String finalUrl = HttpUrl
@@ -517,11 +519,13 @@ return isMissionsEnded;
             Platform.runLater(() -> {
                 this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());
                 this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
+                this.isContestActive=contestStatusInfoDTO.isContestActive();
                 if (isContestEnded.getValue()&&!isMessageDisplayedForFirstTime) {
                     isMessageDisplayedForFirstTime=true;
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     String message = "The contest ended" + "\n" + "The winning team is " + alliesWinnerTeamName;
                     alert.setContentText(message);
+                    alert.setTitle("Agent");
                     alert.getDialogPane().setExpanded(true);
                     alert.showAndWait();
               /*      try {

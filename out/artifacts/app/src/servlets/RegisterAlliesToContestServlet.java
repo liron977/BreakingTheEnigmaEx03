@@ -25,21 +25,24 @@ public class RegisterAlliesToContestServlet  extends HttpServlet {
             UBoatAvailableContestsManager uBoatAvailableContestsManger = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
             //MediatorForEngineManager mediatorForEngineManager=ServletUtils.getMediatorForEngineManager(getServletContext());
             AlliesManager alliesManager = ServletUtils.getAlliesManager(getServletContext());
-            AlliesMissionsManager alliesMissionsManager = ServletUtils.getAlliesMissionsManager(getServletContext());
-            alliesMissionsManager.addAlliesToAlliesMissionsManagerMap(alliesToRegister.getAlliesName());
+
             Allies allies = alliesManager.getAlliesByAlliesTeamName(alliesToRegister.getAlliesName());
-            allies.setMissionSize(alliesToRegister.getMissionSize());
+
 
             String battleName = request.getParameter(ParametersConstants.BATTLE_FIELD);
             EngineManager engineManager = uBoatAvailableContestsManger.getEngineManagerByBattleFieldName(battleName);
             if (engineManager != null) {
                 boolean isAlliesAddedSuccessfully = engineManager.addAlliesToContest(allies);
-                String convertedStringJson = gson.toJson(engineManager.getBattleField().getConvertedString());
-                out.println(convertedStringJson);
-                out.flush();
+
                 if (isAlliesAddedSuccessfully) {
+                    AlliesMissionsManager alliesMissionsManager = ServletUtils.getAlliesMissionsManager(getServletContext());
+                    alliesMissionsManager.addAlliesToAlliesMissionsManagerMap(alliesToRegister.getAlliesName());
+                    allies.setMissionSize(alliesToRegister.getMissionSize());
                     allies.setBattlefieldName(battleName);
                     response.setStatus(HttpServletResponse.SC_OK);
+                    String convertedStringJson = gson.toJson(engineManager.getBattleField().getConvertedString());
+                    out.println(convertedStringJson);
+                    out.flush();
                 } else {
                     response.setStatus(HttpServletResponse.SC_CONFLICT);
                 }
