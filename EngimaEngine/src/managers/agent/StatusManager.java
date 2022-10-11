@@ -17,12 +17,15 @@ public class StatusManager {
 
     }
     public synchronized ContestStatusInfoDTO getContestStatusInfoDTOByAlliesName(String alliesTeamName){
+        if(statusManagersMap.size()!=0) {
 
-            for (ContestStatusInfoDTO contestStatusInfoDTO : statusManagersMap.values()){
-                if(contestStatusInfoDTO.isAlliesExist(alliesTeamName)){
+
+            for (ContestStatusInfoDTO contestStatusInfoDTO : statusManagersMap.values()) {
+                if (contestStatusInfoDTO.isAlliesExist(alliesTeamName)) {
                     return contestStatusInfoDTO;
                 }
             }
+        }
             return null;
 
     }

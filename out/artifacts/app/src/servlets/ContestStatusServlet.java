@@ -73,6 +73,7 @@ public class ContestStatusServlet extends HttpServlet {
         if(contestStatusInfoDTO==null){
             contestStatusInfoDTO=new ContestStatusInfoDTO(true,"Active",true,"",true);
             try {
+                contestStatusInfoDTO.addAllies(theAlliesTeamName);
                 statusManager.addContestStatusInfoDTO(theAlliesTeamName,contestStatusInfoDTO);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);

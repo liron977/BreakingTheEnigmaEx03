@@ -1,5 +1,6 @@
 package bruteForce;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ContestStatusInfoDTO {
@@ -14,6 +15,7 @@ public class ContestStatusInfoDTO {
         this.alliesWinnerTeamName=alliesWinnerTeamName;
         this.contestStatus=contestStatus;
         //this.isAlliesConfirmedGameOver=false;
+        alliesTeamNames=new ArrayList<>();
         this.isUboatSettingsCompleted=isUboatSettingsCompleted;
         this.isAlliesConfirmedGameOver = isAlliesConfirmedGameOver;
     }
@@ -25,6 +27,9 @@ public class ContestStatusInfoDTO {
 
     public void setAlliesTeamNames(List<String> alliesTeamNames) {
         this.alliesTeamNames = alliesTeamNames;
+    }
+    public void addAllies(String alliesName){
+        alliesTeamNames.add(alliesName);
     }
 
     public String getContestStatus() {
