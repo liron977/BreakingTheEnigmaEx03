@@ -1,6 +1,7 @@
 package component.login;
 
 import bruteForce.AgentInfoDTO;
+import bruteForce.ContestStatusInfoDTO;
 import com.sun.istack.internal.NotNull;
 import component.AgentDashboard.AgentDashboardController;
 import component.AgentDashboard.AgentThreadTask;
@@ -44,6 +45,7 @@ public class AgentLoginController {
     @FXML
     private Slider threadsAmountSlider;
     private String selectedAlliesTeamName;
+    ContestStatusInfoDTO contestStatusInfoDTOFromGson;
     private Stage primaryStage;
     AlliesTeamsRefresher alliesTeamsRefresher;
     AgentDashboardController agentDashboardController;
@@ -66,6 +68,10 @@ public class AgentLoginController {
         loginErrorLabel.textProperty().bind(errorMessageProperty);
     }
 
+
+    public void setContestStatusInfoDTOFromGson(ContestStatusInfoDTO contestStatusInfoDTOFromGson) {
+        this.contestStatusInfoDTOFromGson = contestStatusInfoDTOFromGson;
+    }
 
     private void collectDataFromLoginForm(){
         selectedAlliesTeamName=alliesTeamComboBox.getValue();
@@ -137,7 +143,11 @@ public class AgentLoginController {
         }
         return isMissionsAmountValid;
     }
+
     private void addAgentToAlliesTeam(){
+
+
+
         String agentInfoDTOGson = Constants.GSON_INSTANCE.toJson(agentInfoDTO);
         RequestBody body = RequestBody.create(
                 MediaType.parse("application/json"), agentInfoDTOGson);
@@ -215,8 +225,8 @@ public class AgentLoginController {
 
                     //mainWindowAlliesController.setAlliesTeamName(alliesTeamName);
                     Platform.runLater(() -> {
-                        addAgentToAlliesTeam();
                         loadSuperScreen();
+                        addAgentToAlliesTeam();
                         primaryStage.setScene(mainWindowAlliesControllerScene);
                         primaryStage.centerOnScreen();
                         primaryStage.show();
@@ -243,6 +253,7 @@ public class AgentLoginController {
             agentDashboardController.setSelectedAlliesTeamName(selectedAlliesTeamName);
             agentDashboardController.setAmountOfThreads(threadsAmount);
             agentDashboardController.startContestTableViewRefresher();
+            agentDashboardController.setAgentLoginController(this);
             agentDashboardController.startContestStatusRefresher();
             primaryStage.setTitle("Agent: "+agentName);
             mainWindowAlliesControllerScene = new Scene(root1);

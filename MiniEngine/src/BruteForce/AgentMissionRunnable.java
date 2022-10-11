@@ -87,6 +87,9 @@ public class AgentMissionRunnable implements Runnable {
         synchronized (this){
             if(resultsList.size()>0) {
                 uiAdapterInterface.saveResultsOnServer(resultsList);
+                for (BruteForceResultDTO str:resultsList) {
+                    System.out.println(str.getConvertedString());
+                }
 
             }
             amountOfDoneMissions.setValue(amountOfDoneMissions.getValue()+1);

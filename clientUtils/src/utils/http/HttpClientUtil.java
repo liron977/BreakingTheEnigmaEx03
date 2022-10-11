@@ -2,6 +2,9 @@ package utils.http;
 
 import okhttp3.*;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class HttpClientUtil {
 
     private static final SimpleCookieManager simpleCookieManager = new SimpleCookieManager();
@@ -38,5 +41,7 @@ public class HttpClientUtil {
 
     static {
         HTTP_CLIENT = (new OkHttpClient.Builder()).cookieJar(simpleCookieManager).followRedirects(false).build();
+        Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);
+
     }
 }

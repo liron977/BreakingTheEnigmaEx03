@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import machineDTO.ListOfExceptionsDTO;
+import managers.uBoatEngine.UBoatAvailableContestsManager;
 import utils.ServletUtils;
 
 import java.io.IOException;
@@ -56,6 +57,8 @@ public class UploadXmlFile extends HttpServlet {
             }
             return false;
         }
+        UBoatAvailableContestsManager uBoatAvailableContestsManger = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
+        uBoatAvailableContestsManger.addUBoatAvailableContest(engineManager,engineManager.getBattleName());
         return true;
     }
 }

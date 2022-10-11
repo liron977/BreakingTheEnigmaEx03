@@ -3,6 +3,7 @@ package component.AgentDashboard;
 import BruteForce.AgentDecryptionManager;
 import bruteForce.*;
 import com.google.gson.reflect.TypeToken;
+import component.login.AgentLoginController;
 import engine.theEnigmaEngine.SchemaGenerated;
 import engine.theEnigmaEngine.TheMachineEngine;
 import engine.theEnigmaEngine.UBoatBattleField;
@@ -53,6 +54,7 @@ public class AgentDashboardController implements Closeable {
     private Stage primaryStage;
     @FXML
     private TableView contestInfo;
+    AgentLoginController agentLoginController;
 
     @FXML
     ContestInfoController contestInfoController;
@@ -118,6 +120,11 @@ public class AgentDashboardController implements Closeable {
         }
         });
     }
+
+    public void setAgentLoginController(AgentLoginController agentLoginController) {
+        this.agentLoginController = agentLoginController;
+    }
+
     public synchronized void saveResultsInServer(List<BruteForceResultDTO> bruteForceResultDTOBlockingQueue){
         String bruteForceResultDTOListGson = Constants.GSON_INSTANCE.toJson(bruteForceResultDTOBlockingQueue);
         RequestBody body = RequestBody.create(
@@ -502,6 +509,7 @@ return isMissionsEnded;
         timer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
     }
     private void updateContestStatus(ContestStatusInfoDTO contestStatusInfoDTO) {
+
         if(isMessageDisplayedForFirstTime) {
             if (contestStatusInfoDTO.getIsAlliesConfirmedGameOver()) {
                     Platform.runLater(() -> {

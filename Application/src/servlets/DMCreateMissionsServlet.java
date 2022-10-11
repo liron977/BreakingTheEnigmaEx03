@@ -25,11 +25,12 @@ public class DMCreateMissionsServlet extends HttpServlet {
         Thread.currentThread().setName("DMCreateMissionsServlet");
         AlliesManager alliesManager = ServletUtils.getAlliesManager(getServletContext());
         String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
-        String stringToConvert = request.getParameter(ParametersConstants.STRING_TO_CONVERT_BRUTE_FORCE);
-        Allies alies = alliesManager.getAlliesByAlliesTeamName(theAlliesTeamName);
         UBoatAvailableContestsManager uBoatAvailableContestsManager = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
         EngineManager engineManager = uBoatAvailableContestsManager.getEngineMangerByAlliesTeamName(theAlliesTeamName);
-        if(engineManager!=null) {
+
+        String stringToConvert = engineManager.getConvertedString();
+        Allies alies = alliesManager.getAlliesByAlliesTeamName(theAlliesTeamName);
+         if(engineManager!=null) {
             try {
                 createMission(engineManager, theAlliesTeamName, stringToConvert);
             } catch (Exception e) {

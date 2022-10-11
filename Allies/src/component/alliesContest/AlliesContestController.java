@@ -110,6 +110,7 @@ public class AlliesContestController implements Closeable {
     private String alliesWinnerTeamName;
     private boolean isMessageDisplayedForFirstTime;
     private TimerTask amountOfCreatedMissionsRefresher;
+    boolean isMissionsCreated;
 
     @FXML
     public void initialize(){
@@ -119,6 +120,7 @@ public class AlliesContestController implements Closeable {
         isContestEnded=new SimpleBooleanProperty(false);
         alliesWinnerTeamName="";
         isMessageDisplayedForFirstTime=false;
+        isMissionsCreated=false;
     }
 
     public void setConvertedString(String convertedString) {
@@ -167,8 +169,8 @@ public class AlliesContestController implements Closeable {
 
             String stringToConvert=Constants.GSON_INSTANCE.fromJson(response.body().string(),String.class);
             if(stringToConvert!=null) {
-                AlliesThreadTask threadTask=new AlliesThreadTask(stringToConvert,Integer.parseInt(missionSizeTextField.getText()),alliesTeamName);
-                new Thread(threadTask).start();
+               /* AlliesThreadTask threadTask=new AlliesThreadTask(stringToConvert,Integer.parseInt(missionSizeTextField.getText()),alliesTeamName);
+                new Thread(threadTask).start();*/
             }
         } else {
             if (response.code() == 409) {
@@ -377,13 +379,19 @@ public class AlliesContestController implements Closeable {
     }
 
     private void updateContestStatus(ContestStatusInfoDTO contestStatusInfoDTO)  {
-
+        if(contestStatusInfoDTO.isUboatSettingsCompleted()&&!contestStatusInfoDTO.isContestEnded()){
+            AlliesThreadTask threadTask=new AlliesThreadTask(convertedString,Integer.parseInt(missionSizeTextField.getText()),alliesTeamName);
+            new Thread(threadTask).start();
+            isMissionsCreated=true;
+        }
         if (!isContestEnded.getValue()) {
+
             Platform.runLater(() -> {
                 this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());
                 this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
                 if (isContestEnded.getValue()&&!isMessageDisplayedForFirstTime) {
                     isMessageDisplayedForFirstTime=true;
+                    isMissionsCreated=false;
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     String message = "The contest ended" + "\n" + "The winning team is " + alliesWinnerTeamName;
                     alert.setContentText(message);

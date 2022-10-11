@@ -14,11 +14,13 @@ public class UBoatBattleField implements Serializable {
    private String contestStatus;
     private String uploadedBy;
     private String convertedString;
+    private boolean isUboatReady;
     private String stringToConvert;
     private List<Allies> alliesRegisteredToContest;
     private boolean isContestEnded;
     private String alliesWinnwerTeamName;
     private boolean isAlliesConfirmedGameOver;
+    private boolean isConvertedStringSet;
 
    public UBoatBattleField(String battleName, int alliesNeededTeamsAmount, String level){
        this.battleName=battleName;
@@ -28,6 +30,7 @@ public class UBoatBattleField implements Serializable {
        this.contestStatus="Wait..";
        this.convertedString="";
        this.stringToConvert="";
+       this.isUboatReady=false;
        alliesRegisteredToContest=new ArrayList<>();
        this.isContestEnded=false;
        this.alliesWinnwerTeamName="";
@@ -55,14 +58,17 @@ public boolean isAlliesExists(String alliesTeamName){
        if(alliesActiveTeamsAmount<alliesNeededTeamsAmount){
            alliesRegisteredToContest.add(allies);
            alliesActiveTeamsAmount++;
-           if(alliesActiveTeamsAmount==alliesNeededTeamsAmount){
+           if(alliesActiveTeamsAmount==alliesNeededTeamsAmount&&isConvertedStringSet){
                contestStatus="Active";
+               isUboatReady=true;
            }
            return true;
        }
        return false;
    }
-
+public boolean getIsConvertedStringSet(){
+       return isConvertedStringSet;
+}
 
     public List<Allies> getAlliesRegisteredToContest() {
         return alliesRegisteredToContest;
@@ -98,6 +104,18 @@ public boolean isAlliesExists(String alliesTeamName){
 
     public void setConvertedString(String convertedString) {
         this.convertedString = convertedString;
+        isConvertedStringSet=true;
+        /*if(alliesActiveTeamsAmount==alliesNeededTeamsAmount){
+            contestStatus="Active";
+            isUboatReady=true;
+        }*/
+    }
+    public void setIsActiveContest(){
+
+        if(alliesActiveTeamsAmount==alliesNeededTeamsAmount&&isConvertedStringSet){
+            contestStatus="Active";
+            isUboatReady=true;
+        }
     }
 
     public String getConvertedString() {

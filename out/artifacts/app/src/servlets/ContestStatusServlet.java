@@ -7,6 +7,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import machineEngine.EngineManager;
+import managers.bruteForce.AlliesBruteForceResultsMapManager;
+import managers.bruteForce.AlliesMissionsManager;
+import managers.uBoatEngine.AlliesManager;
 import managers.uBoatEngine.UBoatAvailableContestsManager;
 import utils.ServletUtils;
 
@@ -30,6 +33,8 @@ public class ContestStatusServlet extends HttpServlet {
             if (battleName != null) {
                 EngineManager engineManager = uBoatAvailableContestsManager.getEngineManagerByBattleFieldName(battleName);
                 ContestStatusInfoDTO contestStatusInfoDTO = new ContestStatusInfoDTO(
+                        engineManager.getIsConvertedStringSet(),
+                        engineManager.getContestStatus(),
                         engineManager.getIsContestEnded(),
                         engineManager.getAlliesWinnwerTeamName(),
                         engineManager.getIsAlliesConfirmedGameOver());
@@ -46,11 +51,18 @@ public class ContestStatusServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
+        AlliesManager alliesManager=ServletUtils.getAlliesManager(getServletContext());
+        AlliesMissionsManager alliesMissionsManager=ServletUtils.getAlliesMissionsManager(getServletContext());
+       AlliesBruteForceResultsMapManager alliesGetBruteForceResultServlet=ServletUtils.getAlliesBruteForceResultsMapManager(getServletContext());
         UBoatAvailableContestsManager uBoatAvailableContestsManager = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
         String battleName = uBoatAvailableContestsManager.getUboatNameByAlliesTeamName(theAlliesTeamName);
         if (battleName != null) {
             EngineManager engineManager = uBoatAvailableContestsManager.getEngineManagerByBattleFieldName(battleName);
             engineManager.setAlliesConfirmedGameOver(true);
+            alliesManager.clearAlliesValues(theAlliesTeamName);
+            alliesGetBruteForceResultServlet.clearBruteForceResults(theAlliesTeamName);
+            alliesMissionsManager.clearMissionFromBlockingQueue(theAlliesTeamName);
+            engineManager.clearAlliesActiveTeams();
         }
     }
 }

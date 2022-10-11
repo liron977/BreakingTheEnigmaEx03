@@ -33,6 +33,7 @@ public class ContestStatusServlet extends HttpServlet {
             if (battleName != null) {
                 EngineManager engineManager = uBoatAvailableContestsManager.getEngineManagerByBattleFieldName(battleName);
                 ContestStatusInfoDTO contestStatusInfoDTO = new ContestStatusInfoDTO(
+                        engineManager.getIsConvertedStringSet(),
                         engineManager.getContestStatus(),
                         engineManager.getIsContestEnded(),
                         engineManager.getAlliesWinnwerTeamName(),

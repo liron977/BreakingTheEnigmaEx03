@@ -921,6 +921,9 @@ public class EngineManager implements EngineManagerInterface,Serializable {
    public void setConvertedStringInBattleField(String convertedString){
     this.battleField.setConvertedString(convertedString);
    }
+   public void setIsActiveContest(){
+    this.battleField.setIsActiveContest();
+   }
    public boolean addAlliesToContest(Allies allies){
         return battleField.addAllies(allies);
 
@@ -1076,11 +1079,18 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     public String getStringToConvert(){
         return battleField.getStringToConvert();
     }
+    public String getConvertedString(){
+        return battleField.getConvertedString();
+    }
+
     public boolean getIsContestEnded() {
        return battleField.getIsContestEnded();
     }
     public String getContestStatus() {
        return battleField.getContestStatus();
+    }
+    public boolean getIsConvertedStringSet() {
+       return battleField.getIsConvertedStringSet();
     }
     public void setIsContestEnded(boolean status) {
       battleField.setIsContestEnded(status);
@@ -1098,6 +1108,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     public void setAlliesConfirmedGameOver(boolean alliesConfirmedGameOver) {
         battleField.setAlliesConfirmedGameOver(alliesConfirmedGameOver);
     }
+
     public boolean getIsAlliesConfirmedGameOver(){
       return battleField.getIsAlliesConfirmedGameOver();
     }
