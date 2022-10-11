@@ -96,6 +96,7 @@ public class AgentDashboardController implements Closeable {
     private ObservableList<BruteForceResultDTO> bruteForceResultsDTOObservableList;
     private boolean isMessageDisplayedForFirstTime;
     private boolean isContestActive;
+    private String battleFieldName;
 
     @FXML
     public void initialize() {
@@ -108,6 +109,7 @@ public class AgentDashboardController implements Closeable {
         alliesWinnerTeamName="";
         isMessageDisplayedForFirstTime=false;
         isContestActive=false;
+        battleFieldName="";
         amountOfMissionsInTheQueue=new SimpleIntegerProperty(0);
         this.autoUpdate=new SimpleBooleanProperty(true);
         bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
@@ -465,6 +467,7 @@ return isMissionsEnded;
         CTEEnigma cteEnigma=deserializeFrom(inputStream);
         SchemaGenerated schemaGenerated = new SchemaGenerated(cteEnigma);
         UBoatBattleField battleField=schemaGenerated.createBattleField();
+        battleFieldName=battleField.getBattleName();
         TheMachineEngine theMachineEngine = new TheMachineEngine(schemaGenerated.createRotorsSet()
                 , schemaGenerated.createReflectorsSet(), schemaGenerated.createKeyboard(),
                 schemaGenerated.getAmountOfUsedRotors(), schemaGenerated.createDictionary(),battleField);
@@ -503,7 +506,7 @@ return isMissionsEnded;
         this.agentInfoDTO = agentInfoDTO;
     }
     public void startContestStatusRefresher() {
-        contestStatusRefresher = new ContestStatusRefresher("agent","",
+        contestStatusRefresher = new ContestStatusRefresher("Agent","",
                 this::updateContestStatus,autoUpdate,selectedAlliesTeamName);
         timer = new Timer();
         timer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
@@ -511,9 +514,11 @@ return isMissionsEnded;
     private void updateContestStatus(ContestStatusInfoDTO contestStatusInfoDTO) {
 
         if(isMessageDisplayedForFirstTime) {
-            if (contestStatusInfoDTO.getIsAlliesConfirmedGameOver()) {
+         //   System.out.println("getIsAlliesConfirmedGameOver: "+contestStatusInfoDTO.getIsAlliesConfirmedGameOver());
+            if(contestStatusInfoDTO==null||contestStatusInfoDTO.getIsAlliesConfirmedGameOver()){
                     Platform.runLater(() -> {
                         try {
+                            System.out.println("updateContestStatus");
                             close();
                             initValues();
                             updateAgentStatus();
@@ -530,6 +535,7 @@ return isMissionsEnded;
                 this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
                 this.isContestActive=contestStatusInfoDTO.isContestActive();
                 if (isContestEnded.getValue()&&!isMessageDisplayedForFirstTime) {
+                    System.out.println("isMessageDisplayedForFirstTime =true");
                     isMessageDisplayedForFirstTime=true;
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     String message = "The contest ended" + "\n" + "The winning team is " + alliesWinnerTeamName;

@@ -75,7 +75,14 @@ public boolean getIsConvertedStringSet(){
     public List<Allies> getAlliesRegisteredToContest() {
         return alliesRegisteredToContest;
     }
+public List<String> getAlliesRegisteredNames(){
+       List<String> alliesTeamNames=new ArrayList<>();
+    for (Allies allies:alliesRegisteredToContest) {
+        alliesTeamNames.add(allies.getAlliesName());
 
+    }
+    return alliesTeamNames;
+}
     public void setUploadedBy(String uploadedBy){
        this.uploadedBy=uploadedBy;
    }

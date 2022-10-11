@@ -16,12 +16,25 @@ public class MediatorForEngineManager {
     public synchronized void addEngineManger(String battleName, EngineManager newEngineManager) {
         EngineManagersMap.put(battleName, newEngineManager);
     }
+    public synchronized void replaceEngineManager(EngineManager engineManager,String battleName){
+        EngineManager engineManagerClone=engineManager.cloneEngineManager();
+        EngineManagersMap.put(battleName,engineManagerClone);
+
+    }
 
     public synchronized Map<String, EngineManager> getEngineManagersMap() {
         return Collections.unmodifiableMap(EngineManagersMap);
     }
     public synchronized EngineManager getEngineMangerByBattleFiLedName(String battleFiLedName){
       return EngineManagersMap.get(battleFiLedName);
+    }
+    public synchronized EngineManager getEngineMangerByAlliesTeamName(String alliesTeamName){
+        for (EngineManager engineManager : EngineManagersMap.values()){
+            if(engineManager.isAlliesExists(alliesTeamName)){
+                return engineManager;
+            }
+        }
+        return null;
     }
     public boolean isBattleExists(String battleName) {
         return EngineManagersMap.containsKey(battleName);

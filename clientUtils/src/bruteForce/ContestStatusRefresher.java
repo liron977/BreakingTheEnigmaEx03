@@ -53,6 +53,11 @@ public class ContestStatusRefresher  extends TimerTask {
                 if(contestStatusInfoDTOFromGson!=null) {
                     updateContestStatus.accept(contestStatusInfoDTOFromGson);
                 }
+             /*   else if(role.equals("Agent")){
+                    updateContestStatus.accept(contestStatusInfoDTOFromGson);
+                    System.out.println("null!!");
+                }*/
+
             }
         });
     }

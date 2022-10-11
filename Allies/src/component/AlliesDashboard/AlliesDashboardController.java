@@ -2,8 +2,11 @@ package component.AlliesDashboard;
 
 
 import bruteForce.AgentInfoDTO;
+import bruteForce.AlliesDTO;
 import bruteForce.UBoatContestInfoWithCheckBoxDTO;
+import component.alliesContest.AlliesThreadTask;
 import component.mainWindowAllies.MainWindowAlliesController;
+import constants.Constants;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -16,6 +19,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import okhttp3.*;
+import utils.http.HttpClientUtil;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -61,6 +66,9 @@ private  List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoWithCheckBoxDTOLi
     private TableColumn<UBoatContestInfoWithCheckBoxDTO, CheckBox> selectedContestColumn;
     @FXML
     private Button readyButton;
+    @FXML
+    private TextField missionSizeTextField;
+    AlliesThreadTask threadTask;
 
     private  UBoatContestInfoWithCheckBoxDTO selectedContestDTO;
 @FXML
@@ -68,11 +76,13 @@ private  List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoWithCheckBoxDTOLi
 
     AgentInfoDTO agentInfoDTO;
     String alliesTeamName="";
+    String selectedBattleField;
 
     @FXML
     public void initialize(){
         isContestSelected=new SimpleBooleanProperty(true);
         readyButton.disableProperty().bind(isContestSelected);
+        selectedBattleField="";
     }
 
     public AlliesDashboardController() {
@@ -292,10 +302,67 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
     }
     @FXML
     void readyButtonOnAction(ActionEvent event) throws IOException {
+
         if(selectedContestDTO!=null) {
             mainWindowAlliesController.setSelectedBattleFieldName(selectedContestDTO.getBattleFieldName());
+            selectedBattleField=selectedContestDTO.getBattleFieldName();
+            mainWindowAlliesController.startContestStatusRefresher();
+            registerAllies();
             mainWindowAlliesController.changeToContestTab();
         }
+
+    }
+
+    public void setSelectedBattleField(String selectedBattleField) {
+        this.selectedBattleField = selectedBattleField;
+    }
+
+    private void registerAllies() throws IOException {
+              AlliesDTO alliesDTO = new AlliesDTO(Integer.parseInt(missionSizeTextField.getText()), alliesTeamName);
+            String alliesDTOGson = Constants.GSON_INSTANCE.toJson(alliesDTO);
+            RequestBody body = RequestBody.create(
+                    MediaType.parse("application/json"), alliesDTOGson);
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            String finalUrl = HttpUrl
+                    .parse(Constants.REGISTER_ALLIES_TO_CONTEST)
+                    .newBuilder()
+                    .addQueryParameter("battlefield", selectedBattleField)
+                    .build()
+                    .toString();
+
+            Request request = new Request.Builder()
+                    .url(finalUrl)
+                    .post(body)
+                    .build();
+
+            Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+            Response response = call.execute();
+            if (response.code() == 200) {
+
+                Platform.runLater(() -> {
+
+                    alert.setContentText("You registered to the contest " + selectedBattleField + " successfully");
+                    alert.getDialogPane().setExpanded(true);
+                    alert.showAndWait();
+                });
+
+                String stringToConvert=Constants.GSON_INSTANCE.fromJson(response.body().string(),String.class);
+                System.out.println("registerAllies");
+                mainWindowAlliesController.setMissionSize(Integer.valueOf(missionSizeTextField.getText()));
+                /* threadTask=new AlliesThreadTask(mainWindowAlliesController.getAlliesContestController(),stringToConvert,Integer.parseInt(missionSizeTextField.getText()),alliesTeamName);
+                 mainWindowAlliesController.setThreadTask(threadTask);
+                System.out.println("before start");*/
+                new Thread(threadTask).start();
+
+            } else {
+                if (response.code() == 409) {
+                    alert.setContentText("The contest " + selectedBattleField + " is full, please select another one");
+                    alert.getDialogPane().setExpanded(true);
+                    alert.showAndWait();
+                }
+            }
+
 
     }
 

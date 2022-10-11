@@ -1,5 +1,6 @@
 package component.alliesContest;
 
+import bruteForce.ContestStatusInfoDTO;
 import com.google.gson.Gson;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -16,6 +17,10 @@ public class AlliesThreadTask extends Task<Boolean> {
   //  private EngineManager engineManager;
     private String alliesTeamName;
     private boolean isErrorOccurred =false;
+    private ContestStatusInfoDTO contestStatusInfoDTO;
+    private boolean isUboatSettingsCompleted;
+    private boolean isContestEnded;
+
 
     public AlliesThreadTask(String stringToConvert, int sizeOfMission, String alliesTeamName) {
         //this.UiAdapter = uiAdapt;
@@ -23,9 +28,28 @@ public class AlliesThreadTask extends Task<Boolean> {
         this.sizeOfMission = sizeOfMission;
         this.alliesTeamName = alliesTeamName;
         this.stringToConvert = stringToConvert;
+       this.isUboatSettingsCompleted=false;
+        this.isContestEnded=false;
+
+    }
+public void setStringToConvert(String stringToConvert){
+        this.stringToConvert=stringToConvert;
+}
+  public void setIsUboatSettingsCompleted(boolean isUboatSettingsCompleted){
+        this.isUboatSettingsCompleted=isUboatSettingsCompleted;
+  }
+  public void setIsContestEnded(boolean isContestEnded){
+        this.isContestEnded=isContestEnded;
+  }
+
+
+    public void setContestStatusInfoDTO(ContestStatusInfoDTO contestStatusInfoDTO) {
+        this.contestStatusInfoDTO = contestStatusInfoDTO;
     }
 
     public Boolean call() throws Exception {
+        //stringToConvert=alliesContestController.getConvertedString();
+
       RequestBody body =
                 new MultipartBody.Builder()
                         .addFormDataPart("stringToConvert", stringToConvert)
@@ -63,6 +87,7 @@ public class AlliesThreadTask extends Task<Boolean> {
                     });
                 }
             } else {
+                System.out.println("thread task 200");
                 String res = response.body().string();
                 Platform.runLater(() -> {
                     {
@@ -72,6 +97,7 @@ public class AlliesThreadTask extends Task<Boolean> {
             }
         } catch (IOException e) {
         }
+        System.out.println("thread task out");
         return Boolean.TRUE;
     }
 }

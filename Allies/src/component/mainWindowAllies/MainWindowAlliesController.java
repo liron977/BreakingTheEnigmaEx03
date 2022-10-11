@@ -2,6 +2,7 @@ package component.mainWindowAllies;
 
 import component.AlliesDashboard.AlliesDashboardController;
 import component.alliesContest.AlliesContestController;
+import component.alliesContest.AlliesThreadTask;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
@@ -31,9 +32,9 @@ public class MainWindowAlliesController {
     private TabPane alliesTabPane;
     @FXML
     private Tab dashboardTabButton;
-     @FXML
+    @FXML
     private Tab contestTabButton;
-
+    String selectedBattleFieldName;
 
     @FXML
     public void initialize() {
@@ -44,28 +45,35 @@ public class MainWindowAlliesController {
 
         }
     }
+
     public void setPrimaryStage(Stage primaryStageIn) {
         primaryStage = primaryStageIn;
         //scene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
     }
-    public void updateAgentsTableView(){
+
+    public void updateAgentsTableView() {
         alliesDashboardController.startAgentsTableViewRefresher();
     }
-    public void updateUBoatContestTableView(){
+
+    public void updateUBoatContestTableView() {
         alliesDashboardController.startUBoatContestsTableViewRefresher();
     }
-public void setSelectedBattleFieldName(String selectedBattleFieldName){
+
+    public void setSelectedBattleFieldName(String selectedBattleFieldName) {
         alliesContestController.setSelectedBattleFieldName(selectedBattleFieldName);
 
-}
+    }
+
     public void setAlliesTeamName(String alliesTeamName) {
         this.alliesTeamName = alliesTeamName;
         alliesDashboardController.setAlliesTeamName(alliesTeamName);
         alliesContestController.setAlliesTeamName(alliesTeamName);
     }
-    public void setConvertedString(String convertedString){
+
+    public void setConvertedString(String convertedString) {
         alliesContestController.setConvertedString(convertedString);
     }
+
     public void changeToContestTab() throws IOException {
         contestTabButton.setDisable(false);
         alliesTabPane.getSelectionModel().select(contestTabButton);
@@ -73,14 +81,33 @@ public void setSelectedBattleFieldName(String selectedBattleFieldName){
         alliesContestController.startContestResultsTableViewRefresher();
         alliesContestController.startContestInfoTableViewRefresher();
         alliesContestController.startAgentsTableViewRefresher();
-        alliesContestController.startContestStatusRefresher();
         alliesContestController.startDMAmountOfCreatedMissionsRefresherRefresher();
         alliesDashboardController.close();
     }
+
     public void changeToAlliesDashboardTab() throws IOException {
         dashboardTabButton.setDisable(false);
         contestTabButton.setDisable(true);
         alliesTabPane.getSelectionModel().select(dashboardTabButton);
+        alliesDashboardController.startUBoatContestsTableViewRefresher();
+        alliesDashboardController.startAgentsTableViewRefresher();
         alliesContestController.close();
+
+
+    }
+    public void startContestStatusRefresher(){
+        alliesContestController.startContestStatusRefresher();
+    }
+
+    public AlliesContestController getAlliesContestController() {
+        return alliesContestController;
+    }
+public void setMissionSize(int missionSize){
+        alliesContestController.setMissionSize(missionSize);
+
+}
+    public void setThreadTask(AlliesThreadTask threadTask) {
+        System.out.println("setThreadTask");
+        alliesContestController.setThreadTask(threadTask);
     }
 }

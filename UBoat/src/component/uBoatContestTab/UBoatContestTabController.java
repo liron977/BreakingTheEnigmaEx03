@@ -772,7 +772,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         timer.schedule(BruteForceResultTableViewRefresher, REFRESH_RATE, REFRESH_RATE);
     }
     public void startContestStatusRefresher() {
-        contestStatusRefresher = new ContestStatusRefresher("uboat",battleName.trim(),
+        contestStatusRefresher = new ContestStatusRefresher("UBoat",battleName.trim(),
                 this::updateContestStatus,autoUpdate,"");
         timer = new Timer();
         timer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
@@ -789,8 +789,8 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                     alert.setContentText(message);
                     alert.setTitle("UBoat");
                     alert.getDialogPane().setExpanded(true);
-                    alert.showAndWait();
-                    activeTeamsDetailsTableView.getItems().clear();
+                   // alert.showAndWait();
+                    //activeTeamsDetailsTableView.getItems().clear();
                     readyButton.setDisable(false);
                     Optional<ButtonType> result=alert.showAndWait();
                     if(result.get()==ButtonType.OK) {

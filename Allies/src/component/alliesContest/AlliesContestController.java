@@ -37,8 +37,7 @@ public class AlliesContestController implements Closeable {
     private Label amountOfDoneMissions;
     @FXML
     private Label totalAmountOfCreatedMissionsLabel;
-    @FXML
-    private TextField missionSizeTextField;
+
 
     private String alliesTeamName;
     private String selectedBattleField="";
@@ -55,6 +54,7 @@ public class AlliesContestController implements Closeable {
     private Timer agentsTableViewTimer;
     private TimerTask agentsTableViewRefresher;
     private SimpleBooleanProperty autoUpdate;
+    AlliesThreadTask threadTask;
 
     @FXML
     private TableColumn<BruteForceResultDTO, String> stringColumn;
@@ -104,6 +104,8 @@ public class AlliesContestController implements Closeable {
     private Timer contestInfoRefresherTimer;
     private TimerTask contestInfoRefresher;
     private String convertedString;
+    private int missionSize;
+    private boolean isUboatSettingsCompleted;
 
     private TimerTask contestStatusRefresher;
     private SimpleBooleanProperty isContestEnded;
@@ -121,6 +123,12 @@ public class AlliesContestController implements Closeable {
         alliesWinnerTeamName="";
         isMessageDisplayedForFirstTime=false;
         isMissionsCreated=false;
+        isUboatSettingsCompleted=false;
+        missionSize=0;
+    }
+
+    public void setMissionSize(int missionSize) {
+        this.missionSize = missionSize;
     }
 
     public void setConvertedString(String convertedString) {
@@ -136,7 +144,7 @@ public class AlliesContestController implements Closeable {
     public void setAlliesTeamName(String alliesTeamName) {
         this.alliesTeamName = alliesTeamName;
     }
-    @FXML
+   /* @FXML
     void submitButtonOnActionListener(ActionEvent event) throws IOException {
         AlliesDTO alliesDTO = new AlliesDTO(Integer.parseInt(missionSizeTextField.getText()), alliesTeamName);
         String alliesDTOGson = Constants.GSON_INSTANCE.toJson(alliesDTO);
@@ -169,8 +177,8 @@ public class AlliesContestController implements Closeable {
 
             String stringToConvert=Constants.GSON_INSTANCE.fromJson(response.body().string(),String.class);
             if(stringToConvert!=null) {
-               /* AlliesThreadTask threadTask=new AlliesThreadTask(stringToConvert,Integer.parseInt(missionSizeTextField.getText()),alliesTeamName);
-                new Thread(threadTask).start();*/
+               *//* AlliesThreadTask threadTask=new AlliesThreadTask(stringToConvert,Integer.parseInt(missionSizeTextField.getText()),alliesTeamName);
+                new Thread(threadTask).start();*//*
             }
         } else {
             if (response.code() == 409) {
@@ -180,7 +188,7 @@ public class AlliesContestController implements Closeable {
             }
         }
     }
-
+*/
     public void setMainWindowAlliesController(MainWindowAlliesController mainWindowAlliesController) {
         this.mainWindowAlliesController = mainWindowAlliesController;
     }
@@ -372,17 +380,34 @@ public class AlliesContestController implements Closeable {
         agentsTableViewTimer.schedule(agentsTableViewRefresher, REFRESH_RATE, REFRESH_RATE);
     }
     public void startContestStatusRefresher() {
-        contestStatusRefresher = new ContestStatusRefresher("allies",""
+        contestStatusRefresher = new ContestStatusRefresher("Allies",selectedBattleField
                 ,this::updateContestStatus,autoUpdate,alliesTeamName);
         timer = new Timer();
         timer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
     }
+    public boolean getIsUboatSettingsCompleted(){
+        return isUboatSettingsCompleted;
+    }
+
+    public String getConvertedString() {
+        return convertedString;
+    }
+
 
     private void updateContestStatus(ContestStatusInfoDTO contestStatusInfoDTO)  {
-        if(contestStatusInfoDTO.isUboatSettingsCompleted()&&!contestStatusInfoDTO.isContestEnded()){
-            AlliesThreadTask threadTask=new AlliesThreadTask(convertedString,Integer.parseInt(missionSizeTextField.getText()),alliesTeamName);
+
+       /* if(threadTask!=null){
+            threadTask.setIsContestEnded(contestStatusInfoDTO.isContestEnded());
+            threadTask.setIsUboatSettingsCompleted(contestStatusInfoDTO.isUboatSettingsCompleted());
+            threadTask.setStringToConvert(convertedString);
+        }*/
+        if(contestStatusInfoDTO.isUboatSettingsCompleted()&&!isMissionsCreated) {
+            threadTask = new AlliesThreadTask(convertedString, missionSize, alliesTeamName);
+            mainWindowAlliesController.setThreadTask(threadTask);
+            System.out.println("before start");
             new Thread(threadTask).start();
             isMissionsCreated=true;
+           /* isUboatSettingsCompleted = contestStatusInfoDTO.isUboatSettingsCompleted();*/
         }
         if (!isContestEnded.getValue()) {
 
@@ -485,7 +510,7 @@ public class AlliesContestController implements Closeable {
         dmAmountOfCreatedMissionsLabel.setText("0");
         amountOfDoneMissions.setText("0");
         totalAmountOfCreatedMissionsLabel.setText("0");
-        missionSizeTextField.setText("0");
+    /*    missionSizeTextField.setText("0");*/
         selectedBattleField="";
         autoUpdate=new SimpleBooleanProperty(true);
         contestCandidatesTableView.getItems().clear();
@@ -497,6 +522,11 @@ public class AlliesContestController implements Closeable {
         alliesWinnerTeamName="";
         isMessageDisplayedForFirstTime=false;
     }
+
+    public void setThreadTask(AlliesThreadTask threadTask) {
+        this.threadTask = threadTask;
+    }
+
     public void setConfirmed() throws IOException {
         RequestBody body = RequestBody.create(
                 MediaType.parse("application/json"), "");

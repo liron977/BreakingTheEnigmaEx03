@@ -1,6 +1,7 @@
 package utils;
 
 import managers.agent.AgentsManager;
+import managers.agent.StatusManager;
 import managers.bruteForce.AlliesMissionsManager;
 import managers.bruteForce.UboatBruteForceResultsMapManager;
 import managers.bruteForce.AlliesBruteForceResultsMapManager;
@@ -26,7 +27,7 @@ public class ServletUtils {
     private static final String BRUTE_FORCE_RESULTS_MANAGER_ATTRIBUTE_NAME = "bruteForceResultsManager";
     private static final String ALLIES_BRUTE_FORCE_RESULTS_LIST_MANAGER_ATTRIBUTE_NAME = "bruteForceResultsListManager";
     private static final String UBOAT_BRUTE_FORCE_RESULTS_LIST_MANAGER_ATTRIBUTE_NAME = "bruteForceResultsListManagerForUboat";
-
+private static final String STATUS_MANAGER="StatusManager";
     /*
     Note how the synchronization is done only on the question and\or creation of the relevant managers and once they exists -
     the actual fetch of them is remained un-synchronized for performance POV
@@ -41,6 +42,7 @@ public class ServletUtils {
     private static final Object alliesMissionsManagerLock = new Object();
     private static final Object uboatBruteForceResultManagerLock = new Object();
     private static final Object alliesBruteForceResultManagerLock = new Object();
+    private static final Object statusManagerLock = new Object();
     public static UserManager getUserManager(ServletContext servletContext) {
 
         synchronized (userManagerLock) {
@@ -77,6 +79,14 @@ public class ServletUtils {
             }
         }
         return (MediatorForEngineManager) servletContext.getAttribute(MEDIATORS_MANAGER_ATTRIBUTE_NAME);
+    }
+    public static StatusManager getStatusManager(ServletContext servletContext) {
+        synchronized (statusManagerLock) {
+            if (servletContext.getAttribute(STATUS_MANAGER) == null) {
+                servletContext.setAttribute(STATUS_MANAGER, new StatusManager());
+            }
+        }
+        return (StatusManager) servletContext.getAttribute(STATUS_MANAGER);
     }
 
     public static AlliesBruteForceResultsMapManager getBruteForceResultsManager(ServletContext servletContext) {

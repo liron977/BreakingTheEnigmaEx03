@@ -1,8 +1,11 @@
 package bruteForce;
 
+import java.util.List;
+
 public class ContestStatusInfoDTO {
     private String alliesWinnerTeamName;
     private String contestStatus;
+    private List<String> alliesTeamNames;
     private boolean isContestEnded;
     private boolean isUboatSettingsCompleted;
     private boolean isAlliesConfirmedGameOver;
@@ -10,13 +13,18 @@ public class ContestStatusInfoDTO {
         this.isContestEnded=isContestEnded;
         this.alliesWinnerTeamName=alliesWinnerTeamName;
         this.contestStatus=contestStatus;
-        this.isAlliesConfirmedGameOver=false;
+        //this.isAlliesConfirmedGameOver=false;
         this.isUboatSettingsCompleted=isUboatSettingsCompleted;
-
         this.isAlliesConfirmedGameOver = isAlliesConfirmedGameOver;
     }
-    public boolean getIsAlliesConfirmedGameOver(){
+//    public ContestStatusInfoDTO() {
+//    }
+        public boolean getIsAlliesConfirmedGameOver(){
         return isAlliesConfirmedGameOver;
+    }
+
+    public void setAlliesTeamNames(List<String> alliesTeamNames) {
+        this.alliesTeamNames = alliesTeamNames;
     }
 
     public String getContestStatus() {
@@ -43,6 +51,14 @@ public class ContestStatusInfoDTO {
 
     public void setAlliesWinnerTeamName(String alliesWinnerTeamName) {
         this.alliesWinnerTeamName = alliesWinnerTeamName;
+    }
+    public boolean isAlliesExist(String alliesTeamName){
+        for (String str:alliesTeamNames) {
+            if(str.equals(alliesTeamName)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public String getAlliesWinnerTeamName() {
