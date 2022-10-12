@@ -514,7 +514,8 @@ return isMissionsEnded;
         timer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
     }
     private void updateContestStatus(ContestStatusInfoDTO contestStatusInfoDTO) {
-
+        this.isContestActive=contestStatusInfoDTO.isContestActive();
+        this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());
         if((isPopDisplayedForFirstTime)&&(!isMessageDisplayedForFirstTime)) {
          //   System.out.println("getIsAlliesConfirmedGameOver: "+contestStatusInfoDTO.getIsAlliesConfirmedGameOver());
             if(contestStatusInfoDTO==null||contestStatusInfoDTO.getIsAlliesConfirmedGameOver()){
