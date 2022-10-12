@@ -42,7 +42,7 @@ public class DMCreateMissionsServlet extends HttpServlet {
         UBoatBattleField battleField = engineManager.getBattleField();
         String level = battleField.getLevel();
         int sizeOfMission = battleField.getAlliesSizeOfMission(theAlliesTeamName);
-      engineManager.maxAmountOfMissionscalculation(level, sizeOfMission);
+     // engineManager.maxAmountOfMissionscalculation(level, sizeOfMission);
 
         Long amountOfSubListsToCreate = calculateAmountOfMissionsToCreate(engineManager, sizeOfMission);
         updateTotalAmountOfMissions(engineManager,sizeOfMission,theAlliesTeamName);

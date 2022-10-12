@@ -93,6 +93,7 @@ public class ContestStatusServlet extends HttpServlet {
             alliesMissionsManager.clearMissionFromBlockingQueue(theAlliesTeamName);
             engineManager.initMaxAmountOfMissions();
             engineManager.clearBattleFieldValues();
+            engineManager.clearAlliesRegisteredToContestList();
         }
     }
 }

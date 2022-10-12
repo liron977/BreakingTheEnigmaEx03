@@ -13,6 +13,7 @@ public class Allies implements Serializable {
    private int agentsAmount;
    private int amountOfCreatedMissions;
    private Long totalAmountOfMissionToCreate;
+   private Long maxAmountOfMissions;
 
     public Allies( String alliesName){
         this.alliesName=alliesName;
@@ -22,6 +23,7 @@ public class Allies implements Serializable {
         this.battlefieldName="";
         this.amountOfCreatedMissions=0;
         this.totalAmountOfMissionToCreate=0l;
+        maxAmountOfMissions=Long.valueOf(-1);
     }
     public void setAgentMissionsStatus(String agentName,int amountOfCandidatesStrings,int amountOfReceivedMissions, int amountOfMissionsToExecute){
         for (AlliesAgent agent:alliesAgents) {
@@ -47,6 +49,7 @@ public class Allies implements Serializable {
 
     public void setTotalAmountOfMissionToCreate(Long totalAmountOfMissionToCreate) {
         this.totalAmountOfMissionToCreate = totalAmountOfMissionToCreate;
+        this.maxAmountOfMissions=totalAmountOfMissionToCreate;
     }
 
     public Long getTotalAmountOfMissionToCreate() {
@@ -87,6 +90,7 @@ public class Allies implements Serializable {
     amountOfCreatedMissions=0;
     battlefieldName="";
     missionSize=0;
+    maxAmountOfMissions=Long.valueOf(-1);
      }
     public void setAlliesName(String alliesName) {
         this.alliesName = alliesName;
@@ -104,5 +108,22 @@ public class Allies implements Serializable {
           return null;
       }
 
+    public Long getMaxAmountOfMissions() {
+        return maxAmountOfMissions;
+    }
 
+    public List<AlliesAgent> getAlliesAgents() {
+        return alliesAgents;
+    }
+
+    public void setAlliesAgents(List<AlliesAgent> alliesAgents) {
+        this.alliesAgents = alliesAgents;
+    }
+
+    public void setMaxAmountOfMissions(Long maxAmountOfMissions) {
+        this.maxAmountOfMissions = maxAmountOfMissions;
+    }
+    public void decreaseMaxAmountOfMissions() {
+        this.maxAmountOfMissions = maxAmountOfMissions-1;
+    }
 }

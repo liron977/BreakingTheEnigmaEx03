@@ -38,6 +38,7 @@
             <Separator orientation="VERTICAL" prefHeight="200.0" />
             <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
                <children>
+                  <Label fx:id="uBoatIsNotReadyLabel" />
                   <HBox prefHeight="74.0" prefWidth="635.0">
                      <children>
                         <Label fx:id="dmAmountOfCreatedMissionsLabel" />

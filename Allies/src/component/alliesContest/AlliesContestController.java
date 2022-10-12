@@ -114,6 +114,8 @@ public class AlliesContestController implements Closeable {
     private TimerTask amountOfCreatedMissionsRefresher;
     boolean isMissionsCreated;
    // ObservableList<AgentInfoDTO> agentInfoDTOObservableList;
+   @FXML
+   private Label uBoatIsNotReadyLabel;
 
     @FXML
     public void initialize(){
@@ -484,10 +486,17 @@ public class AlliesContestController implements Closeable {
     private void updateAmountOfCreatedMissions(DMAmountOfMissionsInfoDTO dmAmountOfMissionsInfoDTO ) {
         if (!isContestEnded.getValue()) {
             Platform.runLater(() ->{
+                if(dmAmountOfMissionsInfoDTO.getAmountOfCreatedMissions()==0l){
+                    uBoatIsNotReadyLabel.setText("The uboat is not ready yet");
+                }
+                else {
+                    uBoatIsNotReadyLabel.setText("");
+                }
                 dmAmountOfCreatedMissionsLabel.setText("The amount of created missions: "
                         +displayTextWithCommas(dmAmountOfMissionsInfoDTO.getAmountOfCreatedMissions()));
-                    totalAmountOfCreatedMissionsLabel.setText("The maximum amount of missions: "
-                            +displayTextWithCommas(dmAmountOfMissionsInfoDTO.getTotalAmountOfCreatedMissions()));
+                totalAmountOfCreatedMissionsLabel.setText("The maximum amount of missions: "
+                        +displayTextWithCommas(dmAmountOfMissionsInfoDTO.getTotalAmountOfCreatedMissions()));
+
             });
         }
     }

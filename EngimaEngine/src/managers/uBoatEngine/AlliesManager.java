@@ -60,4 +60,17 @@ public class AlliesManager {
     public synchronized  Map<String, Allies> getAlliesManagerMap() {
         return  alliesManagerMap;
     }
+    public synchronized void decreaseMaxAmountOfMissions(String alliesTeamName){
+        Allies allies= getAlliesByAlliesTeamName(alliesTeamName);
+        if(allies!=null){
+            allies.decreaseMaxAmountOfMissions();
+        }
+    }
+    public synchronized Long getMaxAmountOfMissions(String alliesTeamName){
+        Allies allies= getAlliesByAlliesTeamName(alliesTeamName);
+        if(allies!=null){
+           return allies.getMaxAmountOfMissions();
+        }
+        return Long.valueOf(-1);
+    }
 }

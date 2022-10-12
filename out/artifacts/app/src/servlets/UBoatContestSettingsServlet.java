@@ -22,6 +22,7 @@ import java.io.IOException;
             EngineManager engineManager=mediatorForEngineManager.getEngineMangerByBattleFiLedName(battleName);
             engineManager.setConvertedStringInBattleField(convertedStringFromGson);
             engineManager.setIsActiveContest();
+            engineManager.getBattleField().setIsConvertedStringSet();
             //  uBoatAvailableContestsManger.addUBoatAvailableContest(engineManager,battleName);
             response.setStatus(HttpServletResponse.SC_OK);
         }

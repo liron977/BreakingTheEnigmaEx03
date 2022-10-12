@@ -17,7 +17,9 @@ public class UpdateContestStatusAgentServlet extends HttpServlet {
         String alliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
         UBoatAvailableContestsManager uBoatAvailableContestsManager=ServletUtils.getUBoatAvailableContestsManager(getServletContext());
        EngineManager engineManager= uBoatAvailableContestsManager.getEngineMangerByAlliesTeamName(alliesTeamName);
-       engineManager.setIsAlliesConfirmedGameOver();
+       if(engineManager!=null) {
+           engineManager.setIsAlliesConfirmedGameOver();
+       }
     }
 
 }

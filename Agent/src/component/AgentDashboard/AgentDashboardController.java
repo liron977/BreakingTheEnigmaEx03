@@ -519,9 +519,9 @@ return isMissionsEnded;
                     Platform.runLater(() -> {
                         try {
                             System.out.println("updateContestStatus");
-                            close();
                             initValues();
-                            updateAgentStatus();
+                           updateAgentStatus();
+                            close();
                             return;
                         } catch (IOException e) {
                             throw new RuntimeException(e);

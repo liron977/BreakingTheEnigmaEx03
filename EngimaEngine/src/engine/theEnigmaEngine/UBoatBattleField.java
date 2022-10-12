@@ -113,11 +113,14 @@ public List<String> getAlliesRegisteredNames(){
 
     public void setConvertedString(String convertedString) {
         this.convertedString = convertedString;
-        isConvertedStringSet=true;
+       // isConvertedStringSet=true;
         /*if(alliesActiveTeamsAmount==alliesNeededTeamsAmount){
             contestStatus="Active";
             isUboatReady=true;
         }*/
+    }
+    public void setIsConvertedStringSet(){
+       this.isConvertedStringSet=true;
     }
     public void setIsActiveContest(){
 
@@ -157,13 +160,15 @@ public List<String> getAlliesRegisteredNames(){
         this.convertedString="";
         this.stringToConvert="";
         this.isUboatReady=false;
-        alliesRegisteredToContest=new ArrayList<>();
         this.isContestEnded=false;
         this.alliesWinnwerTeamName="";
         this.isConvertedStringSet=false;
        // this.isAlliesConfirmedGameOver=false;
     }
-    public boolean getIsContestEnded() {
+    public void clearAlliesRegisteredToContestList(){
+        this.alliesRegisteredToContest=new ArrayList<>();
+    }
+        public boolean getIsContestEnded() {
        return isContestEnded;
     }
     public String getAlliesWinnwerTeamName() {

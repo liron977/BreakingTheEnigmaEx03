@@ -1123,4 +1123,8 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     public void initMaxAmountOfMissions(){
         maxAmountOfMissions=Long.valueOf(-1);
     }
+
+    public void clearAlliesRegisteredToContestList(){
+        this.battleField.clearAlliesRegisteredToContestList();
+    }
 }
