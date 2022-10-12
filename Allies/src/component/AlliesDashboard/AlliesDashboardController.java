@@ -19,11 +19,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import machineDTO.TheMachineEngineDTO;
 import okhttp3.*;
 import utils.http.HttpClientUtil;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -307,10 +309,79 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
             mainWindowAlliesController.setSelectedBattleFieldName(selectedContestDTO.getBattleFieldName());
             selectedBattleField=selectedContestDTO.getBattleFieldName();
             mainWindowAlliesController.startContestStatusRefresher();
-            registerAllies();
-            mainWindowAlliesController.changeToContestTab();
+            if(isMissionSizeIsValid()) {
+                registerAllies();
+                mainWindowAlliesController.changeToContestTab();
+            }
         }
 
+    }
+    private boolean isMissionSizeIsValid(){
+        if(selectedContestDTO==null){
+            displayErrorAlert("Please select a contest");
+            return false;
+        }
+        else {
+            String missionSizeString = missionSizeTextField.getText();
+            TheMachineEngineDTO theMachineEngineDTO = getTheMachineEngineInfo();
+            Long amountOfPossibleStartingPositionList = (long) Math.pow(theMachineEngineDTO.getKeyboardSize(), theMachineEngineDTO.getAmountOfUsedRotors());
+            if (missionSizeString.equals("")) {
+                displayErrorAlert("Please insert a mission size");
+                return false;
+            } else {
+                if (missionSizeString.charAt(0) == '0') {
+                    displayErrorAlert("Please enter only positive numbers");
+                    return false;
+                } else {
+                    if (!isNumeric(missionSizeString)) {
+                        displayErrorAlert("Please enter only numbers in the mission size field");
+                        return false;
+                    } else {
+                        try {
+                            long missionSize = Long.valueOf(missionSizeString);
+                            if ((missionSize < 0) || (missionSize > amountOfPossibleStartingPositionList)) {
+                                String msg = "Please enter a mission size between 1-" + displayTextWithCommas(amountOfPossibleStartingPositionList);
+                                displayErrorAlert(msg);
+                                return false;
+
+                            } else {
+                                return true;
+                            }
+                        } catch (Exception e) {
+                            String msg = "Please enter a mission size between 1-" + displayTextWithCommas(amountOfPossibleStartingPositionList);
+                            displayErrorAlert(msg);
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    public String displayTextWithCommas(Long amount){
+        StringBuilder amountWithCommas= new StringBuilder("");
+        int counter=0;
+        if(amount==0){
+            return "0";
+        }
+        while (amount>0){
+            if((counter%3==0)&&(counter!=0)){
+                amountWithCommas=amountWithCommas.append(",");
+            }
+            counter++;
+            amountWithCommas=amountWithCommas.append(amount%10);
+            amount=amount/10;
+        }
+        return amountWithCommas.reverse().toString();
+    }
+    private void displayErrorAlert(String errorMessage){
+      Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(errorMessage + "\n");
+        alert.getDialogPane().setExpanded(true);
+        alert.setTitle("Error!");
+        alert.showAndWait();
+    }
+    private static boolean isNumeric(String str){
+        return str != null && str.matches("[0-9.]+");
     }
 
     public void setSelectedBattleField(String selectedBattleField) {
@@ -365,6 +436,46 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
 
 
     }
+    public TheMachineEngineDTO getTheMachineEngineInfo(){
+
+        String finalUrl = HttpUrl
+                .parse(Constants.GET_MACHINE_INFO)
+                .newBuilder()
+                .addQueryParameter("alliesTeamName", alliesTeamName)
+                .addQueryParameter("battlefield", selectedContestDTO.getBattleFieldName())
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrl)
+                .build();
+        Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+        try {
+            Response response = call.execute();
+            if (response.code() != 200) {
+                Platform.runLater(() -> {
+                    {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        try {
+                            alert.setContentText(response.body().string());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        alert.getDialogPane().setExpanded(true);
+                        alert.showAndWait();
+                    }
+                });
+            } else {
+                TheMachineEngineDTO theMachineEngineDTO = Constants.GSON_INSTANCE.fromJson(response.body().string(), TheMachineEngineDTO.class);
+                return theMachineEngineDTO;
+            }
+        } catch (IOException e) {
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
 
     private void displayErrors(String text) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

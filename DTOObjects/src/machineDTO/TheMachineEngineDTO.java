@@ -8,16 +8,22 @@ public class TheMachineEngineDTO {
     String reflectorId;
    /* List<String> reflectorSetId;*/
     int amountOfUsedRotors;
-    public TheMachineEngineDTO(List<String> usedRotorsId, /*List<String> rotorsSetId,*/ String reflectorId/*,List<String> reflectorSetId*/){
+    private int keyboardSize;
+
+    public TheMachineEngineDTO(List<String> usedRotorsId,int keyboardSize, String reflectorId/*,List<String> reflectorSetId*/){
      this.usedRotorsId=usedRotorsId;
 //     this.rotorsSetId=rotorsSetId;
      this.reflectorId=reflectorId;
      this.amountOfUsedRotors=usedRotorsId.size();
+     this.keyboardSize=keyboardSize;
 //     this.reflectorSetId=reflectorSetId;
      }
 
     public int getAmountOfUsedRotors() {
         return amountOfUsedRotors;
+    }
+    public int getKeyboardSize(){
+        return keyboardSize;
     }
 
  /*   public List<String> getReflectorSetId() {

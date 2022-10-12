@@ -50,7 +50,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     private String uploadedBy;
     private int amountOfNeededDecryptionAliesTeams;
     private InputStream inputStream;
-    Long maxAmountOfMissions=0L;
+    Long maxAmountOfMissions=Long.valueOf(-1);
 
 
 
@@ -726,7 +726,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     public String displayMaxAmountOfMissionsWithCommas(Long maxAmountOfMissions){
         StringBuilder maxAmountOfMissionsWithCommas= new StringBuilder("");
         int counter=0;
-        if(maxAmountOfMissions==0){
+        if(maxAmountOfMissions==0||maxAmountOfMissions==-1){
             return "0";
         }
         while (maxAmountOfMissions>0){

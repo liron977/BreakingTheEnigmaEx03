@@ -119,9 +119,6 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     private SimpleBooleanProperty isContestEnded;
     private String alliesWinnerTeamName;
     private boolean isMessageDisplayedForFirstTime;
-
-
-
     public UBoatContestTabController() {
         alert = new Alert(Alert.AlertType.ERROR);
     }
@@ -781,6 +778,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         if (!isContestEnded.getValue()) {
             Platform.runLater(() -> {
                 this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());
+                this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
                 // this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
                 if (isContestEnded.getValue()&&!isMessageDisplayedForFirstTime) {
                     isMessageDisplayedForFirstTime=true;
