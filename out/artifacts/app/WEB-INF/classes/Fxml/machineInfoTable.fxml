@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+<TableView fx:id="InfoTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="107.0" prefWidth="399.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171">
+  <columns>
+    <TableColumn prefWidth="139.0" text="Rotors:" />
+    <TableColumn prefWidth="114.66668701171875" text="Reflectors" />
+      <TableColumn prefWidth="144.33331298828125" text="Proceeded Messages" />
+  </columns>
+</TableView>
