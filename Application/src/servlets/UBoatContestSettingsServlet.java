@@ -7,6 +7,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import managers.agent.StatusManager;
 import managers.uBoatEngine.MediatorForEngineManager;
 import managers.uBoatEngine.UBoatAvailableContestsManager;
 import utils.ServletUtils;
@@ -23,6 +24,8 @@ import java.io.IOException;
             engineManager.setConvertedStringInBattleField(convertedStringFromGson);
             engineManager.setIsActiveContest();
             engineManager.getBattleField().setIsConvertedStringSet();
+            StatusManager statusManager=ServletUtils.getStatusManager(getServletContext());
+            statusManager.deleteHistory();
             //  uBoatAvailableContestsManger.addUBoatAvailableContest(engineManager,battleName);
             response.setStatus(HttpServletResponse.SC_OK);
         }

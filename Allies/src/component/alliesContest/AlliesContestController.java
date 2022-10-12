@@ -568,6 +568,7 @@ public class AlliesContestController implements Closeable {
                 .parse(Constants.CONTEST_STATUS)
                 .newBuilder()
                 .addQueryParameter("alliesTeamName", alliesTeamName)
+                .addQueryParameter("battlefield", selectedBattleField)
                 .build()
                 .toString();
 

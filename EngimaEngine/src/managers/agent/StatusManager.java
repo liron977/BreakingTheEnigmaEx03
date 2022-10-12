@@ -1,14 +1,13 @@
 package managers.agent;
 
 import bruteForce.ContestStatusInfoDTO;
-import machineEngine.EngineManager;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class StatusManager {
     private final Map<String, ContestStatusInfoDTO> statusManagersMap = new HashMap<>();
-    public synchronized ContestStatusInfoDTO getContestStatusInfoDTOByAlliesTeamName(String battlefield) {
+    public synchronized ContestStatusInfoDTO getContestStatusInfoDTOByBattlefield(String battlefield) {
         return statusManagersMap.get(battlefield);
     }
     public synchronized void addContestStatusInfoDTO(String battlefield, ContestStatusInfoDTO contestStatusInfoDTO) throws InterruptedException {
@@ -16,8 +15,8 @@ public class StatusManager {
         statusManagersMap.put(battlefield, contestStatusInfoDTO);
 
     }
-    public synchronized ContestStatusInfoDTO getContestStatusInfoDTOByAlliesName(String alliesTeamName){
-        if(statusManagersMap.size()!=0) {
+    public synchronized ContestStatusInfoDTO getContestStatusInfoDTOByAlliesName(String alliesTeamName) {
+        if (statusManagersMap.size() != 0) {
 
 
             for (ContestStatusInfoDTO contestStatusInfoDTO : statusManagersMap.values()) {
@@ -26,7 +25,9 @@ public class StatusManager {
                 }
             }
         }
-            return null;
-
+        return null;
+    }
+    public synchronized void deleteHistory(){
+        Map<String, ContestStatusInfoDTO> statusManagersMap = new HashMap<>();
     }
 }

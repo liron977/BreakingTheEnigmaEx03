@@ -62,26 +62,29 @@ public class ContestStatusServlet extends HttpServlet {
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
         String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
+        String theBattleFieldName = request.getParameter(ParametersConstants.BATTLE_FIELD);
         AlliesManager alliesManager=ServletUtils.getAlliesManager(getServletContext());
         AlliesMissionsManager alliesMissionsManager=ServletUtils.getAlliesMissionsManager(getServletContext());
        AlliesBruteForceResultsMapManager alliesGetBruteForceResultServlet=ServletUtils.getAlliesBruteForceResultsMapManager(getServletContext());
         UBoatAvailableContestsManager uBoatAvailableContestsManager = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
-        String battleName = uBoatAvailableContestsManager.getUboatNameByAlliesTeamName(theAlliesTeamName);
+       // String battleName = uBoatAvailableContestsManager.getUboatNameByAlliesTeamName(theAlliesTeamName);
         StatusManager statusManager=ServletUtils.getStatusManager(getServletContext());
-        ContestStatusInfoDTO contestStatusInfoDTO=statusManager.getContestStatusInfoDTOByAlliesName(theAlliesTeamName);
+        ContestStatusInfoDTO contestStatusInfoDTO=statusManager.getContestStatusInfoDTOByBattlefield(theBattleFieldName);
         if(contestStatusInfoDTO==null){
             contestStatusInfoDTO=new ContestStatusInfoDTO(false,"Wait",true,"",true);
+        }
             try {
                 contestStatusInfoDTO.addAllies(theAlliesTeamName);
                 statusManager.addContestStatusInfoDTO(theAlliesTeamName,contestStatusInfoDTO);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        }
+
         contestStatusInfoDTO.setAlliesConfirmedGameOver(true);
-        if (battleName != null&&!battleName.isEmpty()) {
-            EngineManager engineManager = uBoatAvailableContestsManager.getEngineManagerByBattleFieldName(battleName);
+        if (theBattleFieldName != null&&!theBattleFieldName.isEmpty()) {
+            EngineManager engineManager = uBoatAvailableContestsManager.getEngineManagerByBattleFieldName(theBattleFieldName);
             engineManager.setAlliesConfirmedGameOver(true);
             theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
             AgentsManager agentsManager=ServletUtils.getAgentManager(getServletContext());
