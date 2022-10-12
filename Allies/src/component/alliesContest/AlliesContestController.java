@@ -113,6 +113,7 @@ public class AlliesContestController implements Closeable {
     private boolean isMessageDisplayedForFirstTime;
     private TimerTask amountOfCreatedMissionsRefresher;
     boolean isMissionsCreated;
+   // ObservableList<AgentInfoDTO> agentInfoDTOObservableList;
 
     @FXML
     public void initialize(){
@@ -427,6 +428,7 @@ public class AlliesContestController implements Closeable {
                         isMissionsCreated=false;
                         try {
                             setConfirmed();
+                            close();
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
@@ -522,6 +524,7 @@ public class AlliesContestController implements Closeable {
         isContestEnded.setValue(false);
         alliesWinnerTeamName="";
         isMessageDisplayedForFirstTime=false;
+      //  agentInfoDTOObservableList= FXCollections.observableArrayList();
     }
 
     public void setThreadTask(AlliesThreadTask threadTask) {

@@ -612,16 +612,17 @@ private void updateAgentStatus(){
         amountDoneMissionsPerAgentLabel.setText("");
         amountOfAskedMissionsLabel.setText("");
         currentAmountOfMissionsInTheQueue.setText("");
-        amountOfCandidatesStrings.setText("");
+
         isMissionEndedProperty.setValue(false);
         resultDTOList=new ArrayList<>();
-        amountOfAskedMissionsProperty.setValue(0);
-        amountOfDoneMissions.setValue(0);
-        amountOfMissionsInTheQueue.setValue(0);
         isContestEnded.setValue(false);
         alliesWinnerTeamName="";
         bruteForceResultsDTOObservableList= FXCollections.observableArrayList();
        isMessageDisplayedForFirstTime=false;
+        amountOfAskedMissionsProperty.setValue(0);
+        amountOfDoneMissions.setValue(0);
+        amountOfMissionsInTheQueue.setValue(0);
+        amountOfCandidatesStrings.setText("");
 
     }
     @Override

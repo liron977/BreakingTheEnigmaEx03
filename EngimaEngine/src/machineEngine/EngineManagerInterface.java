@@ -38,7 +38,7 @@ public interface EngineManagerInterface extends Serializable {
     public boolean getFirstList();
     public String getTheLastStartingPos();
     public int getLastIndex();
-    public Long setMaxAmountOfMissions(String level,int sizeOfMission);
+    public Long maxAmountOfMissionscalculation(String level, int sizeOfMission);
 
         public ListOfExceptionsDTO getAllErrorsConvertingInputProcess(String str);
 

@@ -131,8 +131,13 @@ public List<String> getAlliesRegisteredNames(){
     public String getConvertedString() {
         return convertedString;
     }
-    public int getAlliesSizeOfMission(){
-      return alliesRegisteredToContest.get(0).getMissionSize();
+    public int getAlliesSizeOfMission(String alliesTeamName){
+        for (Allies allies:alliesRegisteredToContest) {
+            if(allies.getAlliesName().equals(alliesTeamName)){
+                return allies.getMissionSize();
+            }
+        }
+        return 1;
     }
 
     public String getStringToConvert() {

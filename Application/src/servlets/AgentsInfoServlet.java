@@ -26,7 +26,8 @@ public class AgentsInfoServlet extends HttpServlet {
             AgentsManager agentsInfoManager = ServletUtils.getAgentManager(getServletContext());
             Map<String, List<AgentInfoDTO>> agentsInfoManagerMap = agentsInfoManager.getAgentManagerMap();
             String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
-            List<AgentInfoDTO> agentInfoDTOList=getAgentIndoDTOListByTheAlliesTeamName(agentsInfoManagerMap,theAlliesTeamName);
+           List<AgentInfoDTO> agentInfoDTOList=getAgentIndoDTOListByTheAlliesTeamName(agentsInfoManagerMap,theAlliesTeamName);
+           // List<AgentInfoDTO> agentInfoDTOList=agentsInfoManager.getAgentsByAlliesTeamName(theAlliesTeamName);
 
             if (agentInfoDTOList != null) {
 

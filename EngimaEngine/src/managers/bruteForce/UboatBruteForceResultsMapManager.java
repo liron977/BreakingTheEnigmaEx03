@@ -33,6 +33,7 @@ public class UboatBruteForceResultsMapManager {
     public synchronized void clearBruteForceResults(String uboatName){
         List<BruteForceResultDTO> bruteForceResultsList = getBruteForceListByUboatName(uboatName);
         bruteForceResultsList=new ArrayList<>();
+        bruteForceResultsManagerMap.put(uboatName, bruteForceResultsList);
 
     }
 

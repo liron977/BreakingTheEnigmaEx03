@@ -78,4 +78,10 @@ public class AlliesAgent implements Serializable {
     public int getThreadsAmount() {
         return threadsAmount;
     }
+
+    public void clearValues(){
+        this.amountOfCandidatesStrings=0;
+        this.amountOfMissionsToExecute=0;
+        this.amountOfReceivedMissions=0;
+    }
 }

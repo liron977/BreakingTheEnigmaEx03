@@ -192,7 +192,7 @@ public void initDifficultyLevelComboBox(){
  @FXML
  void sizeOfMissionOnActionListener(ActionEvent event) {
      if(!sizeOfMission.getText().equals("")&&isMissionSizeIsValid&&!difficultyLevelComboBox.getValue().equals("Difficulty level")){
-         amountOfMissions.setText(String.valueOf(engineManager.setMaxAmountOfMissions(difficultyLevelComboBox.getValue(),Integer.parseInt(sizeOfMission.getText()))));
+         amountOfMissions.setText(String.valueOf(engineManager.maxAmountOfMissionscalculation(difficultyLevelComboBox.getValue(),Integer.parseInt(sizeOfMission.getText()))));
 
      }
  }
@@ -201,7 +201,7 @@ void updateAmountOfMissionOnActionListener(String  comboNewValue, String  textNe
     isMissionSizeIsValid(isOutputNeeded);
     if (comboNewValue != null){
         if (!textNewValue.equals("") && isMissionSizeIsValid && !comboNewValue.equals("Difficulty level")) {
-            long maxAmountOfMissions =(engineManager.setMaxAmountOfMissions(comboNewValue, Integer.parseInt(sizeOfMission.getText())));
+            long maxAmountOfMissions =(engineManager.maxAmountOfMissionscalculation(comboNewValue, Integer.parseInt(sizeOfMission.getText())));
             String maxAmountOfMissionsWithCommas=engineManager.displayMaxAmountOfMissionsWithCommas(maxAmountOfMissions);
             amountOfMissions.setText("Amount of missions: " + maxAmountOfMissionsWithCommas);
         } else {

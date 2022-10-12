@@ -21,7 +21,6 @@ public class AgentsManager {
     }
     public List<AgentInfoDTO> getAgentsByAlliesTeamName(String alliesTeamName){
         return agentManagerMap.get(alliesTeamName);
-
     }
 
     public synchronized Map<String, List<AgentInfoDTO>> getAgentManagerMap() {
@@ -45,6 +44,5 @@ public class AgentsManager {
         for (AgentInfoDTO agent:agents) {
             agent.initValues();
         }
-
     }
 }

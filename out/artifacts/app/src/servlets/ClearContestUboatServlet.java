@@ -13,6 +13,7 @@ import managers.uBoatEngine.UBoatAvailableContestsManager;
 import utils.ServletUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClearContestUboatServlet extends HttpServlet {
@@ -30,7 +31,11 @@ public class ClearContestUboatServlet extends HttpServlet {
                 engineManager.getAlliesWinnwerTeamName(),
                 engineManager.getIsAlliesConfirmedGameOver());
         List<String> alliesTeamNames=engineManager.getAlliesRegisteredTeamNames();
-        contestStatusInfoDTO.setAlliesTeamNames(alliesTeamNames);
+        List<String> alliesTeamNamesNew=new ArrayList<>();
+        for (String str:alliesTeamNames) {
+            alliesTeamNamesNew.add(new String(str));
+        }
+        contestStatusInfoDTO.setAlliesTeamNames(alliesTeamNamesNew);
         try {
             statusManager.addContestStatusInfoDTO(battleName,contestStatusInfoDTO);
         } catch (InterruptedException e) {

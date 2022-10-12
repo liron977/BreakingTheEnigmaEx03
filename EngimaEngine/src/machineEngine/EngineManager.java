@@ -696,7 +696,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     public int getCountPossibleStartingPosition(){
         return countPossibleStartingPosition;
     }
-    public Long setMaxAmountOfMissions(String level,int sizeOfMission){
+    public Long maxAmountOfMissionscalculation(String level, int sizeOfMission){
 
         Long numberOfMission=Long.valueOf((long) (Math.pow(getTheMachineEngine().getKeyboard().length(),getAmountOfUsedRotors()))/sizeOfMission);
         if(((Math.pow(getTheMachineEngine().getKeyboard().length(),getAmountOfUsedRotors())%sizeOfMission))!=0){
@@ -719,6 +719,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
             default:
                 maxAmountOfMissions=numberOfMissionImpossible;
         }
+
         return maxAmountOfMissions;
 
     }

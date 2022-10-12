@@ -53,8 +53,7 @@ public class AlliesMissionsManager {
     }
     public synchronized void clearMissionFromBlockingQueue(String alliesTeamName){
         BlockingQueue<TheMissionInfoDTO> missionsInfoBlockingQueue=alliesMissionsManagerMap.get(alliesTeamName);
-        missionsInfoBlockingQueue=new LinkedBlockingQueue<>(1000);
-
+        alliesMissionsManagerMap.put(alliesTeamName,new LinkedBlockingQueue<TheMissionInfoDTO>(1000) );
     }
     public synchronized void removeAliesTeam(String alliesTeamName) {
         alliesMissionsManagerMap.remove(alliesTeamName);

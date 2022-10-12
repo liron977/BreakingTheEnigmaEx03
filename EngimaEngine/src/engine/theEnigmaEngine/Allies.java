@@ -13,6 +13,7 @@ public class Allies implements Serializable {
    private int agentsAmount;
    private int amountOfCreatedMissions;
    private Long totalAmountOfMissionToCreate;
+
     public Allies( String alliesName){
         this.alliesName=alliesName;
         this.missionSize=0;
@@ -79,7 +80,9 @@ public class Allies implements Serializable {
         return alliesName;
     }
     public void clearAlliesValues(){
-
+        for (AlliesAgent agent:alliesAgents ) {
+            agent.clearValues();
+        }
     totalAmountOfMissionToCreate=0L;
     amountOfCreatedMissions=0;
     battlefieldName="";

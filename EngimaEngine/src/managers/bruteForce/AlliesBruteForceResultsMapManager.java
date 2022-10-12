@@ -31,6 +31,7 @@ public class AlliesBruteForceResultsMapManager {
         public synchronized void clearBruteForceResults(String alliesTeamName){
             List<BruteForceResultDTO>  bruteForceResultsList = getBruteForceListByAlliesTeamName(alliesTeamName);
             bruteForceResultsList=new ArrayList<>();
+            bruteForceResultsManagerMap.put(alliesTeamName, bruteForceResultsList);
 
         }
     public synchronized void addBruteForceResultsIntoList(String alliesTeamName, List<BruteForceResultDTO> bruteForceResultsDTOList) throws InterruptedException {

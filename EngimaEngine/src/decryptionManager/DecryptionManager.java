@@ -147,7 +147,7 @@ public class DecryptionManager {
         amountOfMissionsProceeded.setValue(0);
         maxAmountOfMissions = 0L;
         start = System.currentTimeMillis();
-        maxAmountOfMissions = engineManager.setMaxAmountOfMissions(taskType, sizeOfMission);
+        maxAmountOfMissions = engineManager.maxAmountOfMissionscalculation(taskType, sizeOfMission);
         amountOfMissionsCounter.setValue(maxAmountOfMissions);
         uiAdapterInterface.updateAmountOfMissionsPerLevel(engineManager.displayMaxAmountOfMissionsWithCommas(maxAmountOfMissions));
 

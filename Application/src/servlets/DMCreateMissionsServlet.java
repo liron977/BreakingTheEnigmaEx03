@@ -14,7 +14,6 @@ import managers.uBoatEngine.UBoatAvailableContestsManager;
 import utils.ServletUtils;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,8 +41,8 @@ public class DMCreateMissionsServlet extends HttpServlet {
     public void createMission(EngineManager engineManager,String theAlliesTeamName,String stringToConvert) throws Exception {
         UBoatBattleField battleField = engineManager.getBattleField();
         String level = battleField.getLevel();
-        int sizeOfMission = battleField.getAlliesSizeOfMission();
-      engineManager.setMaxAmountOfMissions(level, sizeOfMission);
+        int sizeOfMission = battleField.getAlliesSizeOfMission(theAlliesTeamName);
+      engineManager.maxAmountOfMissionscalculation(level, sizeOfMission);
 
         Long amountOfSubListsToCreate = calculateAmountOfMissionsToCreate(engineManager, sizeOfMission);
         updateTotalAmountOfMissions(engineManager,sizeOfMission,theAlliesTeamName);
@@ -158,8 +157,12 @@ public class DMCreateMissionsServlet extends HttpServlet {
     }
     public void updateTotalAmountOfMissions(EngineManager engineManager, int sizeOfMission,String theAlliesTeamName){
         AlliesManager alliesManager=ServletUtils.getAlliesManager(getServletContext());
-        long maxAmountOfMissions =(engineManager.setMaxAmountOfMissions(engineManager.getLevel(), sizeOfMission));
+        long maxAmountOfMissions =(engineManager.maxAmountOfMissionscalculation(engineManager.getLevel(), sizeOfMission));
+        System.out.println(maxAmountOfMissions+"maxAmountOfMissions");
+        System.out.println(engineManager.getLevel()+"engineManager.getLevel()");
+        System.out.println(sizeOfMission+"sizeOfMission");
         alliesManager.setTotalAmountOfCreadedMission(theAlliesTeamName,maxAmountOfMissions);
+
     }
     private void updateEngineManager(EngineManager engineManagerCopy, EngineManager engineManager) {
         engineManager.setStartingPositionValues(engineManagerCopy.getTheLastStartingPos(), engineManagerCopy.getLastIndex(), engineManagerCopy.getFirstList(), engineManagerCopy.getCountPossibleStartingPosition());
