@@ -94,6 +94,7 @@ public class AgentDashboardController implements Closeable {
     private SimpleBooleanProperty isContestEnded;
     private String alliesWinnerTeamName;
     private ObservableList<BruteForceResultDTO> bruteForceResultsDTOObservableList;
+    private boolean isPopDisplayedForFirstTime;
     private boolean isMessageDisplayedForFirstTime;
     private boolean isContestActive;
     private String battleFieldName;
@@ -107,6 +108,7 @@ public class AgentDashboardController implements Closeable {
         resultDTOListForAgent=new ArrayList<>();
         isContestEnded=new SimpleBooleanProperty(false);
         alliesWinnerTeamName="";
+        isPopDisplayedForFirstTime =false;
         isMessageDisplayedForFirstTime=false;
         isContestActive=false;
         battleFieldName="";
@@ -513,19 +515,20 @@ return isMissionsEnded;
     }
     private void updateContestStatus(ContestStatusInfoDTO contestStatusInfoDTO) {
 
-        if(isMessageDisplayedForFirstTime) {
+        if((isPopDisplayedForFirstTime)&&(!isMessageDisplayedForFirstTime)) {
          //   System.out.println("getIsAlliesConfirmedGameOver: "+contestStatusInfoDTO.getIsAlliesConfirmedGameOver());
             if(contestStatusInfoDTO==null||contestStatusInfoDTO.getIsAlliesConfirmedGameOver()){
                     Platform.runLater(() -> {
-                        try {
+                      //  try {
+                        isMessageDisplayedForFirstTime=true;
                             System.out.println("updateContestStatus");
                             initValues();
                            updateAgentStatus();
-                            close();
+                         //   close();
                             return;
-                        } catch (IOException e) {
+                        /*} catch (IOException e) {
                             throw new RuntimeException(e);
-                        }
+                        }*/
                });
             }
         }
@@ -534,9 +537,9 @@ return isMissionsEnded;
                 this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());
                 this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
                 this.isContestActive=contestStatusInfoDTO.isContestActive();
-                if (isContestEnded.getValue()&&!isMessageDisplayedForFirstTime) {
+                if (isContestEnded.getValue()&&!isPopDisplayedForFirstTime) {
                     System.out.println("isMessageDisplayedForFirstTime =true");
-                    isMessageDisplayedForFirstTime=true;
+                    isPopDisplayedForFirstTime =true;
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     String message = "The contest ended" + "\n" + "The winning team is " + alliesWinnerTeamName;
                     alert.setContentText(message);
@@ -549,6 +552,10 @@ return isMissionsEnded;
                         throw new RuntimeException(e);
                     }*/
                 }});
+        }
+      else {
+            isPopDisplayedForFirstTime =false;
+            isMessageDisplayedForFirstTime=false;
         }
     }
 private void updateAgentStatus(){
@@ -612,13 +619,14 @@ private void updateAgentStatus(){
         amountDoneMissionsPerAgentLabel.setText("");
         amountOfAskedMissionsLabel.setText("");
         currentAmountOfMissionsInTheQueue.setText("");
-
+        isPopDisplayedForFirstTime =false;
+        isContestActive=false;
         isMissionEndedProperty.setValue(false);
         resultDTOList=new ArrayList<>();
         isContestEnded.setValue(false);
         alliesWinnerTeamName="";
         bruteForceResultsDTOObservableList= FXCollections.observableArrayList();
-       isMessageDisplayedForFirstTime=false;
+      // isMessageDisplayedForFirstTime=false;
         amountOfAskedMissionsProperty.setValue(0);
         amountOfDoneMissions.setValue(0);
         amountOfMissionsInTheQueue.setValue(0);
@@ -631,7 +639,7 @@ private void updateAgentStatus(){
       //  this.alliesWinnerTeamName = "";
         if (contestStatusRefresher != null) {
             contestStatusRefresher.cancel();
-            contestInfoController.close();
+          //  contestInfoController.close();
             timer.cancel();
         }
     }

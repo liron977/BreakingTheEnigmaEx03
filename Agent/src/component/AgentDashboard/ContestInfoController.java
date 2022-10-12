@@ -95,9 +95,15 @@ public class ContestInfoController implements Closeable {
     }
     public void startContestTableViewRefresher() {
         contestInfoRefresher = new ContestInfoRefresher(
+                this::deleteDataFromContestTableView,
                 this::updateContestInfoTableView,autoUpdate,alliesTeamName);
         timer = new Timer();
         timer.schedule(contestInfoRefresher, REFRESH_RATE, REFRESH_RATE);
+    }
+    public void deleteDataFromContestTableView(String str){
+        Platform.runLater(() ->
+            contestsDataTableView.getItems().clear()
+        );
     }
     @Override
     public void close() throws IOException {

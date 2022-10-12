@@ -16,15 +16,17 @@ import java.util.function.Consumer;
 
 public class ContestInfoRefresher extends TimerTask {
     private final Consumer<UBoatContestInfoWithoutCheckBoxDTO> updateContestInfoTableView;
+    private final Consumer<String> deleteDataFromContestTableView;
     private final BooleanProperty shouldUpdate;
 
     private String alliesTeamName;
 
 
-    public ContestInfoRefresher(Consumer<UBoatContestInfoWithoutCheckBoxDTO> updateContestInfoTableView, BooleanProperty shouldUpdate, String alliesTeamName) {
+    public ContestInfoRefresher(Consumer<String> deleteDataFromContestTableView,Consumer<UBoatContestInfoWithoutCheckBoxDTO> updateContestInfoTableView, BooleanProperty shouldUpdate, String alliesTeamName) {
         this.updateContestInfoTableView = updateContestInfoTableView;
         this.shouldUpdate=shouldUpdate;
         this.alliesTeamName=alliesTeamName;
+        this.deleteDataFromContestTableView=deleteDataFromContestTableView;
     }
 
 
@@ -54,6 +56,11 @@ public class ContestInfoRefresher extends TimerTask {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 //String jsonArrayOfUsersNames = response.body().string();
                 //Type UBoatContestInfoType = new TypeToken<ArrayList<UBoatContestInfoWithoutCheckBoxDTO>>() {}.getType();
+                if(response.code()==409){
+                    deleteDataFromContestTableView.accept("");
+                }
+
+
                 UBoatContestInfoWithoutCheckBoxDTO dtoFromGson=Constants.GSON_INSTANCE.fromJson(response.body().string(),UBoatContestInfoWithoutCheckBoxDTO.class);
 
                 if(dtoFromGson!=null) {

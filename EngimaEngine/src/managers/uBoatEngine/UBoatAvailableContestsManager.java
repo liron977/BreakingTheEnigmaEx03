@@ -53,13 +53,18 @@ public class UBoatAvailableContestsManager {
         engineManager.setIsContestEnded(true);
         engineManager.setAlliesWinnwerTeamName(alliesWinnerTeamName);
     }
-public synchronized void clearValues(String battleFieldName){
+    public synchronized void clearValues(String battleFieldName){
     EngineManager engineManager=getEngineManagerByBattleFieldName(battleFieldName);
     if(engineManager!=null) {
         engineManager.clearBattleFieldValues();
     }
-}
+  }
+  public synchronized void removeAvailableContests(String battleFieldName){
+        if(getEngineManagerByBattleFieldName(battleFieldName)!=null){
+            uBoatAvailableContestsMap.remove(battleFieldName);
+        }
 
+  }
 /*    public boolean isUBoatContestsAvailable(MediatorForEngineManager newUBoatAvailableContest) {
         return uBoatAvailableContestsMap.contains(newUBoatAvailableContest) ;
     }*/

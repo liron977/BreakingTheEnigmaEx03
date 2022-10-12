@@ -25,6 +25,7 @@ import java.io.IOException;
             engineManager.setIsActiveContest();
             engineManager.getBattleField().setIsConvertedStringSet();
             StatusManager statusManager=ServletUtils.getStatusManager(getServletContext());
+            //uBoatAvailableContestsManger.addUBoatAvailableContest(engineManager,battleName);
             statusManager.deleteHistory();
             //  uBoatAvailableContestsManger.addUBoatAvailableContest(engineManager,battleName);
             response.setStatus(HttpServletResponse.SC_OK);

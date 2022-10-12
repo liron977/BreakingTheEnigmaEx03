@@ -35,37 +35,41 @@ public class AgentGetMissionsServlet extends HttpServlet {
             System.out.println(theAlliesTeamName+"AgentGetMissionsServlet");
             int counter = 0;
             if (engineManager != null) {
-                //System.out.println(engineManager.getMaxAmountOfMissions()+"engineManager.getMaxAmountOfMissions()");
-                if (alliesManager.getMaxAmountOfMissions(theAlliesTeamName) == -1) {
+                if (!engineManager.isAlliesExists(theAlliesTeamName)) {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 } else {
-                    if (alliesManager.getMaxAmountOfMissions(theAlliesTeamName) <= 0) {
-                        response.setStatus(HttpServletResponse.SC_CONFLICT);
-                    } else if (engineManager.getIsContestEnded()) {
-                        response.setStatus(HttpServletResponse.SC_GONE);
+                    //System.out.println(engineManager.getMaxAmountOfMissions()+"engineManager.getMaxAmountOfMissions()");
+                    if (alliesManager.getMaxAmountOfMissions(theAlliesTeamName) == -1) {
+                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     } else {
-                        while (counter < amountOfMissions) {
-                            try {
-                                TheMissionInfoDTO theMissionInfo = alliesMissionsManager.getMissionFromBlockingQueue(theAlliesTeamName);
-                                if (theMissionInfo == null) {
-                                    break;
-                                } else {
-                                    counter++;
-                                    alliesManager.decreaseMaxAmountOfMissions(theAlliesTeamName);
-                                    theMissionInfoList.add(theMissionInfo);
+                        if (alliesManager.getMaxAmountOfMissions(theAlliesTeamName) <= 0) {
+                            response.setStatus(HttpServletResponse.SC_CONFLICT);
+                        } else if (engineManager.getIsContestEnded()) {
+                            response.setStatus(HttpServletResponse.SC_GONE);
+                        } else {
+                            while (counter < amountOfMissions) {
+                                try {
+                                    TheMissionInfoDTO theMissionInfo = alliesMissionsManager.getMissionFromBlockingQueue(theAlliesTeamName);
+                                    if (theMissionInfo == null) {
+                                        break;
+                                    } else {
+                                        counter++;
+                                        alliesManager.decreaseMaxAmountOfMissions(theAlliesTeamName);
+                                        theMissionInfoList.add(theMissionInfo);
+                                    }
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
+                                } catch (Exception e) {
+                                    System.out.println(e.getMessage());
                                 }
-                            } catch (InterruptedException e) {
-                                throw new RuntimeException(e);
-                            } catch (Exception e) {
-                                System.out.println(e.getMessage());
                             }
-                        }
-                        response.setStatus(HttpServletResponse.SC_OK);
-                        Gson gson = new Gson();
-                        String json = gson.toJson(theMissionInfoList);
-                        out.println(json);
-                        out.flush();
+                            response.setStatus(HttpServletResponse.SC_OK);
+                            Gson gson = new Gson();
+                            String json = gson.toJson(theMissionInfoList);
+                            out.println(json);
+                            out.flush();
 
+                        }
                     }
                 }
             }

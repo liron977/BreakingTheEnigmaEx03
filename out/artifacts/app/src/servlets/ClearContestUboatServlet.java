@@ -44,6 +44,7 @@ public class ClearContestUboatServlet extends HttpServlet {
         UboatBruteForceResultsMapManager uboatBruteForceResultsMapManager=ServletUtils.getUboatBruteForceResultsMapManager(getServletContext());
         uboatBruteForceResultsMapManager.clearBruteForceResults(battleName);
         uBoatAvailableContestsManager.clearValues(battleName);
+        //uBoatAvailableContestsManager.removeAvailableContests(battleName);
     }
 
 

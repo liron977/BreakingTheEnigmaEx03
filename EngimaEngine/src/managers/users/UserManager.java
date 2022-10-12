@@ -11,6 +11,7 @@ public class UserManager {
         usersMap.put(username,roleFromSession);
     }
     public synchronized void removeUser(String username) {
+
         usersMap.remove(username);
     }
     public synchronized Map<String,String> getUsers() {

@@ -5,7 +5,7 @@ import bruteForce.ContestStatusInfoDTO;
 import com.sun.istack.internal.NotNull;
 import component.AgentDashboard.AgentDashboardController;
 import component.AgentDashboard.AgentThreadTask;
-import component.AgentDashboard.GetMissionsRefresher;
+//import component.AgentDashboard.GetMissionsRefresher;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -145,9 +145,6 @@ public class AgentLoginController {
     }
 
     private void addAgentToAlliesTeam(){
-
-
-
         String agentInfoDTOGson = Constants.GSON_INSTANCE.toJson(agentInfoDTO);
         RequestBody body = RequestBody.create(
                 MediaType.parse("application/json"), agentInfoDTOGson);
@@ -272,9 +269,9 @@ public class AgentLoginController {
         alert.getDialogPane().setExpanded(true);
         alert.showAndWait();
     }
-    public void startGetMissionsRefresher() {
+   /* public void startGetMissionsRefresher() {
         getMissionsRefresher = new GetMissionsRefresher(agentDashboardController);
         timerForGetMissions = new Timer();
         timerForGetMissions.schedule(getMissionsRefresher, REFRESH_RATE, REFRESH_RATE);
-    }
+    }*/
 }
