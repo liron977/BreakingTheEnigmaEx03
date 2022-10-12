@@ -79,6 +79,7 @@ public class Allies implements Serializable {
         return alliesName;
     }
     public void clearAlliesValues(){
+
     totalAmountOfMissionToCreate=0L;
     amountOfCreatedMissions=0;
     battlefieldName="";

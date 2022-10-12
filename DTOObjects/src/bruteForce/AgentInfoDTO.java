@@ -65,4 +65,10 @@ public class AgentInfoDTO {
     public int getThreadsAmount() {
         return threadsAmount;
     }
+    public void initValues(){
+        this.amountOfCandidatesStrings=0;
+        this.amountOfMissionsToExecute=0;
+        this.amountOfReceivedMissions=0;
+        this.amountOfDoneMissions=0l;
+    }
 }

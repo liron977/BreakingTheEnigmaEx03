@@ -7,11 +7,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import machineEngine.EngineManager;
+import managers.agent.AgentsManager;
 import managers.agent.StatusManager;
 import managers.bruteForce.AlliesBruteForceResultsMapManager;
 import managers.bruteForce.AlliesMissionsManager;
 import managers.uBoatEngine.AlliesManager;
-import managers.uBoatEngine.MediatorForEngineManager;
 import managers.uBoatEngine.UBoatAvailableContestsManager;
 import utils.ServletUtils;
 
@@ -84,9 +84,14 @@ public class ContestStatusServlet extends HttpServlet {
             EngineManager engineManager = uBoatAvailableContestsManager.getEngineManagerByBattleFieldName(battleName);
             engineManager.setAlliesConfirmedGameOver(true);
             theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
+            AgentsManager agentsManager=ServletUtils.getAgentManager(getServletContext());
+            agentsManager.initValues(theAlliesTeamName);
             alliesManager.clearAlliesValues(theAlliesTeamName);
+            contestStatusInfoDTO.setContestStatus("Wait");
+            contestStatusInfoDTO.setUboatSettingsCompleted(false);
             alliesGetBruteForceResultServlet.clearBruteForceResults(theAlliesTeamName);
             alliesMissionsManager.clearMissionFromBlockingQueue(theAlliesTeamName);
+            engineManager.initMaxAmountOfMissions();
             engineManager.clearBattleFieldValues();
         }
     }

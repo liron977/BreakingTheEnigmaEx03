@@ -1119,4 +1119,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     public List<String> getAlliesRegisteredTeamNames(){
         return battleField.getAlliesRegisteredNames();
     }
+    public void initMaxAmountOfMissions(){
+        maxAmountOfMissions=Long.valueOf(-1);
+    }
 }

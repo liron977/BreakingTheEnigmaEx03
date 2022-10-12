@@ -1,7 +1,6 @@
 package managers.agent;
 
 import bruteForce.AgentInfoDTO;
-import engine.theEnigmaEngine.Allies;
 
 import java.util.*;
 
@@ -40,5 +39,12 @@ public class AgentsManager {
 
         }
         return false;
+    }
+    public synchronized void initValues(String alliesTeamName){
+        List<AgentInfoDTO> agents= getAgentsByAlliesTeamName(alliesTeamName);
+        for (AgentInfoDTO agent:agents) {
+            agent.initValues();
+        }
+
     }
 }

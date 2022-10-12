@@ -424,6 +424,7 @@ public class AlliesContestController implements Closeable {
                     alert.getDialogPane().setExpanded(true);
                     Optional<ButtonType> result=alert.showAndWait();
                     if(result.get()==ButtonType.OK){
+                        isMissionsCreated=false;
                         try {
                             setConfirmed();
                         } catch (IOException e) {

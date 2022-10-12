@@ -66,6 +66,10 @@ public class ContestStatusInfoDTO {
         return false;
     }
 
+    public void setUboatSettingsCompleted(boolean uboatSettingsCompleted) {
+        isUboatSettingsCompleted = uboatSettingsCompleted;
+    }
+
     public String getAlliesWinnerTeamName() {
         return alliesWinnerTeamName;
     }
