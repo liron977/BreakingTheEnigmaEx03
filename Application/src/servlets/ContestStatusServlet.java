@@ -71,7 +71,7 @@ public class ContestStatusServlet extends HttpServlet {
         StatusManager statusManager=ServletUtils.getStatusManager(getServletContext());
         ContestStatusInfoDTO contestStatusInfoDTO=statusManager.getContestStatusInfoDTOByAlliesName(theAlliesTeamName);
         if(contestStatusInfoDTO==null){
-            contestStatusInfoDTO=new ContestStatusInfoDTO(true,"Active",true,"",true);
+            contestStatusInfoDTO=new ContestStatusInfoDTO(false,"Wait",true,"",true);
             try {
                 contestStatusInfoDTO.addAllies(theAlliesTeamName);
                 statusManager.addContestStatusInfoDTO(theAlliesTeamName,contestStatusInfoDTO);

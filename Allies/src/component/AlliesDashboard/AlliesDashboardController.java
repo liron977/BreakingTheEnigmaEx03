@@ -308,8 +308,8 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
         if(selectedContestDTO!=null) {
             mainWindowAlliesController.setSelectedBattleFieldName(selectedContestDTO.getBattleFieldName());
             selectedBattleField=selectedContestDTO.getBattleFieldName();
-            mainWindowAlliesController.startContestStatusRefresher();
             if(isMissionSizeIsValid()) {
+                mainWindowAlliesController.startContestStatusRefresher();
                 registerAllies();
                 mainWindowAlliesController.changeToContestTab();
             }

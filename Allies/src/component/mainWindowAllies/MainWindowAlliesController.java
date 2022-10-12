@@ -82,6 +82,7 @@ public class MainWindowAlliesController {
         alliesContestController.startContestInfoTableViewRefresher();
         alliesContestController.startAgentsTableViewRefresher();
         alliesContestController.startDMAmountOfCreatedMissionsRefresherRefresher();
+        alliesContestController.updateMaxAmountOfMissions();
         alliesDashboardController.close();
     }
 

@@ -235,6 +235,14 @@
         <servlet-name>UpdateContestStatusAgentServlet</servlet-name>
         <url-pattern>/UpdateContestStatusAgentServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>GetMaximumAmountOfMissionsServlet</servlet-name>
+        <servlet-class>servlets.GetMaximumAmountOfMissionsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetMaximumAmountOfMissionsServlet</servlet-name>
+        <url-pattern>/GetMaximumAmountOfMissionsServlet</url-pattern>
+    </servlet-mapping>
 
 
 </web-app>

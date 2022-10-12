@@ -40,7 +40,7 @@ public class AlliesContestController implements Closeable {
 
 
     private String alliesTeamName;
-    private String selectedBattleField="";
+    private String selectedBattleField = "";
     @FXML
     private TableView<AlliesDTO> activeTeamsDetailsTableView;
     @FXML
@@ -113,21 +113,21 @@ public class AlliesContestController implements Closeable {
     private boolean isMessageDisplayedForFirstTime;
     private TimerTask amountOfCreatedMissionsRefresher;
     boolean isMissionsCreated;
-   // ObservableList<AgentInfoDTO> agentInfoDTOObservableList;
-   @FXML
-   private Label uBoatIsNotReadyLabel;
+    // ObservableList<AgentInfoDTO> agentInfoDTOObservableList;
+    @FXML
+    private Label uBoatIsNotReadyLabel;
 
     @FXML
-    public void initialize(){
-        autoUpdate=new SimpleBooleanProperty(true);
-        totalBruteResultAmount=new SimpleIntegerProperty(0);
-        this.contestResultsInfoVersion =new SimpleIntegerProperty();
-        isContestEnded=new SimpleBooleanProperty(false);
-        alliesWinnerTeamName="";
-        isMessageDisplayedForFirstTime=false;
-        isMissionsCreated=false;
-        isUboatSettingsCompleted=false;
-        missionSize=0;
+    public void initialize() {
+        autoUpdate = new SimpleBooleanProperty(true);
+        totalBruteResultAmount = new SimpleIntegerProperty(0);
+        this.contestResultsInfoVersion = new SimpleIntegerProperty();
+        isContestEnded = new SimpleBooleanProperty(false);
+        alliesWinnerTeamName = "";
+        isMessageDisplayedForFirstTime = false;
+        isMissionsCreated = false;
+        isUboatSettingsCompleted = false;
+        missionSize = 0;
     }
 
     public void setMissionSize(int missionSize) {
@@ -139,48 +139,49 @@ public class AlliesContestController implements Closeable {
 
     }
 
-    public  void setSelectedBattleFieldName(String selectedBattleFieldName){
-        this.selectedBattleField=selectedBattleFieldName;
+    public void setSelectedBattleFieldName(String selectedBattleFieldName) {
+        this.selectedBattleField = selectedBattleFieldName;
 
     }
 
     public void setAlliesTeamName(String alliesTeamName) {
         this.alliesTeamName = alliesTeamName;
     }
-   /* @FXML
-    void submitButtonOnActionListener(ActionEvent event) throws IOException {
-        AlliesDTO alliesDTO = new AlliesDTO(Integer.parseInt(missionSizeTextField.getText()), alliesTeamName);
-        String alliesDTOGson = Constants.GSON_INSTANCE.toJson(alliesDTO);
-        RequestBody body = RequestBody.create(
-                MediaType.parse("application/json"), alliesDTOGson);
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        String finalUrl = HttpUrl
-                .parse(Constants.REGISTER_ALLIES_TO_CONTEST)
-                .newBuilder()
-                .addQueryParameter("battlefield", selectedBattleField)
-                .build()
-                .toString();
+    /* @FXML
+     void submitButtonOnActionListener(ActionEvent event) throws IOException {
+         AlliesDTO alliesDTO = new AlliesDTO(Integer.parseInt(missionSizeTextField.getText()), alliesTeamName);
+         String alliesDTOGson = Constants.GSON_INSTANCE.toJson(alliesDTO);
+         RequestBody body = RequestBody.create(
+                 MediaType.parse("application/json"), alliesDTOGson);
 
-        Request request = new Request.Builder()
-                .url(finalUrl)
-                .post(body)
-                .build();
+         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+         String finalUrl = HttpUrl
+                 .parse(Constants.REGISTER_ALLIES_TO_CONTEST)
+                 .newBuilder()
+                 .addQueryParameter("battlefield", selectedBattleField)
+                 .build()
+                 .toString();
 
-        Call call = HttpClientUtil.getOkHttpClient().newCall(request);
-        Response response = call.execute();
-        if (response.code() == 200) {
+         Request request = new Request.Builder()
+                 .url(finalUrl)
+                 .post(body)
+                 .build();
 
-            Platform.runLater(() -> {
+         Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+         Response response = call.execute();
+         if (response.code() == 200) {
 
-                alert.setContentText("You registered to the contest " + selectedBattleField + " successfully");
-                alert.getDialogPane().setExpanded(true);
-                alert.showAndWait();
-            });
+             Platform.runLater(() -> {
 
-            String stringToConvert=Constants.GSON_INSTANCE.fromJson(response.body().string(),String.class);
-            if(stringToConvert!=null) {
-               *//* AlliesThreadTask threadTask=new AlliesThreadTask(stringToConvert,Integer.parseInt(missionSizeTextField.getText()),alliesTeamName);
+                 alert.setContentText("You registered to the contest " + selectedBattleField + " successfully");
+                 alert.getDialogPane().setExpanded(true);
+                 alert.showAndWait();
+             });
+
+             String stringToConvert=Constants.GSON_INSTANCE.fromJson(response.body().string(),String.class);
+             if(stringToConvert!=null) {
+                *//* AlliesThreadTask threadTask=new AlliesThreadTask(stringToConvert,Integer.parseInt(missionSizeTextField.getText()),alliesTeamName);
                 new Thread(threadTask).start();*//*
             }
         } else {
@@ -195,6 +196,7 @@ public class AlliesContestController implements Closeable {
     public void setMainWindowAlliesController(MainWindowAlliesController mainWindowAlliesController) {
         this.mainWindowAlliesController = mainWindowAlliesController;
     }
+
     public void startAlliesInfoTableViewRefresher() {
         alliesRegisteredTeamsRefresher = new AlliesRegisteredTeamsInfoTablesViewRefresher(
                 this::updateRegisteredAlliesInfoList,
@@ -203,18 +205,21 @@ public class AlliesContestController implements Closeable {
         timer = new Timer();
         timer.schedule(alliesRegisteredTeamsRefresher, REFRESH_RATE, REFRESH_RATE);
     }
-    private void createAlliesInfoDTOTableView(ObservableList<AlliesDTO> alliesInfoDTOList ) {
+
+    private void createAlliesInfoDTOTableView(ObservableList<AlliesDTO> alliesInfoDTOList) {
         activeTeamsDetailsTableView.setItems(alliesInfoDTOList);
         activeTeamsDetailsTableView.getColumns().clear();
         activeTeamsDetailsTableView.getColumns().addAll(alliesTeamNameColumn, agentsAmountColumn, missionSizeColumn);
     }
+
     private void updateRegisteredAlliesInfoList(List<AlliesDTO> alliesInfoDTOList) {
         Platform.runLater(() -> {
-            ObservableList<AlliesDTO> alliesDTOObservableList =getTeamsAgentsDataTableViewDTOList(alliesInfoDTOList);
+            ObservableList<AlliesDTO> alliesDTOObservableList = getTeamsAgentsDataTableViewDTOList(alliesInfoDTOList);
             createAlliesInfoDTOTableView(alliesDTOObservableList);
-           // totalAlliesRegisteredTeamsAmount.set(alliesInfoDTOList.size());
+            // totalAlliesRegisteredTeamsAmount.set(alliesInfoDTOList.size());
         });
     }
+
     private ObservableList<AlliesDTO> getTeamsAgentsDataTableViewDTOList(List<AlliesDTO> alliesDTO) {
 
         ObservableList<AlliesDTO> alliesDTOList;
@@ -243,6 +248,7 @@ public class AlliesContestController implements Closeable {
             }
         }
     }
+
     private ObservableList<BruteForceResultDTO> getBruteForceResultDataTableViewDTOList(List<BruteForceResultDTO> bruteForceResult) {
 
         ObservableList<BruteForceResultDTO> bruteForceResultDTOObservableList;
@@ -259,21 +265,23 @@ public class AlliesContestController implements Closeable {
 
         return bruteForceResultDTOObservableList;
     }
+
     private void updateBruteForceResultInfoList(List<BruteForceResultDTO> bruteForceResultDTOList) {
-        ObservableList<BruteForceResultDTO> bruteForceResultDTOObservableList =getBruteForceResultDataTableViewDTOList(bruteForceResultDTOList);
+        ObservableList<BruteForceResultDTO> bruteForceResultDTOObservableList = getBruteForceResultDataTableViewDTOList(bruteForceResultDTOList);
         createContestInfoDTOTableView(bruteForceResultDTOObservableList);
         totalBruteResultAmount.set(bruteForceResultDTOList.size());
     }
-    private void createContestInfoDTOTableView(ObservableList<BruteForceResultDTO> bruteForceResultDTOList ) {
+
+    private void createContestInfoDTOTableView(ObservableList<BruteForceResultDTO> bruteForceResultDTOList) {
         if (contestCandidatesTableView.getItems().isEmpty()) {
             contestCandidatesTableView.setItems(bruteForceResultDTOList);
             contestCandidatesTableView.getColumns().clear();
             contestCandidatesTableView.getColumns().addAll(stringColumn, alliesNameColumn, codeConfigurationColumn);
-        }
-        else {
+        } else {
             contestCandidatesTableView.getItems().addAll(bruteForceResultDTOList);
         }
     }
+
     public void startContestResultsTableViewRefresher() {
         alliesBruteForceResultTableViewRefresher = new AlliesBruteForceResultTableViewRefresher(
                 alliesTeamName.trim(),
@@ -313,22 +321,25 @@ public class AlliesContestController implements Closeable {
 
         return uBoatContestInfoDTOList;
     }
+
     private void updateContestInfoTableView(UBoatContestInfoWithoutCheckBoxDTO uBoatContestInfoDTOList) {
         Platform.runLater(() -> {
-                    ObservableList<UBoatContestInfoWithoutCheckBoxDTO> contestInfoObservableList =getUBoatContestInfoTableViewDTOList(uBoatContestInfoDTOList);
+                    ObservableList<UBoatContestInfoWithoutCheckBoxDTO> contestInfoObservableList = getUBoatContestInfoTableViewDTOList(uBoatContestInfoDTOList);
                     createContestInfoTableView(contestInfoObservableList);
                 }
 
         );
     }
-    private void createContestInfoTableView( ObservableList<UBoatContestInfoWithoutCheckBoxDTO> contestInfoObservableList) {
+
+    private void createContestInfoTableView(ObservableList<UBoatContestInfoWithoutCheckBoxDTO> contestInfoObservableList) {
         contestDataTableView.setItems(contestInfoObservableList);
         contestDataTableView.getColumns().clear();
-        contestDataTableView.getColumns().addAll(battleFieldNameColumn,encryptedStringColumn ,uBoatUserNameColumn,contestStatusColumn,contestLevelColumn,amountOfNeededDecryptionTeamsColumn,amountOfActiveDecryptionTeamsColumn);
+        contestDataTableView.getColumns().addAll(battleFieldNameColumn, encryptedStringColumn, uBoatUserNameColumn, contestStatusColumn, contestLevelColumn, amountOfNeededDecryptionTeamsColumn, amountOfActiveDecryptionTeamsColumn);
     }
+
     public void startContestInfoTableViewRefresher() {
         contestInfoRefresher = new AlliesSelectedContestInfoTablesViewRefresher(
-                this::updateContestInfoTableView,autoUpdate,alliesTeamName);
+                this::updateContestInfoTableView, autoUpdate, alliesTeamName);
         contestInfoRefresherTimer = new Timer();
         timer.schedule(contestInfoRefresher, REFRESH_RATE, REFRESH_RATE);
     }
@@ -354,26 +365,30 @@ public class AlliesContestController implements Closeable {
 
         return agentInfoDTOList;
     }
+
     private void updateAgentsInfoList(List<AgentInfoDTO> agentInfoDTOList) {
         Platform.runLater(() -> {
-            ObservableList<AgentInfoDTO> agentInfoDTOObservableList =getTeamsAgentsMissionsStatusTableViewDTOList(agentInfoDTOList);
+            ObservableList<AgentInfoDTO> agentInfoDTOObservableList = getTeamsAgentsMissionsStatusTableViewDTOList(agentInfoDTOList);
             createAgentsInfoDTOTableView(agentInfoDTOObservableList);
-            amountOfDoneMissions.setText("The amount of done missions: "+displayTextWithCommas(updateAmountOfDoneMissions(agentInfoDTOObservableList)));
+            amountOfDoneMissions.setText("The amount of done missions: " + displayTextWithCommas(updateAmountOfDoneMissions(agentInfoDTOObservableList)));
             //totalAgentsAmount.set(agentInfoDTOList.size());
         });
     }
-    private void createAgentsInfoDTOTableView(ObservableList<AgentInfoDTO> agentInfoDTOList ) {
+
+    private void createAgentsInfoDTOTableView(ObservableList<AgentInfoDTO> agentInfoDTOList) {
         agentsMissionsStatusTableView.setItems(agentInfoDTOList);
         agentsMissionsStatusTableView.getColumns().clear();
-        agentsMissionsStatusTableView.getColumns().addAll(agentNameColumn, amountOfCandidatesStringsColumn, amountOfMissionsToExecuteColumn,amountOfMissionsReceivedColumn);
+        agentsMissionsStatusTableView.getColumns().addAll(agentNameColumn, amountOfCandidatesStringsColumn, amountOfMissionsToExecuteColumn, amountOfMissionsReceivedColumn);
     }
-    private Long updateAmountOfDoneMissions(ObservableList<AgentInfoDTO> agentInfoDTOList){
-        Long amountOfDoneMissions=0L;
-        for (AgentInfoDTO agentInfoDTO:agentInfoDTOList) {
-            amountOfDoneMissions+=agentInfoDTO.getAmountOfDoneMissions();
+
+    private Long updateAmountOfDoneMissions(ObservableList<AgentInfoDTO> agentInfoDTOList) {
+        Long amountOfDoneMissions = 0L;
+        for (AgentInfoDTO agentInfoDTO : agentInfoDTOList) {
+            amountOfDoneMissions += agentInfoDTO.getAmountOfDoneMissions();
         }
         return amountOfDoneMissions;
     }
+
     public void startAgentsTableViewRefresher() {
         agentsTableViewRefresher = new AgentsTablesViewRefresher(
                 this::updateAgentsInfoList,
@@ -382,13 +397,15 @@ public class AlliesContestController implements Closeable {
         agentsTableViewTimer = new Timer();
         agentsTableViewTimer.schedule(agentsTableViewRefresher, REFRESH_RATE, REFRESH_RATE);
     }
+
     public void startContestStatusRefresher() {
-        contestStatusRefresher = new ContestStatusRefresher("Allies",selectedBattleField
-                ,this::updateContestStatus,autoUpdate,alliesTeamName);
+        contestStatusRefresher = new ContestStatusRefresher("Allies", selectedBattleField
+                , this::updateContestStatus, autoUpdate, alliesTeamName);
         timer = new Timer();
         timer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
     }
-    public boolean getIsUboatSettingsCompleted(){
+
+    public boolean getIsUboatSettingsCompleted() {
         return isUboatSettingsCompleted;
     }
 
@@ -397,37 +414,37 @@ public class AlliesContestController implements Closeable {
     }
 
 
-    private void updateContestStatus(ContestStatusInfoDTO contestStatusInfoDTO)  {
+    private void updateContestStatus(ContestStatusInfoDTO contestStatusInfoDTO) {
 
        /* if(threadTask!=null){
             threadTask.setIsContestEnded(contestStatusInfoDTO.isContestEnded());
             threadTask.setIsUboatSettingsCompleted(contestStatusInfoDTO.isUboatSettingsCompleted());
             threadTask.setStringToConvert(convertedString);
         }*/
-        if(contestStatusInfoDTO.isUboatSettingsCompleted()&&!isMissionsCreated) {
+        if (contestStatusInfoDTO.isUboatSettingsCompleted() && !isMissionsCreated) {
             threadTask = new AlliesThreadTask(convertedString, missionSize, alliesTeamName);
             mainWindowAlliesController.setThreadTask(threadTask);
             System.out.println("before start");
             new Thread(threadTask).start();
-            isMissionsCreated=true;
-           /* isUboatSettingsCompleted = contestStatusInfoDTO.isUboatSettingsCompleted();*/
+            isMissionsCreated = true;
+            /* isUboatSettingsCompleted = contestStatusInfoDTO.isUboatSettingsCompleted();*/
         }
         if (!isContestEnded.getValue()) {
 
             Platform.runLater(() -> {
                 this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());
                 this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
-                if (isContestEnded.getValue()&&!isMessageDisplayedForFirstTime) {
-                    isMessageDisplayedForFirstTime=true;
-                    isMissionsCreated=false;
+                if (isContestEnded.getValue() && !isMessageDisplayedForFirstTime) {
+                    isMessageDisplayedForFirstTime = true;
+                    isMissionsCreated = false;
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     String message = "The contest ended" + "\n" + "The winning team is " + alliesWinnerTeamName;
                     alert.setContentText(message);
                     alert.setTitle("Allies");
                     alert.getDialogPane().setExpanded(true);
-                    Optional<ButtonType> result=alert.showAndWait();
-                    if(result.get()==ButtonType.OK){
-                        isMissionsCreated=false;
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.get() == ButtonType.OK) {
+                        isMissionsCreated = false;
                         try {
                             setConfirmed();
                             close();
@@ -440,8 +457,7 @@ public class AlliesContestController implements Closeable {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                    }
-                    else if(result.get()==ButtonType.CANCEL){
+                    } else if (result.get() == ButtonType.CANCEL) {
                         try {
                             close();
                         } catch (IOException e) {
@@ -455,18 +471,19 @@ public class AlliesContestController implements Closeable {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                }});
+                }
+            });
         }
     }
 
     @Override
     public void close() throws IOException {
-      // activeTeamsDetailsTableView.getItems().clear();
+        // activeTeamsDetailsTableView.getItems().clear();
         contestResultsInfoVersion.set(0);
-        if (contestStatusRefresher != null&&agentsTableViewRefresher != null
-                &&alliesRegisteredTeamsRefresher != null&&contestInfoRefresher != null
-                &&agentsTableViewTimer != null
-                &&alliesBruteForceResultTableViewRefresherTimer != null) {
+        if (contestStatusRefresher != null && agentsTableViewRefresher != null
+                && alliesRegisteredTeamsRefresher != null && contestInfoRefresher != null
+                && agentsTableViewTimer != null
+                && alliesBruteForceResultTableViewRefresherTimer != null) {
             contestStatusRefresher.cancel();
             agentsTableViewRefresher.cancel();
             alliesRegisteredTeamsRefresher.cancel();
@@ -477,63 +494,66 @@ public class AlliesContestController implements Closeable {
             timer.cancel();
         }
     }
+
     public void startDMAmountOfCreatedMissionsRefresherRefresher() {
         amountOfCreatedMissionsRefresher = new DMAmountOfCreatedMissionsRefresher(
-                this::updateAmountOfCreatedMissions,autoUpdate,alliesTeamName);
+                this::updateAmountOfCreatedMissions, autoUpdate, alliesTeamName);
         timer = new Timer();
         timer.schedule(amountOfCreatedMissionsRefresher, REFRESH_RATE, REFRESH_RATE);
     }
-    private void updateAmountOfCreatedMissions(DMAmountOfMissionsInfoDTO dmAmountOfMissionsInfoDTO ) {
+
+    private void updateAmountOfCreatedMissions(DMAmountOfMissionsInfoDTO dmAmountOfMissionsInfoDTO) {
         if (!isContestEnded.getValue()) {
-            Platform.runLater(() ->{
-                if(dmAmountOfMissionsInfoDTO.getAmountOfCreatedMissions()==0l){
+            Platform.runLater(() -> {
+                if (dmAmountOfMissionsInfoDTO.getAmountOfCreatedMissions() == 0l) {
                     uBoatIsNotReadyLabel.setText("The uboat is not ready yet");
-                }
-                else {
+                } else {
                     uBoatIsNotReadyLabel.setText("");
                 }
                 dmAmountOfCreatedMissionsLabel.setText("The amount of created missions: "
-                        +displayTextWithCommas(dmAmountOfMissionsInfoDTO.getAmountOfCreatedMissions()));
-                totalAmountOfCreatedMissionsLabel.setText("The maximum amount of missions: "
-                        +displayTextWithCommas(dmAmountOfMissionsInfoDTO.getTotalAmountOfCreatedMissions()));
-
+                        + displayTextWithCommas(dmAmountOfMissionsInfoDTO.getAmountOfCreatedMissions()));
+              /*  totalAmountOfCreatedMissionsLabel.setText("The maximum amount of missions: "
+                        + displayTextWithCommas(dmAmountOfMissionsInfoDTO.getTotalAmountOfCreatedMissions()));
+*/
             });
         }
     }
-    public String displayTextWithCommas(Long amount){
-        StringBuilder amountWithCommas= new StringBuilder("");
-        int counter=0;
-        if(amount==0){
+
+    public String displayTextWithCommas(Long amount) {
+        StringBuilder amountWithCommas = new StringBuilder("");
+        int counter = 0;
+        if (amount == 0) {
             return "0";
         }
-        while (amount>0){
-            if((counter%3==0)&&(counter!=0)){
-                amountWithCommas=amountWithCommas.append(",");
+        while (amount > 0) {
+            if ((counter % 3 == 0) && (counter != 0)) {
+                amountWithCommas = amountWithCommas.append(",");
             }
             counter++;
-            amountWithCommas=amountWithCommas.append(amount%10);
-            amount=amount/10;
+            amountWithCommas = amountWithCommas.append(amount % 10);
+            amount = amount / 10;
         }
         return amountWithCommas.reverse().toString();
     }
-    public void deleteValues(){
+
+    public void deleteValues() {
         activeTeamsDetailsTableView.getItems().clear();
         contestCandidatesTableView.getItems().clear();
         dmAmountOfCreatedMissionsLabel.setText("0");
         amountOfDoneMissions.setText("0");
         totalAmountOfCreatedMissionsLabel.setText("0");
-    /*    missionSizeTextField.setText("0");*/
-        selectedBattleField="";
-        autoUpdate=new SimpleBooleanProperty(true);
+        /*    missionSizeTextField.setText("0");*/
+        selectedBattleField = "";
+        autoUpdate = new SimpleBooleanProperty(true);
         contestCandidatesTableView.getItems().clear();
         agentsMissionsStatusTableView.getItems().clear();
         totalBruteResultAmount.setValue(0);
         contestResultsInfoVersion.setValue(0);
-        convertedString="";
+        convertedString = "";
         isContestEnded.setValue(false);
-        alliesWinnerTeamName="";
-        isMessageDisplayedForFirstTime=false;
-      //  agentInfoDTOObservableList= FXCollections.observableArrayList();
+        alliesWinnerTeamName = "";
+        isMessageDisplayedForFirstTime = false;
+        //  agentInfoDTOObservableList= FXCollections.observableArrayList();
     }
 
     public void setThreadTask(AlliesThreadTask threadTask) {
@@ -567,7 +587,8 @@ public class AlliesContestController implements Closeable {
                 alert.setContentText("You registered to the contest " + selectedBattleField + " successfully");
                 alert.getDialogPane().setExpanded(true);
                 alert.showAndWait();
-            })*/;
+            })*/
+        ;
 
 //            String stringToConvert=Constants.GSON_INSTANCE.fromJson(response.body().string(),String.class);
 //            if(stringToConvert!=null) {
@@ -582,8 +603,34 @@ public class AlliesContestController implements Closeable {
 //            }
 //        }
     }
+
+    public void updateMaxAmountOfMissions() throws IOException {
+
+        RequestBody body = RequestBody.create(
+                MediaType.parse("application/json"), "");
+
+        String finalUrl = HttpUrl
+                .parse(Constants.GET_MAXIMUM_AMOUNT_OF_MISSIONS)
+                .newBuilder()
+                .addQueryParameter("alliesTeamName", alliesTeamName)
+                .build()
+                .toString();
+
+        Request request = new Request.Builder()
+                .url(finalUrl)
+                .build();
+
+        Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+        Response response = call.execute();
+        if (response.code() == 200) {
+            String maxAmount=response.body().string().trim();
+            System.out.println(maxAmount+"updateMaxAmountOfMissions");
+            totalAmountOfCreatedMissionsLabel.setText("The maximum amount of missions: "+
+                 displayTextWithCommas(Long.parseLong(maxAmount)));
+
+        } else {
+            System.out.println("Not ok");
+        }
+
     }
-/*    public void updateTotalAmountOfMissionsToCreate(){
-        amountOfCreatedMissionsRefresher = new DMAmountOfCreatedMissionsRefresher(
-                this::updateAmountOfCreatedMissions,autoUpdate,alliesTeamName);
-    }*/
+}

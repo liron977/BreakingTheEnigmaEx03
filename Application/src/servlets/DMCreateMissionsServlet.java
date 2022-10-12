@@ -21,12 +21,11 @@ import java.util.List;
 public class DMCreateMissionsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Thread.currentThread().setName("DMCreateMissionsServlet");
+      //  Thread.currentThread().setName("DMCreateMissionsServlet");
         AlliesManager alliesManager = ServletUtils.getAlliesManager(getServletContext());
         String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
         UBoatAvailableContestsManager uBoatAvailableContestsManager = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
         EngineManager engineManager = uBoatAvailableContestsManager.getEngineMangerByAlliesTeamName(theAlliesTeamName);
-
         String stringToConvert = engineManager.getConvertedString();
         Allies alies = alliesManager.getAlliesByAlliesTeamName(theAlliesTeamName);
          if(engineManager!=null) {
