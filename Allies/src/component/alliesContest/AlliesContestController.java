@@ -437,7 +437,7 @@ public class AlliesContestController implements Closeable {
                 if (isContestEnded.getValue() && !isMessageDisplayedForFirstTime) {
                     isMessageDisplayedForFirstTime = true;
                     isMissionsCreated = false;
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     String message = "The contest ended" + "\n" + "The winning team is " + alliesWinnerTeamName;
                     alert.setContentText(message);
                     alert.setTitle("Allies");
