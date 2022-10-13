@@ -56,7 +56,7 @@ public class UBoatAvailableContestsManager {
     public synchronized void clearValues(String battleFieldName){
     EngineManager engineManager=getEngineManagerByBattleFieldName(battleFieldName);
     if(engineManager!=null) {
-        engineManager.clearBattleFieldValues();
+        engineManager.clearBattleFieldValues("uboat");
     }
   }
   public synchronized void removeAvailableContests(String battleFieldName){

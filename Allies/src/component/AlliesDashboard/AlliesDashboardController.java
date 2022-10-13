@@ -304,14 +304,14 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
     }
     @FXML
     void readyButtonOnAction(ActionEvent event) throws IOException {
-
         if(selectedContestDTO!=null) {
             mainWindowAlliesController.setSelectedBattleFieldName(selectedContestDTO.getBattleFieldName());
             selectedBattleField=selectedContestDTO.getBattleFieldName();
             if(isMissionSizeIsValid()) {
                 mainWindowAlliesController.startContestStatusRefresher();
-                registerAllies();
-                mainWindowAlliesController.changeToContestTab();
+                if(registerAllies()) {
+                    mainWindowAlliesController.changeToContestTab();
+                }
             }
         }
 
@@ -388,7 +388,7 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
         this.selectedBattleField = selectedBattleField;
     }
 
-    private void registerAllies() throws IOException {
+    private boolean registerAllies() throws IOException {
               AlliesDTO alliesDTO = new AlliesDTO(Integer.parseInt(missionSizeTextField.getText()), alliesTeamName);
             String alliesDTOGson = Constants.GSON_INSTANCE.toJson(alliesDTO);
             RequestBody body = RequestBody.create(
@@ -431,10 +431,10 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
                     alert.setContentText("The contest " + selectedBattleField + " is full, please select another one");
                     alert.getDialogPane().setExpanded(true);
                     alert.showAndWait();
+                    return false;
                 }
             }
-
-
+      return true;
     }
     public TheMachineEngineDTO getTheMachineEngineInfo(){
 

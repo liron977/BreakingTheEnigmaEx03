@@ -158,8 +158,10 @@ public List<String> getAlliesRegisteredNames(){
     public void setIsContestEnded(boolean contestEnded) {
         isContestEnded = contestEnded;
     }
-    public void clearValues(){
-       alliesActiveTeamsAmount=0;
+    public void clearValues(String role){
+       if(role.equals("allies")) {
+           alliesActiveTeamsAmount = 0;
+       }
         this.contestStatus="Wait..";
         this.convertedString="";
         this.stringToConvert="";

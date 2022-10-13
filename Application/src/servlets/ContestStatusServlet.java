@@ -94,8 +94,9 @@ public class ContestStatusServlet extends HttpServlet {
             contestStatusInfoDTO.setUboatSettingsCompleted(false);
             alliesGetBruteForceResultServlet.clearBruteForceResults(theAlliesTeamName);
             alliesMissionsManager.clearMissionFromBlockingQueue(theAlliesTeamName);
+            alliesMissionsManager.removeAliesTeam(theAlliesTeamName);
             engineManager.initMaxAmountOfMissions();
-            engineManager.clearBattleFieldValues();
+            engineManager.clearBattleFieldValues("allies");
             engineManager.clearAlliesRegisteredToContestList();
         }
     }

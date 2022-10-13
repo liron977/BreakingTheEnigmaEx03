@@ -5,7 +5,6 @@
 
 <TableView fx:id="contestsDataTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="54.0" prefWidth="674.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.AgentDashboard.ContestInfoController">
   <columns>
-    <TableColumn fx:id="AlliesTeamNameColumn" prefWidth="75.0" text="Allies Team" />
     <TableColumn fx:id="battleFieldNameColumn" prefWidth="75.0" text="Battlefield" />
       <TableColumn fx:id="uBoatUserNameColumn" prefWidth="90.66665649414062" text="Uploaded By" />
       <TableColumn fx:id="contestStatusColumn" prefWidth="60.66670227050781" text="Status" />

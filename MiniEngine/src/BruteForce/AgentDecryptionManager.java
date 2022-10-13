@@ -48,7 +48,7 @@ public AgentDecryptionManager(SimpleIntegerProperty amountOfMissionsInTheQueue,S
    this.amountOfAskedMissionsProperty=amountOfAskedMissionsProperty;
    this.amountOfMissionsInTheQueue=amountOfMissionsInTheQueue;
     this.isContestEnded=isContestEnded;
-    amountOfMissionsInTheQueue.setValue(0);
+    //amountOfMissionsInTheQueue.setValue(0);
 }
     public void createMission() throws Exception {
     int missionsCounter=0;

@@ -65,7 +65,9 @@ public class Allies implements Serializable {
     }
 
     public void addAgent(AlliesAgent agent){
-    alliesAgents.add(agent);
+
+        alliesAgents.add(agent);
+        agentsAmount++;
     }
     public void setAgentsAmount(int agentsAmount) {
         this.agentsAmount = agentsAmount;
@@ -84,7 +86,7 @@ public class Allies implements Serializable {
     }
     public void clearAlliesValues(){
         for (AlliesAgent agent:alliesAgents ) {
-            agent.clearValues();
+            agentsAmount--;
         }
     totalAmountOfMissionToCreate=0L;
     amountOfCreatedMissions=0;

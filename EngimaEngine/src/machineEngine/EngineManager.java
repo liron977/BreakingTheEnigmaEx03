@@ -1097,8 +1097,8 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     public void setIsContestEnded(boolean status) {
       battleField.setIsContestEnded(status);
     }
-    public void clearBattleFieldValues(){
-        battleField.clearValues();
+    public void clearBattleFieldValues(String role){
+        battleField.clearValues(role);
     }
     public void setIsAlliesConfirmedGameOver(){
         battleField.setIsAlliesConfirmedGameOver();

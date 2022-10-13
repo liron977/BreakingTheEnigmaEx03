@@ -96,8 +96,6 @@ public class AgentMissionRunnable implements Runnable {
             uiAdapterInterface.updateAmountDoneMissionsPerAgent(amountOfDoneMissions.getValue());
             amountOfMissionsInTheQueue.setValue(amountOfAskedMissionsProperty.getValue()-amountOfDoneMissions.getValue());
             uiAdapterInterface.updateAmountMissionsInTheQueuePerAgent(amountOfMissionsInTheQueue.getValue());
-
-
         }
 
     }

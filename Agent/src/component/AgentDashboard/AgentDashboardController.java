@@ -118,6 +118,7 @@ public class AgentDashboardController implements Closeable {
         isStartedContestAlready=false;
         amountOfMissionsInTheQueue=new SimpleIntegerProperty(0);
         this.autoUpdate=new SimpleBooleanProperty(true);
+        initMissionsStatusLabel();
         /*bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
         bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);*/
         amountOfMissionsInTheQueue.addListener((observ)->updateMissionsStatus());
@@ -128,13 +129,19 @@ public class AgentDashboardController implements Closeable {
         }
         });
     }
+    public void initMissionsStatusLabel(){
+        amountOfAskedMissionsLabel.setText("Amount Of Asked Missions :0");
+        amountDoneMissionsPerAgentLabel.setText("Amount Of Done Missions :0");
+        currentAmountOfMissionsInTheQueue.setText("Amount Of Missions In The Queue :0");
+        amountOfCandidatesStrings.setText("Amount Of Candidates : 0");
+    }
 
     public void setAgentLoginController(AgentLoginController agentLoginController) {
         this.agentLoginController = agentLoginController;
     }
 
     public synchronized void saveResultsInServer(List<BruteForceResultDTO> bruteForceResultDTOBlockingQueue){
-        String bruteForceResultDTOListGson = Constants.GSON_INSTANCE.toJson(bruteForceResultDTOBlockingQueue);
+        String  bruteForceResultDTOListGson = Constants.GSON_INSTANCE.toJson(bruteForceResultDTOBlockingQueue);
         RequestBody body = RequestBody.create(
                 MediaType.parse("application/json"), bruteForceResultDTOListGson);
 
@@ -642,6 +649,7 @@ private void updateAgentStatus(){
         amountOfMissionsInTheQueue.setValue(0);
         currentAmountOfMissionsInTheQueue.setText("");
         amountOfCandidatesStrings.setText("");
+        initMissionsStatusLabel();
 
     }
     public void startCheckIfNewContestRefresher() {
