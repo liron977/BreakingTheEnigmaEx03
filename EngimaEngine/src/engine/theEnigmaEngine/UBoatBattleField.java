@@ -119,8 +119,12 @@ public List<String> getAlliesRegisteredNames(){
             isUboatReady=true;
         }*/
     }
-    public void setIsConvertedStringSet(){
-       this.isConvertedStringSet=true;
+    public void setIsConvertedStringSet() {
+        this.isConvertedStringSet = true;
+        if (alliesActiveTeamsAmount == alliesNeededTeamsAmount) {
+            contestStatus = "Active";
+            isUboatReady = true;
+        }
     }
     public void setIsActiveContest(){
 

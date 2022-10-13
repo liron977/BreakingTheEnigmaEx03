@@ -169,7 +169,10 @@ public void setTheMachineSettingsDTO(TheMachineSettingsDTO theMachineSettingsDTO
    /*     public BruteForceResultsTabController getBruteForceResultsTabController(){
             return bruteForceTabPaneController.getBruteForceResultsTabController();
         }*/
+public void changeToMachineTab(){
+    uBoatMainTabPane.getSelectionModel().select(uBoatMachineTabButton);
 
+}
     public void updateAlliesTableView(){
         contestTabController.startAlliesInfoTableViewRefresher();
         contestTabController.startContestTableViewRefresher();

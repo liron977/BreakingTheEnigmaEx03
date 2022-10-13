@@ -1,6 +1,7 @@
 package servlets;
 
 import bruteForce.AlliesDTO;
+import bruteForce.ContestStatusInfoDTO;
 import com.google.gson.Gson;
 import constants.ParametersConstants;
 import engine.theEnigmaEngine.Allies;
@@ -9,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import managers.agent.StatusManager;
 import managers.bruteForce.AlliesMissionsManager;
 import managers.uBoatEngine.AlliesManager;
 import managers.uBoatEngine.UBoatAvailableContestsManager;
@@ -25,15 +27,22 @@ public class RegisterAlliesToContestServlet  extends HttpServlet {
             UBoatAvailableContestsManager uBoatAvailableContestsManger = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
             //MediatorForEngineManager mediatorForEngineManager=ServletUtils.getMediatorForEngineManager(getServletContext());
             AlliesManager alliesManager = ServletUtils.getAlliesManager(getServletContext());
+            /*StatusManager statusManager=ServletUtils.getStatusManager(getServletContext());*/
 
             Allies allies = alliesManager.getAlliesByAlliesTeamName(alliesToRegister.getAlliesName());
 
 
             String battleName = request.getParameter(ParametersConstants.BATTLE_FIELD);
+/*
+            ContestStatusInfoDTO contestStatusInfoDTO=statusManager.getContestStatusInfoDTOByBattlefield(battleName);
+*/
+
             EngineManager engineManager = uBoatAvailableContestsManger.getEngineManagerByBattleFieldName(battleName);
             if (engineManager != null) {
                 boolean isAlliesAddedSuccessfully = engineManager.addAlliesToContest(allies);
-
+/*if(contestStatusInfoDTO!=null){
+    contestStatusInfoDTO.setContestStatus(engineManager.getContestStatus());
+}*/
                 if (isAlliesAddedSuccessfully) {
                     AlliesMissionsManager alliesMissionsManager = ServletUtils.getAlliesMissionsManager(getServletContext());
                     alliesMissionsManager.addAlliesToAlliesMissionsManagerMap(alliesToRegister.getAlliesName());

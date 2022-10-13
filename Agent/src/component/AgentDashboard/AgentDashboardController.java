@@ -98,6 +98,9 @@ public class AgentDashboardController implements Closeable {
     private boolean isMessageDisplayedForFirstTime;
     private boolean isContestActive;
     private String battleFieldName;
+   private TimerTask startNewContestStatusRefresher;
+    private Timer startNewContestStatusRefresherTimer;
+    private boolean isStartedContestAlready;
 
     @FXML
     public void initialize() {
@@ -112,10 +115,11 @@ public class AgentDashboardController implements Closeable {
         isMessageDisplayedForFirstTime=false;
         isContestActive=false;
         battleFieldName="";
+        isStartedContestAlready=false;
         amountOfMissionsInTheQueue=new SimpleIntegerProperty(0);
         this.autoUpdate=new SimpleBooleanProperty(true);
-        bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
-        bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);
+        /*bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
+        bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);*/
         amountOfMissionsInTheQueue.addListener((observ)->updateMissionsStatus());
         amountOfCandidatesStrings.textProperty().addListener((observ)->{
             if(!String.valueOf(agentInfoDTO.getAmountOfCandidatesStrings()).equals(amountOfCandidatesStrings.getText()))
@@ -514,9 +518,9 @@ return isMissionsEnded;
         timer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
     }
     private void updateContestStatus(ContestStatusInfoDTO contestStatusInfoDTO) {
-        this.isContestActive=contestStatusInfoDTO.isContestActive();
-        this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());
-        if((isPopDisplayedForFirstTime)&&(!isMessageDisplayedForFirstTime)) {
+/*        this.isContestActive=contestStatusInfoDTO.isContestActive();
+        this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());*/
+        if(!isMessageDisplayedForFirstTime) {
          //   System.out.println("getIsAlliesConfirmedGameOver: "+contestStatusInfoDTO.getIsAlliesConfirmedGameOver());
             if(contestStatusInfoDTO==null||contestStatusInfoDTO.getIsAlliesConfirmedGameOver()){
                     Platform.runLater(() -> {
@@ -525,15 +529,19 @@ return isMissionsEnded;
                             System.out.println("updateContestStatus");
                             initValues();
                            updateAgentStatus();
-                         //   close();
-                            return;
+                        try {
+                            close();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        return;
                         /*} catch (IOException e) {
                             throw new RuntimeException(e);
                         }*/
                });
             }
         }
-      else  if (!isContestEnded.getValue()) {
+      if (!isContestEnded.getValue()) {
             Platform.runLater(() -> {
                 this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());
                 this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
@@ -554,10 +562,10 @@ return isMissionsEnded;
                     }*/
                 }});
         }
-      else {
+    /*  else {
             isPopDisplayedForFirstTime =false;
             isMessageDisplayedForFirstTime=false;
-        }
+        }*/
     }
 private void updateAgentStatus(){
 
@@ -619,9 +627,10 @@ private void updateAgentStatus(){
         bruteForceResultTableView.getItems().clear();
         amountDoneMissionsPerAgentLabel.setText("");
         amountOfAskedMissionsLabel.setText("");
-        currentAmountOfMissionsInTheQueue.setText("");
-        isPopDisplayedForFirstTime =false;
+
+        //isPopDisplayedForFirstTime =false;
         isContestActive=false;
+        isStartedContestAlready=false;
         isMissionEndedProperty.setValue(false);
         resultDTOList=new ArrayList<>();
         isContestEnded.setValue(false);
@@ -631,7 +640,27 @@ private void updateAgentStatus(){
         amountOfAskedMissionsProperty.setValue(0);
         amountOfDoneMissions.setValue(0);
         amountOfMissionsInTheQueue.setValue(0);
+        currentAmountOfMissionsInTheQueue.setText("");
         amountOfCandidatesStrings.setText("");
+
+    }
+    public void startCheckIfNewContestRefresher() {
+        startNewContestStatusRefresher = new StartNewContestStatusRefresher(
+                this::checkIfNewContest,autoUpdate,selectedAlliesTeamName);
+        startNewContestStatusRefresherTimer = new Timer();
+        startNewContestStatusRefresherTimer.schedule(startNewContestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
+    }
+    public void checkIfNewContest(Boolean shouldStartNewContest){
+        if(shouldStartNewContest&&!isStartedContestAlready){
+            bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
+            bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);
+            startContestStatusRefresher();
+            AgentThreadTask agentThreadTask=new AgentThreadTask(this);
+            new Thread(agentThreadTask).start();
+            isPopDisplayedForFirstTime=false;
+            isStartedContestAlready=true;
+            isMessageDisplayedForFirstTime=false;
+        }
 
     }
     @Override
@@ -644,4 +673,6 @@ private void updateAgentStatus(){
             timer.cancel();
         }
     }
+
+
 }

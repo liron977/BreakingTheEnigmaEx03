@@ -1,5 +1,6 @@
 package servlets;
 
+import bruteForce.ContestStatusInfoDTO;
 import com.google.gson.Gson;
 import constants.ParametersConstants;
 import machineEngine.EngineManager;
@@ -25,8 +26,15 @@ import java.io.IOException;
             engineManager.setIsActiveContest();
             engineManager.getBattleField().setIsConvertedStringSet();
             StatusManager statusManager=ServletUtils.getStatusManager(getServletContext());
+/*
+            ContestStatusInfoDTO contestStatusInfoDTO=statusManager.getContestStatusInfoDTOByBattlefield(battleName);
+*/
+          /*  if(contestStatusInfoDTO!=null){
+                contestStatusInfoDTO.setContestStatus(engineManager.getContestStatus());
+            }*/
             //uBoatAvailableContestsManger.addUBoatAvailableContest(engineManager,battleName);
             statusManager.deleteHistory();
+
             //  uBoatAvailableContestsManger.addUBoatAvailableContest(engineManager,battleName);
             response.setStatus(HttpServletResponse.SC_OK);
         }

@@ -175,14 +175,14 @@ public class AgentLoginController {
                     }
                 });
             } else {
-                Platform.runLater(() -> {
+               /* Platform.runLater(() -> {
                     {
                         AgentThreadTask agentThreadTask=new AgentThreadTask(agentDashboardController);
                         new Thread(agentThreadTask).start();
                         //startGetMissionsRefresher();
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     }
-                });
+                });*/
             }
         } catch (IOException e) {
         }
@@ -250,6 +250,7 @@ public class AgentLoginController {
             agentDashboardController.setSelectedAlliesTeamName(selectedAlliesTeamName);
             agentDashboardController.setAmountOfThreads(threadsAmount);
             agentDashboardController.startContestTableViewRefresher();
+            agentDashboardController.startCheckIfNewContestRefresher();
             agentDashboardController.setAgentLoginController(this);
             agentDashboardController.startContestStatusRefresher();
             primaryStage.setTitle("Agent: "+agentName);

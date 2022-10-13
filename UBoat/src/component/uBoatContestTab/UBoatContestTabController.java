@@ -112,6 +112,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     private TimerTask alliesRegisteredTeamsRefresher;
     private TimerTask BruteForceResultTableViewRefresher;
     private Timer BruteForceResultTableViewRefresherTimer;
+    private Timer startAlliesInfoTableViewTimer;
     private IntegerProperty contestResultsInfoVersion;
 
     private  SimpleBooleanProperty autoUpdate;
@@ -664,6 +665,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                 });*/
                 } else {
                     readyButton.setDisable(true);
+
                     Platform.runLater(() -> {
                         {
                           /*  stringToConvertTextArea.setText(convertedStringProcessDTO.getStringToConvertWithoutExcludedSignals());
@@ -714,8 +716,8 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                 this::updateRegisteredAlliesInfoList,
                 autoUpdate,
                 battleName.trim());
-        timer = new Timer();
-        timer.schedule(alliesRegisteredTeamsRefresher, REFRESH_RATE, REFRESH_RATE);
+        startAlliesInfoTableViewTimer = new Timer();
+        startAlliesInfoTableViewTimer.schedule(alliesRegisteredTeamsRefresher, REFRESH_RATE, REFRESH_RATE);
     }
     private void updateBruteForceResultsTableView(BruteForceResultAndVersion bruteForceResultAndVersionWithVersion) {
         if (bruteForceResultAndVersionWithVersion != null) {
@@ -766,7 +768,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                 autoUpdate,
                 this::updateBruteForceResultsTableView);
         BruteForceResultTableViewRefresherTimer= new Timer();
-        timer.schedule(BruteForceResultTableViewRefresher, REFRESH_RATE, REFRESH_RATE);
+        BruteForceResultTableViewRefresherTimer.schedule(BruteForceResultTableViewRefresher, REFRESH_RATE, REFRESH_RATE);
     }
     public void startContestStatusRefresher() {
         contestStatusRefresher = new ContestStatusRefresher("UBoat",battleName.trim(),
@@ -775,6 +777,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         timer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
     }
     private void updateContestStatus(ContestStatusInfoDTO contestStatusInfoDTO) {
+
         if (!isContestEnded.getValue()) {
             Platform.runLater(() -> {
                 this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());
@@ -789,6 +792,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                     alert.getDialogPane().setExpanded(true);
                    // alert.showAndWait();
                     //activeTeamsDetailsTableView.getItems().clear();
+
                     readyButton.setDisable(false);
                     Optional<ButtonType> result=alert.showAndWait();
                     if(result.get()==ButtonType.OK) {
@@ -804,6 +808,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
+                    mainWindowUBoatController.changeToMachineTab();
                 }});
         }
     }
@@ -856,12 +861,15 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         contestResultsInfoVersion.set(0);
         convertedStringTextArea.clear();
         stringToConvertTextArea.clear();
+        isMessageDisplayedForFirstTime=false;
+        isContestEnded.set(false);
         if (BruteForceResultTableViewRefresher!=null&&contestStatusRefresher!=null&&alliesRegisteredTeamsRefresher != null && timer!= null && BruteForceResultTableViewRefresherTimer!= null) {
             alliesRegisteredTeamsRefresher.cancel();
             alliesRegisteredTeamsRefresher.cancel();
             BruteForceResultTableViewRefresher.cancel();
-            contestStatusRefresher.cancel();
+           contestStatusRefresher.cancel();
             BruteForceResultTableViewRefresherTimer.cancel();
+            startAlliesInfoTableViewTimer.cancel();
             timer.cancel();
         }
     }

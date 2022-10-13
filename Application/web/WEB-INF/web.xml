@@ -243,6 +243,14 @@
         <servlet-name>GetMaximumAmountOfMissionsServlet</servlet-name>
         <url-pattern>/GetMaximumAmountOfMissionsServlet</url-pattern>
     </servlet-mapping>
+  <servlet>
+        <servlet-name>StartNewContestStatusServlet</servlet-name>
+        <servlet-class>servlets.StartNewContestStatusServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StartNewContestStatusServlet</servlet-name>
+        <url-pattern>/StartNewContestStatusServlet</url-pattern>
+    </servlet-mapping>
 
 
 </web-app>
