@@ -7,8 +7,11 @@ import engine.theEnigmaEngine.AlliesAgent;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import machineEngine.EngineManager;
 import managers.agent.AgentsManager;
 import managers.uBoatEngine.AlliesManager;
+import managers.uBoatEngine.MediatorForEngineManager;
+import managers.uBoatEngine.UBoatAvailableContestsManager;
 import managers.users.UserManager;
 import utils.ServletUtils;
 
@@ -26,8 +29,8 @@ public class AgentsInfoServlet extends HttpServlet {
             AgentsManager agentsInfoManager = ServletUtils.getAgentManager(getServletContext());
             Map<String, List<AgentInfoDTO>> agentsInfoManagerMap = agentsInfoManager.getAgentManagerMap();
             String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
-           List<AgentInfoDTO> agentInfoDTOList=getAgentIndoDTOListByTheAlliesTeamName(agentsInfoManagerMap,theAlliesTeamName);
-           // List<AgentInfoDTO> agentInfoDTOList=agentsInfoManager.getAgentsByAlliesTeamName(theAlliesTeamName);
+            List<AgentInfoDTO> agentInfoDTOList = getAgentIndoDTOListByTheAlliesTeamName(agentsInfoManagerMap, theAlliesTeamName);
+            // List<AgentInfoDTO> agentInfoDTOList=agentsInfoManager.getAgentsByAlliesTeamName(theAlliesTeamName);
 
             if (agentInfoDTOList != null) {
 
@@ -41,23 +44,31 @@ public class AgentsInfoServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
     }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         AgentsManager agentManager = ServletUtils.getAgentManager(getServletContext());
-        UserManager userManager=ServletUtils.getUserManager(getServletContext());
-        AlliesManager alliesManager=ServletUtils.getAlliesManager(getServletContext());
-       String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
-        Gson gson= new Gson();
-        AgentInfoDTO dtoFromGson=gson.fromJson(request.getReader(),AgentInfoDTO.class);
-        AlliesAgent alliesAgent=new AlliesAgent(dtoFromGson.getAgentName(),dtoFromGson.getThreadsAmount(), dtoFromGson.getMissionsAmount(), dtoFromGson.getAlliesTeamName());
-        alliesManager.addAgentToAllies(alliesAgent,theAlliesTeamName);
+        UserManager userManager = ServletUtils.getUserManager(getServletContext());
+        AlliesManager alliesManager = ServletUtils.getAlliesManager(getServletContext());
+        String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
+        Gson gson = new Gson();
+        AgentInfoDTO dtoFromGson = gson.fromJson(request.getReader(), AgentInfoDTO.class);
+        MediatorForEngineManager mediatorForEngineManager = ServletUtils.getMediatorForEngineManager(getServletContext());
+        EngineManager engineManager = mediatorForEngineManager.getEngineMangerByAlliesTeamName(theAlliesTeamName);
+        if (engineManager != null &&engineManager.getContestStatus().equals("Active")) {
+            response.setStatus(HttpServletResponse.SC_CONFLICT);
+        } else {
 
-        if(userManager.isUserExists(dtoFromGson.getAgentName())){
-            agentManager.addAgentInfoDTOList(theAlliesTeamName,dtoFromGson);
+        if (userManager.isUserExists(dtoFromGson.getAgentName())) {
+            AlliesAgent alliesAgent = new AlliesAgent(dtoFromGson.getAgentName(), dtoFromGson.getThreadsAmount(), dtoFromGson.getMissionsAmount(), dtoFromGson.getAlliesTeamName());
+            alliesManager.addAgentToAllies(alliesAgent, theAlliesTeamName);
+            agentManager.addAgentInfoDTOList(theAlliesTeamName, dtoFromGson);
             response.setStatus(HttpServletResponse.SC_OK);
         }
 
     }
+
+}
     private List<AgentInfoDTO> getAgentIndoDTOListByTheAlliesTeamName( Map<String, List<AgentInfoDTO>> agentsInfoManagerMap, String theAlliesTeamName){
         List<AgentInfoDTO> agentInfoDTOList=new ArrayList<>();
         agentInfoDTOList= agentsInfoManagerMap.get(theAlliesTeamName);

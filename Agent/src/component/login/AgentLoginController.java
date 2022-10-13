@@ -144,7 +144,7 @@ public class AgentLoginController {
         return isMissionsAmountValid;
     }
 
-    private void addAgentToAlliesTeam(){
+    private boolean addAgentToAlliesTeam(){
         String agentInfoDTOGson = Constants.GSON_INSTANCE.toJson(agentInfoDTO);
         RequestBody body = RequestBody.create(
                 MediaType.parse("application/json"), agentInfoDTOGson);
@@ -161,7 +161,13 @@ public class AgentLoginController {
         Call call = HttpClientUtil.getOkHttpClient().newCall(request);
         try {
             Response response = call.execute();
-            if (response.code() != 200) {
+            if (response.code() == 200) {
+                return true;
+            }
+            else if(response.code() == 409){
+                return false;
+            }
+            else if (response.code() != 200) {
                 Platform.runLater(() -> {
                     {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -186,6 +192,7 @@ public class AgentLoginController {
             }
         } catch (IOException e) {
         }
+        return false;
     }
 
     public void executeLogin(){
@@ -220,14 +227,23 @@ public class AgentLoginController {
                 }
                 else {
 
-                    //mainWindowAlliesController.setAlliesTeamName(alliesTeamName);
-                    Platform.runLater(() -> {
-                        loadSuperScreen();
-                        addAgentToAlliesTeam();
-                        primaryStage.setScene(mainWindowAlliesControllerScene);
-                        primaryStage.centerOnScreen();
-                        primaryStage.show();
-                    });
+                    boolean isAddedSuccessfully=addAgentToAlliesTeam();
+                    while(!isAddedSuccessfully){
+                        Platform.runLater(() -> {
+                        errorMessageProperty.set("The Allies Team is in the middle of a contest, please wait.");
+                        });
+                        isAddedSuccessfully=addAgentToAlliesTeam();
+                    }
+                    if(isAddedSuccessfully) {
+                        //mainWindowAlliesController.setAlliesTeamName(alliesTeamName);
+                        Platform.runLater(() -> {
+                            loadSuperScreen();
+
+                            primaryStage.setScene(mainWindowAlliesControllerScene);
+                            primaryStage.centerOnScreen();
+                            primaryStage.show();
+                        });
+                    }
                 }
                 Objects.requireNonNull(response.body()).close();
             }
@@ -252,7 +268,7 @@ public class AgentLoginController {
             agentDashboardController.startContestTableViewRefresher();
             agentDashboardController.startCheckIfNewContestRefresher();
             agentDashboardController.setAgentLoginController(this);
-            agentDashboardController.startContestStatusRefresher();
+          //  agentDashboardController.startContestStatusRefresher();
             primaryStage.setTitle("Agent: "+agentName);
             mainWindowAlliesControllerScene = new Scene(root1);
             primaryStage.setMinHeight(300f);
