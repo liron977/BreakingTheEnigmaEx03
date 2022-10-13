@@ -24,6 +24,7 @@ public class DMCreateMissionsServlet extends HttpServlet {
       //  Thread.currentThread().setName("DMCreateMissionsServlet");
         AlliesManager alliesManager = ServletUtils.getAlliesManager(getServletContext());
         String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
+        System.out.println(theAlliesTeamName+"DMCreateMissionsServlet ");
         UBoatAvailableContestsManager uBoatAvailableContestsManager = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
         EngineManager engineManager = uBoatAvailableContestsManager.getEngineMangerByAlliesTeamName(theAlliesTeamName);
         String stringToConvert = engineManager.getConvertedString();

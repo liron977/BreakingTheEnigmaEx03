@@ -625,7 +625,7 @@ public class AlliesContestController implements Closeable {
         Response response = call.execute();
         if (response.code() == 200) {
             String maxAmount=response.body().string().trim();
-            System.out.println(maxAmount+"updateMaxAmountOfMissions");
+           // System.out.println(maxAmount+"updateMaxAmountOfMissions");
             totalAmountOfCreatedMissionsLabel.setText("The maximum amount of missions: "+
                  displayTextWithCommas(Long.parseLong(maxAmount)));
 

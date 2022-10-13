@@ -354,7 +354,7 @@ return isMissionsEnded;
     private  void saveResultsOnServer(List<BruteForceResultDTO> bruteForceResultDTOBlockingQueue) throws InterruptedException {
         saveResultsInServer(bruteForceResultDTOBlockingQueue);
            for (BruteForceResultDTO brute:resultDTOList) {
-                System.out.println(brute.getConvertedString()+" "+brute.getCodeDescription()+" "+brute.getTheMissionNumber()+"BEFORE TABLE VIEW");
+               // System.out.println(brute.getConvertedString()+" "+brute.getCodeDescription()+" "+brute.getTheMissionNumber()+"BEFORE TABLE VIEW");
             }
             Platform.runLater(() -> {
                 createAlliesInfoDTOTableView(bruteForceResultDTOBlockingQueue);
