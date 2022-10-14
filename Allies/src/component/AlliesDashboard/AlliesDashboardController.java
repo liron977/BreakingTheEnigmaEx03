@@ -201,8 +201,6 @@ private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTable
     return uBoatContestInfoDTOList;
 }
     private void updateUBoatContestsList(List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOList) {
-
-
         Platform.runLater(() -> {
             boolean isDTDExistsInTableView;
             ObservableList<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOListTemp = FXCollections.observableArrayList();;
@@ -224,15 +222,49 @@ private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTable
                     }
             }
             uBoatContestInfoWithCheckBoxDTOList=contestsDataTableView.getItems();
-            //todo : To check
-          /*  for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO: contestsDataTableView.getItems()) {
-                if (!uBoatContestInfoDTOList.contains(uBoatContestInfoWithCheckBoxDTO)) {
+ /*           if(contestsDataTableView.getItems()!=null) {
+                //todo : To check
+                for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO : contestsDataTableView.getItems()) {
+                    if (!uBoatContestInfoDTOList.contains(uBoatContestInfoWithCheckBoxDTO)) {
 
-                    contestsDataTableView.getItems().remove(uBoatContestInfoWithCheckBoxDTO);
+                        contestsDataTableView.getItems().remove(uBoatContestInfoWithCheckBoxDTO);
+                    }
+                    if(contestsDataTableView.getItems()==null){
+                        break;
+                    }
                 }
-           }*/
+            }*/
+            updateContest(uBoatContestInfoDTOList);
             totalUBoatContestsAmount.set(uBoatContestInfoDTOList.size());
         });
+    }
+    public void updateContest(List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOList){
+
+        ObservableList<UBoatContestInfoWithCheckBoxDTO>  contestsDataTableViewList=contestsDataTableView.getItems();
+       for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO:contestsDataTableViewList) {
+           boolean flag=false;
+           for (UBoatContestInfoWithCheckBoxDTO ubi2:uBoatContestInfoDTOList) {
+               if(ubi2.getBattleFieldName().equals(uBoatContestInfoWithCheckBoxDTO.getBattleFieldName())){
+                    flag=true;
+               }
+             //   break;
+                //contestsDataTableViewList.getItems().remove(uBoatContestInfoWithCheckBoxDTO);
+
+            }
+           if(!flag){
+               contestsDataTableViewList.remove(uBoatContestInfoWithCheckBoxDTO);
+           }
+        }
+       /* contestsDataTableView.getItems().clear();
+        int index=0;
+        for (UBoatContestInfoWithCheckBoxDTO TableViewUBoatContestDTO : uBoatContestInfoDTOList) {
+            index++;
+                updateContestsDataTableViewRow(TableViewUBoatContestDTO,index);
+            }*/
+        if(uBoatContestInfoDTOList.size()==0){
+            contestsDataTableView.getItems().clear();
+        }
+
     }
 private void updateContestsDataTableViewRow(UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO, int contestsDataTableViewRow ){
     TableColumn statusTableColumn = contestsDataTableView.getColumns().get(3);
