@@ -24,10 +24,14 @@ public class GetDictionaryServlet extends HttpServlet {
             EngineManager engineManager= mediatorsForEngineManagerMap.get(theBattleFieldName);
             if(engineManager!=null) {
                 String[] dictionary = engineManager.getTheMachineEngine().getDictionary().getDictionary();
+                response.setStatus(HttpServletResponse.SC_OK);
                 Gson gson = new Gson();
                 String json = gson.toJson(dictionary);
                 out.println(json);
                 out.flush();
+            }
+            else{
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

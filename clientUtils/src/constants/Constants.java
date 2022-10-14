@@ -37,6 +37,7 @@ public class Constants {
     public static final String UPDATE_CONTEST_STATUS_AGENT="http://localhost:8080/app/UpdateContestStatusAgentServlet";
     public static final String GET_MAXIMUM_AMOUNT_OF_MISSIONS="http://localhost:8080/app/GetMaximumAmountOfMissionsServlet";
     public static final String START_NEW_CONTEST_STATUS="http://localhost:8080/app/StartNewContestStatusServlet";
+    public static final String UBOAT_LOGOUT="http://localhost:8080/app/UboatLogoutServlet";
 
     public static final Gson GSON_INSTANCE = new Gson();
     public final static int REFRESH_RATE = 500;

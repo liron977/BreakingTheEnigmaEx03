@@ -45,6 +45,14 @@ public class MainWindowUBoatController implements EventsHandler {
         primaryStage = primaryStageIn;
         //scene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
     }
+    public void initLoadFileValues(){
+        loadFileComponentController.initValues();
+    }
+    public void initMachineDetails(){
+        machineTabController.initMachineDetails();
+    }   public void initCodeConfiguration(){
+        machineTabController.initCodeConfiguration();
+    }
     public SimpleBooleanProperty getIsMachineDefined(){
         return machineTabController.getIsMachineDefined();
     }
@@ -135,6 +143,7 @@ public void setTheMachineSettingsDTO(TheMachineSettingsDTO theMachineSettingsDTO
     public void setMachineDetails(){
             if(loadFileComponentController.getIsMachineDefinedProperty().getValue()) {
                 machineTabController.setMachineDetails();
+                isMachineDefined.setValue(true);
             }
     }
         public void setBattleName(String battleName){

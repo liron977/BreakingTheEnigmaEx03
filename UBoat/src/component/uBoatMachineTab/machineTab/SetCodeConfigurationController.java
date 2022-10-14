@@ -59,11 +59,16 @@ public class SetCodeConfigurationController implements EventsHandler {
     private SimpleBooleanProperty isMachineDefined;
     @FXML
     public void initialize() {
+        isCodeDefined = new SimpleBooleanProperty(false);
         clearButton.disableProperty().bind(isMachineDefined.not());
        // clearButton.setDisable(true);
     }
     public SetCodeConfigurationController() {
+        isMachineDefined=new SimpleBooleanProperty(false);
         isCodeDefined = new SimpleBooleanProperty(false);
+        initValues();
+    }
+    public void initValues(){
         plugBoardPairCounter = 0;
         handlers = new ArrayList<>();
         isMachineWasDefine = false;
@@ -72,7 +77,18 @@ public class SetCodeConfigurationController implements EventsHandler {
         startingPositionListComboBox = new ArrayList<>();
         plugBoardPairsListComboBox = new ArrayList<>();
         isInitNeeded = new SimpleBooleanProperty(false);
-        isMachineDefined=new SimpleBooleanProperty(false);
+       // isMachineDefined=new SimpleBooleanProperty(false);
+    }
+    public void initCodeConfiguration(){
+        initValues();
+        isCodeDefined.setValue(false);
+        clearButton.disableProperty().bind(isMachineDefined.not());
+
+        reflectorHBox.getChildren().clear();
+        setRotorsIdHBox(0);
+        setStartingPositionHBox(0);
+        plugBoardHBox.getChildren().clear();
+        plugBoardPairCounter = 0;
     }
     public SimpleBooleanProperty isCodeDefinedProperty() {
         return isCodeDefined;

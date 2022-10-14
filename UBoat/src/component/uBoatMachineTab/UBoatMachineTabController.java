@@ -66,6 +66,13 @@ String battleName;
         machineDetailsController.setBattleName(battleName);
         setCodeConfigurationController.setBattleName(battleName);
     }
+    public void initMachineDetails(){
+        machineDetailsController.initMachineDetails();
+    }
+    public void initCodeConfiguration(){
+
+        setCodeConfigurationController.initCodeConfiguration();
+    }
 public void setMachineDetails(){
     machineDetailsController.setMachineDetailsValues();
 }

@@ -34,16 +34,18 @@ public class ContestStatusServlet extends HttpServlet {
             }
             if (battleName != null&&!battleName.isEmpty()) {
                 EngineManager engineManager = uBoatAvailableContestsManager.getEngineManagerByBattleFieldName(battleName);
-                ContestStatusInfoDTO contestStatusInfoDTO = new ContestStatusInfoDTO(
-                        engineManager.getIsConvertedStringSet(),
-                        engineManager.getContestStatus(),
-                        engineManager.getIsContestEnded(),
-                        engineManager.getAlliesWinnwerTeamName(),
-                        engineManager.getIsAlliesConfirmedGameOver());
-                Gson gson = new Gson();
-                String json = gson.toJson(contestStatusInfoDTO);
-                out.println(json);
-                out.flush();
+                if (engineManager != null) {
+                    ContestStatusInfoDTO contestStatusInfoDTO = new ContestStatusInfoDTO(
+                            engineManager.getIsConvertedStringSet(),
+                            engineManager.getContestStatus(),
+                            engineManager.getIsContestEnded(),
+                            engineManager.getAlliesWinnwerTeamName(),
+                            engineManager.getIsAlliesConfirmedGameOver());
+                    Gson gson = new Gson();
+                    String json = gson.toJson(contestStatusInfoDTO);
+                    out.println(json);
+                    out.flush();
+                }
             }
             else{
                 String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);

@@ -219,7 +219,7 @@ public class LoadFileController {
         Response response=call.execute();
         if(response.code()==200){
             isMachineDefined.set(true);
-            battleName=response.body().string();
+            battleName=response.body().string().trim();
             mainWindowUBoatController.setBattleName(battleName);
             Platform.runLater(() -> {
                 loadFileLabel.setText(/*"Load status: Successfully"*/selectedFile.getPath());
@@ -229,8 +229,7 @@ public class LoadFileController {
                 alert.setContentText(message);
                 alert.getDialogPane().setExpanded(true);
                 alert.showAndWait();
-
-
+                loadFileButton.setDisable(true);
             });}
         else{
             isMachineDefined.set(false);
@@ -240,10 +239,19 @@ public class LoadFileController {
                     alert.setContentText(message);
                     alert.getDialogPane().setExpanded(true);
                     alert.showAndWait();
-
+                    loadFileButton.setDisable(false);
                 } catch (IOException e) {}
             });}
         return (response.code()==200);
+    }
+    public void initValues(){
+        loadFileButton.setDisable(false);
+        loadFileLabel.setText("");
+        isMachineDefined.setValue(false);
+        bindIsMachineDefinedProperty();
+    /*    EngineManagerInterface engineManager=new EngineManager();
+        this.mediator=new Mediator(engineManager);
+        bindIsMachineDefinedProperty();*/
     }
 
     public void setMachineDetails(){

@@ -25,10 +25,14 @@ public class CurrentCodeServlet extends HttpServlet {
         EngineManager engineManager= mediatorsForEngineManagerMap.get(theBattleFieldName);
         if(engineManager!=null) {
             LimitedCodeConfigurationDTO limitedCodeConfigurationDTO = engineManager.createCurrentCodeConfigurationTableViewDTO();
+            response.setStatus(HttpServletResponse.SC_OK);
             Gson gson = new Gson();
             String json = gson.toJson(limitedCodeConfigurationDTO);
             out.println(json);
             out.flush();
+        }
+        else {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     } catch (Exception e) {
         throw new RuntimeException(e);

@@ -4,6 +4,7 @@ import bruteForce.*;
 import com.google.gson.Gson;
 import component.mainWindowUBoat.MainWindowUBoatController;
 import component.uBoatMachineTab.machineTab.CurrentConfigurationTableViewController;
+import javafx.event.Event;
 import machineEngine.EngineManager;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -94,7 +95,8 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     private List<String> dictionary;
     @FXML
     private MainWindowUBoatController mainWindowUBoatController;
-
+    @FXML
+    private Button logoutButton;
 
     BruteForceSettingsDTO bruteForceSettingsDTO;
     Mediator mediator;
@@ -137,6 +139,8 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         isContestEnded=new SimpleBooleanProperty(false);
         alliesWinnerTeamName="";
         isMessageDisplayedForFirstTime=false;
+        logoutButton.setVisible(false);//todo remove from note
+        this.dictionary=new ArrayList<>();
         autoUpdate=new SimpleBooleanProperty(true);
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
@@ -240,27 +244,16 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         Call call = HttpClientUtil.getOkHttpClient().newCall(request);
         try {
             Response response = call.execute();
-            if (response.code() != 200) {
-               /* Platform.runLater(() -> {
-                    {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        try {
-                            alert.setContentText(response.body().string());
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        alert.getDialogPane().setExpanded(true);
-                        alert.showAndWait();
-                    }
-                });*/
-            } else {
+            if (response.code() == 200) {
                 try {
                     String[] dictionaryArray = Constants.GSON_INSTANCE.fromJson(response.body().string(), String[].class);
                     this.dictionary = Arrays.asList(dictionaryArray);
 
                 } catch (IOException ignore) {
                 }
-
+            }
+            else {
+                this.dictionary=new ArrayList<>();
             }
         } catch (IOException e) {
         }
@@ -794,6 +787,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                     //activeTeamsDetailsTableView.getItems().clear();
 
                     readyButton.setDisable(false);
+                    logoutButton.setVisible(true);
                     Optional<ButtonType> result=alert.showAndWait();
                     if(result.get()==ButtonType.OK) {
                         clearContestValues();
@@ -808,7 +802,8 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                    mainWindowUBoatController.changeToMachineTab();
+                    readyButton.setDisable(false);
+                    //mainWindowUBoatController.changeToMachineTab();
                 }});
         }
     }
@@ -851,8 +846,39 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
 
 
     }
+    @FXML
+    void logoutButtonOnAction(ActionEvent event){
+        String finalUrl = HttpUrl
+                .parse(Constants.UBOAT_LOGOUT)
+                .newBuilder()
+                .addQueryParameter("battlefield", battleName.trim())
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrl)
+                .build();
+        Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+        try {
+            Response response = call.execute();
+            if (response.code() == 200) {
+                 Platform.runLater(() -> {{
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setContentText("Logout Successfully");
+                        alert.getDialogPane().setExpanded(true);
+                        alert.showAndWait();
 
+                        mainWindowUBoatController.initLoadFileValues();
+                        mainWindowUBoatController.initCodeConfiguration();
+                        mainWindowUBoatController.initMachineDetails();
+                     mainWindowUBoatController.changeToMachineTab();
 
+                    }
+                 });
+
+            }
+        } catch (IOException e) {
+        }
+    }
     @Override
     public void close() throws IOException {
         activeTeamsDetailsTableView.getItems().clear();

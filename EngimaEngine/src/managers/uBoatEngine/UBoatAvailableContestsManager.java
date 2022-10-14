@@ -63,7 +63,6 @@ public class UBoatAvailableContestsManager {
         if(getEngineManagerByBattleFieldName(battleFieldName)!=null){
             uBoatAvailableContestsMap.remove(battleFieldName);
         }
-
   }
 /*    public boolean isUBoatContestsAvailable(MediatorForEngineManager newUBoatAvailableContest) {
         return uBoatAvailableContestsMap.contains(newUBoatAvailableContest) ;

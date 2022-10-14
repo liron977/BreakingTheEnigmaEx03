@@ -36,6 +36,11 @@ public class MediatorForEngineManager {
         }
         return null;
     }
+    public synchronized void removeUboat(String battleFieldName){
+        if(getEngineMangerByBattleFiLedName(battleFieldName)!=null){
+            EngineManagersMap.remove(battleFieldName);
+        }
+    }
     public boolean isBattleExists(String battleName) {
         return EngineManagersMap.containsKey(battleName);
     }

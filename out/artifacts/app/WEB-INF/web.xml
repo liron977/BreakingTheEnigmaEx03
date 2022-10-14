@@ -251,6 +251,14 @@
         <servlet-name>StartNewContestStatusServlet</servlet-name>
         <url-pattern>/StartNewContestStatusServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>UboatLogoutServlet</servlet-name>
+        <servlet-class>servlets.UboatLogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UboatLogoutServlet</servlet-name>
+        <url-pattern>/UboatLogoutServlet</url-pattern>
+    </servlet-mapping>
 
 
 </web-app>

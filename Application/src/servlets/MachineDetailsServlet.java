@@ -25,10 +25,14 @@ public class MachineDetailsServlet extends HttpServlet {
             EngineManager engineManager= mediatorsForEngineManagerMap.get(theBattleFieldName);
             if(engineManager!=null) {
                 TheMachineSettingsDTO dto = engineManager.getTheMachineSettingsDTO();
+                response.setStatus(HttpServletResponse.SC_OK);
                 Gson gson = new Gson();
                 String json = gson.toJson(dto);
                 out.println(json);
                 out.flush();
+            }
+            else {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

@@ -58,9 +58,14 @@ public class MachineDetailsController implements EventsHandler {
     public void initialize() throws Exception{
 
     }
+    public void initMachineDetails(){
+        ReflectorsAmountLable.setText("");
+        rotorsAmountLable.setText("");
+        messagesAmountLabel.setText("");
+    }
     public void setMachineDetailsValues(){
 
-        if (battleName.isEmpty()) {
+        if (battleName.trim().isEmpty()) {
             showAlertMessage("The battle field is empty.");
             return;
         }
@@ -74,16 +79,16 @@ public class MachineDetailsController implements EventsHandler {
         HttpClientUtil.runAsync(finalUrl, new Callback() { //todo i guess it should be sync no?
             @Override public void onFailure(@NotNull Call call, @NotNull IOException e) {
 
-                Platform.runLater(() -> {
+       /*         Platform.runLater(() -> {
                     showAlertMessage("Something went wrong: "+ e.getMessage());
-            });
+            });*/
             }
             @Override public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.code() != 200) {
-                    String responseBody = response.body().string();
+                   /* String responseBody = response.body().string();
                     Platform.runLater(() -> {
                        showAlertMessage("Something went wrong: " +responseBody);
-                    });
+                    });*/
                 }
                 else {
                     try {
@@ -131,7 +136,7 @@ public class MachineDetailsController implements EventsHandler {
         this.mediator = mediator;
     }
     public void setBattleName(String battleName) {
-        this.battleName=battleName;
+        this.battleName=battleName.trim();
     }
     public void setuBoatMachineTabController(UBoatMachineTabController uBoatMachineTabController) {
         this.uBoatMachineTabController = uBoatMachineTabController;
