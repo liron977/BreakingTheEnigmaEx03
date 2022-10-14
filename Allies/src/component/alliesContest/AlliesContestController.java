@@ -9,7 +9,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -59,7 +58,7 @@ public class AlliesContestController implements Closeable {
     @FXML
     private TableColumn<BruteForceResultDTO, String> stringColumn;
     @FXML
-    private TableColumn<BruteForceResultDTO, String> alliesNameColumn;
+    private TableColumn<BruteForceResultDTO, String> resultTableAgentNameColumn;
     @FXML
     private TableColumn<BruteForceResultDTO, String> codeConfigurationColumn;
     @FXML
@@ -256,8 +255,8 @@ public class AlliesContestController implements Closeable {
         stringColumn.setCellValueFactory(
                 new PropertyValueFactory<>("convertedString")
         );
-        alliesNameColumn.setCellValueFactory(
-                new PropertyValueFactory<>("alliesTeamName")
+        resultTableAgentNameColumn.setCellValueFactory(
+                new PropertyValueFactory<>("agentName")
         );
         codeConfigurationColumn.setCellValueFactory(
                 new PropertyValueFactory<>("codeDescription")
@@ -276,7 +275,7 @@ public class AlliesContestController implements Closeable {
         if (contestCandidatesTableView.getItems().isEmpty()) {
             contestCandidatesTableView.setItems(bruteForceResultDTOList);
             contestCandidatesTableView.getColumns().clear();
-            contestCandidatesTableView.getColumns().addAll(stringColumn, alliesNameColumn, codeConfigurationColumn);
+            contestCandidatesTableView.getColumns().addAll(stringColumn, resultTableAgentNameColumn, codeConfigurationColumn);
         } else {
             contestCandidatesTableView.getItems().addAll(bruteForceResultDTOList);
         }

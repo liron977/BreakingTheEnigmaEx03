@@ -31,12 +31,13 @@ public class AgentDecryptionManager {
     SimpleIntegerProperty amountOfMissionsInTheQueue;
     SimpleIntegerProperty amountOfAskedMissionsProperty;
     private SimpleBooleanProperty  isContestEnded;
+    private String agentName;
 
 public AgentDecryptionManager(SimpleIntegerProperty amountOfMissionsInTheQueue,SimpleIntegerProperty amountOfAskedMissionsProperty,SimpleIntegerProperty amountOfDoneMissions,UiAdapterInterface uiAdapterInterface,
                               SimpleBooleanProperty isMissionEndedProperty,ThreadPoolExecutor threadPoolExecutor, TheMachineEngine theMachineEngine
         , String alliesTeamName, List<TheMissionInfoDTO> theMissionInfoDTOList,
                               BlockingQueue<Runnable> missionsInfoBlockingQueue
-               , SimpleBooleanProperty  isContestEnded){
+               , SimpleBooleanProperty  isContestEnded,String agentName){
    this.machineEngine=new MachineEngine(theMachineEngine);
    this.theMissionInfoDTOList=theMissionInfoDTOList;
    this.alliesTeamName=alliesTeamName;
@@ -49,6 +50,7 @@ public AgentDecryptionManager(SimpleIntegerProperty amountOfMissionsInTheQueue,S
    this.amountOfMissionsInTheQueue=amountOfMissionsInTheQueue;
     this.isContestEnded=isContestEnded;
     amountOfMissionsInTheQueue.setValue(0);
+    this.agentName=agentName;
 }
     public void createMission() throws Exception {
     int missionsCounter=0;
@@ -68,7 +70,7 @@ public AgentDecryptionManager(SimpleIntegerProperty amountOfMissionsInTheQueue,S
                         theMissionInfoDTO.getStringToConvert(), alliesTeamName
                         , theMissionInfoDTO.getInitialStartingPosition(),
                         theMissionInfoDTO.getSizeOfMission(), amountOfDoneMissions
-                ,isContestEnded);
+                ,isContestEnded,agentName);
                 missionsCounter++;
                 missionsInfoBlockingQueue.put(agentMissionRunnable);
             }

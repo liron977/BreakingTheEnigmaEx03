@@ -6,12 +6,24 @@ public class BruteForceResultDTO implements Serializable {
     private String convertedString;
     private String alliesTeamName;
     private String codeDescription;
+    private String agentName;
     private int theMissionNumber;
-    public BruteForceResultDTO(int theMissionNumber,String convertedString,String alliesTeamName,String codeDescription){
+
+    public BruteForceResultDTO(int theMissionNumber,String convertedString
+            ,String alliesTeamName,String codeDescription,String  agentName){
         this.codeDescription=codeDescription;
         this.alliesTeamName=alliesTeamName;
         this.convertedString=convertedString;
         this.theMissionNumber=theMissionNumber;
+        this.agentName=agentName;
+    }
+
+    public void setAgentName(String agentName) {
+        this.agentName = agentName;
+    }
+
+    public String getAgentName() {
+        return agentName;
     }
 
     public void setTheMissionNumber(int theMissionNumber) {

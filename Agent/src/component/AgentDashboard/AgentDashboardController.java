@@ -280,7 +280,7 @@ public class AgentDashboardController implements Closeable {
                                 , selectedAlliesTeamName,
                                 theMissionInfoListFromGson
                                 , missionsInfoBlockingQueue
-                                 ,isContestEnded);
+                                 ,isContestEnded,agentInfoDTO.getAgentName());
                         decryptionManager.createMission();
                         threadPoolExecutor.shutdown();
                         threadPoolExecutor.awaitTermination(Integer.MAX_VALUE, TimeUnit.HOURS);

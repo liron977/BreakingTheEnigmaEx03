@@ -24,7 +24,7 @@
                         <TableView fx:id="contestCandidatesTableView" maxHeight="1.7976931348623157E308" prefHeight="422.0" prefWidth="330.0">
                            <columns>
                               <TableColumn fx:id="stringColumn" maxWidth="1.7976931348623157E308" prefWidth="109.99999749660492" text="String" />
-                              <TableColumn fx:id="alliesNameColumn" maxWidth="1.7976931348623157E308" prefWidth="131.3333511352539" text="Allies Team Name" />
+                              <TableColumn fx:id="resultTableAgentNameColumn" maxWidth="1.7976931348623157E308" prefWidth="131.3333511352539" text="Agent Name" />
                               <TableColumn fx:id="codeConfigurationColumn" maxWidth="1.7976931348623157E308" prefWidth="164.66661071777344" text="Code Configuration" />
                            </columns>
                            <padding>

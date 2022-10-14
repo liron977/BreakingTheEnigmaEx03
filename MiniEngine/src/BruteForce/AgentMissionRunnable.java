@@ -28,10 +28,12 @@ public class AgentMissionRunnable implements Runnable {
    SimpleIntegerProperty amountOfDoneMissions;
     SimpleIntegerProperty amountOfAskedMissionsProperty;
     SimpleBooleanProperty isContestEnded;
+    private String agentName;
     public AgentMissionRunnable(SimpleIntegerProperty amountOfMissionsInTheQueue,SimpleIntegerProperty amountOfAskedMissionsProperty,String lastStartingPos,int missionNumber,UiAdapterInterface uiAdapterInterface,MachineEngine machineEngineCopy,
                                 String stringToConvert, String alliesTeamName
             , String initialStartingPosition, int sizeOfMission
-    ,SimpleIntegerProperty amountOfDoneMissions,SimpleBooleanProperty  isContestEnded) {
+    ,SimpleIntegerProperty amountOfDoneMissions,SimpleBooleanProperty  isContestEnded,
+                                String agentName) {
 
         this.machineEngineCopy = machineEngineCopy;
         this.stringToConvert = stringToConvert;
@@ -47,6 +49,7 @@ public class AgentMissionRunnable implements Runnable {
        this.amountOfAskedMissionsProperty=amountOfAskedMissionsProperty;
        this.amountOfMissionsInTheQueue=amountOfMissionsInTheQueue;
        this.isContestEnded=isContestEnded;
+       this.agentName=agentName;
     }
 
     public void setResultsList(List<BruteForceResultDTO> resultsList) {
@@ -69,7 +72,7 @@ public class AgentMissionRunnable implements Runnable {
             String convertedStringCode = machineEngineCopy.getCurrentCodeDescription();
             ConvertedStringDTO convertedStringDTOTemp = machineEngineCopy.getConvertedString(stringToConvert);
             if (machineEngineCopy.getTheMachineEngine().getDictionary().isStringExistsInTheDictionary(convertedStringDTOTemp.getConvertedString())) {
-                BruteForceResultDTO bruteForceResultDTO = new BruteForceResultDTO(missionNumber,convertedStringDTOTemp.getConvertedString(), alliesTeamName, convertedStringCode);
+                BruteForceResultDTO bruteForceResultDTO = new BruteForceResultDTO(missionNumber,convertedStringDTOTemp.getConvertedString(), alliesTeamName, convertedStringCode,agentName);
                 bruteForceResultDTO.setTheMissionNumber(missionNumber);
                 resultsList.add(bruteForceResultDTO);
             }

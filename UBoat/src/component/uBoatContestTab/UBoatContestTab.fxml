@@ -40,7 +40,7 @@
                </HBox.margin>
             </VBox>
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="477.0" prefWidth="421.0" spacing="10.0" HBox.hgrow="ALWAYS">
+            <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="477.0" prefWidth="421.0" spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
                   <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="91.0" prefViewportHeight="240.0" prefViewportWidth="600.0" prefWidth="421.0">
                      <content>
@@ -80,8 +80,13 @@
                   </ScrollPane>
                   <Button id="saveSettingsButton" fx:id="readyButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#readyButtonOnAction" text="Ready!">
                      <VBox.margin>
-                        <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
+                        <Insets left="25.0" right="25.0" top="5.0" />
                      </VBox.margin></Button>
+                  <Button fx:id="logoutButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Logout">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </Button>
                </children>
                <HBox.margin>
                   <Insets right="5.0" top="5.0" />
