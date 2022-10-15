@@ -600,11 +600,23 @@ public class AlliesContestController implements Closeable {
         Call call = HttpClientUtil.getOkHttpClient().newCall(request);
         Response response = call.execute();
         if (response.code() == 200) {
-            System.out.println("ok");
+            response.body().close();
 
         }
-        response.body().close();
-
+        else{
+            Platform.runLater(() -> {
+                {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    try {
+                        alert.setContentText(response.body().string());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    alert.getDialogPane().setExpanded(true);
+                    alert.showAndWait();
+                }
+            });
+        }
 /*
             Platform.runLater(() -> {
 
@@ -653,7 +665,20 @@ public class AlliesContestController implements Closeable {
                  displayTextWithCommas(Long.parseLong(maxAmount)));
 
         } else {
-            System.out.println("Not ok");
+
+                Platform.runLater(() -> {
+                    {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        try {
+                            alert.setContentText(response.body().string());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        alert.getDialogPane().setExpanded(true);
+                        alert.showAndWait();
+                    }
+                });
+
         }
 
     }

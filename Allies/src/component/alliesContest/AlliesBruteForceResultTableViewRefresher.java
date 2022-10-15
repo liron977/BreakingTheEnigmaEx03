@@ -1,7 +1,9 @@
 package component.alliesContest;
 
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.scene.control.Alert;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -55,6 +57,13 @@ public class AlliesBruteForceResultTableViewRefresher extends TimerTask {
         HttpClientUtil.runAsync(finalUrl, new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Platform.runLater(() ->{
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText(e.getMessage());
+                    alert.getDialogPane().setExpanded(true);
+                    alert.showAndWait();
+                }
+                );
 
             }
 

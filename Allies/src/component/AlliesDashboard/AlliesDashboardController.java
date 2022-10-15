@@ -463,6 +463,20 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
                     alert.showAndWait();
                     return false;
                 }
+                else{
+                    Platform.runLater(() -> {
+                        {
+                            Alert alertError = new Alert(Alert.AlertType.INFORMATION);
+                            try {
+                                alertError.setContentText(response.body().string());
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            alertError.getDialogPane().setExpanded(true);
+                            alertError.showAndWait();
+                        }
+                    });
+                }
             }
       return true;
     }

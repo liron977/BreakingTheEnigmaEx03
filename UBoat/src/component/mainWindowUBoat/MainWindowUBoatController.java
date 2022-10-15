@@ -140,6 +140,9 @@ public void setTheMachineSettingsDTO(TheMachineSettingsDTO theMachineSettingsDTO
 
             loadFileComponentController.setUserName(uBoatUserName);
         }
+        public void setCodeCalibration(){
+            machineTabController.getSetCodeConfigurationController().setCodeCalibration();
+        }
     public void setMachineDetails(){
             if(loadFileComponentController.getIsMachineDefinedProperty().getValue()) {
                 machineTabController.setMachineDetails();

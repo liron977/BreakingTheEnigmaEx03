@@ -4,6 +4,7 @@ import bruteForce.ContestStatusInfoDTO;
 import com.google.gson.Gson;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.scene.control.Alert;
 import okhttp3.*;
 import constants.Constants;
 import utils.http.HttpClientUtil;
@@ -73,18 +74,18 @@ public void setStringToConvert(String stringToConvert){
                 if(!isErrorOccurred) {
                     //todo:kill the timeout
                     isErrorOccurred=true;
-         /*           Platform.runLater(() -> {
+                    Platform.runLater(() -> {
                         {
-                           *//* Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
                             try {
                                 alert.setContentText(response.body().string());
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
                             alert.getDialogPane().setExpanded(true);
-                            alert.showAndWait();*//*
+                            alert.showAndWait();
                         }
-                    });*/
+                    });
                 }
             } else {
                 System.out.println("thread task 200");

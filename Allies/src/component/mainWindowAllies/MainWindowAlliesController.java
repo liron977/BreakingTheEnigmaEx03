@@ -42,6 +42,9 @@ public class MainWindowAlliesController {
             alliesDashboardController.setMainWindowAlliesController(this);
             alliesContestController.setMainWindowAlliesController(this);
             contestTabButton.setDisable(true);
+            dashboardTabButton.setOnSelectionChanged(e -> {
+                startDashboardRefreshersOnAction();
+            });
 
         }
     }
@@ -97,6 +100,10 @@ public void disableReadyButton(){
         alliesDashboardController.startAgentsTableViewRefresher();
         alliesContestController.close();
         contestTabButton.setDisable(true);
+    }
+    public void startDashboardRefreshersOnAction(){
+        alliesDashboardController.startUBoatContestsTableViewRefresher();
+        alliesDashboardController.startAgentsTableViewRefresher();
     }
     public void startContestStatusRefresher(){
         alliesContestController.startContestStatusRefresher();
