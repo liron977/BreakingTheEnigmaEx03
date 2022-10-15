@@ -64,11 +64,15 @@ public class AgentLoginController {
         this.errorMessageProperty = new SimpleStringProperty("");
     }
 
-    @FXML public void initialize() {
+    @FXML
+    public void initialize() {
         loginErrorLabel.textProperty().bind(errorMessageProperty);
     }
-
-
+    @FXML
+    void comboBoxnOnActionListener(ActionEvent event) {
+        errorMessageProperty.set("");
+        //  loginButton.setDisable(false);
+    }
     public void setContestStatusInfoDTOFromGson(ContestStatusInfoDTO contestStatusInfoDTOFromGson) {
         this.contestStatusInfoDTOFromGson = contestStatusInfoDTOFromGson;
     }
@@ -226,7 +230,6 @@ public class AgentLoginController {
                     );
                 }
                 else {
-
                     boolean isAddedSuccessfully=addAgentToAlliesTeam();
                     while(!isAddedSuccessfully){
                         Platform.runLater(() -> {

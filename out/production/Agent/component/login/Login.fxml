@@ -32,7 +32,7 @@
             <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="35.0">
                <children>
                   <Label id="lighterLabel" minHeight="-Infinity" minWidth="-Infinity" text="Allies Team:" />
-                  <ComboBox fx:id="alliesTeamComboBox" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="325.0" HBox.hgrow="ALWAYS">
+                  <ComboBox fx:id="alliesTeamComboBox" maxWidth="1.7976931348623157E308" onAction="#comboBoxnOnActionListener" prefHeight="25.0" prefWidth="325.0" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
