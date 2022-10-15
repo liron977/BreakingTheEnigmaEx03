@@ -24,11 +24,14 @@ public class DMAmountOfCreatedMissionsRefresher extends TimerTask {
     private final Consumer<DMAmountOfMissionsInfoDTO> updateAmountOfCreatedMissionConsumer;
     private final BooleanProperty shouldUpdate;
     private String alliesTeamName;
+    private String selectedBattleField;
 
-    public DMAmountOfCreatedMissionsRefresher(Consumer<DMAmountOfMissionsInfoDTO> updateAmountOfCreatedMissionConsumer, BooleanProperty shouldUpdate, String alliesTeamName) {
+
+    public DMAmountOfCreatedMissionsRefresher(String selectedBattleField,Consumer<DMAmountOfMissionsInfoDTO> updateAmountOfCreatedMissionConsumer, BooleanProperty shouldUpdate, String alliesTeamName) {
         this.updateAmountOfCreatedMissionConsumer = updateAmountOfCreatedMissionConsumer;
         this.shouldUpdate = shouldUpdate;
         this.alliesTeamName=alliesTeamName;
+        this.selectedBattleField=selectedBattleField;
     }
     @Override
     public void run() {
@@ -40,6 +43,7 @@ public class DMAmountOfCreatedMissionsRefresher extends TimerTask {
                 .parse(Constants.DM_GET_AMOUNT_OF_CREATED_MISSIONS)
                 .newBuilder()
                 .addQueryParameter("alliesTeamName", alliesTeamName)
+                .addQueryParameter("battlefield", selectedBattleField)
                 .build()
                 .toString();
         HttpClientUtil.runAsync(finalUrl, new Callback() {

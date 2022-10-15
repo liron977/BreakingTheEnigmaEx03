@@ -115,6 +115,7 @@ public class AlliesContestController implements Closeable {
     // ObservableList<AgentInfoDTO> agentInfoDTOObservableList;
     @FXML
     private Label uBoatIsNotReadyLabel;
+    private boolean isMessageUboatDontExistDisplayed;
 
     @FXML
     public void initialize() {
@@ -127,6 +128,7 @@ public class AlliesContestController implements Closeable {
         isMissionsCreated = false;
         isUboatSettingsCompleted = false;
         missionSize = 0;
+        isMessageUboatDontExistDisplayed=false;
     }
 
     public void setMissionSize(int missionSize) {
@@ -433,7 +435,7 @@ public class AlliesContestController implements Closeable {
             Platform.runLater(() -> {
                 this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());
                 this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
-                if (isContestEnded.getValue() && !isMessageDisplayedForFirstTime) {
+                if (isContestEnded.getValue() && !isMessageDisplayedForFirstTime&&(!alliesWinnerTeamName.equals(""))&&!isMessageUboatDontExistDisplayed) {
                     isMessageDisplayedForFirstTime = true;
                     isMissionsCreated = false;
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -495,7 +497,8 @@ public class AlliesContestController implements Closeable {
     }
 
     public void startDMAmountOfCreatedMissionsRefresherRefresher() {
-        amountOfCreatedMissionsRefresher = new DMAmountOfCreatedMissionsRefresher(
+        isMessageUboatDontExistDisplayed=false;
+        amountOfCreatedMissionsRefresher = new DMAmountOfCreatedMissionsRefresher(selectedBattleField,
                 this::updateAmountOfCreatedMissions, autoUpdate, alliesTeamName);
         timer = new Timer();
         timer.schedule(amountOfCreatedMissionsRefresher, REFRESH_RATE, REFRESH_RATE);
@@ -504,7 +507,25 @@ public class AlliesContestController implements Closeable {
     private void updateAmountOfCreatedMissions(DMAmountOfMissionsInfoDTO dmAmountOfMissionsInfoDTO) {
         if (!isContestEnded.getValue()) {
             Platform.runLater(() -> {
-                if (dmAmountOfMissionsInfoDTO.getAmountOfCreatedMissions() == 0l) {
+                if(!dmAmountOfMissionsInfoDTO.getIsUboatExist()&&!isMessageUboatDontExistDisplayed){
+                    try {
+                        isMessageUboatDontExistDisplayed=true;
+                        Alert alertToUb = new Alert(Alert.AlertType.INFORMATION);
+                        alertToUb.setContentText("The selected UBoat Logged out.");
+                        alertToUb.getDialogPane().setExpanded(true);
+                        alertToUb.showAndWait();
+                        agentsTableViewRefresher.cancel();
+                        agentsTableViewTimer.cancel();
+                        amountOfCreatedMissionsRefresher.cancel();
+                        mainWindowAlliesController.disableReadyButton();
+                        mainWindowAlliesController.changeToAlliesDashboardTab();
+
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                else{
+                 if (dmAmountOfMissionsInfoDTO.getAmountOfCreatedMissions() == 0l) {
                     uBoatIsNotReadyLabel.setText("The uboat is not ready yet");
                 } else {
                     uBoatIsNotReadyLabel.setText("");
@@ -513,7 +534,7 @@ public class AlliesContestController implements Closeable {
                         + displayTextWithCommas(dmAmountOfMissionsInfoDTO.getAmountOfCreatedMissions()));
               /*  totalAmountOfCreatedMissionsLabel.setText("The maximum amount of missions: "
                         + displayTextWithCommas(dmAmountOfMissionsInfoDTO.getTotalAmountOfCreatedMissions()));
-*/
+*/}
             });
         }
     }
@@ -580,7 +601,10 @@ public class AlliesContestController implements Closeable {
         Response response = call.execute();
         if (response.code() == 200) {
             System.out.println("ok");
+
         }
+        response.body().close();
+
 /*
             Platform.runLater(() -> {
 

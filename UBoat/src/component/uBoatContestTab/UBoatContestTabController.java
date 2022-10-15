@@ -869,10 +869,11 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                         alert.getDialogPane().setExpanded(true);
                         alert.showAndWait();
 
-                        mainWindowUBoatController.initLoadFileValues();
+                      mainWindowUBoatController.getPrimaryStage().close();
+                       /* mainWindowUBoatController.initLoadFileValues();
                         mainWindowUBoatController.initCodeConfiguration();
                         mainWindowUBoatController.initMachineDetails();
-                     mainWindowUBoatController.changeToMachineTab();
+                     mainWindowUBoatController.changeToMachineTab();*/
 
                     }
                  });

@@ -31,7 +31,7 @@ public class UBoatContestsRefresher extends TimerTask {
     }
     @Override
     public void run() {
-
+       // System.out.println("still here");
         String finalUrl = HttpUrl
                 .parse(Constants.UBOATS_CONTESTS_INFO)
                 .newBuilder()

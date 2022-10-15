@@ -116,6 +116,9 @@ public class UBoatLoginController {
         });
 
     }
+
+
+
     private void loadSuperScreen(){
         FXMLLoader fxmlLoader = new FXMLLoader();
         URL superScreenUrl = getClass().getResource("/component/mainWindowUBoat/MainWindowUBoat.fxml");

@@ -235,11 +235,11 @@ private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTable
                 }
             }*/
             updateContest(uBoatContestInfoDTOList);
-            totalUBoatContestsAmount.set(uBoatContestInfoDTOList.size());
+           // totalUBoatContestsAmount.set(uBoatContestInfoDTOList.size());
         });
     }
     public void updateContest(List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOList){
-
+        List<UBoatContestInfoWithCheckBoxDTO> toRemove=new ArrayList<>();
         ObservableList<UBoatContestInfoWithCheckBoxDTO>  contestsDataTableViewList=contestsDataTableView.getItems();
        for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO:contestsDataTableViewList) {
            boolean flag=false;
@@ -247,14 +247,12 @@ private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTable
                if(ubi2.getBattleFieldName().equals(uBoatContestInfoWithCheckBoxDTO.getBattleFieldName())){
                     flag=true;
                }
-             //   break;
-                //contestsDataTableViewList.getItems().remove(uBoatContestInfoWithCheckBoxDTO);
-
-            }
+                  }
            if(!flag){
-               contestsDataTableViewList.remove(uBoatContestInfoWithCheckBoxDTO);
+               toRemove.add(uBoatContestInfoWithCheckBoxDTO);
            }
         }
+       uBoatContestInfoDTOList.removeAll(toRemove);
        /* contestsDataTableView.getItems().clear();
         int index=0;
         for (UBoatContestInfoWithCheckBoxDTO TableViewUBoatContestDTO : uBoatContestInfoDTOList) {
@@ -514,6 +512,9 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
         alert.setContentText(text);
         alert.getDialogPane().setExpanded(true);
         alert.showAndWait();
+    }
+    public void disableReadyButton(){
+        isContestSelected.setValue(true);
     }
 
 }

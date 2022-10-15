@@ -182,6 +182,9 @@ public void changeToMachineTab(){
     uBoatMainTabPane.getSelectionModel().select(uBoatMachineTabButton);
 
 }
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
     public void updateAlliesTableView(){
         contestTabController.startAlliesInfoTableViewRefresher();
         contestTabController.startContestTableViewRefresher();

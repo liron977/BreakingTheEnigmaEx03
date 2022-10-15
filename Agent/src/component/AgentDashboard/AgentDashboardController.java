@@ -553,7 +553,7 @@ return isMissionsEnded;
                 this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());
                 this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
                 this.isContestActive=contestStatusInfoDTO.isContestActive();
-                if (isContestEnded.getValue()&&!isPopDisplayedForFirstTime) {
+                if (isContestEnded.getValue()&&!isPopDisplayedForFirstTime&&(!alliesWinnerTeamName.equals(""))) {
                     System.out.println("isMessageDisplayedForFirstTime =true");
                     isPopDisplayedForFirstTime =true;
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
