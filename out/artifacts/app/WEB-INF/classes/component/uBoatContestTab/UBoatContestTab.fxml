@@ -50,6 +50,11 @@
                      </content>
                   </ScrollPane>
                   <fx:include fx:id="currentCodeConfiguration" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" source="../uBoatMachineTab/machineTab/CodeConfigurationTableView.fxml" VBox.vgrow="ALWAYS" />
+                  <Button fx:id="resetButton" mnemonicParsing="false" onAction="#resetButtonOnAction" prefHeight="25.0" prefWidth="175.0" text="Reset Configuration">
+                     <VBox.margin>
+                        <Insets right="120.0" />
+                     </VBox.margin>
+                  </Button>
                   <Label id="GeneralLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="331.0" text="Please select words from the dictionary">
                      <VBox.margin>
                         <Insets />

@@ -259,6 +259,14 @@
         <servlet-name>UboatLogoutServlet</servlet-name>
         <url-pattern>/UboatLogoutServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ResetCodeConfigurationServlet</servlet-name>
+        <servlet-class>servlets.ResetCodeConfigurationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ResetCodeConfigurationServlet</servlet-name>
+        <url-pattern>/ResetCodeConfigurationServlet</url-pattern>
+    </servlet-mapping>
 
 
 </web-app>

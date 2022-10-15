@@ -97,6 +97,8 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     private MainWindowUBoatController mainWindowUBoatController;
     @FXML
     private Button logoutButton;
+    @FXML
+    private Button resetButton;
 
     BruteForceSettingsDTO bruteForceSettingsDTO;
     Mediator mediator;
@@ -386,16 +388,6 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     @FXML
     void stringToConvertTextFieldOnAction(ActionEvent event) {
 
-    }
-
-    @FXML
-    void resetButtonOnAction(ActionEvent event) {
-        engineManager.resetCurrentCode();
-        try {
-            fireEvent();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void setCurrentConfigurationLabel() {
@@ -882,6 +874,40 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                  });
 
             } else{
+                Platform.runLater(() -> {
+                    {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        try {
+                            alert.setContentText(response.body().string());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        alert.getDialogPane().setExpanded(true);
+                        alert.showAndWait();
+                    }
+                });
+            }
+        } catch (IOException e) {
+        }
+    }
+    @FXML
+    void resetButtonOnAction(ActionEvent event) {
+        String finalUrl = HttpUrl
+                .parse(Constants.RESET_CODE_CONFIGURATION)
+                .newBuilder()
+                .addQueryParameter("battlefield", battleName.trim())
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrl)
+                .build();
+        Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+        try {
+            Response response = call.execute();
+            if (response.code() == 200) {
+                currentCodeConfigurationController.setCurrentCodeConfiguration();
+            }
+            else {
                 Platform.runLater(() -> {
                     {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
