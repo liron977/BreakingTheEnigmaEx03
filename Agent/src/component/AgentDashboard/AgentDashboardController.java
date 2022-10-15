@@ -291,12 +291,6 @@ public class AgentDashboardController implements Closeable {
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
-                    Platform.runLater(() -> {
-                        {
-
-                        }
-
-                    });
 
                 }
                 if (response.code() != 200) {
@@ -307,7 +301,7 @@ public class AgentDashboardController implements Closeable {
                                 if(isContestEnded.getValue()){
                                     return;
                                 }
-                                String message = "The Missions ended";
+                               /* String message = "The Missions ended";
                                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                                 try {
                                     alert.setContentText(response.body().string() + message);
@@ -315,11 +309,25 @@ public class AgentDashboardController implements Closeable {
                                     throw new RuntimeException(e);
                                 }
                                 alert.getDialogPane().setExpanded(true);
-                                alert.showAndWait();
+                                alert.showAndWait();*/
 
                             }
                         });
                         isMissionsEnded = true;
+                    }
+                    else{
+                        Platform.runLater(() -> {
+                            {
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                try {
+                                    alert.setContentText(response.body().string());
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                alert.getDialogPane().setExpanded(true);
+                                alert.showAndWait();
+                            }
+                        });
                     }
                 }
             } catch (IOException e) {
@@ -592,7 +600,7 @@ private void updateAgentStatus(){
     try {
         Response response = call.execute();
         if (response.code() != 200) {
-           /* Platform.runLater(() -> {
+            Platform.runLater(() -> {
                 {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     try {
@@ -603,7 +611,7 @@ private void updateAgentStatus(){
                     alert.getDialogPane().setExpanded(true);
                     alert.showAndWait();
                 }
-            });*/
+            });
         } else {
 
         }

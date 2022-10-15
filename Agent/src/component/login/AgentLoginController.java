@@ -134,11 +134,12 @@ public class AgentLoginController {
     }
     private boolean isDataValid(){
         boolean isMissionsAmountValid=true;
+
         try {
             missionAmount = Integer.parseInt(missionAmountTextFiled.getText());
         }
         catch (Exception e){
-            displayErrors("The mission amount should be a number.\n Please insert positive number.");
+            displayErrors("The mission amount should be a number \n between 1 - 2,147,483,647");
             isMissionsAmountValid=false;
         }
         if(missionAmount<=0&&isMissionsAmountValid){

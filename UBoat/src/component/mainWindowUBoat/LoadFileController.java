@@ -230,6 +230,7 @@ public class LoadFileController {
                 alert.getDialogPane().setExpanded(true);
                 alert.showAndWait();
                 loadFileButton.setDisable(true);
+              //  mainWindowUBoatController.setCodeCalibration();
             });}
         else{
             isMachineDefined.set(false);

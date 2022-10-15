@@ -168,15 +168,17 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     @FXML
     void listViewClickOnItem(MouseEvent event) {
         String selectedItem = listView.getSelectionModel().getSelectedItem();
-        int index = listView.getSelectionModel().getSelectedIndex();
-        String currentString = stringToConvertTextArea.getText().toUpperCase();
-        if (!currentString.equals("")) {
-            currentString = currentString.concat(" ");
+        if(selectedItem!=null) {
+            int index = listView.getSelectionModel().getSelectedIndex();
+            String currentString = stringToConvertTextArea.getText().toUpperCase();
+            if (!currentString.equals("")) {
+                currentString = currentString.concat(" ");
+            }
+            String updatedSting = currentString.concat(selectedItem);
+            stringToConvertTextArea.setText(updatedSting);
+            listView.getSelectionModel().clearSelection();
+            searchTextField.clear();
         }
-        String updatedSting = currentString.concat(selectedItem);
-        stringToConvertTextArea.setText(updatedSting);
-        listView.getSelectionModel().clearSelection();
-        searchTextField.clear();
     }
 
     public BruteForceSettingsDTO getBruteForceSettingsDTO() {
@@ -320,8 +322,8 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         // difficultyLevelComboBox.getSelectionModel().clearSelection();
         //  amountOfAgentsSlider.setValue(1);
         // sizeOfMission.setText("");
-        stringToConvertTextArea.setText("");
-        convertedStringTextArea.setText("");
+     /*   stringToConvertTextArea.setText("");
+        convertedStringTextArea.setText("");*/
     }
 
     /*    @FXML
@@ -573,7 +575,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         try {
             Response response = call.execute();
             if (response.code() != 200) {
-               /* Platform.runLater(() -> {
+                Platform.runLater(() -> {
                     {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         try {
@@ -584,7 +586,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                         alert.getDialogPane().setExpanded(true);
                         alert.showAndWait();
                     }
-                });*/
+                });
             } else {
                 try {
                     ConvertedStringProcessDTO convertedStringProcessDTOFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), ConvertedStringProcessDTO.class);
@@ -646,7 +648,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
             try {
                 Response response = call.execute();
                 if (response.code() != 200) {
-               /* Platform.runLater(() -> {
+                Platform.runLater(() -> {
                     {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         try {
@@ -657,7 +659,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                         alert.getDialogPane().setExpanded(true);
                         alert.showAndWait();
                     }
-                });*/
+                });
                 } else {
                     readyButton.setDisable(true);
 
@@ -827,7 +829,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
             try {
                 Response response = call.execute();
                 if (response.code() != 200) {
-               /* Platform.runLater(() -> {
+                Platform.runLater(() -> {
                     {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         try {
@@ -838,7 +840,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                         alert.getDialogPane().setExpanded(true);
                         alert.showAndWait();
                     }
-                });*/
+                });
                 } else {
 
                 }
@@ -870,6 +872,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                         alert.showAndWait();
 
                       mainWindowUBoatController.getPrimaryStage().close();
+                      mainWindowUBoatController.getPrimaryStage().close();
                        /* mainWindowUBoatController.initLoadFileValues();
                         mainWindowUBoatController.initCodeConfiguration();
                         mainWindowUBoatController.initMachineDetails();
@@ -878,6 +881,19 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                     }
                  });
 
+            } else{
+                Platform.runLater(() -> {
+                    {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        try {
+                            alert.setContentText(response.body().string());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        alert.getDialogPane().setExpanded(true);
+                        alert.showAndWait();
+                    }
+                });
             }
         } catch (IOException e) {
         }

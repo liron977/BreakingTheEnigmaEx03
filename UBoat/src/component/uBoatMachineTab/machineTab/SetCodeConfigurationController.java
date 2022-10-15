@@ -57,11 +57,13 @@ public class SetCodeConfigurationController implements EventsHandler {
     private SimpleBooleanProperty isInitNeeded;
     private SimpleBooleanProperty isCodeDefined;
     private SimpleBooleanProperty isMachineDefined;
+    private boolean isCalibrationAlreadySet;
     @FXML
     public void initialize() {
         isCodeDefined = new SimpleBooleanProperty(false);
         clearButton.disableProperty().bind(isMachineDefined.not());
        // clearButton.setDisable(true);
+        isCalibrationAlreadySet=false;
     }
     public SetCodeConfigurationController() {
         isMachineDefined=new SimpleBooleanProperty(false);
@@ -140,7 +142,10 @@ public class SetCodeConfigurationController implements EventsHandler {
     }
     public void setTheMachineSettingsDTO(TheMachineSettingsDTO theMachineSettingsDTO){
        this.theMachineSettingsDTO=theMachineSettingsDTO;
-        setCodeCalibration();
+       if(!isCalibrationAlreadySet) {
+           setCodeCalibration();
+           isCalibrationAlreadySet=true;
+       }
     }
     public void setUBoatMachineTabController(UBoatMachineTabController uBoatMachineTabController){
         this.uBoatMachineTabController=uBoatMachineTabController;

@@ -3,7 +3,9 @@ package component.AlliesDashboard;
 import bruteForce.UBoatContestInfoWithCheckBoxDTO;
 import bruteForce.UBoatContestInfoWithoutCheckBoxDTO;
 import com.google.gson.reflect.TypeToken;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
+import javafx.scene.control.Alert;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -40,14 +42,14 @@ public class UBoatContestsRefresher extends TimerTask {
         HttpClientUtil.runAsync(finalUrl, new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-               /* Platform.runLater(() -> {
+                Platform.runLater(() -> {
                     {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setContentText(e.getMessage());
                         alert.getDialogPane().setExpanded(true);
                         alert.showAndWait();
                     }
-                });*/
+                });
             }
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
