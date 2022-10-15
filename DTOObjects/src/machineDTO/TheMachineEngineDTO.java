@@ -10,11 +10,11 @@ public class TheMachineEngineDTO {
     int amountOfUsedRotors;
     private int keyboardSize;
 
-    public TheMachineEngineDTO(List<String> usedRotorsId,int keyboardSize, String reflectorId/*,List<String> reflectorSetId*/){
+    public TheMachineEngineDTO(List<String> usedRotorsId,int keyboardSize, String reflectorId,int amountOfUsedRotors/*,List<String> reflectorSetId*/){
      this.usedRotorsId=usedRotorsId;
 //     this.rotorsSetId=rotorsSetId;
      this.reflectorId=reflectorId;
-     this.amountOfUsedRotors=usedRotorsId.size();
+     this.amountOfUsedRotors=amountOfUsedRotors;
      this.keyboardSize=keyboardSize;
 //     this.reflectorSetId=reflectorSetId;
      }

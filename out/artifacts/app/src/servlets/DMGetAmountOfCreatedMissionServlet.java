@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import managers.uBoatEngine.AlliesManager;
+import managers.uBoatEngine.MediatorForEngineManager;
 import utils.ServletUtils;
 
 import java.io.IOException;
@@ -19,10 +20,13 @@ public class DMGetAmountOfCreatedMissionServlet extends HttpServlet {
             response.setContentType("application/json");
             AlliesManager alliesManager= ServletUtils.getAlliesManager(getServletContext());
             String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
+            String battlefield = request.getParameter(ParametersConstants.BATTLE_FIELD);
+            MediatorForEngineManager mediatorForEngineManager=ServletUtils.getMediatorForEngineManager(getServletContext());
+
             Long amountOfCreatedMissions=alliesManager.getAmountOfCreadedMission(theAlliesTeamName);
             Long totalAmountOfCreatedMissions= alliesManager.getTotalAmountOfCreadedMission(theAlliesTeamName);
             DMAmountOfMissionsInfoDTO dmAmountOfMissionsInfoDTO=new
-                    DMAmountOfMissionsInfoDTO(totalAmountOfCreatedMissions,amountOfCreatedMissions);
+                    DMAmountOfMissionsInfoDTO(mediatorForEngineManager.isBattleExists(battlefield),totalAmountOfCreatedMissions,amountOfCreatedMissions);
             Gson gson = new Gson();
             String json = gson.toJson(dmAmountOfMissionsInfoDTO);
             out.println(json);

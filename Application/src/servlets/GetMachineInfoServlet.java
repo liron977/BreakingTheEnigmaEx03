@@ -33,7 +33,7 @@ public class GetMachineInfoServlet extends HttpServlet {
             if (engineManager != null) {
                 TheMachineEngineDTO theMachineEngineDTO = new TheMachineEngineDTO(engineManager.getMachineUsedRotorsId()
                         , engineManager.getKeyboardAsArray().length,
-                        engineManager.getMachineReflectorId()
+                        engineManager.getMachineReflectorId(),engineManager.getAmountOfUsedRotors()
                 );
                 try {
                     String json = gson.toJson(theMachineEngineDTO);

@@ -254,12 +254,15 @@ public class TheMachineEngine implements Serializable {
     }
 
     public List<String> getUsedRotorsListId() {
-        List<Rotor> rotorsList = usedRotors.getRotors();
-        List<String> rotorsIdList = new ArrayList<>();
-        for (Rotor rotor : rotorsList) {
-            rotorsIdList.add(rotor.getRotorId());
+        if(usedRotors!=null) {
+            List<Rotor> rotorsList = usedRotors.getRotors();
+            List<String> rotorsIdList = new ArrayList<>();
+            for (Rotor rotor : rotorsList) {
+                rotorsIdList.add(rotor.getRotorId());
+            }
+            return rotorsIdList;
         }
-        return rotorsIdList;
+        return null;
     }
 
     public List<String> getRotorsSetListId() {
@@ -271,7 +274,10 @@ public class TheMachineEngine implements Serializable {
         return rotorsIdList;
     }
     public String getSelectedRelflectorId() {
-        return reflector.getReflectorId();
+        if(reflector!=null) {
+            return reflector.getReflectorId();
+        }
+        return null;
     }
     public List<String> getReflectorsSetId() {
         return reflectorsSet.getReflectorsId();

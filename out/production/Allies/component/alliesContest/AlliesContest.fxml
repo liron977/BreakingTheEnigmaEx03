@@ -21,9 +21,9 @@
                   <Label id="GeneralLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Candidates" />
                   <TableView fx:id="contestCandidatesTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="422.0" prefWidth="330.0" VBox.vgrow="ALWAYS">
                      <columns>
-                        <TableColumn fx:id="stringColumn" maxWidth="61.0" prefWidth="60.66668840249349" text="String" />
-                        <TableColumn fx:id="resultTableAgentNameColumn" maxWidth="101.0" prefWidth="100.00003433227539" text="Agent Name" />
-                        <TableColumn fx:id="codeConfigurationColumn" maxWidth="-1.0" minWidth="150.0" prefWidth="147.99998474121094" text="Code Configuration" />
+                        <TableColumn fx:id="stringColumn" maxWidth="1.7976931348623157E308" prefWidth="60.66668840249349" text="String" />
+                        <TableColumn fx:id="resultTableAgentNameColumn" maxWidth="1.7976931348623157E308" prefWidth="100.00003433227539" text="Agent Name" />
+                        <TableColumn fx:id="codeConfigurationColumn" maxWidth="1.7976931348623157E308" minWidth="150.0" prefWidth="147.99998474121094" text="Code Configuration" />
                      </columns>
                      <padding>
                         <Insets bottom="10.0" />
