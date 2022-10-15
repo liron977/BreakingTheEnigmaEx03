@@ -32,7 +32,7 @@ public class AgentGetMissionsServlet extends HttpServlet {
             List<TheMissionInfoDTO> theMissionInfoList = new ArrayList<>();
             UBoatAvailableContestsManager uBoatAvailableContestsManager = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
             EngineManager engineManager = uBoatAvailableContestsManager.getEngineMangerByAlliesTeamName(theAlliesTeamName);
-            System.out.println(theAlliesTeamName+"AgentGetMissionsServlet");
+            /*System.out.println(theAlliesTeamName+"AgentGetMissionsServlet");*/
             int counter = 0;
             if (engineManager != null) {
                 if (!engineManager.isAlliesExists(theAlliesTeamName)) {
@@ -73,7 +73,7 @@ public class AgentGetMissionsServlet extends HttpServlet {
                     }
                 }
             }
-            System.out.println("engine is null");
+           // System.out.println("engine is null");
         }
         catch (Exception e) {
             throw new RuntimeException(e);
