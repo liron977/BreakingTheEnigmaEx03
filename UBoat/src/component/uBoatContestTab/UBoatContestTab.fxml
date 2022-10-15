@@ -15,25 +15,21 @@
 
 <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="493.0" prefWidth="852.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.uBoatContestTab.UBoatContestTabController">
    <content>
-      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="477.0" prefWidth="830.0" spacing="5.0">
+      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="477.0" prefWidth="830.0" spacing="5.0">
          <children>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
                <children>
                   <Label id="GeneralLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Candidates" VBox.vgrow="ALWAYS" />
-                  <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="511.0" prefViewportHeight="240.0" prefViewportWidth="600.0" prefWidth="410.0" VBox.vgrow="ALWAYS">
-                     <content>
-                        <TableView fx:id="contestCandidatesTableView" maxHeight="1.7976931348623157E308" prefHeight="448.0" prefWidth="405.0">
-                          <columns>
-                            <TableColumn fx:id="stringColumn" maxWidth="1.7976931348623157E308" prefWidth="109.99999749660492" text="String" />
-                            <TableColumn fx:id="alliesNameColumn" maxWidth="1.7976931348623157E308" prefWidth="131.3333511352539" text="Allies Team Name" />
-                              <TableColumn fx:id="codeConfigurationColumn" maxWidth="1.7976931348623157E308" prefWidth="164.66661071777344" text="Code Configuration" />
-                          </columns>
-                           <padding>
-                              <Insets bottom="10.0" />
-                           </padding>
-                        </TableView>
-                     </content>
-                  </ScrollPane>
+                  <TableView fx:id="contestCandidatesTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="448.0" prefWidth="405.0" VBox.vgrow="SOMETIMES">
+                    <columns>
+                      <TableColumn fx:id="stringColumn" maxWidth="110.0" minWidth="-Infinity" prefWidth="109.99999749660492" text="String" />
+                      <TableColumn fx:id="alliesNameColumn" maxWidth="130.0" minWidth="-Infinity" prefWidth="131.3333511352539" text="Allies Team Name" />
+                        <TableColumn fx:id="codeConfigurationColumn" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="164.66661071777344" text="Code Configuration" />
+                    </columns>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                  </TableView>
                </children>
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" />
@@ -48,7 +44,7 @@
                            <columns>
                               <TableColumn fx:id="alliesTeamNameColumn" maxWidth="1.7976931348623157E308" prefWidth="208.66678869724274" text="Allies Team" />
                               <TableColumn fx:id="agentsAmountColumn" maxWidth="1.7976931348623157E308" prefWidth="103.33322143554688" text="Agents Amount" />
-                              <TableColumn fx:id="missionSizeColumn" maxWidth="1.7976931348623157E308" prefWidth="92.6666259765625" text="Mission Size" />
+                              <TableColumn fx:id="missionSizeColumn" maxWidth="1.7976931348623157E308" prefWidth="86.66668701171875" text="Mission Size" />
                            </columns>
                         </TableView>
                      </content>

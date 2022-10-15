@@ -10,7 +10,7 @@
 
 <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="794.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.AgentDashboard.AgentDashboardController">
   <content>
-      <VBox alignment="TOP_CENTER" spacing="5.0">
+      <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="8.0">
          <children>
             <HBox alignment="CENTER">
                <children>
@@ -31,12 +31,12 @@
                </content>
             </ScrollPane>
             <Label prefHeight="17.0" prefWidth="88.0" text="Missions Status" />
-            <HBox prefHeight="31.0" prefWidth="791.0" spacing="20.0">
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="31.0" prefWidth="791.0" spacing="20.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Label fx:id="amountDoneMissionsPerAgentLabel" />
-                  <Label fx:id="currentAmountOfMissionsInTheQueue" />
-                  <Label fx:id="amountOfAskedMissionsLabel" />
-                  <Label fx:id="amountOfCandidatesStrings" />
+                  <Label fx:id="amountDoneMissionsPerAgentLabel" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" />
+                  <Label fx:id="currentAmountOfMissionsInTheQueue" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" />
+                  <Label fx:id="amountOfAskedMissionsLabel" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" />
+                  <Label fx:id="amountOfCandidatesStrings" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" />
                </children>
                <VBox.margin>
                   <Insets left="5.0" />
