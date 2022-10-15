@@ -10,7 +10,7 @@
 
 <ScrollPane fx:id="codeConfigurationScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="76.0" prefWidth="424.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.uBoatMachineTab.machineTab.CurrentConfigurationTableViewController">
    <content>
-      <GridPane fx:id="codeConfigurationGridPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
+      <GridPane id="codeConfigurationTableView" fx:id="codeConfigurationGridPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
          </columnConstraints>
@@ -19,7 +19,7 @@
             <RowConstraints maxHeight="50.33334541320801" minHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <TableView fx:id="codeConfigurationTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+            <TableView id="codeConfigurationTableView" fx:id="codeConfigurationTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
               <columns>
                 <TableColumn fx:id="rotorsColumn" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="77.33331310749054" text="Rotors" />
                 <TableColumn fx:id="positionsAndNotchColumn" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="127.3333740234375" text="Positions and Notch" />

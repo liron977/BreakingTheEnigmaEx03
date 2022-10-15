@@ -162,13 +162,16 @@ public List<String> getAlliesRegisteredNames(){
        if(role.equals("allies")) {
            alliesActiveTeamsAmount = 0;
        }
+       else{
+           this.convertedString="";
+           this.stringToConvert="";
+           this.isUboatReady=false;
+           this.isConvertedStringSet=false;
+       }
         this.contestStatus="Wait..";
-        this.convertedString="";
-        this.stringToConvert="";
-        this.isUboatReady=false;
         this.isContestEnded=false;
         this.alliesWinnwerTeamName="";
-        this.isConvertedStringSet=false;
+
        // this.isAlliesConfirmedGameOver=false;
     }
     public void clearAlliesRegisteredToContestList(){
@@ -182,6 +185,11 @@ public List<String> getAlliesRegisteredNames(){
     }
     public void setAlliesWinnwerTeamName(String alliesWinnwerTeamName) {
         this.alliesWinnwerTeamName = alliesWinnwerTeamName;
+        this.contestStatus="Wait..";
+        this.convertedString="";
+        this.stringToConvert="";
+        this.isUboatReady=false;
+        this.isConvertedStringSet=false;
     }
     public void setAlliesConfirmedGameOver(boolean alliesConfirmedGameOver) {
         isAlliesConfirmedGameOver = alliesConfirmedGameOver;

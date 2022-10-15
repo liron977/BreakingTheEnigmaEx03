@@ -621,6 +621,8 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     }
     @FXML
     void readyButtonOnAction(ActionEvent event) throws Exception {
+        startContestStatusRefresher();
+        logoutButton.setVisible(false);
         if(convertedStringTextArea.getText().isEmpty()){
             List<String> error=new ArrayList<>();
             error.add("Please decrypt message");
@@ -889,6 +891,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         stringToConvertTextArea.clear();
         isMessageDisplayedForFirstTime=false;
         isContestEnded.set(false);
+        readyButton.setDisable(false);
         if (BruteForceResultTableViewRefresher!=null&&contestStatusRefresher!=null&&alliesRegisteredTeamsRefresher != null && timer!= null && BruteForceResultTableViewRefresherTimer!= null) {
             alliesRegisteredTeamsRefresher.cancel();
             alliesRegisteredTeamsRefresher.cancel();
