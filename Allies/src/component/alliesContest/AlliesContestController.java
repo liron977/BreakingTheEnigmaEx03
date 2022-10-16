@@ -611,7 +611,29 @@ public class AlliesContestController implements Closeable {
         isContestEnded.setValue(false);
         alliesWinnerTeamName = "";
         isMessageDisplayedForFirstTime = false;
+       // isMissionsCreated=false;
         //  agentInfoDTOObservableList= FXCollections.observableArrayList();
+    }
+    public void reset(){
+        activeTeamsDetailsTableView.getItems().clear();
+        contestCandidatesTableView.getItems().clear();
+        dmAmountOfCreatedMissionsLabel.setText("0");
+        amountOfDoneMissions.setText("0");
+        totalAmountOfCreatedMissionsLabel.setText("0");
+        /*    missionSizeTextField.setText("0");*/
+        //selectedBattleField = "";
+        autoUpdate = new SimpleBooleanProperty(true);
+        contestCandidatesTableView.getItems().clear();
+        agentsMissionsStatusTableView.getItems().clear();
+        totalBruteResultAmount.setValue(0);
+        contestResultsInfoVersion.setValue(0);
+       // convertedString = "";
+        isContestEnded.setValue(false);
+        alliesWinnerTeamName = "";
+        isMessageDisplayedForFirstTime = false;
+
+        isMissionsCreated=false;
+
     }
 
     public void setThreadTask(AlliesThreadTask threadTask) {

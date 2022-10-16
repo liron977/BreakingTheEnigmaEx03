@@ -9,6 +9,7 @@ import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import machineEngine.EngineManager;
 import javafx.application.Platform;
@@ -915,6 +916,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         //uBoatLoginController.setMediator(mediator);
         uBoatLoginController.setPrimaryStageAndLoadInTheBackgroundSuperScreen(primaryStage);
         primaryStage.setTitle("UBoat");
+        primaryStage.getIcons().add(new Image("/Resources/uboatIcon.jpg"));
         Scene scene = new Scene(root);
         primaryStage.setMinHeight(300f);
         primaryStage.setMinWidth(400f);

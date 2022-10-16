@@ -78,6 +78,10 @@ public class MainWindowAlliesController {
     }
 
     public void changeToContestTab() throws IOException {
+
+
+        //alliesContestController.close();
+
         contestTabButton.setDisable(false);
         dashboardTabButton.setDisable(true);
         alliesTabPane.getSelectionModel().select(contestTabButton);
@@ -85,7 +89,6 @@ public class MainWindowAlliesController {
         alliesContestController.startContestResultsTableViewRefresher();
         alliesContestController.startContestInfoTableViewRefresher();
         alliesContestController.startAgentsTableViewRefresher();
-        alliesContestController.startDMAmountOfCreatedMissionsRefresherRefresher();
         alliesContestController.updateMaxAmountOfMissions();
         alliesDashboardController.close();
     }
@@ -106,6 +109,11 @@ public void disableReadyButton(){
     }
     public void startContestStatusRefresher(){
         alliesContestController.startContestStatusRefresher();
+        alliesContestController.startDMAmountOfCreatedMissionsRefresherRefresher();
+    }
+    public void alliesContestControllerDeleteValues() throws IOException {
+        alliesContestController.close();
+        alliesContestController.reset();
     }
 
     public AlliesContestController getAlliesContestController() {
