@@ -514,11 +514,11 @@ public class AlliesContestController implements Closeable {
     }
 
     private void updateAmountOfCreatedMissions(DMAmountOfMissionsInfoDTO dmAmountOfMissionsInfoDTO) {
-        if (!isContestEnded.getValue()) {
-            Platform.runLater(() -> {
-                if(!dmAmountOfMissionsInfoDTO.getIsUboatExist()&&!isMessageUboatDontExistDisplayed){
-                    try {
-                        isMessageUboatDontExistDisplayed=true;
+
+            if (!dmAmountOfMissionsInfoDTO.getIsUboatExist() && !isMessageUboatDontExistDisplayed) {
+
+                    Platform.runLater(() -> {
+                        isMessageUboatDontExistDisplayed = true;
                         Alert alertToUb = new Alert(Alert.AlertType.INFORMATION);
                         alertToUb.setContentText("The selected UBoat Logged out.");
                         alertToUb.getDialogPane().setExpanded(true);
@@ -528,6 +528,31 @@ public class AlliesContestController implements Closeable {
                         agentsTableViewTimer.cancel();
                         amountOfCreatedMissionsRefresher.cancel();*/
                         mainWindowAlliesController.disableReadyButton();
+                        try {
+                            close();
+                            mainWindowAlliesController.changeToAlliesDashboardTab();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    });
+
+
+
+            } else if (!isContestEnded.getValue()) {
+                Platform.runLater(() -> {
+               /* if(!dmAmountOfMissionsInfoDTO.getIsUboatExist()&&!isMessageUboatDontExistDisplayed){
+                    try {
+                        isMessageUboatDontExistDisplayed=true;
+                        Alert alertToUb = new Alert(Alert.AlertType.INFORMATION);
+                        alertToUb.setContentText("The selected UBoat Logged out.");
+                        alertToUb.getDialogPane().setExpanded(true);
+                        alertToUb.showAndWait();
+                       *//* alliesRegisteredTeamsRefresher.cancel();
+                        agentsTableViewRefresher.cancel();
+                        agentsTableViewTimer.cancel();
+                        amountOfCreatedMissionsRefresher.cancel();*//*
+                        mainWindowAlliesController.disableReadyButton();
                         close();
                         mainWindowAlliesController.changeToAlliesDashboardTab();
 
@@ -535,21 +560,22 @@ public class AlliesContestController implements Closeable {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                }
-                else{
-                 if (dmAmountOfMissionsInfoDTO.getAmountOfCreatedMissions() == 0l) {
-                    uBoatIsNotReadyLabel.setText("The uboat is not ready yet");
-                } else {
-                    uBoatIsNotReadyLabel.setText("");
-                }
-                dmAmountOfCreatedMissionsLabel.setText("The amount of created missions: "
-                        + displayTextWithCommas(dmAmountOfMissionsInfoDTO.getAmountOfCreatedMissions()));
+                }*/
+                    /*else{*/
+                    if (dmAmountOfMissionsInfoDTO.getAmountOfCreatedMissions() == 0l) {
+                        uBoatIsNotReadyLabel.setText("The uboat is not ready yet");
+                    } else {
+                        uBoatIsNotReadyLabel.setText("");
+                    }
+                    dmAmountOfCreatedMissionsLabel.setText("The amount of created missions: "
+                            + displayTextWithCommas(dmAmountOfMissionsInfoDTO.getAmountOfCreatedMissions()));
               /*  totalAmountOfCreatedMissionsLabel.setText("The maximum amount of missions: "
                         + displayTextWithCommas(dmAmountOfMissionsInfoDTO.getTotalAmountOfCreatedMissions()));
-*/}
-            });
+*/
+                });
+            }
         }
-    }
+
 
     public String displayTextWithCommas(Long amount) {
         StringBuilder amountWithCommas = new StringBuilder("");
