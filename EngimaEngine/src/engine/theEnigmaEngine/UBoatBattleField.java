@@ -186,13 +186,13 @@ public List<String> getAlliesRegisteredNames(){
     public void setAlliesWinnwerTeamName(String alliesWinnwerTeamName) {
         this.alliesWinnwerTeamName = alliesWinnwerTeamName;
         this.contestStatus="Wait..";
-        this.convertedString="";
-        this.stringToConvert="";
         this.isUboatReady=false;
         this.isConvertedStringSet=false;
     }
     public void setAlliesConfirmedGameOver(boolean alliesConfirmedGameOver) {
         isAlliesConfirmedGameOver = alliesConfirmedGameOver;
+        this.convertedString="";
+        this.stringToConvert="";
     }
     public boolean getIsAlliesConfirmedGameOver(){
         return isAlliesConfirmedGameOver;

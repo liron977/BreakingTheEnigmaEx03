@@ -2,9 +2,14 @@ package component.uBoatContestTab;
 
 import bruteForce.*;
 import com.google.gson.Gson;
+import component.login.UBoatLoginController;
 import component.mainWindowUBoat.MainWindowUBoatController;
 import component.uBoatMachineTab.machineTab.CurrentConfigurationTableViewController;
 import javafx.event.Event;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import machineEngine.EngineManager;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -26,6 +31,7 @@ import utils.http.HttpClientUtil;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -114,13 +120,15 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     private IntegerProperty totalAlliesRegisteredTeamsAmount;
     private IntegerProperty totalBruteResultAmount;
     private TimerTask alliesRegisteredTeamsRefresher;
+    private Timer startAlliesInfoTableViewTimer;
     private TimerTask BruteForceResultTableViewRefresher;
     private Timer BruteForceResultTableViewRefresherTimer;
-    private Timer startAlliesInfoTableViewTimer;
+
+    private TimerTask contestStatusRefresher;
     private IntegerProperty contestResultsInfoVersion;
 
     private  SimpleBooleanProperty autoUpdate;
-    private TimerTask contestStatusRefresher;
+
     private SimpleBooleanProperty isContestEnded;
     private String alliesWinnerTeamName;
     private boolean isMessageDisplayedForFirstTime;
@@ -864,7 +872,13 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                         alert.showAndWait();
 
                       mainWindowUBoatController.getPrimaryStage().close();
-                      mainWindowUBoatController.getPrimaryStage().close();
+                     try {
+                         openLoginForm();
+                     } catch (IOException e) {
+                         throw new RuntimeException(e);
+                     }
+
+
                        /* mainWindowUBoatController.initLoadFileValues();
                         mainWindowUBoatController.initCodeConfiguration();
                         mainWindowUBoatController.initMachineDetails();
@@ -889,6 +903,25 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
             }
         } catch (IOException e) {
         }
+    }
+    public void openLoginForm() throws IOException {
+        Stage primaryStage=new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        URL url = getClass().getResource("/component/login/Login.fxml");
+        //URL url = getClass().getResource("/component/mainWindowUBoat/MainWindowUBoat.fxml");
+        fxmlLoader.setLocation(url);
+        Parent root = fxmlLoader.load(url.openStream());
+        UBoatLoginController uBoatLoginController = fxmlLoader.getController();
+        //uBoatLoginController.setMediator(mediator);
+        uBoatLoginController.setPrimaryStageAndLoadInTheBackgroundSuperScreen(primaryStage);
+        primaryStage.setTitle("UBoat");
+        Scene scene = new Scene(root);
+        primaryStage.setMinHeight(300f);
+        primaryStage.setMinWidth(400f);
+        scene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
+        scene.getStylesheets().add("");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
     @FXML
     void resetButtonOnAction(ActionEvent event) {
@@ -943,6 +976,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
             BruteForceResultTableViewRefresherTimer.cancel();
             startAlliesInfoTableViewTimer.cancel();
             timer.cancel();
+
         }
     }
 }

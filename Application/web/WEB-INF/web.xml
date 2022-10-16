@@ -267,6 +267,4 @@
         <servlet-name>ResetCodeConfigurationServlet</servlet-name>
         <url-pattern>/ResetCodeConfigurationServlet</url-pattern>
     </servlet-mapping>
-
-
 </web-app>

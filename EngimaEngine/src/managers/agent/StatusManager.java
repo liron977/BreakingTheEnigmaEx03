@@ -27,6 +27,10 @@ public class StatusManager {
         }
         return null;
     }
+    public synchronized void removeUboat(String uboatName) {
+        statusManagersMap.remove(uboatName);
+    }
+
     public synchronized void deleteHistory(){
         Map<String, ContestStatusInfoDTO> statusManagersMap = new HashMap<>();
     }

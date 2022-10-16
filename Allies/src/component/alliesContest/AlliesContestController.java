@@ -107,10 +107,12 @@ public class AlliesContestController implements Closeable {
     private boolean isUboatSettingsCompleted;
 
     private TimerTask contestStatusRefresher;
+    private Timer contestStatusRefresherTimer;
     private SimpleBooleanProperty isContestEnded;
     private String alliesWinnerTeamName;
     private boolean isMessageDisplayedForFirstTime;
     private TimerTask amountOfCreatedMissionsRefresher;
+    private Timer amountOfCreatedMissionsRefresherTimer;
     boolean isMissionsCreated;
     // ObservableList<AgentInfoDTO> agentInfoDTOObservableList;
     @FXML
@@ -342,7 +344,7 @@ public class AlliesContestController implements Closeable {
         contestInfoRefresher = new AlliesSelectedContestInfoTablesViewRefresher(
                 this::updateContestInfoTableView, autoUpdate, alliesTeamName);
         contestInfoRefresherTimer = new Timer();
-        timer.schedule(contestInfoRefresher, REFRESH_RATE, REFRESH_RATE);
+        contestInfoRefresherTimer.schedule(contestInfoRefresher, REFRESH_RATE, REFRESH_RATE);
     }
 
 
@@ -402,8 +404,8 @@ public class AlliesContestController implements Closeable {
     public void startContestStatusRefresher() {
         contestStatusRefresher = new ContestStatusRefresher("Allies", selectedBattleField
                 , this::updateContestStatus, autoUpdate, alliesTeamName);
-        timer = new Timer();
-        timer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
+        contestStatusRefresherTimer = new Timer();
+        contestStatusRefresherTimer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
     }
 
     public boolean getIsUboatSettingsCompleted() {
@@ -484,7 +486,8 @@ public class AlliesContestController implements Closeable {
         if (contestStatusRefresher != null && agentsTableViewRefresher != null
                 && alliesRegisteredTeamsRefresher != null && contestInfoRefresher != null
                 && agentsTableViewTimer != null
-                && alliesBruteForceResultTableViewRefresherTimer != null) {
+                && alliesBruteForceResultTableViewRefresherTimer != null
+                &&amountOfCreatedMissionsRefresher!=null) {
             contestStatusRefresher.cancel();
             agentsTableViewRefresher.cancel();
             alliesRegisteredTeamsRefresher.cancel();
@@ -492,7 +495,13 @@ public class AlliesContestController implements Closeable {
             contestInfoRefresher.cancel();
             agentsTableViewTimer.cancel();
             alliesBruteForceResultTableViewRefresherTimer.cancel();
+            amountOfCreatedMissionsRefresher.cancel();
             timer.cancel();
+            agentsTableViewTimer.cancel();
+            alliesBruteForceResultTableViewRefresherTimer.cancel();
+            contestInfoRefresherTimer.cancel();
+            contestStatusRefresherTimer.cancel();
+            amountOfCreatedMissionsRefresherTimer.cancel();
         }
     }
 
@@ -500,8 +509,8 @@ public class AlliesContestController implements Closeable {
         isMessageUboatDontExistDisplayed=false;
         amountOfCreatedMissionsRefresher = new DMAmountOfCreatedMissionsRefresher(selectedBattleField,
                 this::updateAmountOfCreatedMissions, autoUpdate, alliesTeamName);
-        timer = new Timer();
-        timer.schedule(amountOfCreatedMissionsRefresher, REFRESH_RATE, REFRESH_RATE);
+        amountOfCreatedMissionsRefresherTimer = new Timer();
+        amountOfCreatedMissionsRefresherTimer.schedule(amountOfCreatedMissionsRefresher, REFRESH_RATE, REFRESH_RATE);
     }
 
     private void updateAmountOfCreatedMissions(DMAmountOfMissionsInfoDTO dmAmountOfMissionsInfoDTO) {
@@ -514,11 +523,14 @@ public class AlliesContestController implements Closeable {
                         alertToUb.setContentText("The selected UBoat Logged out.");
                         alertToUb.getDialogPane().setExpanded(true);
                         alertToUb.showAndWait();
+                       /* alliesRegisteredTeamsRefresher.cancel();
                         agentsTableViewRefresher.cancel();
                         agentsTableViewTimer.cancel();
-                        amountOfCreatedMissionsRefresher.cancel();
+                        amountOfCreatedMissionsRefresher.cancel();*/
                         mainWindowAlliesController.disableReadyButton();
+                        close();
                         mainWindowAlliesController.changeToAlliesDashboardTab();
+
 
                     } catch (IOException e) {
                         throw new RuntimeException(e);

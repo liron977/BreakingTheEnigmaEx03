@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -24,6 +25,7 @@ public class AgentMain extends Application {
         agentLoginController.setPrimaryStageAndLoadInTheBackgroundSuperScreen(primaryStage);
 
         primaryStage.setTitle("Agent");
+        primaryStage.getIcons().add(new Image("/Resources/agent.jpg"));
         Scene scene = new Scene(root);
         primaryStage.setMinHeight(300f);
         primaryStage.setMinWidth(400f);

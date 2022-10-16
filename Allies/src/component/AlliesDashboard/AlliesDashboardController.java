@@ -37,6 +37,7 @@ public class AlliesDashboardController implements Closeable {
 
     private Timer timer;
     private TimerTask agentsTableViewRefresher;
+    private Timer uBoatContestsRefresherTimer;
     private TimerTask uBoatContestsRefresher;
     private  SimpleBooleanProperty autoUpdate;
     private  IntegerProperty totalAgentsAmount;
@@ -213,12 +214,13 @@ private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTable
                 isDTDExistsInTableView=false;
                 int index=0;
                     for (UBoatContestInfoWithCheckBoxDTO TableViewUBoatContestDTO : contestsDataTableView.getItems()) {
-                        index++;
+
                         if (TableViewUBoatContestDTO.getBattleFieldName().equals(uBoatContestInfoWithCheckBoxDTO.getBattleFieldName())) {
                             updateContestsDataTableViewRow(uBoatContestInfoWithCheckBoxDTO,index);
                             isDTDExistsInTableView = true;
                             break;
                         }
+                        index++;
                     }
                     if (!isDTDExistsInTableView) {
                         uBoatContestInfoDTOListTemp.addAll(getUBoatContestInfoTableViewDTOList(uBoatContestInfoWithCheckBoxDTO));
@@ -256,7 +258,25 @@ private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTable
                toRemove.add(uBoatContestInfoWithCheckBoxDTO);
            }
         }
-       uBoatContestInfoDTOList.removeAll(toRemove);
+        if(selectedContestDTO!=null) {
+     /*       if(toRemove.size()==0){
+                isContestSelected.setValue(false);
+                selectedContestDTO.removeSelection();
+            }*/
+            for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO : toRemove) {
+                if (uBoatContestInfoWithCheckBoxDTO.getBattleFieldName().
+                        equals(selectedContestDTO.getBattleFieldName())){
+                    isContestSelected.setValue(false);
+                    selectedContestDTO.removeSelection();
+                    selectedContestDTO=null;
+                    checkboxWasNotSelected(uBoatContestInfoWithCheckBoxDTO);
+                }
+
+            }
+        }
+       //uBoatContestInfoDTOList.removeAll(toRemove);
+        contestsDataTableViewList.removeAll(toRemove);
+
        /* contestsDataTableView.getItems().clear();
         int index=0;
         for (UBoatContestInfoWithCheckBoxDTO TableViewUBoatContestDTO : uBoatContestInfoDTOList) {
@@ -268,14 +288,14 @@ private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTable
         }
 
     }
-private void updateContestsDataTableViewRow(@NotNull UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO, int contestsDataTableViewRow ){
+private void updateContestsDataTableViewRow(UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO, int contestsDataTableViewRow ){
     TableColumn statusTableColumn = contestsDataTableView.getColumns().get(3);
-    ObservableValue statusTableColumnObservableValue = statusTableColumn.getCellObservableValue(0);
+    ObservableValue statusTableColumnObservableValue = statusTableColumn.getCellObservableValue(contestsDataTableViewRow);
 StringProperty statusStringProperty=(StringProperty) statusTableColumnObservableValue;
         (statusStringProperty).set(uBoatContestInfoWithCheckBoxDTO.getContestStatus().getValue());
 
     TableColumn activeAlliesTableColumn = contestsDataTableView.getColumns().get(6);
-    ObservableValue activeAlliesObservableValue = activeAlliesTableColumn.getCellObservableValue(0);
+    ObservableValue activeAlliesObservableValue = activeAlliesTableColumn.getCellObservableValue(contestsDataTableViewRow);
 
     IntegerProperty activeAlliesStringProperty=(IntegerProperty) activeAlliesObservableValue;
     (activeAlliesStringProperty).set(uBoatContestInfoWithCheckBoxDTO.getAmountOfActiveDecryptionTeams());
@@ -338,8 +358,8 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
     public void startUBoatContestsTableViewRefresher() {
         uBoatContestsRefresher = new UBoatContestsRefresher(
                 this::updateUBoatContestsList,autoUpdate);
-        timer = new Timer();
-        timer.schedule(uBoatContestsRefresher, REFRESH_RATE, REFRESH_RATE);
+        uBoatContestsRefresherTimer = new Timer();
+        uBoatContestsRefresherTimer.schedule(uBoatContestsRefresher, REFRESH_RATE, REFRESH_RATE);
     }
     @FXML
     void readyButtonOnAction(ActionEvent event) throws IOException {
