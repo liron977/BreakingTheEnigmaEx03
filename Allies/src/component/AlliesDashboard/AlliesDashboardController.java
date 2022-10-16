@@ -368,6 +368,7 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
             selectedBattleField=selectedContestDTO.getBattleFieldName();
             if(isMissionSizeIsValid()) {
                 if(registerAllies()) {
+                    mainWindowAlliesController.alliesContestControllerDeleteValues();
                     mainWindowAlliesController.startContestStatusRefresher();
                     mainWindowAlliesController.changeToContestTab();
                 }
