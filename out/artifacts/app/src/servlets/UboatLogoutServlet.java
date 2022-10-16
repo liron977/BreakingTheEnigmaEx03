@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import machineEngine.EngineManager;
+import managers.agent.StatusManager;
 import managers.bruteForce.UboatBruteForceResultsMapManager;
 import managers.uBoatEngine.MediatorForEngineManager;
 import managers.uBoatEngine.UBoatAvailableContestsManager;
@@ -20,6 +21,8 @@ public class UboatLogoutServlet extends HttpServlet {
             response.setContentType("application/json");
             String battleName = request.getParameter(ParametersConstants.BATTLE_FIELD);
             UBoatAvailableContestsManager uBoatAvailableContestsManager = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
+            StatusManager statusManager=ServletUtils.getStatusManager(getServletContext());
+            statusManager.removeUboat(battleName);
             uBoatAvailableContestsManager.removeAvailableContests(battleName);
             UboatBruteForceResultsMapManager uboatBruteForceResultsMapManager=ServletUtils.getUboatBruteForceResultsMapManager(getServletContext());
             uboatBruteForceResultsMapManager.removeUboat(battleName);
