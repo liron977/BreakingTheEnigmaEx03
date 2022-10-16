@@ -316,7 +316,7 @@ public class AgentDashboardController implements Closeable {
                         isMissionsEnded = true;
                     }
                     else{
-                        Platform.runLater(() -> {
+                   /*     Platform.runLater(() -> {
                             {
                                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                                 try {
@@ -327,7 +327,7 @@ public class AgentDashboardController implements Closeable {
                                 alert.getDialogPane().setExpanded(true);
                                 alert.showAndWait();
                             }
-                        });
+                        });*/
                     }
                 }
             } catch (IOException e) {

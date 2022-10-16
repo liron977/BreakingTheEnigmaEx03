@@ -41,8 +41,12 @@ public class AgentsManager {
     }
     public synchronized void initValues(String alliesTeamName){
         List<AgentInfoDTO> agents= getAgentsByAlliesTeamName(alliesTeamName);
-        for (AgentInfoDTO agent:agents) {
-            agent.initValues();
+        if(agents!=null) {
+            for (AgentInfoDTO agent : agents) {
+                if(agent!=null) {
+                    agent.initValues();
+                }
+            }
         }
     }
 }

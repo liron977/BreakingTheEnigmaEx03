@@ -21,6 +21,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import machineDTO.TheMachineEngineDTO;
 import okhttp3.*;
+import org.jetbrains.annotations.NotNull;
 import utils.http.HttpClientUtil;
 
 import java.io.Closeable;
@@ -202,6 +203,9 @@ private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTable
 }
     private void updateUBoatContestsList(List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOList) {
         Platform.runLater(() -> {
+            if(selectedContestDTO!=null){
+                selectedContestDTO.setSelected(true);
+            }
             boolean isDTDExistsInTableView;
             ObservableList<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOListTemp = FXCollections.observableArrayList();;
             for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO: uBoatContestInfoDTOList) {
@@ -264,7 +268,7 @@ private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTable
         }
 
     }
-private void updateContestsDataTableViewRow(UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO, int contestsDataTableViewRow ){
+private void updateContestsDataTableViewRow(@NotNull UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO, int contestsDataTableViewRow ){
     TableColumn statusTableColumn = contestsDataTableView.getColumns().get(3);
     ObservableValue statusTableColumnObservableValue = statusTableColumn.getCellObservableValue(0);
 StringProperty statusStringProperty=(StringProperty) statusTableColumnObservableValue;
@@ -278,7 +282,6 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
 }
 
     private void checkBoxChangedListener(UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO) {
-
         uBoatContestInfoWithCheckBoxDTO.getSelectionContestColumn().setOnAction(event -> {
             uBoatContestInfoWithCheckBoxDTOList = contestsDataTableView.getItems();
             if (uBoatContestInfoWithCheckBoxDTO.getSelectionContestColumn().isSelected()) {
@@ -307,6 +310,12 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
     }
         private void checkboxWasSelected(UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO ){
     isContestSelected.setValue(false);
+    if(selectedContestDTO!=null){
+        selectedContestDTO.setSelected(false);
+        selectedContestDTO.removeSelection();
+
+       // selectedContestDTO.setSelectionContestColumn(selectedContestDTO.get);
+    }
             selectedContestDTO=uBoatContestInfoWithCheckBoxDTO;
             mainWindowAlliesController.setConvertedString(selectedContestDTO.getConvertedString());
         uBoatContestInfoWithCheckBoxDTOList=contestsDataTableView.getItems();

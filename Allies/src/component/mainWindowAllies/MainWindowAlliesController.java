@@ -78,9 +78,8 @@ public class MainWindowAlliesController {
     }
 
     public void changeToContestTab() throws IOException {
-
-
         contestTabButton.setDisable(false);
+        dashboardTabButton.setDisable(true);
         alliesTabPane.getSelectionModel().select(contestTabButton);
         alliesContestController.startAlliesInfoTableViewRefresher();
         alliesContestController.startContestResultsTableViewRefresher();

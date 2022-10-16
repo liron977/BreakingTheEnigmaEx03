@@ -79,4 +79,7 @@ public class UBoatContestInfoWithCheckBoxDTO {
  public void setSelectionContestColumn(CheckBox selectionContestColumn) {
         this.selectionContestColumn = selectionContestColumn;
     }
+    public void removeSelection(){
+        selectionContestColumn.setSelected(false);
+    }
 }

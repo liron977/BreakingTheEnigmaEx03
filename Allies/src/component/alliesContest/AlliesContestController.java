@@ -604,7 +604,7 @@ public class AlliesContestController implements Closeable {
 
         }
         else{
-            Platform.runLater(() -> {
+  /*          Platform.runLater(() -> {
                 {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     try {
@@ -615,7 +615,7 @@ public class AlliesContestController implements Closeable {
                     alert.getDialogPane().setExpanded(true);
                     alert.showAndWait();
                 }
-            });
+            });*/
         }
 /*
             Platform.runLater(() -> {

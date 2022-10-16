@@ -36,7 +36,7 @@
                </HBox.margin>
             </VBox>
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="477.0" prefWidth="421.0" spacing="10.0" HBox.hgrow="ALWAYS">
+            <VBox id="saveSettingsButton" alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="477.0" prefWidth="421.0" spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
                   <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="91.0" prefViewportHeight="240.0" prefViewportWidth="600.0" prefWidth="421.0">
                      <content>
@@ -50,7 +50,7 @@
                      </content>
                   </ScrollPane>
                   <fx:include fx:id="currentCodeConfiguration" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" source="../uBoatMachineTab/machineTab/CodeConfigurationTableView.fxml" VBox.vgrow="ALWAYS" />
-                  <Button fx:id="resetButton" mnemonicParsing="false" onAction="#resetButtonOnAction" prefHeight="25.0" prefWidth="175.0" text="Reset Configuration">
+                  <Button id="saveSettingsButton" fx:id="resetButton" mnemonicParsing="false" onAction="#resetButtonOnAction" prefHeight="25.0" prefWidth="175.0" text="Reset Configuration">
                      <VBox.margin>
                         <Insets right="120.0" />
                      </VBox.margin>
