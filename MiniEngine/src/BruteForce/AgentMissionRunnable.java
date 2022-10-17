@@ -48,6 +48,9 @@ public class AgentMissionRunnable implements Runnable {
        this.amountOfDoneMissions=amountOfDoneMissions;
        this.amountOfAskedMissionsProperty=amountOfAskedMissionsProperty;
        this.amountOfMissionsInTheQueue=amountOfMissionsInTheQueue;
+        if(amountOfMissionsInTheQueue.getValue()<0){
+            int r=0;
+        }
        this.isContestEnded=isContestEnded;
        this.agentName=agentName;
     }
@@ -98,6 +101,9 @@ public class AgentMissionRunnable implements Runnable {
             amountOfDoneMissions.setValue(amountOfDoneMissions.getValue()+1);
             uiAdapterInterface.updateAmountDoneMissionsPerAgent(amountOfDoneMissions.getValue());
             amountOfMissionsInTheQueue.setValue(amountOfAskedMissionsProperty.getValue()-amountOfDoneMissions.getValue());
+            if(amountOfMissionsInTheQueue.getValue()<0){
+                int r=0;
+            }
             uiAdapterInterface.updateAmountMissionsInTheQueuePerAgent(amountOfMissionsInTheQueue.getValue());
         }
 

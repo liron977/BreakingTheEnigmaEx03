@@ -180,6 +180,9 @@ public class AgentDashboardController implements Closeable {
         }
     }
     private void updateMissionsStatus(){
+        if(amountOfMissionsInTheQueue.getValue()<0){
+            int y=9;
+        }
         agentInfoDTO.setAmountOfMissionsToExecute(amountOfMissionsInTheQueue.getValue());
         agentInfoDTO.setAmountOfReceivedMissions(amountOfAskedMissionsProperty.getValue());
         agentInfoDTO.setAmountOfCandidatesStrings(bruteForceResultsDTOObservableList.size());
@@ -356,6 +359,9 @@ return isMissionsEnded;
 
                     },
                 amountOfMissionsInTheQueue->{
+                    if(amountOfMissionsInTheQueue<0){
+                        int u=0;
+                    }
                     currentAmountOfMissionsInTheQueue.setText("Amount Of Missions In The Queue : "+displayTextWithCommas(amountOfMissionsInTheQueue));
                 });
     }

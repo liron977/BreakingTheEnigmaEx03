@@ -48,6 +48,9 @@ public AgentDecryptionManager(SimpleIntegerProperty amountOfMissionsInTheQueue,S
    this.amountOfDoneMissions=amountOfDoneMissions;
    this.amountOfAskedMissionsProperty=amountOfAskedMissionsProperty;
    this.amountOfMissionsInTheQueue=amountOfMissionsInTheQueue;
+   if(amountOfMissionsInTheQueue.getValue()<0){
+       int r=0;
+   }
     this.isContestEnded=isContestEnded;
     amountOfMissionsInTheQueue.setValue(0);
     this.agentName=agentName;
