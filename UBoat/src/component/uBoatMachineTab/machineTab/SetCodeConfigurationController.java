@@ -218,7 +218,7 @@ public class SetCodeConfigurationController implements EventsHandler {
             try {
                 Response response = call.execute();
                 if (response.code() != 200) {
-                    Platform.runLater(() -> {
+                   /* Platform.runLater(() -> {
                         {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
                             try {
@@ -229,7 +229,7 @@ public class SetCodeConfigurationController implements EventsHandler {
                             alert.getDialogPane().setExpanded(true);
                             alert.showAndWait();
                         }
-                    });
+                    });*/
                 } else {
                     Platform.runLater(() -> {
                         {

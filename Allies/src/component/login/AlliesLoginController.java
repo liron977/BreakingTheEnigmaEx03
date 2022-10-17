@@ -88,24 +88,24 @@ public class AlliesLoginController {
 
 
             @Override public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Platform.runLater(() ->{
+              /*  Platform.runLater(() ->{
                             uBoatNameTextField.setDisable(false);
                             loginButton.setDisable(false);
                             errorMessageProperty.set("Something went wrong: " + e.getMessage());
                         }
-                );
+                );*/
             }
 
             @Override public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.code() != 200) {
                     String responseBody = response.body().string();
-                    Platform.runLater(() ->{
+                   /* Platform.runLater(() ->{
                         uBoatNameTextField.setDisable(false);
                         loginButton.setDisable(false);
                         errorMessageProperty.set("Something went wrong: " + responseBody);
 
                             }
-                    );
+                    );*/
                 }
                 else {
                     String threadsAmount=null;

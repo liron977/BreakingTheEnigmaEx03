@@ -494,7 +494,7 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
                     return false;
                 }
                 else{
-                    Platform.runLater(() -> {
+                   /* Platform.runLater(() -> {
                         {
                             Alert alertError = new Alert(Alert.AlertType.INFORMATION);
                             try {
@@ -505,7 +505,7 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
                             alertError.getDialogPane().setExpanded(true);
                             alertError.showAndWait();
                         }
-                    });
+                    });*/
                 }
             }
       return true;
@@ -526,7 +526,7 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
         try {
             Response response = call.execute();
             if (response.code() != 200) {
-                Platform.runLater(() -> {
+                /*Platform.runLater(() -> {
                     {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         try {
@@ -537,7 +537,7 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
                         alert.getDialogPane().setExpanded(true);
                         alert.showAndWait();
                     }
-                });
+                });*/
             } else {
                 TheMachineEngineDTO theMachineEngineDTO = Constants.GSON_INSTANCE.fromJson(response.body().string(), TheMachineEngineDTO.class);
                 return theMachineEngineDTO;
