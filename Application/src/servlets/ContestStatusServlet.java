@@ -85,18 +85,18 @@ public class ContestStatusServlet extends HttpServlet {
             }
 
         contestStatusInfoDTO.setAlliesConfirmedGameOver(true);
+        theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
+        AgentsManager agentsManager=ServletUtils.getAgentManager(getServletContext());
+        agentsManager.initValues(theAlliesTeamName);
+        alliesManager.clearAlliesValues(theAlliesTeamName);
+        contestStatusInfoDTO.setContestStatus("Wait");
+        contestStatusInfoDTO.setUboatSettingsCompleted(false);
+        alliesGetBruteForceResultServlet.clearBruteForceResults(theAlliesTeamName);
+        alliesMissionsManager.clearMissionFromBlockingQueue(theAlliesTeamName);
+        alliesMissionsManager.removeAliesTeam(theAlliesTeamName);
         if (theBattleFieldName != null&&!theBattleFieldName.isEmpty()) {
             EngineManager engineManager = uBoatAvailableContestsManager.getEngineManagerByBattleFieldName(theBattleFieldName);
             engineManager.setAlliesConfirmedGameOver(true);
-            theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
-            AgentsManager agentsManager=ServletUtils.getAgentManager(getServletContext());
-            agentsManager.initValues(theAlliesTeamName);
-            alliesManager.clearAlliesValues(theAlliesTeamName);
-            contestStatusInfoDTO.setContestStatus("Wait");
-            contestStatusInfoDTO.setUboatSettingsCompleted(false);
-            alliesGetBruteForceResultServlet.clearBruteForceResults(theAlliesTeamName);
-            alliesMissionsManager.clearMissionFromBlockingQueue(theAlliesTeamName);
-            alliesMissionsManager.removeAliesTeam(theAlliesTeamName);
             engineManager.initMaxAmountOfMissions();
             engineManager.clearBattleFieldValues("allies");
             engineManager.clearAlliesRegisteredToContestList();

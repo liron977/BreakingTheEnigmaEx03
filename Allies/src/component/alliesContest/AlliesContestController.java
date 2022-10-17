@@ -664,6 +664,7 @@ public class AlliesContestController implements Closeable {
 
         }
         else{
+            response.body().close();
   /*          Platform.runLater(() -> {
                 {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
