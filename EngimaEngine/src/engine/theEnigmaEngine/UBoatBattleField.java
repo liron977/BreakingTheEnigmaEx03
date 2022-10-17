@@ -9,6 +9,7 @@ public class UBoatBattleField implements Serializable {
    private int alliesNeededTeamsAmount;
    private String level;
    private int alliesActiveTeamsAmount;
+   private int alliesTeamsInCostest;
    private String contestStatus;
     private String uploadedBy;
     private String convertedString;
@@ -34,6 +35,7 @@ public class UBoatBattleField implements Serializable {
        this.isConvertedStringSet=false;
        this.alliesWinnwerTeamName="";
        this.isAlliesConfirmedGameOver=false;
+       alliesTeamsInCostest=0;
    }
 public boolean isAlliesExists(String alliesTeamName){
     for (Allies allies:alliesRegisteredToContest) {
@@ -60,6 +62,7 @@ public void setIsAlliesConfirmedGameOver(){
        if(alliesActiveTeamsAmount<alliesNeededTeamsAmount){
            alliesRegisteredToContest.add(allies);
            alliesActiveTeamsAmount++;
+           alliesTeamsInCostest=alliesActiveTeamsAmount;
            if(alliesActiveTeamsAmount==alliesNeededTeamsAmount&&isConvertedStringSet){
                contestStatus="Active";
                isUboatReady=true;
@@ -163,7 +166,8 @@ public List<String> getAlliesRegisteredNames(){
     }
     public void clearValues(String role){
        if(role.equals("allies")) {
-           alliesActiveTeamsAmount = 0;
+          // alliesActiveTeamsAmount = 0;
+           alliesTeamsInCostest--;
        }
        else{
            this.convertedString="";
