@@ -11,8 +11,13 @@ public class UserManager {
         usersMap.put(username,roleFromSession);
     }
     public synchronized void removeUser(String username) {
+        try {
+            System.out.println("in the try");
+            usersMap.remove(username);
 
-        usersMap.remove(username);
+        } catch (Exception e){
+            System.out.println("did no delete");
+        }
     }
     public synchronized Map<String,String> getUsers() {
         return Collections.unmodifiableMap(usersMap);

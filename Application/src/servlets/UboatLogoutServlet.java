@@ -32,14 +32,17 @@ public class UboatLogoutServlet extends HttpServlet {
             MediatorForEngineManager mediatorForEngineManager=ServletUtils.getMediatorForEngineManager(getServletContext());
             String uboatUserName=mediatorForEngineManager.getEngineMangerByBattleFiLedName(battleName).getBattleField().getUploadedByName();
             userManager.removeUser(uboatUserName);
+            System.out.println("userManager.removeUser(uboatUserName)");
             try {
                 mediatorForEngineManager.removeUboat(battleName);
+                System.out.println("mediatorForEngineManager.removeUboat(battleName)");
             }
             catch (Exception e){
                 System.out.println(" e- removeUboat");
             }
             response.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
+            System.out.println("Exception");
             throw new RuntimeException(e);
         }
     }
