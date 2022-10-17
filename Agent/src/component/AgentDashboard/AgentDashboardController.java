@@ -182,6 +182,7 @@ public class AgentDashboardController implements Closeable {
     private void updateMissionsStatus(){
         if(amountOfMissionsInTheQueue.getValue()<0){
             int y=9;
+            int r=0;
         }
         agentInfoDTO.setAmountOfMissionsToExecute(amountOfMissionsInTheQueue.getValue());
         agentInfoDTO.setAmountOfReceivedMissions(amountOfAskedMissionsProperty.getValue());
