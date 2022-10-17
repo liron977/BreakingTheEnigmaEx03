@@ -160,14 +160,14 @@ public class AgentDashboardController implements Closeable {
             HttpClientUtil.runAsyncPost(finalUrl,body, new Callback() {
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    Platform.runLater(() -> {
+                  /*  Platform.runLater(() -> {
                         {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
                             alert.setContentText("saveResultsInServer-Agent");
                             alert.getDialogPane().setExpanded(true);
                             alert.showAndWait();
                         }
-                    });
+                    });*/
                 }
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
@@ -201,14 +201,14 @@ public class AgentDashboardController implements Closeable {
             HttpClientUtil.runAsyncPost(finalUrl,body, new Callback() {
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    Platform.runLater(() -> {
+                  /*  Platform.runLater(() -> {
                         {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
                             alert.setContentText("updateMissionsStatus -Agent");
                             alert.getDialogPane().setExpanded(true);
                             alert.showAndWait();
                         }
-                    });
+                    });*/
                 }
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
@@ -411,7 +411,7 @@ return isMissionsEnded;
         try {
             Response response = call.execute();
             if (response.code() != 200) {
-                Platform.runLater(() -> {
+                /*Platform.runLater(() -> {
                     {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         try {
@@ -422,7 +422,7 @@ return isMissionsEnded;
                         alert.getDialogPane().setExpanded(true);
                         alert.showAndWait();
                     }
-                });
+                });*/
             } else {
                 ByteArrayInputStream byteArrayInputStream = Constants.GSON_INSTANCE.fromJson(response.body().string(), ByteArrayInputStream.class);
 
@@ -453,7 +453,7 @@ return isMissionsEnded;
         try {
             Response response = call.execute();
             if (response.code() != 200) {
-                Platform.runLater(() -> {
+               /* Platform.runLater(() -> {
                     {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         try {
@@ -464,7 +464,7 @@ return isMissionsEnded;
                         alert.getDialogPane().setExpanded(true);
                         alert.showAndWait();
                     }
-                });
+                });*/
             } else {
                 TheMachineEngineDTO theMachineEngineDTO = Constants.GSON_INSTANCE.fromJson(response.body().string(), TheMachineEngineDTO.class);
                 return theMachineEngineDTO;
@@ -600,7 +600,7 @@ private void updateAgentStatus(){
     try {
         Response response = call.execute();
         if (response.code() != 200) {
-            Platform.runLater(() -> {
+          /*  Platform.runLater(() -> {
                 {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     try {
@@ -611,7 +611,7 @@ private void updateAgentStatus(){
                     alert.getDialogPane().setExpanded(true);
                     alert.showAndWait();
                 }
-            });
+            });*/
         } else {
 
         }

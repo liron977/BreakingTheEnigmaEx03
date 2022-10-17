@@ -22,15 +22,22 @@ public class UboatLogoutServlet extends HttpServlet {
             response.setContentType("application/json");
             UserManager userManager = ServletUtils.getUserManager(getServletContext());
             String battleName = request.getParameter(ParametersConstants.BATTLE_FIELD);
-            userManager.removeUser(battleName);
             UBoatAvailableContestsManager uBoatAvailableContestsManager = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
             StatusManager statusManager=ServletUtils.getStatusManager(getServletContext());
             statusManager.removeUboat(battleName);
+            System.out.println(statusManager.getContestStatusInfoDTOByBattlefield(battleName));
             uBoatAvailableContestsManager.removeAvailableContests(battleName);
             UboatBruteForceResultsMapManager uboatBruteForceResultsMapManager=ServletUtils.getUboatBruteForceResultsMapManager(getServletContext());
             uboatBruteForceResultsMapManager.removeUboat(battleName);
             MediatorForEngineManager mediatorForEngineManager=ServletUtils.getMediatorForEngineManager(getServletContext());
-            mediatorForEngineManager.removeUboat(battleName);
+            String uboatUserName=mediatorForEngineManager.getEngineMangerByBattleFiLedName(battleName).getBattleField().getUploadedByName();
+            userManager.removeUser(uboatUserName);
+            try {
+                mediatorForEngineManager.removeUboat(battleName);
+            }
+            catch (Exception e){
+                System.out.println(" e- removeUboat");
+            }
             response.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
             throw new RuntimeException(e);

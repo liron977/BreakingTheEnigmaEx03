@@ -173,7 +173,7 @@ public class AgentLoginController {
                 return false;
             }
             else if (response.code() != 200) {
-                Platform.runLater(() -> {
+             /*   Platform.runLater(() -> {
                     {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         try {
@@ -184,7 +184,7 @@ public class AgentLoginController {
                         alert.getDialogPane().setExpanded(true);
                         alert.showAndWait();
                     }
-                });
+                });*/
             } else {
                /* Platform.runLater(() -> {
                     {
@@ -213,12 +213,12 @@ public class AgentLoginController {
 
         HttpClientUtil.runAsync(finalUrl, new Callback() {
             @Override public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Platform.runLater(() ->{
+              /*  Platform.runLater(() ->{
                             agentNameTextField.setDisable(false);
                             loginButton.setDisable(false);
                     errorMessageProperty.set("Something went wrong: " + e.getMessage());
                         }
-                );
+                );*/
             }
 
             @Override public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {

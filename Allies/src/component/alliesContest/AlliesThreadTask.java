@@ -74,7 +74,7 @@ public void setStringToConvert(String stringToConvert){
                 if(!isErrorOccurred) {
                     //todo:kill the timeout
                     isErrorOccurred=true;
-                    Platform.runLater(() -> {
+                    /*Platform.runLater(() -> {
                         {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
                             try {
@@ -85,7 +85,7 @@ public void setStringToConvert(String stringToConvert){
                             alert.getDialogPane().setExpanded(true);
                             alert.showAndWait();
                         }
-                    });
+                    });*/
                 }
             } else {
                 System.out.println("thread task 200");

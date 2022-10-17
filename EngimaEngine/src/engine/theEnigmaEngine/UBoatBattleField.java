@@ -113,6 +113,9 @@ public List<String> getAlliesRegisteredNames(){
 
     public void setConvertedString(String convertedString) {
         this.convertedString = convertedString;
+        if(convertedString.isEmpty()){
+            int x=0;
+        }
        // isConvertedStringSet=true;
         /*if(alliesActiveTeamsAmount==alliesNeededTeamsAmount){
             contestStatus="Active";
@@ -191,8 +194,8 @@ public List<String> getAlliesRegisteredNames(){
     }
     public void setAlliesConfirmedGameOver(boolean alliesConfirmedGameOver) {
         isAlliesConfirmedGameOver = alliesConfirmedGameOver;
-        this.convertedString="";
-        this.stringToConvert="";
+   /*     this.convertedString="";
+        this.stringToConvert="";*/
     }
     public boolean getIsAlliesConfirmedGameOver(){
         return isAlliesConfirmedGameOver;
