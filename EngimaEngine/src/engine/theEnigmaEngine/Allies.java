@@ -127,5 +127,8 @@ public class Allies implements Serializable {
     }
     public void decreaseMaxAmountOfMissions() {
         this.maxAmountOfMissions = maxAmountOfMissions-1;
+        if (maxAmountOfMissions<0){
+            int x=0;
+        }
     }
 }
