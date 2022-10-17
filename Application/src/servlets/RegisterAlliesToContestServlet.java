@@ -39,21 +39,25 @@ public class RegisterAlliesToContestServlet  extends HttpServlet {
 
             EngineManager engineManager = uBoatAvailableContestsManger.getEngineManagerByBattleFieldName(battleName);
             if (engineManager != null) {
-                boolean isAlliesAddedSuccessfully = engineManager.addAlliesToContest(allies);
+                if (!engineManager.isAllAlliesInContestLoogedOut()) {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                } else {
+                    boolean isAlliesAddedSuccessfully = engineManager.addAlliesToContest(allies);
 /*if(contestStatusInfoDTO!=null){
     contestStatusInfoDTO.setContestStatus(engineManager.getContestStatus());
 }*/
-                if (isAlliesAddedSuccessfully) {
-                    AlliesMissionsManager alliesMissionsManager = ServletUtils.getAlliesMissionsManager(getServletContext());
-                    alliesMissionsManager.addAlliesToAlliesMissionsManagerMap(alliesToRegister.getAlliesName());
-                    allies.setMissionSize(alliesToRegister.getMissionSize());
-                    allies.setBattlefieldName(battleName);
-                    response.setStatus(HttpServletResponse.SC_OK);
-                    String convertedStringJson = gson.toJson(engineManager.getBattleField().getConvertedString());
-                    out.println(convertedStringJson);
-                    out.flush();
-                } else {
-                    response.setStatus(HttpServletResponse.SC_CONFLICT);
+                    if (isAlliesAddedSuccessfully) {
+                        AlliesMissionsManager alliesMissionsManager = ServletUtils.getAlliesMissionsManager(getServletContext());
+                        alliesMissionsManager.addAlliesToAlliesMissionsManagerMap(alliesToRegister.getAlliesName());
+                        allies.setMissionSize(alliesToRegister.getMissionSize());
+                        allies.setBattlefieldName(battleName);
+                        response.setStatus(HttpServletResponse.SC_OK);
+                        String convertedStringJson = gson.toJson(engineManager.getBattleField().getConvertedString());
+                        out.println(convertedStringJson);
+                        out.flush();
+                    } else {
+                        response.setStatus(HttpServletResponse.SC_CONFLICT);
+                    }
                 }
             }
         } catch (InterruptedException e) {

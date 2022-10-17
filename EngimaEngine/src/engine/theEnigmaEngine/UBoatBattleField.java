@@ -1,5 +1,7 @@
 package engine.theEnigmaEngine;
 
+import bruteForce.CurrentAlliesStatus;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,10 @@ public class UBoatBattleField implements Serializable {
     private String alliesWinnwerTeamName;
     private boolean isAlliesConfirmedGameOver;
     private boolean isConvertedStringSet;
+    private int amountOfCurrentactiveAlliesInContest;
+
+    private List<CurrentAlliesStatus> currentAlliesStatusList;
+    private boolean isCrrentAlliesStatusListAlreayUpdated;
 
    public UBoatBattleField(String battleName, int alliesNeededTeamsAmount, String level){
        this.battleName=battleName;
@@ -35,9 +41,24 @@ public class UBoatBattleField implements Serializable {
        this.isConvertedStringSet=false;
        this.alliesWinnwerTeamName="";
        this.isAlliesConfirmedGameOver=false;
-       alliesTeamsInCostest=0;
+       this.amountOfCurrentactiveAlliesInContest=alliesNeededTeamsAmount;
+       currentAlliesStatusList=new ArrayList<>();
+       isCrrentAlliesStatusListAlreayUpdated=false;
    }
-public boolean isAlliesExists(String alliesTeamName){
+
+    public void setAlliesActiveTeamsAmount(int alliesActiveTeamsAmount) {
+        this.alliesActiveTeamsAmount = alliesActiveTeamsAmount;
+    }
+
+    public void setAmountOfCurrentactiveAlliesInContest(int amountOfCurrentactiveAlliesInContest) {
+        this.amountOfCurrentactiveAlliesInContest = amountOfCurrentactiveAlliesInContest;
+    }
+
+    public int getAmountOfCurrentactiveAlliesInContest() {
+        return amountOfCurrentactiveAlliesInContest;
+    }
+
+    public boolean isAlliesExists(String alliesTeamName){
     for (Allies allies:alliesRegisteredToContest) {
         if(allies.getAlliesName().equals(alliesTeamName)){
             return true;
@@ -61,8 +82,9 @@ public void setIsAlliesConfirmedGameOver(){
 
        if(alliesActiveTeamsAmount<alliesNeededTeamsAmount){
            alliesRegisteredToContest.add(allies);
+           isCrrentAlliesStatusListAlreayUpdated=false;
+           currentAlliesStatusList.add(new CurrentAlliesStatus(allies.getAlliesName(),false));
            alliesActiveTeamsAmount++;
-           alliesTeamsInCostest=alliesActiveTeamsAmount;
            if(alliesActiveTeamsAmount==alliesNeededTeamsAmount&&isConvertedStringSet){
                contestStatus="Active";
                isUboatReady=true;
@@ -164,10 +186,15 @@ public List<String> getAlliesRegisteredNames(){
     public void setIsContestEnded(boolean contestEnded) {
         isContestEnded = contestEnded;
     }
-    public void clearValues(String role){
+    public void clearValues(String role,String theAlliesTeamName){
        if(role.equals("allies")) {
           // alliesActiveTeamsAmount = 0;
-           alliesTeamsInCostest--;
+           amountOfCurrentactiveAlliesInContest--;
+           for (CurrentAlliesStatus currentAlliesStatus : currentAlliesStatusList) {
+               if(currentAlliesStatus.getAlliesName().equals(theAlliesTeamName)){
+                   this.currentAlliesStatusList.remove(currentAlliesStatus);
+               }
+           }
        }
        else{
            this.convertedString="";
@@ -203,5 +230,36 @@ public List<String> getAlliesRegisteredNames(){
     }
     public boolean getIsAlliesConfirmedGameOver(){
         return isAlliesConfirmedGameOver;
+    }
+    public void updateCurrentAlliesStatusListAtTheEndOfContest() {
+        if (!isCrrentAlliesStatusListAlreayUpdated) {
+            for (CurrentAlliesStatus currentAlliesStatus : currentAlliesStatusList) {
+                currentAlliesStatus.setContestEnded(true);
+            }
+            isCrrentAlliesStatusListAlreayUpdated = true;
+        }
+    }
+    public boolean isAllAlliesInContestLoogedOut(){
+
+       if(currentAlliesStatusList.size()==0){
+           return true;
+       }
+        for (CurrentAlliesStatus currentAlliesStatus : currentAlliesStatusList) {
+           if(currentAlliesStatus.getisContestEnded()){
+               return false;
+           }
+        }
+        return true;
+    }
+    public void clearAlliesRegisteredToContest(){
+        for (CurrentAlliesStatus currentAlliesStatus : currentAlliesStatusList) {
+            if(currentAlliesStatus.getisContestEnded()){
+                for (Allies allies:alliesRegisteredToContest ) {
+                    if(allies.getAlliesName().equals(currentAlliesStatus.getAlliesName())){
+                        alliesRegisteredToContest.remove(allies);
+                    }
+                }
+            }
+        }
     }
 }

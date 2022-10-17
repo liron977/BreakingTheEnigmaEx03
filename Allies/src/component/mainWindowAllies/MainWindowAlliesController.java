@@ -116,6 +116,7 @@ public void disableReadyButton(){
         alliesContestController.reset();
     }
 
+
     public AlliesContestController getAlliesContestController() {
         return alliesContestController;
     }

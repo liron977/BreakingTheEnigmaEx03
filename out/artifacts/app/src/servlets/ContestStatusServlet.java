@@ -41,6 +41,9 @@ public class ContestStatusServlet extends HttpServlet {
                             engineManager.getIsContestEnded(),
                             engineManager.getAlliesWinnwerTeamName(),
                             engineManager.getIsAlliesConfirmedGameOver());
+                    if(engineManager.getIsContestEnded()){
+                      engineManager.updateCurrentAlliesStatusListAtTheEndOfContest();
+                    }
                     Gson gson = new Gson();
                     String json = gson.toJson(contestStatusInfoDTO);
                     out.println(json);
@@ -98,8 +101,9 @@ public class ContestStatusServlet extends HttpServlet {
             EngineManager engineManager = uBoatAvailableContestsManager.getEngineManagerByBattleFieldName(theBattleFieldName);
             engineManager.setAlliesConfirmedGameOver(true);
             engineManager.initMaxAmountOfMissions();
-            engineManager.clearBattleFieldValues("allies");
-            engineManager.clearAlliesRegisteredToContestList();
+            engineManager.clearBattleFieldValues("allies",theAlliesTeamName);
+           // engineManager.clearAlliesRegisteredToContestList();
+            engineManager.clearAlliesRegisteredToContest();
         }
     }
 }

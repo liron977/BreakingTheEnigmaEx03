@@ -374,6 +374,8 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
                 }
             }
         }
+    }
+    public void isAllActiveAlliesTeamsLoggedOut(){
 
     }
     private boolean isMissionSizeIsValid(){
@@ -489,6 +491,12 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
             } else {
                 if (response.code() == 409) {
                     alert.setContentText("The contest " + selectedBattleField + " is full, please select another one");
+                    alert.getDialogPane().setExpanded(true);
+                    alert.showAndWait();
+                    return false;
+                }
+                else if (response.code() == 409) {
+                    alert.setContentText("The contest " + selectedBattleField + " is not available,not all the allies teams logged out");
                     alert.getDialogPane().setExpanded(true);
                     alert.showAndWait();
                     return false;

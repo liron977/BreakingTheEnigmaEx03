@@ -1097,8 +1097,8 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     public void setIsContestEnded(boolean status) {
       battleField.setIsContestEnded(status);
     }
-    public void clearBattleFieldValues(String role){
-        battleField.clearValues(role);
+    public void clearBattleFieldValues(String role,String theAlliesTeamName){
+        battleField.clearValues(role,theAlliesTeamName);
     }
     public void setIsAlliesConfirmedGameOver(){
         battleField.setIsAlliesConfirmedGameOver();
@@ -1126,5 +1126,22 @@ public class EngineManager implements EngineManagerInterface,Serializable {
 
     public void clearAlliesRegisteredToContestList(){
         this.battleField.clearAlliesRegisteredToContestList();
+    }
+    public void clearAlliesRegisteredToContest(){
+        this.battleField.clearAlliesRegisteredToContest();
+    }
+
+    public void setAmountOfCurrentactiveAlliesInContest(int amountOfCurrentactiveAlliesInContest) {
+        this.battleField.setAmountOfCurrentactiveAlliesInContest(amountOfCurrentactiveAlliesInContest);
+    }
+
+    public int getAmountOfCurrentactiveAlliesInContest() {
+        return battleField.getAmountOfCurrentactiveAlliesInContest();
+    }
+    public void updateCurrentAlliesStatusListAtTheEndOfContest(){
+        this.battleField.updateCurrentAlliesStatusListAtTheEndOfContest();
+    }
+     public boolean isAllAlliesInContestLoogedOut(){
+       return this.battleField.isAllAlliesInContestLoogedOut();
     }
 }
