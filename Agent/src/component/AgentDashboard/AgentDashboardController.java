@@ -678,6 +678,7 @@ private void updateAgentStatus(){
             bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
             bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);
             startContestStatusRefresher();
+            //startContestTableViewRefresher();
             AgentThreadTask agentThreadTask=new AgentThreadTask(this);
             new Thread(agentThreadTask).start();
             isPopDisplayedForFirstTime=false;
@@ -692,7 +693,7 @@ private void updateAgentStatus(){
       //  this.alliesWinnerTeamName = "";
         if (contestStatusRefresher != null) {
             contestStatusRefresher.cancel();
-          //  contestInfoController.close();
+           // contestInfoController.close();
             timer.cancel();
         }
     }

@@ -44,6 +44,10 @@ public class ContestStatusServlet extends HttpServlet {
                     if(engineManager.getIsContestEnded()){
                       engineManager.updateCurrentAlliesStatusListAtTheEndOfContest();
                     }
+                    if (!engineManager.getIsContestEnded()){
+                        int bb=0;
+                        // System.out.println("!engineManager.getIsContestEnded()");
+                    }
                     Gson gson = new Gson();
                     String json = gson.toJson(contestStatusInfoDTO);
                     out.println(json);
@@ -99,11 +103,13 @@ public class ContestStatusServlet extends HttpServlet {
         alliesMissionsManager.removeAliesTeam(theAlliesTeamName);
         if (theBattleFieldName != null&&!theBattleFieldName.isEmpty()) {
             EngineManager engineManager = uBoatAvailableContestsManager.getEngineManagerByBattleFieldName(theBattleFieldName);
-            engineManager.setAlliesConfirmedGameOver(true);
-            engineManager.initMaxAmountOfMissions();
-            engineManager.clearBattleFieldValues("allies",theAlliesTeamName);
-           // engineManager.clearAlliesRegisteredToContestList();
-            engineManager.clearAlliesRegisteredToContest(theAlliesTeamName);
+            if(engineManager!=null) {
+                engineManager.setAlliesConfirmedGameOver(true);
+                engineManager.initMaxAmountOfMissions();
+                engineManager.clearBattleFieldValues("allies", theAlliesTeamName);
+                // engineManager.clearAlliesRegisteredToContestList();
+                engineManager.clearAlliesRegisteredToContest(theAlliesTeamName);
+            }
         }
     }
 }
