@@ -631,8 +631,9 @@ public class AlliesContestController implements Closeable {
         isContestEnded.setValue(false);
         alliesWinnerTeamName = "";
         isMessageDisplayedForFirstTime = false;
-
-        isMissionsCreated=false;
+        //isMissionsCreated = false;
+      //  isUboatSettingsCompleted = false;
+       // isMessageUboatDontExistDisplayed=false;
 
     }
 

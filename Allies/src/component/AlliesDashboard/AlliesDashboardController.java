@@ -495,7 +495,7 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
                     alert.showAndWait();
                     return false;
                 }
-                else if (response.code() == 409) {
+                else if (response.code() == 401) {
                     alert.setContentText("The contest " + selectedBattleField + " is not available,not all the allies teams logged out");
                     alert.getDialogPane().setExpanded(true);
                     alert.showAndWait();

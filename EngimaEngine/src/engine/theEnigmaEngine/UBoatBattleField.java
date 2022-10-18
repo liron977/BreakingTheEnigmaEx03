@@ -79,7 +79,7 @@ public void setIsAlliesConfirmedGameOver(){
    public boolean addAllies(Allies allies){
       // Allies newAllies=new Allies(alliesDTO.getAlliesName());
        //newAllies.setMissionSize(alliesDTO.getMissionSize());
-
+       alliesActiveTeamsAmount=getAlliesActiveTeamsAmount();
        if(alliesActiveTeamsAmount<alliesNeededTeamsAmount){
            alliesRegisteredToContest.add(allies);
            isCrrentAlliesStatusListAlreayUpdated=false;
@@ -124,9 +124,20 @@ public List<String> getAlliesRegisteredNames(){
        return uploadedBy;
     }
 
-    public int getAlliesActiveTeamsAmount() {
+/*    public int getAlliesActiveTeamsAmount() {
         return alliesActiveTeamsAmount;
+    }*/
+public int getAlliesActiveTeamsAmount() {
+    int counter=0;
+    for (CurrentAlliesStatus currentAlliesStatus : currentAlliesStatusList) {
+        if(!currentAlliesStatus.getisContestEnded()){
+            counter++;
+        }
     }
+    //alliesActiveTeamsAmount=counter;
+    return counter;
+}
+
 
     public String getContestStatus() {
         return contestStatus;
@@ -149,13 +160,14 @@ public List<String> getAlliesRegisteredNames(){
     }
     public void setIsConvertedStringSet() {
         this.isConvertedStringSet = true;
+        alliesActiveTeamsAmount=getAlliesActiveTeamsAmount();
         if (alliesActiveTeamsAmount == alliesNeededTeamsAmount) {
             contestStatus = "Active";
             isUboatReady = true;
         }
     }
     public void setIsActiveContest(){
-
+        alliesActiveTeamsAmount=getAlliesActiveTeamsAmount();
         if(alliesActiveTeamsAmount==alliesNeededTeamsAmount&&isConvertedStringSet){
             contestStatus="Active";
             isUboatReady=true;
@@ -187,12 +199,25 @@ public List<String> getAlliesRegisteredNames(){
         isContestEnded = contestEnded;
     }
     public void clearValues(String role,String theAlliesTeamName){
+        this.contestStatus="Wait..";
+        this.isContestEnded=false;
+        System.out.println( " this.isContestEnded=false");
+        this.alliesWinnwerTeamName="";
        if(role.equals("allies")) {
           // alliesActiveTeamsAmount = 0;
            amountOfCurrentactiveAlliesInContest--;
+          // alliesActiveTeamsAmount--;
            for (CurrentAlliesStatus currentAlliesStatus : currentAlliesStatusList) {
                if(currentAlliesStatus.getAlliesName().equals(theAlliesTeamName)){
                    this.currentAlliesStatusList.remove(currentAlliesStatus);
+                   alliesActiveTeamsAmount--;
+                   if(currentAlliesStatusList==null){
+                       currentAlliesStatusList=new ArrayList<>();
+                       break;
+                   }
+                   if(currentAlliesStatusList.size()==0){
+                       break;
+                   }
                }
            }
        }
@@ -202,9 +227,6 @@ public List<String> getAlliesRegisteredNames(){
            this.isUboatReady=false;
            this.isConvertedStringSet=false;
        }
-        this.contestStatus="Wait..";
-        this.isContestEnded=false;
-        this.alliesWinnwerTeamName="";
 
        // this.isAlliesConfirmedGameOver=false;
     }
@@ -234,6 +256,7 @@ public List<String> getAlliesRegisteredNames(){
     public void updateCurrentAlliesStatusListAtTheEndOfContest() {
         if (!isCrrentAlliesStatusListAlreayUpdated) {
             for (CurrentAlliesStatus currentAlliesStatus : currentAlliesStatusList) {
+                System.out.println(currentAlliesStatus.getAlliesName());
                 currentAlliesStatus.setContestEnded(true);
             }
             isCrrentAlliesStatusListAlreayUpdated = true;
@@ -251,15 +274,11 @@ public List<String> getAlliesRegisteredNames(){
         }
         return true;
     }
-    public void clearAlliesRegisteredToContest(){
-        for (CurrentAlliesStatus currentAlliesStatus : currentAlliesStatusList) {
-            if(currentAlliesStatus.getisContestEnded()){
+    public void clearAlliesRegisteredToContest(String theAlliesTeamName){
                 for (Allies allies:alliesRegisteredToContest ) {
-                    if(allies.getAlliesName().equals(currentAlliesStatus.getAlliesName())){
+                    if(allies.getAlliesName().equals(theAlliesTeamName)){
                         alliesRegisteredToContest.remove(allies);
                     }
                 }
-            }
-        }
     }
 }

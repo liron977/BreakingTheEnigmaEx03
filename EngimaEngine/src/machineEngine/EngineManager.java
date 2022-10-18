@@ -1127,8 +1127,8 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     public void clearAlliesRegisteredToContestList(){
         this.battleField.clearAlliesRegisteredToContestList();
     }
-    public void clearAlliesRegisteredToContest(){
-        this.battleField.clearAlliesRegisteredToContest();
+    public void clearAlliesRegisteredToContest(String theAlliesTeamName){
+        this.battleField.clearAlliesRegisteredToContest(theAlliesTeamName);
     }
 
     public void setAmountOfCurrentactiveAlliesInContest(int amountOfCurrentactiveAlliesInContest) {

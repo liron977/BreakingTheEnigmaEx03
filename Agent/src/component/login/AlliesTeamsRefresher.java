@@ -51,7 +51,7 @@ public class AlliesTeamsRefresher extends TimerTask {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 //String jsonArrayOfUsersNames = response.body().string();
-                Type alliesTeamNamesListType = new TypeToken<ArrayList<String>>() {}.getType();
+               Type alliesTeamNamesListType = new TypeToken<ArrayList<String>>() {}.getType();
                 List<String> dtoFromGson=Constants.GSON_INSTANCE.fromJson(response.body().string(),alliesTeamNamesListType);
                 if(dtoFromGson!=null) {
                     updateAlliesTeamNamesComboBox.accept(dtoFromGson);
