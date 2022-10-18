@@ -199,11 +199,13 @@ public int getAlliesActiveTeamsAmount() {
         isContestEnded = contestEnded;
     }
     public void clearValues(String role,String theAlliesTeamName){
+
         this.contestStatus="Wait..";
         this.isContestEnded=false;
         System.out.println( " this.isContestEnded=false");
         this.alliesWinnwerTeamName="";
-       if(role.equals("allies")) {
+
+        if(role.equals("allies")) {
           // alliesActiveTeamsAmount = 0;
            amountOfCurrentactiveAlliesInContest--;
           // alliesActiveTeamsAmount--;
@@ -211,11 +213,8 @@ public int getAlliesActiveTeamsAmount() {
                if(currentAlliesStatus.getAlliesName().equals(theAlliesTeamName)){
                    this.currentAlliesStatusList.remove(currentAlliesStatus);
                    alliesActiveTeamsAmount--;
-                   if(currentAlliesStatusList==null){
+                   if(currentAlliesStatusList==null||currentAlliesStatusList.size()==0){
                        currentAlliesStatusList=new ArrayList<>();
-                       break;
-                   }
-                   if(currentAlliesStatusList.size()==0){
                        break;
                    }
                }
@@ -278,6 +277,10 @@ public int getAlliesActiveTeamsAmount() {
                 for (Allies allies:alliesRegisteredToContest ) {
                     if(allies.getAlliesName().equals(theAlliesTeamName)){
                         alliesRegisteredToContest.remove(allies);
+                        if(alliesRegisteredToContest==null||alliesRegisteredToContest.size()==0){
+                            alliesRegisteredToContest=new ArrayList<>();
+                            break;
+                        }
                     }
                 }
     }
