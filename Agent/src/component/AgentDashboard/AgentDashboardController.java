@@ -563,7 +563,7 @@ return isMissionsEnded;
                });
             }
         }
-      if (!isContestEnded.getValue()) {
+     if (!isContestEnded.getValue()) {
             Platform.runLater(() -> {
                 this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());
                 this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
