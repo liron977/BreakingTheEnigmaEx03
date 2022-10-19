@@ -68,7 +68,7 @@ public class DMCreateMissionsServlet extends HttpServlet {
         boolean isAddedToBlockingQueue=false;
        String initialStartingPosition= engineManager.getInitialStartingPosition();
         int missionIndex = 0;
-
+        System.out.println(amountOfSubListsToCreate+"amountOfSubListsToCreate");
         for (int i = 0; i < amountOfSubListsToCreate&&!engineManager.getIsContestEnded(); i++) {
             missionsCounter++;
             missionIndex = i;
@@ -76,29 +76,33 @@ public class DMCreateMissionsServlet extends HttpServlet {
 
             isAddedToBlockingQueue = alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName, theMissionInfo);
             while (!isAddedToBlockingQueue) {
-                if(alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size()<1000) {
+                if(alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size()<=1000) {
                     isAddedToBlockingQueue = alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName, theMissionInfo);
                 }
             }
             if(theAlliesTeamName!=null&&alliesManager!=null) {
                 alliesManager.increaseAmountOfCreatedMission(theAlliesTeamName);
+                //missionsCounter=missionsCounter.intValue()+1;
             }
-            missionsCounter=missionsCounter.intValue()+1;
       /*      System.out.println(missionsCounter.intValue());*/
             initialStartingPosition = engineManager.getNextStartingPositionByString(sizeOfMission);
         }
+        System.out.println(missionsCounter+"missionsCounter");
     }
 
     public void createMediumLevelMission(Integer missionsCounter,EngineManager engineManager,
                                          Long amountOfSubListsToCreate,int sizeOfMission
             ,String theAlliesTeamName,String stringToConvert) throws Exception {
+        int countr=0;
         for (String reflectorId : engineManager.getTheMachineEngine().getReflectorsSet().getReflectorsId()) {
+            countr++;
             if(engineManager.getIsContestEnded()){
                 break;
             }
             engineManager.chooseManuallyReflect(reflectorId);
             createLowLevelMission(missionsCounter,engineManager,amountOfSubListsToCreate,sizeOfMission,theAlliesTeamName,stringToConvert);
         }
+        System.out.println(countr+"countr");
 
     }
 

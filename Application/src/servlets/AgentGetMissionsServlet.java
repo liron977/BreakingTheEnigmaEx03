@@ -44,20 +44,25 @@ public class AgentGetMissionsServlet extends HttpServlet {
                     } else {
                         if (alliesManager.getMaxAmountOfMissions(theAlliesTeamName) <= 0) {
                             response.setStatus(HttpServletResponse.SC_CONFLICT);
-                            System.out.println(alliesManager.getMaxAmountOfMissions(theAlliesTeamName));
+                            System.out.println(alliesManager.getMaxAmountOfMissions(theAlliesTeamName)+"0");
                         } else if (engineManager.getIsContestEnded()) {
                             response.setStatus(HttpServletResponse.SC_GONE);
                         } else {
                             while (counter < amountOfMissions) {
                                 try {
-                                    TheMissionInfoDTO theMissionInfo = alliesMissionsManager.getMissionFromBlockingQueue(theAlliesTeamName);
-                                    if (theMissionInfo == null) {
-                                        break;
-                                    } else {
-                                        counter++;
-                                        alliesManager.decreaseMaxAmountOfMissions(theAlliesTeamName);
-                                        System.out.println(alliesManager.getMaxAmountOfMissions(theAlliesTeamName));
-                                        theMissionInfoList.add(theMissionInfo);
+                                    synchronized (getServletContext()) {
+                                        TheMissionInfoDTO theMissionInfo = alliesMissionsManager.getMissionFromBlockingQueue(theAlliesTeamName);
+                                        System.out.println(alliesMissionsManager.getCurrentAmountOfCreatedMissions(theAlliesTeamName) + "getMissionsBlockingQueueByAlliesTeamName");
+
+                                        if (theMissionInfo == null) {
+                                            System.out.println("theMissionInfo == null)");
+                                            break;
+                                        } else {
+                                            counter++;
+                                            alliesManager.decreaseMaxAmountOfMissions(theAlliesTeamName);
+                                            System.out.println(alliesManager.getMaxAmountOfMissions(theAlliesTeamName) + "getMaxAmountOfMissions");
+                                            theMissionInfoList.add(theMissionInfo);
+                                        }
                                     }
                                 } catch (InterruptedException e) {
                                     throw new RuntimeException(e);

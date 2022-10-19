@@ -61,6 +61,8 @@ public class Allies implements Serializable {
     public void setTotalAmountOfMissionToCreate(Long totalAmountOfMissionToCreate) {
         this.totalAmountOfMissionToCreate = totalAmountOfMissionToCreate;
         this.maxAmountOfMissions=totalAmountOfMissionToCreate;
+        System.out.println( this.maxAmountOfMissions+"this.maxAmountOfMissions");
+
     }
 
     public Long getTotalAmountOfMissionToCreate() {
@@ -139,8 +141,8 @@ public class Allies implements Serializable {
     }
     public void decreaseMaxAmountOfMissions() {
         this.maxAmountOfMissions = maxAmountOfMissions-1;
-        if (maxAmountOfMissions<0){
+       /* if (maxAmountOfMissions<0){
             System.out.println(maxAmountOfMissions+" maxAmountOfMissions");
-        }
+        }*/
     }
 }

@@ -282,8 +282,9 @@ public class AgentDashboardController implements Closeable {
                     List<TheMissionInfoDTO> theMissionInfoListFromGson = null;
                     try {
                         theMissionInfoListFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
-                        amountOfAskedMissionsProperty.setValue(amountOfAskedMissionsProperty.getValue() + theMissionInfoListFromGson.size());
+                        List<TheMissionInfoDTO> finalTheMissionInfoListFromGson = theMissionInfoListFromGson;
                         Platform.runLater(() -> {
+                            amountOfAskedMissionsProperty.setValue(amountOfAskedMissionsProperty.getValue() + finalTheMissionInfoListFromGson.size());
                             amountOfAskedMissionsLabel.setText("Amount Of Asked Missions : " + displayTextWithCommas(amountOfAskedMissionsProperty.getValue()));
                         });
                         TheMachineEngine theMachineEngine = getTheMachineEngineInputstream();
@@ -328,6 +329,11 @@ public class AgentDashboardController implements Closeable {
                             }
                         });
                         isMissionsEnded = true;
+                    }
+                    if (response.code() == 410) {
+                        Platform.runLater(() -> {
+                            return;
+                        });
                     }
                     else{
                    /*     Platform.runLater(() -> {
