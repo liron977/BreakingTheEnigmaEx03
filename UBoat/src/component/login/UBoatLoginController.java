@@ -97,7 +97,7 @@ public class UBoatLoginController {
                     Platform.runLater(() ->{
                             loginButton.setDisable(false);
                     uBoatNameTextField.setDisable(false);
-                            errorMessageProperty.set("Something went wrong: " + responseBody);
+                            errorMessageProperty.set(responseBody);
                     } );
                 }
                 else {

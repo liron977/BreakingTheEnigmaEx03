@@ -213,12 +213,12 @@ public class AgentLoginController {
 
         HttpClientUtil.runAsync(finalUrl, new Callback() {
             @Override public void onFailure(@NotNull Call call, @NotNull IOException e) {
-              /*  Platform.runLater(() ->{
+                Platform.runLater(() ->{
                             agentNameTextField.setDisable(false);
                             loginButton.setDisable(false);
                     errorMessageProperty.set("Something went wrong: " + e.getMessage());
                         }
-                );*/
+                );
             }
 
             @Override public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
@@ -227,7 +227,7 @@ public class AgentLoginController {
                     loginButton.setDisable(false);
                     String responseBody = response.body().string();
                     Platform.runLater(() ->
-                            errorMessageProperty.set("Something went wrong: " + responseBody)
+                            errorMessageProperty.set(responseBody)
                     );
                 }
                 else {
