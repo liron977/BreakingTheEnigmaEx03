@@ -26,7 +26,7 @@
                   <Insets left="15.0" right="15.0" />
                </padding>
             </HBox>
-            <Label fx:id="loginErrorLabel" alignment="CENTER" />
+            <Label id="lighterLabel" fx:id="loginErrorLabel" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" VBox.vgrow="ALWAYS" />
             <Button id="saveSettingsButton" fx:id="loginButton" alignment="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="50.0" prefWidth="95.0" text="Login">
                <VBox.margin>
                   <Insets bottom="15.0" left="150.0" right="150.0" />
