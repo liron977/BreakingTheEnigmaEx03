@@ -20,13 +20,15 @@ import java.util.function.Consumer;
 
 public class AlliesRegisteredTeamsInfoTablesViewRefresher extends TimerTask {
     private final Consumer<List<AlliesDTO>> updateRegisteredAlliesInfoList;
+    private final Consumer<Integer> clearTableViewValues;
     private final BooleanProperty shouldUpdate;
     private String battleField;
 
-    public AlliesRegisteredTeamsInfoTablesViewRefresher(Consumer<List<AlliesDTO>> updateAgentsInfoList, BooleanProperty shouldUpdate, String battleField) {
+    public AlliesRegisteredTeamsInfoTablesViewRefresher(Consumer<Integer> clearTableViewValues,Consumer<List<AlliesDTO>> updateAgentsInfoList, BooleanProperty shouldUpdate, String battleField) {
         this.updateRegisteredAlliesInfoList = updateAgentsInfoList;
         this.shouldUpdate = shouldUpdate;
         this.battleField=battleField;
+        this.clearTableViewValues=clearTableViewValues;
     }
     @Override
     public void run() {
@@ -43,6 +45,7 @@ public class AlliesRegisteredTeamsInfoTablesViewRefresher extends TimerTask {
         HttpClientUtil.runAsync(finalUrl, new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                int x=0;
               /*  Platform.runLater(() -> {
                     {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -60,6 +63,10 @@ public class AlliesRegisteredTeamsInfoTablesViewRefresher extends TimerTask {
                 List<AlliesDTO> dtoFromGson=Constants.GSON_INSTANCE.fromJson(response.body().string(),alliesDTOListType);
                 if((dtoFromGson!=null) && (dtoFromGson.size()!=0)) {
                     updateRegisteredAlliesInfoList.accept((dtoFromGson));
+                }
+                if(dtoFromGson.size()==0){
+                clearTableViewValues.accept(0);
+
                 }
             }
         });

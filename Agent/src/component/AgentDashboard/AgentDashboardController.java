@@ -101,6 +101,7 @@ public class AgentDashboardController implements Closeable {
    private TimerTask startNewContestStatusRefresher;
     private Timer startNewContestStatusRefresherTimer;
     private boolean isStartedContestAlready;
+    Object dummyObject;
 
     @FXML
     public void initialize() {
@@ -118,6 +119,7 @@ public class AgentDashboardController implements Closeable {
         isStartedContestAlready=false;
         amountOfMissionsInTheQueue=new SimpleIntegerProperty(0);
         this.autoUpdate=new SimpleBooleanProperty(true);
+        dummyObject=new Object();
         initMissionsStatusLabel();
         /*bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
         bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);*/
@@ -280,7 +282,7 @@ public class AgentDashboardController implements Closeable {
                         TheMachineEngine theMachineEngine = getTheMachineEngineInputstream();
                         setTheMachineEngine(theMachineEngine);
                         UIAdapter UIAdapter = createUIAdapter();
-                        decryptionManager = new AgentDecryptionManager(amountOfMissionsInTheQueue, amountOfAskedMissionsProperty, amountOfDoneMissions, UIAdapter, isMissionEndedProperty, threadPoolExecutor, theMachineEngine
+                        decryptionManager = new AgentDecryptionManager(dummyObject,amountOfMissionsInTheQueue, amountOfAskedMissionsProperty, amountOfDoneMissions, UIAdapter, isMissionEndedProperty, threadPoolExecutor, theMachineEngine
                                 , selectedAlliesTeamName,
                                 theMissionInfoListFromGson
                                 , missionsInfoBlockingQueue

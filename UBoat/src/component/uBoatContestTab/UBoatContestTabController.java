@@ -712,11 +712,16 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     }
     public void startAlliesInfoTableViewRefresher() {
         alliesRegisteredTeamsRefresher = new AlliesRegisteredTeamsInfoTablesViewRefresher(
+                this::clearTableViewValues,
                 this::updateRegisteredAlliesInfoList,
                 autoUpdate,
                 battleName.trim());
         startAlliesInfoTableViewTimer = new Timer();
         startAlliesInfoTableViewTimer.schedule(alliesRegisteredTeamsRefresher, REFRESH_RATE, REFRESH_RATE);
+    }
+    public void clearTableViewValues(Integer i){
+        activeTeamsDetailsTableView.getItems().clear();
+
     }
     private void updateBruteForceResultsTableView(BruteForceResultAndVersion bruteForceResultAndVersionWithVersion) {
         if (bruteForceResultAndVersionWithVersion != null) {

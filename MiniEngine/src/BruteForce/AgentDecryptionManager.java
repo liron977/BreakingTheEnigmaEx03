@@ -34,7 +34,7 @@ public class AgentDecryptionManager {
     private String agentName;
     private Object dummyObject;
 
-public AgentDecryptionManager(SimpleIntegerProperty amountOfMissionsInTheQueue,SimpleIntegerProperty amountOfAskedMissionsProperty,SimpleIntegerProperty amountOfDoneMissions,UiAdapterInterface uiAdapterInterface,
+public AgentDecryptionManager(Object dummyObject,SimpleIntegerProperty amountOfMissionsInTheQueue,SimpleIntegerProperty amountOfAskedMissionsProperty,SimpleIntegerProperty amountOfDoneMissions,UiAdapterInterface uiAdapterInterface,
                               SimpleBooleanProperty isMissionEndedProperty,ThreadPoolExecutor threadPoolExecutor, TheMachineEngine theMachineEngine
         , String alliesTeamName, List<TheMissionInfoDTO> theMissionInfoDTOList,
                               BlockingQueue<Runnable> missionsInfoBlockingQueue
@@ -55,7 +55,8 @@ public AgentDecryptionManager(SimpleIntegerProperty amountOfMissionsInTheQueue,S
     this.isContestEnded=isContestEnded;
     amountOfMissionsInTheQueue.setValue(0);
     this.agentName=agentName;
-    dummyObject=new Object();
+    this.dummyObject=dummyObject;
+
 }
     public void createMission() throws Exception {
     int missionsCounter=0;
