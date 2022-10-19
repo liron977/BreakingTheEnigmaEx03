@@ -36,11 +36,11 @@
                </HBox.margin>
             </VBox>
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <VBox id="saveSettingsButton" alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="477.0" prefWidth="421.0" spacing="10.0" HBox.hgrow="ALWAYS">
+            <VBox id="saveSettingsButton" alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="477.0" prefWidth="421.0" spacing="8.0" HBox.hgrow="ALWAYS">
                <children>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="91.0" prefViewportHeight="240.0" prefViewportWidth="600.0" prefWidth="421.0">
+                  <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="80.0" prefViewportHeight="240.0" prefViewportWidth="600.0" prefWidth="419.0">
                      <content>
-                        <TableView fx:id="activeTeamsDetailsTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="91.0" prefWidth="419.0">
+                        <TableView fx:id="activeTeamsDetailsTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="77.0" prefWidth="419.0">
                            <columns>
                               <TableColumn fx:id="alliesTeamNameColumn" maxWidth="1.7976931348623157E308" prefWidth="208.66678869724274" text="Allies Team" />
                               <TableColumn fx:id="agentsAmountColumn" maxWidth="1.7976931348623157E308" prefWidth="103.33322143554688" text="Agents Amount" />
@@ -50,18 +50,13 @@
                      </content>
                   </ScrollPane>
                   <fx:include fx:id="currentCodeConfiguration" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" source="../uBoatMachineTab/machineTab/CodeConfigurationTableView.fxml" VBox.vgrow="ALWAYS" />
-                  <Button id="saveSettingsButton" fx:id="resetButton" mnemonicParsing="false" onAction="#resetButtonOnAction" prefHeight="25.0" prefWidth="175.0" text="Reset Configuration">
-                     <VBox.margin>
-                        <Insets right="120.0" />
-                     </VBox.margin>
-                  </Button>
                   <Label id="GeneralLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="331.0" text="Please select words from the dictionary">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
                   </Label>
                   <TextField fx:id="searchTextField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#searchTextFieldOnListener" prefHeight="25.0" prefWidth="275.0" />
-                  <ListView id="userInputBruteForce" fx:id="listView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#listViewClickOnItem" prefHeight="76.0" prefWidth="421.0" VBox.vgrow="ALWAYS" />
+                  <ListView id="userInputBruteForce" fx:id="listView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#listViewClickOnItem" prefHeight="69.0" prefWidth="419.0" VBox.vgrow="ALWAYS" />
                   <Label id="GeneralLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="The selected words are :" />
                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="44.0" minWidth="330.0" prefHeight="44.0" prefWidth="419.0" spacing="30.0">
                      <children>
@@ -83,11 +78,15 @@
                      <VBox.margin>
                         <Insets left="25.0" right="25.0" top="5.0" />
                      </VBox.margin></Button>
-                  <Button fx:id="logoutButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#logoutButtonOnAction" prefHeight="25.0" prefWidth="65.0" text="Logout">
+                  <HBox spacing="200.0">
                      <VBox.margin>
-                        <Insets bottom="5.0" />
+                        <Insets bottom="2.0" left="2.0" right="2.0" />
                      </VBox.margin>
-                  </Button>
+                     <children>
+                        <Button id="saveSettingsButton" fx:id="resetButton" mnemonicParsing="false" onAction="#resetButtonOnAction" prefHeight="25.0" prefWidth="175.0" text="Reset Configuration" />
+                        <Button fx:id="logoutButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#logoutButtonOnAction" prefHeight="25.0" prefWidth="96.0" text="Logout" />
+                     </children>
+                  </HBox>
                </children>
                <HBox.margin>
                   <Insets right="5.0" top="5.0" />

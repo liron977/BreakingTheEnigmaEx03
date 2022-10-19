@@ -33,7 +33,8 @@ import java.io.IOException;
                 contestStatusInfoDTO.setContestStatus(engineManager.getContestStatus());
             }*/
             //uBoatAvailableContestsManger.addUBoatAvailableContest(engineManager,battleName);
-            statusManager.deleteHistory();
+            //statusManager.deleteHistory();
+            statusManager.removeUboat(battleName);
 
             //  uBoatAvailableContestsManger.addUBoatAvailableContest(engineManager,battleName);
             response.setStatus(HttpServletResponse.SC_OK);
