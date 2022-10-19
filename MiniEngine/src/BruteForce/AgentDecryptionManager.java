@@ -32,6 +32,7 @@ public class AgentDecryptionManager {
     SimpleIntegerProperty amountOfAskedMissionsProperty;
     private SimpleBooleanProperty  isContestEnded;
     private String agentName;
+    private Object dummyObject;
 
 public AgentDecryptionManager(SimpleIntegerProperty amountOfMissionsInTheQueue,SimpleIntegerProperty amountOfAskedMissionsProperty,SimpleIntegerProperty amountOfDoneMissions,UiAdapterInterface uiAdapterInterface,
                               SimpleBooleanProperty isMissionEndedProperty,ThreadPoolExecutor threadPoolExecutor, TheMachineEngine theMachineEngine
@@ -54,6 +55,7 @@ public AgentDecryptionManager(SimpleIntegerProperty amountOfMissionsInTheQueue,S
     this.isContestEnded=isContestEnded;
     amountOfMissionsInTheQueue.setValue(0);
     this.agentName=agentName;
+    dummyObject=new Object();
 }
     public void createMission() throws Exception {
     int missionsCounter=0;
@@ -69,7 +71,7 @@ public AgentDecryptionManager(SimpleIntegerProperty amountOfMissionsInTheQueue,S
                 }
                 machineEngine.chooseManuallyReflect(theMissionInfoDTO.getReflector());
                 MachineEngine machineEngineCopy = machineEngine.cloneMachineEngine();
-                AgentMissionRunnable agentMissionRunnable = new AgentMissionRunnable(amountOfMissionsInTheQueue, amountOfAskedMissionsProperty, lastStartingPos, missionsCounter, uiAdapterInterface, machineEngineCopy,
+                AgentMissionRunnable agentMissionRunnable = new AgentMissionRunnable(dummyObject,amountOfMissionsInTheQueue, amountOfAskedMissionsProperty, lastStartingPos, missionsCounter, uiAdapterInterface, machineEngineCopy,
                         theMissionInfoDTO.getStringToConvert(), alliesTeamName
                         , theMissionInfoDTO.getInitialStartingPosition(),
                         theMissionInfoDTO.getSizeOfMission(), amountOfDoneMissions

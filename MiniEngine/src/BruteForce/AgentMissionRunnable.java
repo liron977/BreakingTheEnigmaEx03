@@ -29,7 +29,8 @@ public class AgentMissionRunnable implements Runnable {
     SimpleIntegerProperty amountOfAskedMissionsProperty;
     SimpleBooleanProperty isContestEnded;
     private String agentName;
-    public AgentMissionRunnable(SimpleIntegerProperty amountOfMissionsInTheQueue,SimpleIntegerProperty amountOfAskedMissionsProperty,String lastStartingPos,int missionNumber,UiAdapterInterface uiAdapterInterface,MachineEngine machineEngineCopy,
+    private Object dummyObject;
+    public AgentMissionRunnable(Object dummyObject,SimpleIntegerProperty amountOfMissionsInTheQueue,SimpleIntegerProperty amountOfAskedMissionsProperty,String lastStartingPos,int missionNumber,UiAdapterInterface uiAdapterInterface,MachineEngine machineEngineCopy,
                                 String stringToConvert, String alliesTeamName
             , String initialStartingPosition, int sizeOfMission
     ,SimpleIntegerProperty amountOfDoneMissions,SimpleBooleanProperty  isContestEnded,
@@ -53,6 +54,7 @@ public class AgentMissionRunnable implements Runnable {
         }
        this.isContestEnded=isContestEnded;
        this.agentName=agentName;
+       this.dummyObject=dummyObject;
     }
 
     public void setResultsList(List<BruteForceResultDTO> resultsList) {
@@ -90,7 +92,7 @@ public class AgentMissionRunnable implements Runnable {
     }
     private void publishResults() throws InterruptedException {
 
-        synchronized (this){
+        synchronized (dummyObject){
             if(resultsList.size()>0) {
                 uiAdapterInterface.saveResultsOnServer(resultsList);
                 for (BruteForceResultDTO str:resultsList) {
