@@ -927,6 +927,7 @@ public class EngineManager implements EngineManagerInterface,Serializable {
     this.battleField.setIsActiveContest();
    }
    public boolean addAlliesToContest(Allies allies){
+
         return battleField.addAllies(allies);
 
    }

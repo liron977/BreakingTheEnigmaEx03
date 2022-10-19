@@ -82,6 +82,7 @@ public void setIsAlliesConfirmedGameOver(){
        alliesActiveTeamsAmount=getAlliesActiveTeamsAmount();
        if(alliesActiveTeamsAmount<alliesNeededTeamsAmount){
            alliesRegisteredToContest.add(allies);
+           System.out.println("added "+allies.getAlliesName());
            isCrrentAlliesStatusListAlreayUpdated=false;
            currentAlliesStatusList.add(new CurrentAlliesStatus(allies.getAlliesName(),false));
            alliesActiveTeamsAmount++;
@@ -208,10 +209,12 @@ public int getAlliesActiveTeamsAmount() {
         if(role.equals("allies")) {
           // alliesActiveTeamsAmount = 0;
            amountOfCurrentactiveAlliesInContest--;
+           List<CurrentAlliesStatus> tempcurrentAlliesStatusListToRemove=new ArrayList<>();
           // alliesActiveTeamsAmount--;
            for (CurrentAlliesStatus currentAlliesStatus : currentAlliesStatusList) {
                if(currentAlliesStatus.getAlliesName().equals(theAlliesTeamName)){
-                   this.currentAlliesStatusList.remove(currentAlliesStatus);
+                   tempcurrentAlliesStatusListToRemove.add(currentAlliesStatus);
+                 //  this.currentAlliesStatusList.remove(currentAlliesStatus);
                    alliesActiveTeamsAmount--;
                    if(currentAlliesStatusList==null||currentAlliesStatusList.size()==0){
                        currentAlliesStatusList=new ArrayList<>();
@@ -219,6 +222,8 @@ public int getAlliesActiveTeamsAmount() {
                    }
                }
            }
+            currentAlliesStatusList.removeAll(tempcurrentAlliesStatusListToRemove);
+
        }
        else{
            this.convertedString="";
@@ -289,14 +294,17 @@ public int getAlliesActiveTeamsAmount() {
         return true;
     }
     public void clearAlliesRegisteredToContest(String theAlliesTeamName){
+    List<Allies> alliesRegisteredToContestToRemove=new ArrayList<>();
                 for (Allies allies:alliesRegisteredToContest ) {
                     if(allies.getAlliesName().equals(theAlliesTeamName)){
-                        alliesRegisteredToContest.remove(allies);
-                        if(alliesRegisteredToContest==null||alliesRegisteredToContest.size()==0){
-                            alliesRegisteredToContest=new ArrayList<>();
-                            break;
-                        }
+                        alliesRegisteredToContestToRemove.add(allies);
+                        System.out.println("removed "+theAlliesTeamName);
+
                     }
                 }
+        alliesRegisteredToContest.removeAll(alliesRegisteredToContestToRemove);
+        if(alliesRegisteredToContest==null||alliesRegisteredToContest.size()==0){
+            alliesRegisteredToContest=new ArrayList<>();
+        }
     }
 }

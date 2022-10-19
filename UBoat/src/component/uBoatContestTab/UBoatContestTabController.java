@@ -662,6 +662,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                     }
                 });*/
                 } else {
+                    startContestTableViewRefresher();
                     readyButton.setDisable(true);
 
                     Platform.runLater(() -> {
@@ -971,12 +972,12 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         isContestEnded.set(false);
         readyButton.setDisable(false);
         if (BruteForceResultTableViewRefresher!=null&&contestStatusRefresher!=null&&alliesRegisteredTeamsRefresher != null && timer!= null && BruteForceResultTableViewRefresherTimer!= null) {
-            alliesRegisteredTeamsRefresher.cancel();
-            alliesRegisteredTeamsRefresher.cancel();
+           /* alliesRegisteredTeamsRefresher.cancel();
+            alliesRegisteredTeamsRefresher.cancel();*/
             BruteForceResultTableViewRefresher.cancel();
            contestStatusRefresher.cancel();
             BruteForceResultTableViewRefresherTimer.cancel();
-            startAlliesInfoTableViewTimer.cancel();
+           /* startAlliesInfoTableViewTimer.cancel();*/
             timer.cancel();
 
         }

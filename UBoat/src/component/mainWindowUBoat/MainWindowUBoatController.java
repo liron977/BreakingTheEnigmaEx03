@@ -190,7 +190,7 @@ public void changeToMachineTab(){
     }
     public void updateAlliesTableView(){
         contestTabController.startAlliesInfoTableViewRefresher();
-        contestTabController.startContestTableViewRefresher();
+        //contestTabController.startContestTableViewRefresher();
        // contestTabController.startContestStatusRefresher();
     }
     }
