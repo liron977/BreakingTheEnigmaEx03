@@ -39,6 +39,10 @@ public class Constants {
     public static final String START_NEW_CONTEST_STATUS="http://localhost:8080/app/StartNewContestStatusServlet";
     public static final String UBOAT_LOGOUT="http://localhost:8080/app/UboatLogoutServlet";
     public static final String RESET_CODE_CONFIGURATION="http://localhost:8080/app/ResetCodeConfigurationServlet";
+    public static final String CHAT_LINES_LIST="http://localhost:8080/app/ChatServlet";
+    public static final String SEND_CHAT_LINE="http://localhost:8080/app/SendChatServlet";
+    public final static String CHAT_LINE_FORMATTING = "%tH:%tM:%tS | %.10s: %s%n";
+
 
     public static final Gson GSON_INSTANCE = new Gson();
     public final static int REFRESH_RATE = 500;

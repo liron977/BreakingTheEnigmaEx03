@@ -3,13 +3,21 @@ package component.mainWindowAllies;
 import component.AlliesDashboard.AlliesDashboardController;
 import component.alliesContest.AlliesContestController;
 import component.alliesContest.AlliesThreadTask;
+import component.bonus.ChatAreaController;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class MainWindowAlliesController {
 
@@ -28,6 +36,8 @@ public class MainWindowAlliesController {
 
     String alliesTeamName;
     private Stage primaryStage;
+    @FXML
+    private Button chatButton;
     @FXML
     private TabPane alliesTabPane;
     @FXML
@@ -48,6 +58,28 @@ public class MainWindowAlliesController {
 
         }
     }
+    @FXML
+    void chatButtonOnAction(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+Stage stage=new Stage();
+        URL url = getClass().getResource("/component/bonus/chat-area.fxml");
+        //URL url = getClass().getResource("/component/mainWindowUBoat/MainWindowUBoat.fxml");
+        fxmlLoader.setLocation(url);
+        Parent root = fxmlLoader.load(url.openStream());
+        ChatAreaController chatAreaController = fxmlLoader.getController();
+        //uBoatLoginController.setMediator(mediator);
+        chatAreaController.startListRefresher();
+        stage.setTitle("Allies Chat");
+        stage.getIcons().add(new Image("/Resources/power.jpg"));
+        Scene scene = new Scene(root);
+        stage.setMinHeight(300f);
+        stage.setMinWidth(400f);
+        scene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
+        scene.getStylesheets().add("");
+        stage.setScene(scene);
+        stage.show();
+    }
+
 
     public void setPrimaryStage(Stage primaryStageIn) {
         primaryStage = primaryStageIn;

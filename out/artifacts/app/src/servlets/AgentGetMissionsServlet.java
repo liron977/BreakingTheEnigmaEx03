@@ -44,6 +44,7 @@ public class AgentGetMissionsServlet extends HttpServlet {
                     } else {
                         if (alliesManager.getMaxAmountOfMissions(theAlliesTeamName) <= 0) {
                             response.setStatus(HttpServletResponse.SC_CONFLICT);
+                            System.out.println(alliesManager.getMaxAmountOfMissions(theAlliesTeamName));
                         } else if (engineManager.getIsContestEnded()) {
                             response.setStatus(HttpServletResponse.SC_GONE);
                         } else {
@@ -55,6 +56,7 @@ public class AgentGetMissionsServlet extends HttpServlet {
                                     } else {
                                         counter++;
                                         alliesManager.decreaseMaxAmountOfMissions(theAlliesTeamName);
+                                        System.out.println(alliesManager.getMaxAmountOfMissions(theAlliesTeamName));
                                         theMissionInfoList.add(theMissionInfo);
                                     }
                                 } catch (InterruptedException e) {

@@ -1,4 +1,9 @@
 package component.mainWindowUBoat;
+import component.bonus.ChatAreaController;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import machineEngine.EngineManager;
 import machineEngine.EngineManagerInterface;
 import javafx.application.Platform;
@@ -17,6 +22,7 @@ import utils.http.HttpClientUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
@@ -327,4 +333,26 @@ public class LoadFileController {
         });
 
     }*/
+@FXML
+void chatButtonOnAction(ActionEvent event) throws IOException {
+    FXMLLoader fxmlLoader = new FXMLLoader();
+    Stage stage=new Stage();
+    URL url = getClass().getResource("/component/bonus/chat-area.fxml");
+    //URL url = getClass().getResource("/component/mainWindowUBoat/MainWindowUBoat.fxml");
+    fxmlLoader.setLocation(url);
+    Parent root = fxmlLoader.load(url.openStream());
+    ChatAreaController chatAreaController = fxmlLoader.getController();
+    //uBoatLoginController.setMediator(mediator);
+    chatAreaController.startListRefresher();
+    stage.setTitle("UBoat Chat");
+    stage.getIcons().add(new Image("/Resources/uboatIcon.jpg"));
+    Scene scene = new Scene(root);
+    stage.setMinHeight(300f);
+    stage.setMinWidth(400f);
+    scene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
+    scene.getStylesheets().add("");
+    stage.setScene(scene);
+    stage.show();
+}
+
 }

@@ -3,6 +3,7 @@ package component.AgentDashboard;
 import BruteForce.AgentDecryptionManager;
 import bruteForce.*;
 import com.google.gson.reflect.TypeToken;
+import component.bonus.ChatAreaController;
 import component.login.AgentLoginController;
 import engine.theEnigmaEngine.SchemaGenerated;
 import engine.theEnigmaEngine.TheMachineEngine;
@@ -13,9 +14,14 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import machineDTO.TheMachineEngineDTO;
 import okhttp3.*;
@@ -28,6 +34,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
 import java.lang.reflect.Type;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -300,6 +307,7 @@ public class AgentDashboardController implements Closeable {
 
                 }
                 if (response.code() != 200) {
+                    System.out.println("response.code()"+response.code());
 
                     if (response.code() == 409) {
                         Platform.runLater(() -> {
@@ -699,6 +707,28 @@ private void updateAgentStatus(){
             timer.cancel();
         }
     }
+    @FXML
+    void chatButtonOnAction(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Stage stage=new Stage();
+        URL url = getClass().getResource("/component/bonus/chat-area.fxml");
+        //URL url = getClass().getResource("/component/mainWindowUBoat/MainWindowUBoat.fxml");
+        fxmlLoader.setLocation(url);
+        Parent root = fxmlLoader.load(url.openStream());
+        ChatAreaController chatAreaController = fxmlLoader.getController();
+        //uBoatLoginController.setMediator(mediator);
+        chatAreaController.startListRefresher();
+        stage.setTitle("Agent Chat");
+        stage.getIcons().add(new Image("/Resources/agent.jpg"));
+        Scene scene = new Scene(root);
+        stage.setMinHeight(300f);
+        stage.setMinWidth(400f);
+        scene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
+        scene.getStylesheets().add("");
+        stage.setScene(scene);
+        stage.show();
+    }
+
 
 
 }

@@ -1,5 +1,6 @@
 package utils;
 
+import bonus.ChatManager;
 import managers.agent.AgentsManager;
 import managers.agent.StatusManager;
 import managers.bruteForce.AlliesMissionsManager;
@@ -148,5 +149,13 @@ private static final String STATUS_MANAGER="StatusManager";
             }
         }
         return (UboatBruteForceResultsMapManager) servletContext.getAttribute(UBOAT_BRUTE_FORCE_RESULTS_LIST_MANAGER_ATTRIBUTE_NAME);
+    }
+    public static ChatManager getChatManager(ServletContext servletContext) {
+        synchronized (chatManagerLock) {
+            if (servletContext.getAttribute(CHAT_MANAGER_ATTRIBUTE_NAME) == null) {
+                servletContext.setAttribute(CHAT_MANAGER_ATTRIBUTE_NAME, new ChatManager());
+            }
+        }
+        return (ChatManager) servletContext.getAttribute(CHAT_MANAGER_ATTRIBUTE_NAME);
     }
 }

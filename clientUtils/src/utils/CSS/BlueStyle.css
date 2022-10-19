@@ -205,6 +205,11 @@
 
 
 }
+#chatButton{
+    -fx-background-color: #07094c;
+    -fx-text-fill: white;
+
+}
 #description{
     -fx-font-family: Verdana;
     /* -fx-font-weight: bold;*/
