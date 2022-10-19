@@ -544,7 +544,7 @@ return isMissionsEnded;
         this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());*/
         if(!isMessageDisplayedForFirstTime) {
          //   System.out.println("getIsAlliesConfirmedGameOver: "+contestStatusInfoDTO.getIsAlliesConfirmedGameOver());
-            if(contestStatusInfoDTO==null||contestStatusInfoDTO.getIsAlliesConfirmedGameOver()){
+            if(contestStatusInfoDTO==null||contestStatusInfoDTO.getIsAlliesConfirmedGameOverByAlliesTeamName(selectedAlliesTeamName)){
                     Platform.runLater(() -> {
                       //  try {
                         isMessageDisplayedForFirstTime=true;

@@ -6,30 +6,42 @@ import java.util.List;
 public class ContestStatusInfoDTO {
     private String alliesWinnerTeamName;
     private String contestStatus;
-    private List<String> alliesTeamNames;
+    //private List<String> alliesTeamNames;
+    private List<AlliesConfirmedDTO> alliesConfirmedDTOList;
     private boolean isContestEnded;
     private boolean isUboatSettingsCompleted;
-    private boolean isAlliesConfirmedGameOver;
-    public ContestStatusInfoDTO(boolean isUboatSettingsCompleted,String contestStatus,boolean isContestEnded,String alliesWinnerTeamName,boolean isAlliesConfirmedGameOver){
+   // private boolean isAlliesConfirmedGameOver;
+    public ContestStatusInfoDTO(boolean isUboatSettingsCompleted,String contestStatus,boolean isContestEnded,String alliesWinnerTeamName){
         this.isContestEnded=isContestEnded;
         this.alliesWinnerTeamName=alliesWinnerTeamName;
         this.contestStatus=contestStatus;
         //this.isAlliesConfirmedGameOver=false;
-        alliesTeamNames=new ArrayList<>();
+        alliesConfirmedDTOList=new ArrayList<>();
         this.isUboatSettingsCompleted=isUboatSettingsCompleted;
-        this.isAlliesConfirmedGameOver = isAlliesConfirmedGameOver;
+       // this.isAlliesConfirmedGameOver = isAlliesConfirmedGameOver;
     }
 //    public ContestStatusInfoDTO() {
 //    }
-        public boolean getIsAlliesConfirmedGameOver(){
-        return isAlliesConfirmedGameOver;
+        public boolean getIsAlliesConfirmedGameOverByAlliesTeamName(String alliesTeamName){
+            for (AlliesConfirmedDTO alliesConfirmDTO: alliesConfirmedDTOList) {
+                if(alliesConfirmDTO.getAlliesName().equals(alliesTeamName)){
+                    return alliesConfirmDTO.getIsAlliesConfirmedGameOver();
+                }
+
+            }
+            return false;
     }
 
-    public void setAlliesTeamNames(List<String> alliesTeamNames) {
-        this.alliesTeamNames = alliesTeamNames;
+    public void setAlliesConfirmedDTOList(List<AlliesConfirmedDTO> alliesConfirmedDTOList) {
+        this.alliesConfirmedDTOList = alliesConfirmedDTOList;
     }
-    public void addAllies(String alliesName){
-        alliesTeamNames.add(alliesName);
+
+    /* public void setAlliesTeamNames(List<String> alliesTeamNames) {
+            this.alliesTeamNames = alliesTeamNames;
+        }*/
+    public void addAllies(String alliesName,boolean isAlliesConfirmedGameOver){
+        AlliesConfirmedDTO alliesConfirmedDTO=new AlliesConfirmedDTO(alliesName,isAlliesConfirmedGameOver);
+        alliesConfirmedDTOList.add(alliesConfirmedDTO);
     }
 
     public String getContestStatus() {
@@ -50,16 +62,20 @@ public class ContestStatusInfoDTO {
         this.contestStatus = contestStatus;
     }
 
-    public void setAlliesConfirmedGameOver(boolean alliesConfirmedGameOver) {
-        isAlliesConfirmedGameOver = alliesConfirmedGameOver;
+    public void setAlliesConfirmedGameOver(String alliesTeamName ,boolean alliesConfirmedGameOver) {
+        for (AlliesConfirmedDTO alliesConfirmDTO:alliesConfirmedDTOList) {
+            if(alliesConfirmDTO.getAlliesName().equals(alliesTeamName)){
+                alliesConfirmDTO.setAlliesConfirmedGameOver(alliesConfirmedGameOver);
+            }
+        }
     }
 
     public void setAlliesWinnerTeamName(String alliesWinnerTeamName) {
         this.alliesWinnerTeamName = alliesWinnerTeamName;
     }
     public boolean isAlliesExist(String alliesTeamName){
-        for (String str:alliesTeamNames) {
-            if(str.equals(alliesTeamName)){
+        for (AlliesConfirmedDTO alliesConfirmedDTO:alliesConfirmedDTOList) {
+            if(alliesConfirmedDTO.getAlliesName().equals(alliesTeamName)){
                 return true;
             }
         }

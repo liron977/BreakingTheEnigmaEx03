@@ -1,7 +1,9 @@
 package servlets;
 
+import bruteForce.AlliesConfirmedDTO;
 import bruteForce.ContestStatusInfoDTO;
 import constants.ParametersConstants;
+import engine.theEnigmaEngine.Allies;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,14 +30,14 @@ public class ClearContestUboatServlet extends HttpServlet {
                 engineManager.getIsConvertedStringSet(),
                 engineManager.getContestStatus(),
                 engineManager.getIsContestEnded(),
-                engineManager.getAlliesWinnwerTeamName(),
-                engineManager.getIsAlliesConfirmedGameOver());
-        List<String> alliesTeamNames=engineManager.getAlliesRegisteredTeamNames();
-        List<String> alliesTeamNamesNew=new ArrayList<>();
-        for (String str:alliesTeamNames) {
-            alliesTeamNamesNew.add(new String(str));
+                engineManager.getAlliesWinnwerTeamName());
+        List<Allies> registeredAlliesList=engineManager.getRegisteredAlliesList();
+        List<AlliesConfirmedDTO> alliesConfirmedDTOList=new ArrayList<>();
+        for (Allies allies:registeredAlliesList) {
+            alliesConfirmedDTOList.add(new AlliesConfirmedDTO(allies.getAlliesName(),allies.getAlliesConfirmedGameOver()));
         }
-        contestStatusInfoDTO.setAlliesTeamNames(alliesTeamNamesNew);
+
+        contestStatusInfoDTO.setAlliesConfirmedDTOList(alliesConfirmedDTOList);
         try {
             statusManager.addContestStatusInfoDTO(battleName,contestStatusInfoDTO);
         } catch (InterruptedException e) {

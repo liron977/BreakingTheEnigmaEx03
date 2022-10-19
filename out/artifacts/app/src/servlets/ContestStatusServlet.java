@@ -1,8 +1,10 @@
 package servlets;
 
+import bruteForce.AlliesConfirmedDTO;
 import bruteForce.ContestStatusInfoDTO;
 import com.google.gson.Gson;
 import constants.ParametersConstants;
+import engine.theEnigmaEngine.Allies;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,6 +19,8 @@ import utils.ServletUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContestStatusServlet extends HttpServlet {
     @Override
@@ -24,23 +28,37 @@ public class ContestStatusServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             response.setContentType("application/json");
             String battleName;
+            String theAlliesTeamName ="";
+            boolean isUboat=false;
             UBoatAvailableContestsManager uBoatAvailableContestsManager = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
             if(request.getParameter(ParametersConstants.ROLE).equals("UBoat")){
                 battleName=request.getParameter(ParametersConstants.BATTLE_FIELD);
+                isUboat=true;
             }
             else {
-                String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
+                theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
                  battleName = uBoatAvailableContestsManager.getUboatNameByAlliesTeamName(theAlliesTeamName);
             }
             if (battleName != null&&!battleName.isEmpty()) {
                 EngineManager engineManager = uBoatAvailableContestsManager.getEngineManagerByBattleFieldName(battleName);
                 if (engineManager != null) {
+
                     ContestStatusInfoDTO contestStatusInfoDTO = new ContestStatusInfoDTO(
                             engineManager.getIsConvertedStringSet(),
                             engineManager.getContestStatus(),
                             engineManager.getIsContestEnded(),
-                            engineManager.getAlliesWinnwerTeamName(),
-                            engineManager.getIsAlliesConfirmedGameOver());
+                            engineManager.getAlliesWinnwerTeamName());
+                    List<Allies> registeredAlliesList=engineManager.getRegisteredAlliesList();
+                    List<AlliesConfirmedDTO> alliesConfirmedDTOList=new ArrayList<>();
+                    for (Allies allies:registeredAlliesList) {
+                        alliesConfirmedDTOList.add(new AlliesConfirmedDTO(allies.getAlliesName(),allies.getAlliesConfirmedGameOver()));
+                    }
+                    contestStatusInfoDTO.setAlliesConfirmedDTOList(alliesConfirmedDTOList);
+
+                    if(!isUboat){
+
+                        contestStatusInfoDTO.setAlliesConfirmedGameOver(theAlliesTeamName,engineManager.getIsAlliesConfirmedGameOver(theAlliesTeamName));
+                    }
                     if(engineManager.getIsContestEnded()){
                       engineManager.updateCurrentAlliesStatusListAtTheEndOfContest();
                     }
@@ -55,7 +73,7 @@ public class ContestStatusServlet extends HttpServlet {
                 }
             }
             else{
-                String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
+               // String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
                 StatusManager statusManager=ServletUtils.getStatusManager(getServletContext());
                 ContestStatusInfoDTO contestStatusInfoDTO=statusManager.getContestStatusInfoDTOByAlliesName(theAlliesTeamName);
                 Gson gson = new Gson();
@@ -82,16 +100,16 @@ public class ContestStatusServlet extends HttpServlet {
         StatusManager statusManager=ServletUtils.getStatusManager(getServletContext());
         ContestStatusInfoDTO contestStatusInfoDTO=statusManager.getContestStatusInfoDTOByBattlefield(theBattleFieldName);
         if(contestStatusInfoDTO==null){
-            contestStatusInfoDTO=new ContestStatusInfoDTO(false,"Wait",true,"",true);
+            contestStatusInfoDTO=new ContestStatusInfoDTO(false,"Wait",true,"");
         }
             try {
-                contestStatusInfoDTO.addAllies(theAlliesTeamName);
+                contestStatusInfoDTO.addAllies(theAlliesTeamName,true);
                 statusManager.addContestStatusInfoDTO(theAlliesTeamName,contestStatusInfoDTO);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
 
-        contestStatusInfoDTO.setAlliesConfirmedGameOver(true);
+        contestStatusInfoDTO.setAlliesConfirmedGameOver(theAlliesTeamName,true);
         theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
         AgentsManager agentsManager=ServletUtils.getAgentManager(getServletContext());
         agentsManager.initValues(theAlliesTeamName);
@@ -104,7 +122,7 @@ public class ContestStatusServlet extends HttpServlet {
         if (theBattleFieldName != null&&!theBattleFieldName.isEmpty()) {
             EngineManager engineManager = uBoatAvailableContestsManager.getEngineManagerByBattleFieldName(theBattleFieldName);
             if(engineManager!=null) {
-                engineManager.setAlliesConfirmedGameOver(true);
+                engineManager.setAlliesConfirmedGameOver(theAlliesTeamName,true);
                 engineManager.initMaxAmountOfMissions();
                 engineManager.clearBattleFieldValues("allies", theAlliesTeamName);
                 // engineManager.clearAlliesRegisteredToContestList();

@@ -14,6 +14,7 @@ public class Allies implements Serializable {
    private int amountOfCreatedMissions;
    private Long totalAmountOfMissionToCreate;
    private Long maxAmountOfMissions;
+   private boolean isAlliesConfirmedGameOver;
 
     public Allies( String alliesName){
         this.alliesName=alliesName;
@@ -24,8 +25,18 @@ public class Allies implements Serializable {
         this.amountOfCreatedMissions=0;
         this.totalAmountOfMissionToCreate=0l;
         maxAmountOfMissions=Long.valueOf(-1);
+        isAlliesConfirmedGameOver=false;
     }
-    public void setAgentMissionsStatus(String agentName,int amountOfCandidatesStrings,int amountOfReceivedMissions, int amountOfMissionsToExecute){
+
+    public void setAlliesConfirmedGameOver(boolean alliesConfirmedGameOver) {
+        isAlliesConfirmedGameOver = alliesConfirmedGameOver;
+    }
+     public boolean getAlliesConfirmedGameOver() {
+     return isAlliesConfirmedGameOver;
+    }
+
+
+    public void setAgentMissionsStatus(String agentName, int amountOfCandidatesStrings, int amountOfReceivedMissions, int amountOfMissionsToExecute){
         for (AlliesAgent agent:alliesAgents) {
             if(agent.getAgentName().equals(agentName)){
                 agent.setAmountOfMissionsToExecute(amountOfMissionsToExecute);
@@ -88,6 +99,7 @@ public class Allies implements Serializable {
         for (AlliesAgent agent:alliesAgents ) {
             agentsAmount--;
         }
+
     totalAmountOfMissionToCreate=0L;
     amountOfCreatedMissions=0;
     battlefieldName="";

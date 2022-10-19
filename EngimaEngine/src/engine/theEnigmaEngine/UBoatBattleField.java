@@ -244,13 +244,23 @@ public int getAlliesActiveTeamsAmount() {
         this.isUboatReady=false;
         this.isConvertedStringSet=false;
     }
-    public void setAlliesConfirmedGameOver(boolean alliesConfirmedGameOver) {
-        isAlliesConfirmedGameOver = alliesConfirmedGameOver;
+
+    public void setAlliesConfirmedGameOver(String alliesTeamName,boolean alliesConfirmedGameOver) {
+        for (Allies allies: alliesRegisteredToContest) {
+            if(allies.getAlliesName().equals(alliesTeamName)){
+                allies.setAlliesConfirmedGameOver(alliesConfirmedGameOver);
+            }
+
+        }
    /*     this.convertedString="";
         this.stringToConvert="";*/
     }
-    public boolean getIsAlliesConfirmedGameOver(){
-        return isAlliesConfirmedGameOver;
+    public boolean getIsAlliesConfirmedGameOver(String alliesName){
+        for (Allies allies:alliesRegisteredToContest) {
+            if(allies.getAlliesName().equals(alliesName));
+            return allies.getAlliesConfirmedGameOver();
+        }
+        return false;
     }
     public void updateCurrentAlliesStatusListAtTheEndOfContest() {
         if (!isCrrentAlliesStatusListAlreayUpdated) {
@@ -259,6 +269,11 @@ public int getAlliesActiveTeamsAmount() {
                 currentAlliesStatus.setContestEnded(true);
             }
             isCrrentAlliesStatusListAlreayUpdated = true;
+        }
+    }
+    public void initIsAlliesConfirmedGameOver(){
+        for (Allies allies:alliesRegisteredToContest) {
+            allies.setAlliesConfirmedGameOver(false);
         }
     }
     public boolean isAllAlliesInContestLoogedOut(){
