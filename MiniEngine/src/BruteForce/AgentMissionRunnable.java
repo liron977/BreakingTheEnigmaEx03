@@ -100,15 +100,21 @@ public class AgentMissionRunnable implements Runnable {
                 }
 
             }
-            System.out.println("publishResults. thread: "+Thread.currentThread().getName());
+          //  System.out.println("publishResults. thread: "+Thread.currentThread().getName());
             amountOfDoneMissions.setValue(amountOfDoneMissions.getValue()+1);
             uiAdapterInterface.updateAmountDoneMissionsPerAgent(amountOfDoneMissions.getValue());
             amountOfMissionsInTheQueue.setValue(amountOfAskedMissionsProperty.getValue()-amountOfDoneMissions.getValue());
+            System.out.println("***************** in publishResults");
+            System.out.println(amountOfMissionsInTheQueue.getValue()+" amountOfMissionsInTheQueue.setValue(amountOfAskedMissionsProperty.getValue()-amountOfDoneMissions.getValue());\n");
+            System.out.println(amountOfAskedMissionsProperty.getValue()+" amountOfMissionsInTheQueue.setValue(amountOfAskedMissionsProperty.getValue()\n");
+            System.out.println(amountOfDoneMissions.getValue()+"  -amountOfDoneMissions.getValue());\n");
             if(amountOfMissionsInTheQueue.getValue()<0){
                 int r=0;
                 System.out.println(amountOfMissionsInTheQueue.getValue());
             }
             uiAdapterInterface.updateAmountMissionsInTheQueuePerAgent(amountOfMissionsInTheQueue.getValue());
+            System.out.println("***************** done publishResults");
+
         }
 
     }

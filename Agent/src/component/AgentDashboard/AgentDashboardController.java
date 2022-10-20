@@ -110,6 +110,7 @@ public class AgentDashboardController implements Closeable {
     private boolean isStartedContestAlready;
     Object dummyObject;
 
+
     @FXML
     public void initialize() {
         isMissionEndedProperty=new SimpleBooleanProperty(false);
@@ -256,6 +257,7 @@ public class AgentDashboardController implements Closeable {
     public void setThreadPoolSize(int amountOfThreads) {
         missionsInfoBlockingQueue = new LinkedBlockingQueue<Runnable>(1000);
         this.threadPoolExecutor = new ThreadPoolExecutor(amountOfThreads, amountOfThreads, 0L, TimeUnit.MILLISECONDS, missionsInfoBlockingQueue);
+        System.out.println(threadPoolExecutor+" this.threadPoolExecutor");
     }
 
     public boolean getMissions() {
@@ -284,13 +286,19 @@ public class AgentDashboardController implements Closeable {
                         theMissionInfoListFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
                         List<TheMissionInfoDTO> finalTheMissionInfoListFromGson = theMissionInfoListFromGson;
                         Platform.runLater(() -> {
+                            System.out.println("****************** in run latter");
+                            System.out.println(amountOfAskedMissionsProperty.getValue()+" amountOfAskedMissionsProperty.setValue(amountOfAskedMissionsProperty.getValue() + finalTheMissionInfoListFromGson.size());\n");
+                            System.out.println(finalTheMissionInfoListFromGson.size()+" finalTheMissionInfoListFromGson.size());\n");
+                            System.out.println("****************** done run latter");
                             amountOfAskedMissionsProperty.setValue(amountOfAskedMissionsProperty.getValue() + finalTheMissionInfoListFromGson.size());
                             amountOfAskedMissionsLabel.setText("Amount Of Asked Missions : " + displayTextWithCommas(amountOfAskedMissionsProperty.getValue()));
                         });
                         TheMachineEngine theMachineEngine = getTheMachineEngineInputstream();
                         setTheMachineEngine(theMachineEngine);
                         UIAdapter UIAdapter = createUIAdapter();
-                        decryptionManager = new AgentDecryptionManager(dummyObject,amountOfMissionsInTheQueue, amountOfAskedMissionsProperty, amountOfDoneMissions, UIAdapter, isMissionEndedProperty, threadPoolExecutor, theMachineEngine
+                        decryptionManager = new AgentDecryptionManager(dummyObject,amountOfMissionsInTheQueue,
+                                amountOfAskedMissionsProperty, amountOfDoneMissions, UIAdapter,
+                                isMissionEndedProperty, threadPoolExecutor, theMachineEngine
                                 , selectedAlliesTeamName,
                                 theMissionInfoListFromGson
                                 , missionsInfoBlockingQueue
@@ -308,13 +316,15 @@ public class AgentDashboardController implements Closeable {
 
                 }
                 if (response.code() != 200) {
-                    System.out.println("response.code()"+response.code());
+                 //   System.out.println("response.code()"+response.code());
 
                     if (response.code() == 409) {
-                        Platform.runLater(() -> {
-                            {
+                        isMissionsEnded = true;
+                      /*  Platform.runLater(() -> {
+                            {*/
                                 if(isContestEnded.getValue()){
-                                    return;
+                                    System.out.println(" isMissionsEnded = true; 409");
+                                   return true;
                                 }
                                /* String message = "The Missions ended";
                                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -327,13 +337,15 @@ public class AgentDashboardController implements Closeable {
                                 alert.showAndWait();*/
 
                             }
-                        });
-                        isMissionsEnded = true;
+                       /* });*/
                     }
                     if (response.code() == 410) {
-                        Platform.runLater(() -> {
+                        System.out.println(" isMissionsEnded = true; 410");
+                        isMissionsEnded = true;
+                        return true;
+                     /*   Platform.runLater(() -> {
                             return;
-                        });
+                        });*/
                     }
                     else{
                    /*     Platform.runLater(() -> {
@@ -350,7 +362,7 @@ public class AgentDashboardController implements Closeable {
                         });*/
                     }
                 }
-            } catch (IOException e) {
+             catch (IOException e) {
 
             }
         }
@@ -585,7 +597,7 @@ return isMissionsEnded;
                 this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
                 this.isContestActive=contestStatusInfoDTO.isContestActive();
                 if (isContestEnded.getValue()&&!isPopDisplayedForFirstTime&&(!alliesWinnerTeamName.equals(""))) {
-                    System.out.println("isMessageDisplayedForFirstTime =true");
+                 //   System.out.println("isMessageDisplayedForFirstTime =true");
                     isPopDisplayedForFirstTime =true;
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     String message = "The contest ended" + "\n" + "The winning team is " + alliesWinnerTeamName;
@@ -659,6 +671,7 @@ private void updateAgentStatus(){
         return amountWithCommas.reverse().toString();
     }
     public void initValues(){
+        System.out.println("in the initValues");
         setThreadPoolSize(amountOfThreads);
         listOfPossiblePosition=new ArrayList<>();
         contestInfo.getItems().clear();
@@ -682,6 +695,7 @@ private void updateAgentStatus(){
         amountOfCandidatesStrings.setText("");
         initMissionsStatusLabel();
 
+
     }
     public void startCheckIfNewContestRefresher() {
         startNewContestStatusRefresher = new StartNewContestStatusRefresher(
@@ -696,6 +710,7 @@ private void updateAgentStatus(){
             startContestStatusRefresher();
             //startContestTableViewRefresher();
             AgentThreadTask agentThreadTask=new AgentThreadTask(this);
+            System.out.println("new thread task");
             new Thread(agentThreadTask).start();
             isPopDisplayedForFirstTime=false;
             isStartedContestAlready=true;
