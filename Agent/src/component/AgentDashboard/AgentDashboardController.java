@@ -109,7 +109,9 @@ public class AgentDashboardController implements Closeable {
     private Timer startNewContestStatusRefresherTimer;
     private boolean isStartedContestAlready;
     Object dummyObject;
+    private boolean isMissionsEnded;
 
+    private BooleanProperty isThreadTaskCreatedProperty;
 
     @FXML
     public void initialize() {
@@ -129,6 +131,8 @@ public class AgentDashboardController implements Closeable {
         this.autoUpdate=new SimpleBooleanProperty(true);
         dummyObject=new Object();
         initMissionsStatusLabel();
+        isMissionsEnded=true;
+        isThreadTaskCreatedProperty=new SimpleBooleanProperty(false);
         /*bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
         bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);*/
         amountOfMissionsInTheQueue.addListener((observ)->updateMissionsStatus());
@@ -138,6 +142,9 @@ public class AgentDashboardController implements Closeable {
             updateMissionsStatus();
         }
         });
+    }
+    public void setIsThreadTaskCreatedProperty(Boolean value){
+        this.isThreadTaskCreatedProperty.setValue(value);
     }
     public void initMissionsStatusLabel(){
         amountOfAskedMissionsLabel.setText("Amount Of Asked Missions :0");
@@ -262,8 +269,10 @@ public class AgentDashboardController implements Closeable {
 
     public boolean getMissions() {
         boolean isMissionsEnded = false;
+       // this.isMissionsEnded=isMissionsEnded;
         if(!isContestEnded.getValue()&&isContestActive) {
             isMissionsEnded = false;
+            this.isMissionsEnded=isMissionsEnded;
             System.out.println("Im here");
             String finalUrl = HttpUrl
                     .parse(Constants.AGENT_GET_MISSIONS)
@@ -308,6 +317,7 @@ public class AgentDashboardController implements Closeable {
                         threadPoolExecutor.awaitTermination(Integer.MAX_VALUE, TimeUnit.HOURS);
                         setThreadPoolSize(amountOfThreads);
                         isMissionsEnded = false;
+                        this.isMissionsEnded=isMissionsEnded;
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     } catch (Exception e) {
@@ -320,6 +330,7 @@ public class AgentDashboardController implements Closeable {
 
                     if (response.code() == 409) {
                         isMissionsEnded = true;
+                        this.isMissionsEnded=isMissionsEnded;
                       /*  Platform.runLater(() -> {
                             {*/
                                 if(isContestEnded.getValue()){
@@ -342,6 +353,7 @@ public class AgentDashboardController implements Closeable {
                     if (response.code() == 410) {
                         System.out.println(" isMissionsEnded = true; 410");
                         isMissionsEnded = true;
+                        this.isMissionsEnded=isMissionsEnded;
                         return true;
                      /*   Platform.runLater(() -> {
                             return;
@@ -365,6 +377,9 @@ public class AgentDashboardController implements Closeable {
              catch (IOException e) {
 
             }
+        }
+        else {
+            this.isMissionsEnded=true;
         }
 return isMissionsEnded;
     }
@@ -648,6 +663,7 @@ private void updateAgentStatus(){
                 }
             });*/
         } else {
+            isThreadTaskCreatedProperty.setValue(false);
 
         }
     } catch (IOException e) {
@@ -704,17 +720,21 @@ private void updateAgentStatus(){
         startNewContestStatusRefresherTimer.schedule(startNewContestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
     }
     public void checkIfNewContest(Boolean shouldStartNewContest){
+
         if(shouldStartNewContest&&!isStartedContestAlready){
-            bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
-            bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);
+            System.out.println("Refresher started");
             startContestStatusRefresher();
             //startContestTableViewRefresher();
-            AgentThreadTask agentThreadTask=new AgentThreadTask(this);
-            System.out.println("new thread task");
-            new Thread(agentThreadTask).start();
-            isPopDisplayedForFirstTime=false;
-            isStartedContestAlready=true;
-            isMessageDisplayedForFirstTime=false;
+            if(!isThreadTaskCreatedProperty.getValue()) {
+                bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
+                bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);
+                AgentThreadTask agentThreadTask = new AgentThreadTask(this);
+                System.out.println("new thread task");
+                new Thread(agentThreadTask).start();
+                isPopDisplayedForFirstTime = false;
+                isStartedContestAlready = true;
+                isMessageDisplayedForFirstTime = false;
+            }
         }
 
     }

@@ -1148,4 +1148,10 @@ public class EngineManager implements EngineManagerInterface,Serializable {
      public boolean isAllAlliesInContestLoogedOut(){
        return this.battleField.isAllAlliesInContestLoogedOut();
     }
+    public boolean getIsUboatReady(){
+        return this.battleField.getIsUboatReady();
+    }
+    public boolean getBooleanContestStatus(){
+        return this.battleField.getBooleanContestStatus();
+    }
 }

@@ -1,10 +1,12 @@
 package servlets;
 
+import bruteForce.ContestStatusInfoDTO;
 import constants.ParametersConstants;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import machineEngine.EngineManager;
+import managers.agent.StatusManager;
 import managers.bruteForce.UboatBruteForceResultsMapManager;
 import managers.uBoatEngine.UBoatAvailableContestsManager;
 import utils.ServletUtils;
@@ -20,6 +22,12 @@ public class UpdateContestStatusAgentServlet extends HttpServlet {
        if(engineManager!=null) {
            engineManager.setAlliesConfirmedGameOver(alliesTeamName,false);
        }
+       StatusManager statusManager=ServletUtils.getStatusManager(getServletContext());
+       ContestStatusInfoDTO contestStatusInfoDTO=statusManager.getContestStatusInfoDTOByAlliesName(alliesTeamName);
+       if(contestStatusInfoDTO!=null) {
+           contestStatusInfoDTO.setAlliesConfirmedGameOver(alliesTeamName, false);
+       }
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
 }

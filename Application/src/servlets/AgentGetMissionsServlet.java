@@ -50,7 +50,7 @@ public class AgentGetMissionsServlet extends HttpServlet {
                         } else if (engineManager.getIsContestEnded()) {
                             response.setStatus(HttpServletResponse.SC_GONE);
                         } else {
-                            synchronized (getServletContext()) {
+                           // synchronized (getServletContext()) {
                                 System.out.println("***************** in servlet");
                                 int counter = 0;
                                 while (counter < amountOfMissions) {
@@ -74,7 +74,7 @@ public class AgentGetMissionsServlet extends HttpServlet {
                                     } catch (Exception e) {
                                         System.out.println(e.getMessage());
                                     }
-                                }
+                               // }
                                 System.out.println("***************** done servlet");
                             }
 
