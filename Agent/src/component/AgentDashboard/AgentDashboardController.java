@@ -264,7 +264,7 @@ public class AgentDashboardController implements Closeable {
     public void setThreadPoolSize(int amountOfThreads) {
         missionsInfoBlockingQueue = new LinkedBlockingQueue<Runnable>(1000);
         this.threadPoolExecutor = new ThreadPoolExecutor(amountOfThreads, amountOfThreads, 0L, TimeUnit.MILLISECONDS, missionsInfoBlockingQueue);
-        System.out.println(threadPoolExecutor+" this.threadPoolExecutor");
+       // System.out.println(threadPoolExecutor+" this.threadPoolExecutor");
     }
 
     public boolean getMissions() {
@@ -295,10 +295,10 @@ public class AgentDashboardController implements Closeable {
                         theMissionInfoListFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
                         List<TheMissionInfoDTO> finalTheMissionInfoListFromGson = theMissionInfoListFromGson;
                         Platform.runLater(() -> {
-                            System.out.println("****************** in run latter");
+                       /*     System.out.println("****************** in run latter");
                             System.out.println(amountOfAskedMissionsProperty.getValue()+" amountOfAskedMissionsProperty.setValue(amountOfAskedMissionsProperty.getValue() + finalTheMissionInfoListFromGson.size());\n");
                             System.out.println(finalTheMissionInfoListFromGson.size()+" finalTheMissionInfoListFromGson.size());\n");
-                            System.out.println("****************** done run latter");
+                            System.out.println("****************** done run latter");*/
                             amountOfAskedMissionsProperty.setValue(amountOfAskedMissionsProperty.getValue() + finalTheMissionInfoListFromGson.size());
                             amountOfAskedMissionsLabel.setText("Amount Of Asked Missions : " + displayTextWithCommas(amountOfAskedMissionsProperty.getValue()));
                         });
@@ -379,6 +379,9 @@ public class AgentDashboardController implements Closeable {
             }
         }
         else {
+            if(isContestEnded.getValue()){
+                return true;
+            }
             this.isMissionsEnded=true;
         }
 return isMissionsEnded;
@@ -607,13 +610,14 @@ return isMissionsEnded;
             }
         }
      if (!isContestEnded.getValue()) {
-            Platform.runLater(() -> {
+         Platform.runLater(() -> {
                 this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());
                 this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
                 this.isContestActive=contestStatusInfoDTO.isContestActive();
+             System.out.println("before isMessageDisplayedForFirstTime"+" "+this.isContestEnded.getValue()+" "+this.isContestActive+" "+isPopDisplayedForFirstTime );
                 if (isContestEnded.getValue()&&!isPopDisplayedForFirstTime&&(!alliesWinnerTeamName.equals(""))) {
-                 //   System.out.println("isMessageDisplayedForFirstTime =true");
-                    isPopDisplayedForFirstTime =true;
+                    System.out.println("isMessageDisplayedForFirstTime =true");
+                    isPopDisplayedForFirstTime = true;
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     String message = "The contest ended" + "\n" + "The winning team is " + alliesWinnerTeamName;
                     alert.setContentText(message);
@@ -625,7 +629,7 @@ return isMissionsEnded;
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }*/
-                }});
+                } });
         }
     /*  else {
             isPopDisplayedForFirstTime =false;
@@ -753,6 +757,7 @@ private void updateAgentStatus(){
         }
         isMessageDisplayedForFirstTime = false;
         isPopDisplayedForFirstTime = false;
+        System.out.println("done close");
     }
     @FXML
     void chatButtonOnAction(ActionEvent event) throws IOException {
