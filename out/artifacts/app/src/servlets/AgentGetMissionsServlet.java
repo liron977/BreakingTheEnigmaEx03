@@ -29,11 +29,13 @@ public class AgentGetMissionsServlet extends HttpServlet {
 
             String amountOfMissionsString = request.getParameter(ParametersConstants.AMOUNT_OF_MISSIONS_PER_AGENT);
             int amountOfMissions = Integer.parseInt(amountOfMissionsString);//todo
+
+            System.out.println(amountOfMissions+"amountOfMissions");
             List<TheMissionInfoDTO> theMissionInfoList = new ArrayList<>();
             UBoatAvailableContestsManager uBoatAvailableContestsManager = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
             EngineManager engineManager = uBoatAvailableContestsManager.getEngineMangerByAlliesTeamName(theAlliesTeamName);
             /*System.out.println(theAlliesTeamName+"AgentGetMissionsServlet");*/
-            int counter = 0;
+
             if (engineManager != null) {
                 if (!engineManager.isAlliesExists(theAlliesTeamName)) {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -44,27 +46,38 @@ public class AgentGetMissionsServlet extends HttpServlet {
                     } else {
                         if (alliesManager.getMaxAmountOfMissions(theAlliesTeamName) <= 0) {
                             response.setStatus(HttpServletResponse.SC_CONFLICT);
-                            System.out.println(alliesManager.getMaxAmountOfMissions(theAlliesTeamName));
+                            System.out.println(alliesManager.getMaxAmountOfMissions(theAlliesTeamName)+"0");
                         } else if (engineManager.getIsContestEnded()) {
                             response.setStatus(HttpServletResponse.SC_GONE);
                         } else {
-                            while (counter < amountOfMissions) {
-                                try {
-                                    TheMissionInfoDTO theMissionInfo = alliesMissionsManager.getMissionFromBlockingQueue(theAlliesTeamName);
-                                    if (theMissionInfo == null) {
-                                        break;
-                                    } else {
-                                        counter++;
-                                        alliesManager.decreaseMaxAmountOfMissions(theAlliesTeamName);
-                                        System.out.println(alliesManager.getMaxAmountOfMissions(theAlliesTeamName));
-                                        theMissionInfoList.add(theMissionInfo);
+                            synchronized (getServletContext()) {
+                                System.out.println("***************** in servlet");
+                                int counter = 0;
+                                while (counter < amountOfMissions) {
+                                    try {
+                                        //synchronized (getServletContext()) {
+                                        TheMissionInfoDTO theMissionInfo = alliesMissionsManager.getMissionFromBlockingQueue(theAlliesTeamName);
+                                        // System.out.println(alliesMissionsManager.getCurrentAmountOfCreatedMissions(theAlliesTeamName) + "getMissionsBlockingQueueByAlliesTeamName");
+
+                                        if (theMissionInfo == null) {
+                                            System.out.println("theMissionInfo == null)");
+                                            break;
+                                        } else {
+                                            counter++;
+                                            System.out.println(counter + "counter");
+                                            alliesManager.decreaseMaxAmountOfMissions(theAlliesTeamName);
+                                            //  System.out.println(alliesManager.getMaxAmountOfMissions(theAlliesTeamName) + "getMaxAmountOfMissions");
+                                            theMissionInfoList.add(theMissionInfo);
+                                        }
+                                    } catch (InterruptedException e) {
+                                        throw new RuntimeException(e);
+                                    } catch (Exception e) {
+                                        System.out.println(e.getMessage());
                                     }
-                                } catch (InterruptedException e) {
-                                    throw new RuntimeException(e);
-                                } catch (Exception e) {
-                                    System.out.println(e.getMessage());
                                 }
+                                System.out.println("***************** done servlet");
                             }
+
                             response.setStatus(HttpServletResponse.SC_OK);
                             Gson gson = new Gson();
                             String json = gson.toJson(theMissionInfoList);

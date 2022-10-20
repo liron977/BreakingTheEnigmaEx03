@@ -8,9 +8,10 @@ import java.util.*;
 
 public class AlliesManager {
     private final Map<String, Allies> alliesManagerMap;
+    Object dummyObj;
     public AlliesManager() {
         this.alliesManagerMap = new HashMap<>();
-
+        dummyObj=new Object();
     }
 
     public synchronized void addAllies(Allies allies, String alliesTeamName) {
@@ -60,10 +61,12 @@ public class AlliesManager {
     public synchronized  Map<String, Allies> getAlliesManagerMap() {
         return  alliesManagerMap;
     }
-    public synchronized void decreaseMaxAmountOfMissions(String alliesTeamName){
-        Allies allies= getAlliesByAlliesTeamName(alliesTeamName);
-        if(allies!=null){
-            allies.decreaseMaxAmountOfMissions();
+    public  void decreaseMaxAmountOfMissions(String alliesTeamName){
+        synchronized(dummyObj) {
+            Allies allies = getAlliesByAlliesTeamName(alliesTeamName);
+            if (allies != null) {
+                allies.decreaseMaxAmountOfMissions();
+            }
         }
     }
     public synchronized Long getMaxAmountOfMissions(String alliesTeamName){

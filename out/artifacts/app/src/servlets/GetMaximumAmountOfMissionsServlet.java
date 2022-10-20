@@ -28,9 +28,9 @@ public class GetMaximumAmountOfMissionsServlet extends HttpServlet {
             UBoatBattleField battleField = engineManager.getBattleField();
             int sizeOfMission = battleField.getAlliesSizeOfMission(theAlliesTeamName);
             long maxAmountOfMissions = (engineManager.maxAmountOfMissionscalculation(engineManager.getLevel(), sizeOfMission));
-            System.out.println(maxAmountOfMissions + "maxAmountOfMissions");
-            System.out.println(engineManager.getLevel() + "engineManager.getLevel()");
-            System.out.println(sizeOfMission + "sizeOfMission");
+            //  System.out.println(maxAmountOfMissions + "maxAmountOfMissions");
+            // System.out.println(engineManager.getLevel() + "engineManager.getLevel()");
+            //System.out.println(sizeOfMission + "sizeOfMission");
             response.setStatus(HttpServletResponse.SC_OK);
             alliesManager.setTotalAmountOfCreadedMission(theAlliesTeamName, maxAmountOfMissions);
             out.println(maxAmountOfMissions);
