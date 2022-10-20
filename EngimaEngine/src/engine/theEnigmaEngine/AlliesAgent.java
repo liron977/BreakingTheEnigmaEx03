@@ -17,6 +17,7 @@ public class AlliesAgent implements Serializable {
     private int amountOfCandidatesStrings;
     private int amountOfReceivedMissions;
     private int amountOfMissionsToExecute;
+    private boolean isDataShouldBeDelete;
 
     public AlliesAgent( String agentName, int threadsAmount,int missionsAmount, String alliesTeamName){
         this.agentName=agentName;
@@ -26,10 +27,17 @@ public class AlliesAgent implements Serializable {
         this.amountOfCandidatesStrings=0;
         this.amountOfMissionsToExecute=0;
         this.amountOfReceivedMissions=0;
+        this.isDataShouldBeDelete=false;
         /*
         blockingQueue = new LinkedBlockingQueue<Runnable>(missionsAmount);
         this.threadPoolExecutor = new ThreadPoolExecutor(threadsAmount, threadsAmount, 0L, TimeUnit.MILLISECONDS, blockingQueue);
        */
+    }
+    public void setIsDataShouldBeDelete(boolean isDataShouldBeDelete){
+        this.isDataShouldBeDelete=isDataShouldBeDelete;
+    }
+    public boolean getIsDataShouldBeDelete(){
+       return this.isDataShouldBeDelete;
     }
     public void setAmountOfCandidatesStrings(int amountOfCandidatesStrings) {
         this.amountOfCandidatesStrings = amountOfCandidatesStrings;

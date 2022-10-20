@@ -776,7 +776,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     }
     public void startContestStatusRefresher() {
         contestStatusRefresher = new ContestStatusRefresher("UBoat",battleName.trim(),
-                this::updateContestStatus,autoUpdate,"");
+                this::updateContestStatus,autoUpdate,"","");
         timer = new Timer();
         timer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
     }

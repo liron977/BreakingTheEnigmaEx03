@@ -316,4 +316,12 @@ public int getAlliesActiveTeamsAmount() {
     }
     return true;
     }
+    public Allies getAllies(String alliesName){
+        for (Allies allies :alliesRegisteredToContest) {
+            if(allies.getAlliesName().equals(alliesName)){
+                return allies;
+            }
+        }
+        return null;
+    }
 }

@@ -145,4 +145,25 @@ public class Allies implements Serializable {
             System.out.println(maxAmountOfMissions+" maxAmountOfMissions");
         }*/
     }
+    public boolean getIsDataForAgentShouldBeDeleted(String agentName){
+        for (AlliesAgent alliesAgent:alliesAgents) {
+            if(alliesAgent.getAgentName().equals(alliesAgents)){
+                return alliesAgent.getIsDataShouldBeDelete();
+            }
+        }
+        return false;
+    }
+    public void setIsDataForAgentShouldBeDeleted(Boolean isDataShouldBeDeleted){
+        for (AlliesAgent alliesAgent:alliesAgents) {
+           alliesAgent.setIsDataShouldBeDelete(isDataShouldBeDeleted);
+        }
+    }
+    public void setIsDataForAgentShouldBeDeletedByAgentName(String agentName,Boolean isDataShouldBeDeleted){
+        for (AlliesAgent alliesAgent:alliesAgents) {
+            if(alliesAgent.getAgentName().equals(agentName)){
+                alliesAgent.setIsDataShouldBeDelete(isDataShouldBeDeleted);
+            }
+        }
+    }
+
 }

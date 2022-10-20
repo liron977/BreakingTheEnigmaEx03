@@ -133,8 +133,8 @@ public class AgentDashboardController implements Closeable {
         initMissionsStatusLabel();
         isMissionsEnded=true;
         isThreadTaskCreatedProperty=new SimpleBooleanProperty(false);
-        /*bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
-        bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);*/
+        bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
+        bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);
         amountOfMissionsInTheQueue.addListener((observ)->updateMissionsStatus());
         amountOfCandidatesStrings.textProperty().addListener((observ)->{
             if(!String.valueOf(agentInfoDTO.getAmountOfCandidatesStrings()).equals(amountOfCandidatesStrings.getText()))
@@ -264,7 +264,7 @@ public class AgentDashboardController implements Closeable {
     public void setThreadPoolSize(int amountOfThreads) {
         missionsInfoBlockingQueue = new LinkedBlockingQueue<Runnable>(1000);
         this.threadPoolExecutor = new ThreadPoolExecutor(amountOfThreads, amountOfThreads, 0L, TimeUnit.MILLISECONDS, missionsInfoBlockingQueue);
-        System.out.println(threadPoolExecutor+" this.threadPoolExecutor");
+       // System.out.println(threadPoolExecutor+" this.threadPoolExecutor");
     }
 
     public boolean getMissions() {
@@ -295,10 +295,10 @@ public class AgentDashboardController implements Closeable {
                         theMissionInfoListFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
                         List<TheMissionInfoDTO> finalTheMissionInfoListFromGson = theMissionInfoListFromGson;
                         Platform.runLater(() -> {
-                            System.out.println("****************** in run latter");
+                       /*     System.out.println("****************** in run latter");
                             System.out.println(amountOfAskedMissionsProperty.getValue()+" amountOfAskedMissionsProperty.setValue(amountOfAskedMissionsProperty.getValue() + finalTheMissionInfoListFromGson.size());\n");
                             System.out.println(finalTheMissionInfoListFromGson.size()+" finalTheMissionInfoListFromGson.size());\n");
-                            System.out.println("****************** done run latter");
+                            System.out.println("****************** done run latter");*/
                             amountOfAskedMissionsProperty.setValue(amountOfAskedMissionsProperty.getValue() + finalTheMissionInfoListFromGson.size());
                             amountOfAskedMissionsLabel.setText("Amount Of Asked Missions : " + displayTextWithCommas(amountOfAskedMissionsProperty.getValue()));
                         });
@@ -379,6 +379,9 @@ public class AgentDashboardController implements Closeable {
             }
         }
         else {
+            if(isContestEnded.getValue()){
+                return true;
+            }
             this.isMissionsEnded=true;
         }
 return isMissionsEnded;
@@ -578,7 +581,7 @@ return isMissionsEnded;
     }
     public void startContestStatusRefresher() {
         contestStatusRefresher = new ContestStatusRefresher("Agent","",
-                this::updateContestStatus,autoUpdate,selectedAlliesTeamName);
+                this::updateContestStatus,autoUpdate,selectedAlliesTeamName,agentInfoDTO.getAgentName());
         timer = new Timer();
         timer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
     }
@@ -587,8 +590,8 @@ return isMissionsEnded;
         this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());*/
         if(!isMessageDisplayedForFirstTime) {
          //   System.out.println("getIsAlliesConfirmedGameOver: "+contestStatusInfoDTO.getIsAlliesConfirmedGameOver());
-            if(contestStatusInfoDTO==null||contestStatusInfoDTO.getIsAlliesConfirmedGameOverByAlliesTeamName(selectedAlliesTeamName)){
-                    Platform.runLater(() -> {
+            if(contestStatusInfoDTO==null||contestStatusInfoDTO.getIsDataShouldDeleteByAgentName(agentInfoDTO.getAgentName())){
+                  //  Platform.runLater(() -> {
                       //  try {
                         isMessageDisplayedForFirstTime=true;
                             System.out.println("updateContestStatus");
@@ -603,17 +606,18 @@ return isMissionsEnded;
                         /*} catch (IOException e) {
                             throw new RuntimeException(e);
                         }*/
-               });
+             //  });
             }
         }
      if (!isContestEnded.getValue()) {
-            Platform.runLater(() -> {
+         Platform.runLater(() -> {
                 this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());
                 this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
                 this.isContestActive=contestStatusInfoDTO.isContestActive();
+             System.out.println("before isMessageDisplayedForFirstTime"+" "+this.isContestEnded.getValue()+" "+this.isContestActive+" "+isPopDisplayedForFirstTime );
                 if (isContestEnded.getValue()&&!isPopDisplayedForFirstTime&&(!alliesWinnerTeamName.equals(""))) {
-                 //   System.out.println("isMessageDisplayedForFirstTime =true");
-                    isPopDisplayedForFirstTime =true;
+                    System.out.println("isMessageDisplayedForFirstTime =true");
+                    isPopDisplayedForFirstTime = true;
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     String message = "The contest ended" + "\n" + "The winning team is " + alliesWinnerTeamName;
                     alert.setContentText(message);
@@ -625,7 +629,7 @@ return isMissionsEnded;
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }*/
-                }});
+                } });
         }
     /*  else {
             isPopDisplayedForFirstTime =false;
@@ -640,6 +644,7 @@ private void updateAgentStatus(){
             .parse(Constants.UPDATE_CONTEST_STATUS_AGENT)
             .newBuilder()
             .addQueryParameter("alliesTeamName", selectedAlliesTeamName)
+            .addQueryParameter("agentName",agentInfoDTO.getAgentName())
             .build()
             .toString();
     Request request = new Request.Builder()
@@ -687,6 +692,7 @@ private void updateAgentStatus(){
         return amountWithCommas.reverse().toString();
     }
     public void initValues(){
+        Platform.runLater(() -> {
         System.out.println("in the initValues");
         setThreadPoolSize(amountOfThreads);
         listOfPossiblePosition=new ArrayList<>();
@@ -703,6 +709,8 @@ private void updateAgentStatus(){
         isContestEnded.setValue(false);
         alliesWinnerTeamName="";
         bruteForceResultsDTOObservableList= FXCollections.observableArrayList();
+        bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
+        bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);
       // isMessageDisplayedForFirstTime=false;
         amountOfAskedMissionsProperty.setValue(0);
         amountOfDoneMissions.setValue(0);
@@ -710,7 +718,7 @@ private void updateAgentStatus(){
         currentAmountOfMissionsInTheQueue.setText("");
         amountOfCandidatesStrings.setText("");
         initMissionsStatusLabel();
-
+        });
 
     }
     public void startCheckIfNewContestRefresher() {
@@ -726,14 +734,14 @@ private void updateAgentStatus(){
             startContestStatusRefresher();
             //startContestTableViewRefresher();
             if(!isThreadTaskCreatedProperty.getValue()) {
-                bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
-                bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);
+               /* bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
+                bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);*/
                 AgentThreadTask agentThreadTask = new AgentThreadTask(this);
                 System.out.println("new thread task");
                 new Thread(agentThreadTask).start();
-                isPopDisplayedForFirstTime = false;
+              //  isPopDisplayedForFirstTime = false;
                 isStartedContestAlready = true;
-                isMessageDisplayedForFirstTime = false;
+               // isMessageDisplayedForFirstTime = false;
             }
         }
 
@@ -747,6 +755,9 @@ private void updateAgentStatus(){
            // contestInfoController.close();
             timer.cancel();
         }
+        isMessageDisplayedForFirstTime = false;
+        isPopDisplayedForFirstTime = false;
+        System.out.println("done close");
     }
     @FXML
     void chatButtonOnAction(ActionEvent event) throws IOException {
