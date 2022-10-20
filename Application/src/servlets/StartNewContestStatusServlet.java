@@ -27,7 +27,7 @@ public class StartNewContestStatusServlet extends HttpServlet {
             UBoatAvailableContestsManager uBoatAvailableContestsManager = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
             EngineManager engineManager=uBoatAvailableContestsManager.getEngineMangerByAlliesTeamName(alliesTeamName);
 
-            if(engineManager!=null) {
+            if(engineManager!=null&&engineManager.getBooleanContestStatus()) {
                 shouldStartNewContest=true;
 
             }

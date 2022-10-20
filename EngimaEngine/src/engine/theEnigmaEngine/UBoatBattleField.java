@@ -234,6 +234,9 @@ public int getAlliesActiveTeamsAmount() {
 
        // this.isAlliesConfirmedGameOver=false;
     }
+    public boolean getIsUboatReady(){
+    return isUboatReady;
+    }
     public void clearAlliesRegisteredToContestList(){
         this.alliesRegisteredToContest=new ArrayList<>();
     }
@@ -306,5 +309,11 @@ public int getAlliesActiveTeamsAmount() {
         if(alliesRegisteredToContest==null||alliesRegisteredToContest.size()==0){
             alliesRegisteredToContest=new ArrayList<>();
         }
+    }
+    public boolean getBooleanContestStatus(){
+    if(contestStatus.equals("Wait..")){
+        return false;
+    }
+    return true;
     }
 }
