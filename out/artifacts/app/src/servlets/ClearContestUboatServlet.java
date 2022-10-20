@@ -1,9 +1,11 @@
 package servlets;
 
+import bruteForce.AgentContestInfoDTO;
 import bruteForce.AlliesConfirmedDTO;
 import bruteForce.ContestStatusInfoDTO;
 import constants.ParametersConstants;
 import engine.theEnigmaEngine.Allies;
+import engine.theEnigmaEngine.AlliesAgent;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -36,8 +38,15 @@ public class ClearContestUboatServlet extends HttpServlet {
         for (Allies allies:registeredAlliesList) {
             alliesConfirmedDTOList.add(new AlliesConfirmedDTO(allies.getAlliesName(),allies.getAlliesConfirmedGameOver()));
         }
-
         contestStatusInfoDTO.setAlliesConfirmedDTOList(alliesConfirmedDTOList);
+        List<AgentContestInfoDTO> agentContestInfoDTOList=new ArrayList<>();
+        for (Allies allies:registeredAlliesList) {
+            for (AlliesAgent alliesAgent:allies.getAlliesAgents()) {
+                agentContestInfoDTOList.add(new AgentContestInfoDTO(allies.getAlliesName(),alliesAgent.getAgentName(),alliesAgent.getIsDataShouldBeDelete()));
+            }
+        }
+        contestStatusInfoDTO.setAgentContestInfoList(agentContestInfoDTOList);
+
         try {
             statusManager.addContestStatusInfoDTO(battleName,contestStatusInfoDTO);
         } catch (InterruptedException e) {

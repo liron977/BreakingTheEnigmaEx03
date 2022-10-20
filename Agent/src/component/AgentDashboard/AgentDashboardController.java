@@ -588,7 +588,7 @@ return isMissionsEnded;
         if(!isMessageDisplayedForFirstTime) {
          //   System.out.println("getIsAlliesConfirmedGameOver: "+contestStatusInfoDTO.getIsAlliesConfirmedGameOver());
             if(contestStatusInfoDTO==null||contestStatusInfoDTO.getIsDataShouldDeleteByAgentName(agentInfoDTO.getAgentName())){
-                    Platform.runLater(() -> {
+                  //  Platform.runLater(() -> {
                       //  try {
                         isMessageDisplayedForFirstTime=true;
                             System.out.println("updateContestStatus");
@@ -603,7 +603,7 @@ return isMissionsEnded;
                         /*} catch (IOException e) {
                             throw new RuntimeException(e);
                         }*/
-               });
+             //  });
             }
         }
      if (!isContestEnded.getValue()) {
@@ -688,6 +688,7 @@ private void updateAgentStatus(){
         return amountWithCommas.reverse().toString();
     }
     public void initValues(){
+        Platform.runLater(() -> {
         System.out.println("in the initValues");
         setThreadPoolSize(amountOfThreads);
         listOfPossiblePosition=new ArrayList<>();
@@ -704,6 +705,8 @@ private void updateAgentStatus(){
         isContestEnded.setValue(false);
         alliesWinnerTeamName="";
         bruteForceResultsDTOObservableList= FXCollections.observableArrayList();
+        bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
+        bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);
       // isMessageDisplayedForFirstTime=false;
         amountOfAskedMissionsProperty.setValue(0);
         amountOfDoneMissions.setValue(0);
@@ -711,7 +714,7 @@ private void updateAgentStatus(){
         currentAmountOfMissionsInTheQueue.setText("");
         amountOfCandidatesStrings.setText("");
         initMissionsStatusLabel();
-
+        });
 
     }
     public void startCheckIfNewContestRefresher() {
@@ -732,9 +735,9 @@ private void updateAgentStatus(){
                 AgentThreadTask agentThreadTask = new AgentThreadTask(this);
                 System.out.println("new thread task");
                 new Thread(agentThreadTask).start();
-                isPopDisplayedForFirstTime = false;
+              //  isPopDisplayedForFirstTime = false;
                 isStartedContestAlready = true;
-                isMessageDisplayedForFirstTime = false;
+               // isMessageDisplayedForFirstTime = false;
             }
         }
 
@@ -748,6 +751,8 @@ private void updateAgentStatus(){
            // contestInfoController.close();
             timer.cancel();
         }
+        isMessageDisplayedForFirstTime = false;
+        isPopDisplayedForFirstTime = false;
     }
     @FXML
     void chatButtonOnAction(ActionEvent event) throws IOException {
