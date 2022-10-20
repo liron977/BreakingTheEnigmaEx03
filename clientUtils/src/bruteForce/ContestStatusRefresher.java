@@ -21,12 +21,16 @@ public class ContestStatusRefresher  extends TimerTask {
     private String alliesTeamName;
     private String battleFieldName;
     private String role;
-    public ContestStatusRefresher(String role,String battleFieldName,Consumer<ContestStatusInfoDTO> updateContestStatus , BooleanProperty shouldUpdate, String alliesTeamName) {
+    private String agentName;
+    public ContestStatusRefresher(String role,String battleFieldName
+            ,Consumer<ContestStatusInfoDTO> updateContestStatus
+            ,BooleanProperty shouldUpdate, String alliesTeamName,String agentName) {
         this.updateContestStatus = updateContestStatus;
         this.shouldUpdate=shouldUpdate;
         this.alliesTeamName=alliesTeamName;
         this.role=role;
         this.battleFieldName=battleFieldName;
+        this.agentName=agentName;
     }
     @Override
     public void run() {
@@ -37,6 +41,7 @@ public class ContestStatusRefresher  extends TimerTask {
                 .addQueryParameter("alliesTeamName", alliesTeamName)
                 .addQueryParameter("role", role)
                 .addQueryParameter("battlefield", battleFieldName)
+                .addQueryParameter("agentName", agentName)
                 .build()
                 .toString();
         HttpClientUtil.runAsync(finalUrl, new Callback()

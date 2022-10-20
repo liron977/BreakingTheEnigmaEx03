@@ -133,8 +133,8 @@ public class AgentDashboardController implements Closeable {
         initMissionsStatusLabel();
         isMissionsEnded=true;
         isThreadTaskCreatedProperty=new SimpleBooleanProperty(false);
-        /*bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
-        bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);*/
+        bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
+        bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);
         amountOfMissionsInTheQueue.addListener((observ)->updateMissionsStatus());
         amountOfCandidatesStrings.textProperty().addListener((observ)->{
             if(!String.valueOf(agentInfoDTO.getAmountOfCandidatesStrings()).equals(amountOfCandidatesStrings.getText()))
@@ -578,7 +578,7 @@ return isMissionsEnded;
     }
     public void startContestStatusRefresher() {
         contestStatusRefresher = new ContestStatusRefresher("Agent","",
-                this::updateContestStatus,autoUpdate,selectedAlliesTeamName);
+                this::updateContestStatus,autoUpdate,selectedAlliesTeamName,agentInfoDTO.getAgentName());
         timer = new Timer();
         timer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
     }
@@ -587,7 +587,7 @@ return isMissionsEnded;
         this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());*/
         if(!isMessageDisplayedForFirstTime) {
          //   System.out.println("getIsAlliesConfirmedGameOver: "+contestStatusInfoDTO.getIsAlliesConfirmedGameOver());
-            if(contestStatusInfoDTO==null||contestStatusInfoDTO.getIsAlliesConfirmedGameOverByAlliesTeamName(selectedAlliesTeamName)){
+            if(contestStatusInfoDTO==null||contestStatusInfoDTO.getIsDataShouldDeleteByAgentName(agentInfoDTO.getAgentName())){
                     Platform.runLater(() -> {
                       //  try {
                         isMessageDisplayedForFirstTime=true;
@@ -640,6 +640,7 @@ private void updateAgentStatus(){
             .parse(Constants.UPDATE_CONTEST_STATUS_AGENT)
             .newBuilder()
             .addQueryParameter("alliesTeamName", selectedAlliesTeamName)
+            .addQueryParameter("agentName",agentInfoDTO.getAgentName())
             .build()
             .toString();
     Request request = new Request.Builder()
@@ -726,8 +727,8 @@ private void updateAgentStatus(){
             startContestStatusRefresher();
             //startContestTableViewRefresher();
             if(!isThreadTaskCreatedProperty.getValue()) {
-                bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
-                bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);
+               /* bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
+                bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);*/
                 AgentThreadTask agentThreadTask = new AgentThreadTask(this);
                 System.out.println("new thread task");
                 new Thread(agentThreadTask).start();

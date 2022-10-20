@@ -4,6 +4,7 @@ public class ParametersConstants {
     public static final String USERNAME = "username";
     public static final String BATTLE_FIELD = "battlefield";
     public static final String ALLIES_TEAM_NAME = "alliesTeamName";
+    public static final String AGENT_NAME = "agentName";
     public static final String STRING_TO_CONVERT = "stringToConvert";
     public static final String CONFIGURATION_SELECTION_TYPE = "configurationSelectionType";
     public static final String USER_NAME_ERROR = "username_error";

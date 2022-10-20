@@ -18,10 +18,7 @@ import utils.http.HttpClientUtil;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 import static constants.Constants.REFRESH_RATE;
 
@@ -118,6 +115,7 @@ public class AlliesContestController implements Closeable {
     @FXML
     private Label uBoatIsNotReadyLabel;
     private boolean isMessageUboatDontExistDisplayed;
+    private List<String> agentsNamesList;
 
     @FXML
     public void initialize() {
@@ -131,6 +129,7 @@ public class AlliesContestController implements Closeable {
         isUboatSettingsCompleted = false;
         missionSize = 0;
         isMessageUboatDontExistDisplayed=false;
+        agentsNamesList=new ArrayList<>();
     }
 
     public void setMissionSize(int missionSize) {
@@ -371,11 +370,21 @@ public class AlliesContestController implements Closeable {
 
     private void updateAgentsInfoList(List<AgentInfoDTO> agentInfoDTOList) {
         Platform.runLater(() -> {
+            saveAgentsNames(agentInfoDTOList);
             ObservableList<AgentInfoDTO> agentInfoDTOObservableList = getTeamsAgentsMissionsStatusTableViewDTOList(agentInfoDTOList);
             createAgentsInfoDTOTableView(agentInfoDTOObservableList);
             amountOfDoneMissions.setText("The amount of done missions: " + displayTextWithCommas(updateAmountOfDoneMissions(agentInfoDTOObservableList)));
             //totalAgentsAmount.set(agentInfoDTOList.size());
         });
+    }
+    public void saveAgentsNames(List<AgentInfoDTO> agentInfoDTOList){
+        agentsNamesList=new ArrayList<>();
+        for (AgentInfoDTO agentInfoDTO:agentInfoDTOList) {
+            agentsNamesList.add(agentInfoDTO.getAgentName());
+        }
+    }
+    public List<String> getAgentsNamesList(){
+        return agentsNamesList;
     }
 
     private void createAgentsInfoDTOTableView(ObservableList<AgentInfoDTO> agentInfoDTOList) {
@@ -401,9 +410,11 @@ public class AlliesContestController implements Closeable {
         agentsTableViewTimer.schedule(agentsTableViewRefresher, REFRESH_RATE, REFRESH_RATE);
     }
 
+
+
     public void startContestStatusRefresher() {
         contestStatusRefresher = new ContestStatusRefresher("Allies", selectedBattleField
-                , this::updateContestStatus, autoUpdate, alliesTeamName);
+                , this::updateContestStatus, autoUpdate, alliesTeamName,"");
         contestStatusRefresherTimer = new Timer();
         contestStatusRefresherTimer.schedule(contestStatusRefresher, REFRESH_RATE, REFRESH_RATE);
     }
@@ -642,8 +653,10 @@ public class AlliesContestController implements Closeable {
     }
 
     public void setConfirmed() throws IOException {
+
+        String  bruteForceResultDTOListGson = Constants.GSON_INSTANCE.toJson(agentsNamesList);
         RequestBody body = RequestBody.create(
-                MediaType.parse("application/json"), "");
+                MediaType.parse("application/json"), bruteForceResultDTOListGson);
 
         String finalUrl = HttpUrl
                 .parse(Constants.CONTEST_STATUS)
@@ -701,6 +714,7 @@ public class AlliesContestController implements Closeable {
 //            }
 //        }
     }
+
 
     public void updateMaxAmountOfMissions() throws IOException {
 
