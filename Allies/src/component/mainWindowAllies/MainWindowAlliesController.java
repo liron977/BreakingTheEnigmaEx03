@@ -130,10 +130,12 @@ public void disableReadyButton(){
 }
     public void changeToAlliesDashboardTab() throws IOException {
         dashboardTabButton.setDisable(false);
+      // alliesContestController.cancelNotAvailableAgentsRefresher();
         alliesTabPane.getSelectionModel().select(dashboardTabButton);
         alliesDashboardController.startUBoatContestsTableViewRefresher();
         alliesDashboardController.startAgentsTableViewRefresher();
         alliesContestController.close();
+        alliesContestController.initNotAvailableAgentsValues();
         contestTabButton.setDisable(true);
     }
     public void startDashboardRefreshersOnAction(){
@@ -157,8 +159,8 @@ public void setMissionSize(int missionSize){
         alliesContestController.setMissionSize(missionSize);
 
 }
-    public void setThreadTask(AlliesThreadTask threadTask) {
+  /*  public void setThreadTask(AlliesThreadTask threadTask) {
         System.out.println("setThreadTask");
         alliesContestController.setThreadTask(threadTask);
-    }
+    }*/
 }

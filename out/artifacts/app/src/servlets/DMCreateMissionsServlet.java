@@ -75,6 +75,9 @@ public class DMCreateMissionsServlet extends HttpServlet {
             TheMissionInfoDTO theMissionInfo =new TheMissionInfoDTO(initialStartingPosition, sizeOfMission, /*engineManagerCopy,*/stringToConvert,engineManager.getMachineUsedRotorsIdArray(),engineManager.getMachineReflectorId());
 
             isAddedToBlockingQueue = alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName, theMissionInfo);
+            System.out.println("***********************************");
+            System.out.println("missions in blocking queue: "+alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size());
+            System.out.println("***********************************");
             while (!isAddedToBlockingQueue) {
                 if(alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size()<=1000) {
                     isAddedToBlockingQueue = alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName, theMissionInfo);

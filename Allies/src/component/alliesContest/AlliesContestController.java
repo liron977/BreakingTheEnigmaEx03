@@ -120,6 +120,8 @@ public class AlliesContestController implements Closeable {
     private List<String> agentsNamesList;
     private TimerTask notAvailableAgentsRefresher;
     private Timer notAvailableAgentsRefresherTimer;
+    private boolean notAvailableAgentsMessageDisplayed;
+
 
     @FXML
     public void initialize() {
@@ -134,7 +136,13 @@ public class AlliesContestController implements Closeable {
         missionSize = 0;
         isMessageUboatDontExistDisplayed=false;
         agentsNamesList=new ArrayList<>();
+
+    }
+    public void initNotAvailableAgentsValues(){
         notAvailableAgentsLabel.setText("");
+        notAvailableAgentsMessageDisplayed=false;
+
+
     }
 
     public void setMissionSize(int missionSize) {
@@ -445,8 +453,9 @@ public class AlliesContestController implements Closeable {
         displayMessageInContestStatusLabel(contestStatusInfoDTO);
 
         if (contestStatusInfoDTO.isUboatSettingsCompleted() && !isMissionsCreated) {
+            System.out.println("new thread task");
             threadTask = new AlliesThreadTask(convertedString, missionSize, alliesTeamName);
-            mainWindowAlliesController.setThreadTask(threadTask);
+           // mainWindowAlliesController.setThreadTask(threadTask);
             System.out.println("before start");
             new Thread(threadTask).start();
             isMissionsCreated = true;
@@ -539,9 +548,13 @@ public class AlliesContestController implements Closeable {
             amountOfCreatedMissionsRefresherTimer.cancel();
             notAvailableAgentsRefresher.cancel();
             notAvailableAgentsRefresherTimer.cancel();
+            cancelNotAvailableAgentsRefresher();
         }
     }
-
+public void cancelNotAvailableAgentsRefresher() {
+    notAvailableAgentsRefresher.cancel();
+    notAvailableAgentsRefresherTimer.cancel();
+}
     public void startDMAmountOfCreatedMissionsRefresherRefresher() {
         isMessageUboatDontExistDisplayed=false;
         amountOfCreatedMissionsRefresher = new DMAmountOfCreatedMissionsRefresher(selectedBattleField,
@@ -644,7 +657,8 @@ public class AlliesContestController implements Closeable {
         isContestEnded.setValue(false);
         alliesWinnerTeamName = "";
         isMessageDisplayedForFirstTime = false;
-        notAvailableAgentsLabel.setText("");
+       // notAvailableAgentsMessageDisplayed=false;
+       // notAvailableAgentsLabel.setText("");
         // isMissionsCreated=false;
         //  agentInfoDTOObservableList= FXCollections.observableArrayList();
     }
@@ -793,14 +807,14 @@ public class AlliesContestController implements Closeable {
     }
     private void updateNotAvailableAgents(List<String> notAvailableAgentsList) {
         Platform.runLater(() -> {
-          if(notAvailableAgentsList.size()==0){
+          if(notAvailableAgentsList.size()==0&&!notAvailableAgentsMessageDisplayed){
               notAvailableAgentsLabel.setText("");
           }
           else {
               String agentsName = "";
               int amountOfNotAvailableAgents = notAvailableAgentsList.size();
               int counter = 0;
-              String msg="";
+
               for (String agentName : notAvailableAgentsList) {
                   counter++;
                   agentsName = agentsName.concat(agentName);
@@ -809,13 +823,15 @@ public class AlliesContestController implements Closeable {
                   }
               }
               if (amountOfNotAvailableAgents == 1) {
-                   msg = "There is 1 agent who registered after the contest started." +
-                          "The agent " + agentsName + " will join in the next contest!";
-              } else {
-                   msg = "There are " + amountOfNotAvailableAgents + " agents who registered after the contest started." +
-                          "The agents " + agentsName + " will join in the next contest!";
+                  notAvailableAgentsMessageDisplayed=true;
+                  notAvailableAgentsLabel.setText("There is 1 agent who registered after the contest started." +
+                          "The agent " + agentsName + " will join in the next contest!");
+              } else if(amountOfNotAvailableAgents>1){
+                  notAvailableAgentsMessageDisplayed=true;
+                  notAvailableAgentsLabel.setText("There are " + amountOfNotAvailableAgents + " agents who registered after the contest started." +
+                          "The agents " + agentsName + " will join in the next contest!");
               }
-              notAvailableAgentsLabel.setText(msg);
+
           }
         });
     }

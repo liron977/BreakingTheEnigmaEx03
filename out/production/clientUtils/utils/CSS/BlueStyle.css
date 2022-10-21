@@ -104,13 +104,16 @@
     -fx-font-size: 20;
 }
 #codeConfigurationTableView .table-view .scroll-bar {
-    -fx-min-width: 0;
+   /* -fx-min-width: 0;
     -fx-pref-width: 0;
-    -fx-max-width: 0;
+    -fx-max-width: 0;*/
 
-    -fx-min-height: 0;
-    -fx-pref-height: 0;
-    -fx-max-height: 0;
+    -fx-min-height: 10;
+    -fx-pref-height: 10;
+    -fx-max-height: 10;
+}
+#codeConfigurationTableView .scroll-pane > .scroll-bar > .thumb{
+    -fx-background-color: #0f265e ;
 }
 .table-column{
     -fx-alignment: center;

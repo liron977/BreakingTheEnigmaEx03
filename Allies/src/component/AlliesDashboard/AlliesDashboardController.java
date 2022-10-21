@@ -487,7 +487,7 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
                 /* threadTask=new AlliesThreadTask(mainWindowAlliesController.getAlliesContestController(),stringToConvert,Integer.parseInt(missionSizeTextField.getText()),alliesTeamName);
                  mainWindowAlliesController.setThreadTask(threadTask);
                 System.out.println("before start");*/
-                new Thread(threadTask).start();
+               // new Thread(threadTask).start();
 
             } else {
                 if (response.code() == 409) {
