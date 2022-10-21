@@ -87,6 +87,18 @@ public class AlliesAgent implements Serializable {
         return threadsAmount;
     }
 
+    public int getAmountOfReceivedMissions() {
+        return amountOfReceivedMissions;
+    }
+
+    public int getAmountOfCandidatesStrings() {
+        return amountOfCandidatesStrings;
+    }
+
+    public int getAmountOfMissionsToExecute() {
+        return amountOfMissionsToExecute;
+    }
+
     public void clearValues(){
         this.amountOfCandidatesStrings=0;
         this.amountOfMissionsToExecute=0;

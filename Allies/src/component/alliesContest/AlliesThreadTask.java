@@ -98,7 +98,7 @@ public void setStringToConvert(String stringToConvert){
             }
         } catch (IOException e) {
         }
-        System.out.println("thread task out");
+        System.out.println("Thread Boolean.TRUE");
         return Boolean.TRUE;
     }
 }

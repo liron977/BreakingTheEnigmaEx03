@@ -29,6 +29,7 @@ public class AlliesManager {
        Allies allies= getAlliesByAlliesTeamName(agentInfoDTO.getAlliesTeamName());
        if(allies!=null) {
            allies.setAgentMissionsStatus(agentInfoDTO.getAgentName(), agentInfoDTO.getAmountOfCandidatesStrings(), agentInfoDTO.getAmountOfReceivedMissions(), agentInfoDTO.getAmountOfMissionsToExecute());
+
            return true;
        }
        return false;

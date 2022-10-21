@@ -204,6 +204,9 @@ public class AgentDashboardController implements Closeable {
         agentInfoDTO.setAmountOfMissionsToExecute(amountOfMissionsInTheQueue.getValue());
         agentInfoDTO.setAmountOfReceivedMissions(amountOfAskedMissionsProperty.getValue());
         agentInfoDTO.setAmountOfCandidatesStrings(bruteForceResultsDTOObservableList.size());
+        System.out.println("candidates: "+agentInfoDTO.getAmountOfCandidatesStrings());
+        System.out.println("amountOfAskedMissionsProperty: "+agentInfoDTO.getAmountOfReceivedMissions());
+        System.out.println("amountOfMissionsInTheQueue: "+agentInfoDTO.getAmountOfMissionsToExecute());
         String agentInfoDTOGson = Constants.GSON_INSTANCE.toJson(agentInfoDTO);
         RequestBody body = RequestBody.create(
                 MediaType.parse("application/json"), agentInfoDTOGson);

@@ -18,6 +18,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import okhttp3.*;
 import constants.Constants;
+import okhttp3.internal.ws.RealWebSocket;
 import utils.http.HttpClientUtil;
 
 import java.io.IOException;
@@ -86,11 +87,15 @@ public class AgentLoginController {
     }
     public void startListRefresher() {
         alliesTeamsRefresher = new AlliesTeamsRefresher(
-                this::updateAlliesTeamNamesComboBox);
+                this::updateAlliesTeamNamesComboBox,
+                this::showAlliesTeamNamesErrors);
         timer = new Timer();
         timer.schedule(alliesTeamsRefresher, REFRESH_RATE, REFRESH_RATE);
     }
-    private void updateAlliesTeamNamesComboBox(List<String> agentInfoDTOList) {
+    private void showAlliesTeamNamesErrors(String error) {
+        errorMessageProperty.set(error);
+    }
+        private void updateAlliesTeamNamesComboBox(List<String> agentInfoDTOList) {
         Platform.runLater(() -> {
             for (String s: alliesTeamComboBox.getItems()) {
                 if(!agentInfoDTOList.contains(s))

@@ -58,7 +58,7 @@ public class Allies implements Serializable {
             }
 
         }
-    }
+         }
 
     public int getAmountOfCreatedMissions() {
         return amountOfCreatedMissions;

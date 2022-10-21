@@ -20,11 +20,13 @@ import java.util.function.Consumer;
 
 public class AlliesTeamsRefresher extends TimerTask {
     private final Consumer<List<String>> updateAlliesTeamNamesComboBox;
+    private final Consumer<String> showAlliesTeamNamesErrors;
 
     private String alliesTeamName;
 
-    public AlliesTeamsRefresher(Consumer<List<String>> updateAlliesTeamNamesComboBox) {
+    public AlliesTeamsRefresher(Consumer<List<String>> updateAlliesTeamNamesComboBox, Consumer<String> showAlliesTeamNamesErrors) {
         this.updateAlliesTeamNamesComboBox = updateAlliesTeamNamesComboBox;
+        this.showAlliesTeamNamesErrors=showAlliesTeamNamesErrors;
 
     }
     @Override
@@ -40,27 +42,31 @@ public class AlliesTeamsRefresher extends TimerTask {
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
 
                 Platform.runLater(() -> {
-                    {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setContentText(e.getMessage());
-                        alert.getDialogPane().setExpanded(true);
-                        alert.showAndWait();
-                    }
+                    showAlliesTeamNamesErrors.accept(e.getMessage());
                 });
 
             }
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                Platform.runLater(() -> {
+                    showAlliesTeamNamesErrors.accept("");
+                });
                 //String jsonArrayOfUsersNames = response.body().string();
-                Type alliesTeamNamesListType = new TypeToken<ArrayList<String>>() {}.getType();
-                List<String> dtoFromGson=Constants.GSON_INSTANCE.fromJson(response.body().string(),alliesTeamNamesListType);
-                if(dtoFromGson!=null) {
-                    updateAlliesTeamNamesComboBox.accept(dtoFromGson);
-                }
-                response.body().close();
-            }
+                try {
+                    Type alliesTeamNamesListType = new TypeToken<ArrayList<String>>() {
+                    }.getType();
+                    List<String> dtoFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), alliesTeamNamesListType);
+                    if (dtoFromGson != null) {
+                        updateAlliesTeamNamesComboBox.accept(dtoFromGson);
+                    }
+                    response.body().close();
 
-         });
+                } catch (Exception e) {
+
+                }
+
+            } });
+
 
     }
 }

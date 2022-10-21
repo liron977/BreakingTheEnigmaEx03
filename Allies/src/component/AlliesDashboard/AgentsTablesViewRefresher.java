@@ -57,6 +57,7 @@ public class AgentsTablesViewRefresher extends TimerTask {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 //String jsonArrayOfUsersNames = response.body().string();
+
                 Type agentInfoDTOList = new TypeToken<ArrayList<AgentInfoDTO>>() {}.getType();
                 List<AgentInfoDTO> dtoFromGson=Constants.GSON_INSTANCE.fromJson(response.body().string(),agentInfoDTOList);
                 if(dtoFromGson!=null) {
