@@ -41,6 +41,7 @@ public class Constants {
     public static final String RESET_CODE_CONFIGURATION="http://localhost:8080/app/ResetCodeConfigurationServlet";
     public static final String CHAT_LINES_LIST="http://localhost:8080/app/ChatServlet";
     public static final String SEND_CHAT_LINE="http://localhost:8080/app/SendChatServlet";
+    public static final String GET_NOT_AVAILABLE_AGENTS="http://localhost:8080/app/GetNotAvailableAgentsServlet";
     public final static String CHAT_LINE_FORMATTING = "%tH:%tM:%tS | %.10s: %s%n";
 
 

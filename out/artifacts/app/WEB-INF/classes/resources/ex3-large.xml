@@ -388,5 +388,5 @@
 		</Words>
 		</CTE-Dictionary>
 	</CTE-Decipher>
-	<CTE-Battlefield battle-name="Hirushima" allies="2" level="Insane"/>
+	<CTE-Battlefield battle-name="Hirushima" allies="1" level="Insane"/>
 </CTE-Enigma>

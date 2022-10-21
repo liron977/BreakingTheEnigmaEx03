@@ -56,6 +56,7 @@ public class AgentsInfoServlet extends HttpServlet {
         MediatorForEngineManager mediatorForEngineManager = ServletUtils.getMediatorForEngineManager(getServletContext());
         EngineManager engineManager = mediatorForEngineManager.getEngineMangerByAlliesTeamName(theAlliesTeamName);
         if (engineManager != null &&engineManager.getContestStatus().equals("Active")) {
+            engineManager.addAgentToAgentsAddedDuringContestList(theAlliesTeamName,dtoFromGson.getAgentName());
             response.setStatus(HttpServletResponse.SC_CONFLICT);
         } else {
 
@@ -64,6 +65,9 @@ public class AgentsInfoServlet extends HttpServlet {
             alliesManager.addAgentToAllies(alliesAgent, theAlliesTeamName);
             agentManager.addAgentInfoDTOList(theAlliesTeamName, dtoFromGson);
             response.setStatus(HttpServletResponse.SC_OK);
+            if(engineManager!=null) {
+                engineManager.clearAgentsAddedDuringContestList(theAlliesTeamName);
+            }
         }
 
     }

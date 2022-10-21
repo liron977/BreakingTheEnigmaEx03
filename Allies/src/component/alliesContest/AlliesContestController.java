@@ -92,6 +92,8 @@ public class AlliesContestController implements Closeable {
 
     @FXML
     private TableColumn<AgentInfoDTO, String> amountOfMissionsToExecuteColumn;
+    @FXML
+    private Label notAvailableAgentsLabel;
 
     private IntegerProperty totalBruteResultAmount;
     private TimerTask alliesBruteForceResultTableViewRefresher;
@@ -116,6 +118,8 @@ public class AlliesContestController implements Closeable {
     private Label uBoatIsNotReadyLabel;
     private boolean isMessageUboatDontExistDisplayed;
     private List<String> agentsNamesList;
+    private TimerTask notAvailableAgentsRefresher;
+    private Timer notAvailableAgentsRefresherTimer;
 
     @FXML
     public void initialize() {
@@ -130,6 +134,7 @@ public class AlliesContestController implements Closeable {
         missionSize = 0;
         isMessageUboatDontExistDisplayed=false;
         agentsNamesList=new ArrayList<>();
+        notAvailableAgentsLabel.setText("");
     }
 
     public void setMissionSize(int missionSize) {
@@ -532,6 +537,8 @@ public class AlliesContestController implements Closeable {
             contestInfoRefresherTimer.cancel();
             contestStatusRefresherTimer.cancel();
             amountOfCreatedMissionsRefresherTimer.cancel();
+            notAvailableAgentsRefresher.cancel();
+            notAvailableAgentsRefresherTimer.cancel();
         }
     }
 
@@ -637,7 +644,8 @@ public class AlliesContestController implements Closeable {
         isContestEnded.setValue(false);
         alliesWinnerTeamName = "";
         isMessageDisplayedForFirstTime = false;
-       // isMissionsCreated=false;
+        notAvailableAgentsLabel.setText("");
+        // isMissionsCreated=false;
         //  agentInfoDTOObservableList= FXCollections.observableArrayList();
     }
     public void reset(){
@@ -731,6 +739,8 @@ public class AlliesContestController implements Closeable {
     }
 
 
+
+
     public void updateMaxAmountOfMissions() throws IOException {
 
         RequestBody body = RequestBody.create(
@@ -772,5 +782,41 @@ public class AlliesContestController implements Closeable {
 
         }
 
+    }
+    public void startGetNotAvailableAgentsRefresher() {
+        notAvailableAgentsRefresher = new GetNotAvailableAgentsRefresher(
+                this::updateNotAvailableAgents,
+                autoUpdate,
+                alliesTeamName);
+        notAvailableAgentsRefresherTimer = new Timer();
+        notAvailableAgentsRefresherTimer.schedule(notAvailableAgentsRefresher, REFRESH_RATE, REFRESH_RATE);
+    }
+    private void updateNotAvailableAgents(List<String> notAvailableAgentsList) {
+        Platform.runLater(() -> {
+          if(notAvailableAgentsList.size()==0){
+              notAvailableAgentsLabel.setText("");
+          }
+          else {
+              String agentsName = "";
+              int amountOfNotAvailableAgents = notAvailableAgentsList.size();
+              int counter = 0;
+              String msg="";
+              for (String agentName : notAvailableAgentsList) {
+                  counter++;
+                  agentsName = agentsName.concat(agentName);
+                  if (counter != amountOfNotAvailableAgents) {
+                      agentsName = agentsName.concat(",");
+                  }
+              }
+              if (amountOfNotAvailableAgents == 1) {
+                   msg = "There is 1 agent who registered after the contest started." +
+                          "The agent " + agentsName + " will join in the next contest!";
+              } else {
+                   msg = "There are " + amountOfNotAvailableAgents + " agents who registered after the contest started." +
+                          "The agents " + agentsName + " will join in the next contest!";
+              }
+              notAvailableAgentsLabel.setText(msg);
+          }
+        });
     }
 }

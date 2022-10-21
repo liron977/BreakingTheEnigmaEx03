@@ -15,6 +15,7 @@ public class Allies implements Serializable {
    private Long totalAmountOfMissionToCreate;
    private Long maxAmountOfMissions;
    private boolean isAlliesConfirmedGameOver;
+    private List<String> agentsAddedDuringContestList;
 
     public Allies( String alliesName){
         this.alliesName=alliesName;
@@ -26,8 +27,20 @@ public class Allies implements Serializable {
         this.totalAmountOfMissionToCreate=0l;
         maxAmountOfMissions=Long.valueOf(-1);
         isAlliesConfirmedGameOver=false;
+        agentsAddedDuringContestList=new ArrayList<>();
     }
 
+    public List<String> getAgentsAddedDuringContestList() {
+        return agentsAddedDuringContestList;
+    }
+    public void addAgentToAgentsAddedDuringContestList(String agentName){
+        if(!agentsAddedDuringContestList.contains(agentName)) {
+            this.agentsAddedDuringContestList.add(agentName);
+        }
+    }
+    public void clearAgentsAddedDuringContestList() {
+        this.agentsAddedDuringContestList=new ArrayList<>();
+    }
     public void setAlliesConfirmedGameOver(boolean alliesConfirmedGameOver) {
         isAlliesConfirmedGameOver = alliesConfirmedGameOver;
     }

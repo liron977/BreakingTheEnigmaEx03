@@ -284,4 +284,12 @@
         <servlet-name>SendChatServlet</servlet-name>
         <url-pattern>/SendChatServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>GetNotAvailableAgentsServlet</servlet-name>
+        <servlet-class>servlets.GetNotAvailableAgentsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetNotAvailableAgentsServlet</servlet-name>
+        <url-pattern>/GetNotAvailableAgentsServlet</url-pattern>
+    </servlet-mapping>
 </web-app>

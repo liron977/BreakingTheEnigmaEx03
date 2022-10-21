@@ -127,6 +127,7 @@ private  List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoWithCheckBoxDTOLi
         if (agentsTableViewRefresher != null && timer != null) {
             agentsTableViewRefresher.cancel();
             timer.cancel();
+
         }
     }
     private void updateAgentsInfoList(List<AgentInfoDTO> agentInfoDTOList) {

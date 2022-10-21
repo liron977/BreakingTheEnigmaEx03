@@ -1167,6 +1167,15 @@ public class EngineManager implements EngineManagerInterface,Serializable {
         Allies allies=this.battleField.getAllies(alliesName);
         allies.setIsDataForAgentShouldBeDeletedByAgentName(agentName,isDataShouldBeDeleted);
     }
+    public List<String> getAgentsAddedDuringContestListForAllies(String alliesName) {
+        return this.battleField.getAgentsAddedDuringContestListForAllies(alliesName);
+    }
+    public void addAgentToAgentsAddedDuringContestList(String alliesName,String agentName){
+        this.battleField.addAgentToAgentsAddedDuringContestList(alliesName,agentName);
+    }
+    public void clearAgentsAddedDuringContestList(String alliesName) {
+        this.battleField.clearAgentsAddedDuringContestList(alliesName);
+    }
 
 
 }

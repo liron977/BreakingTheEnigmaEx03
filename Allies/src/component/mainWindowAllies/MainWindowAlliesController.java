@@ -122,6 +122,7 @@ Stage stage=new Stage();
         alliesContestController.startContestInfoTableViewRefresher();
         alliesContestController.startAgentsTableViewRefresher();
         alliesContestController.updateMaxAmountOfMissions();
+        alliesContestController.startGetNotAvailableAgentsRefresher();
         alliesDashboardController.close();
     }
 public void disableReadyButton(){

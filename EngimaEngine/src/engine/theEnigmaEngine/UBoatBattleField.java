@@ -27,6 +27,7 @@ public class UBoatBattleField implements Serializable {
     private List<CurrentAlliesStatus> currentAlliesStatusList;
     private boolean isCrrentAlliesStatusListAlreayUpdated;
 
+
    public UBoatBattleField(String battleName, int alliesNeededTeamsAmount, String level){
        this.battleName=battleName;
        this.alliesNeededTeamsAmount=alliesNeededTeamsAmount;
@@ -206,8 +207,9 @@ public int getAlliesActiveTeamsAmount() {
         System.out.println( " this.isContestEnded=false");
         this.alliesWinnwerTeamName="";
 
+
         if(role.equals("allies")) {
-          // alliesActiveTeamsAmount = 0;
+            // alliesActiveTeamsAmount = 0;
            amountOfCurrentactiveAlliesInContest--;
            List<CurrentAlliesStatus> tempcurrentAlliesStatusListToRemove=new ArrayList<>();
           // alliesActiveTeamsAmount--;
@@ -323,5 +325,14 @@ public int getAlliesActiveTeamsAmount() {
             }
         }
         return null;
+    }
+    public List<String> getAgentsAddedDuringContestListForAllies(String alliesName) {
+        return getAllies(alliesName).getAgentsAddedDuringContestList();
+    }
+    public void addAgentToAgentsAddedDuringContestList(String alliesName,String agentName){
+        getAllies(alliesName).addAgentToAgentsAddedDuringContestList(agentName);
+    }
+    public void clearAgentsAddedDuringContestList(String alliesName) {
+        getAllies(alliesName).clearAgentsAddedDuringContestList();
     }
 }
