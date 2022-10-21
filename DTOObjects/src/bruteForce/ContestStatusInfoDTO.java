@@ -95,6 +95,7 @@ public class ContestStatusInfoDTO {
         return false;
     }
 
+
     public void setUboatSettingsCompleted(boolean uboatSettingsCompleted) {
         isUboatSettingsCompleted = uboatSettingsCompleted;
     }
@@ -136,5 +137,7 @@ public class ContestStatusInfoDTO {
             }
         }
     }
-
+public boolean getIsUboatSettingsCompleted(){
+        return isUboatSettingsCompleted;
+}
 }

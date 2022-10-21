@@ -156,6 +156,22 @@
     -fx-text-alignment: center;
 
 }
+#BoldLighterLabel{
+    -fx-font-family: Verdana;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f265e;
+    -fx-font-size: 14;
+    -fx-text-alignment: center;
+
+}
+#SmallLighterLabel{
+    -fx-font-family: Verdana;
+   /* -fx-font-weight: bold;*/
+    -fx-text-fill: #0f265e;
+    -fx-font-size: 12;
+    -fx-text-alignment: center;
+
+}
 
 #applicationTitleLabel{
     -fx-font-family: Verdana;

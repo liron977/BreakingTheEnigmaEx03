@@ -434,7 +434,11 @@ public class AlliesContestController implements Closeable {
             threadTask.setIsContestEnded(contestStatusInfoDTO.isContestEnded());
             threadTask.setIsUboatSettingsCompleted(contestStatusInfoDTO.isUboatSettingsCompleted());
             threadTask.setStringToConvert(convertedString);
+
         }*/
+
+        displayMessageInContestStatusLabel(contestStatusInfoDTO);
+
         if (contestStatusInfoDTO.isUboatSettingsCompleted() && !isMissionsCreated) {
             threadTask = new AlliesThreadTask(convertedString, missionSize, alliesTeamName);
             mainWindowAlliesController.setThreadTask(threadTask);
@@ -488,6 +492,21 @@ public class AlliesContestController implements Closeable {
                 }
             });
         }
+    }
+    public void displayMessageInContestStatusLabel(ContestStatusInfoDTO contestStatusInfoDTO) {
+        Platform.runLater(() -> {
+            if(!contestStatusInfoDTO.getAlliesWinnerTeamName().isEmpty()){
+                uBoatIsNotReadyLabel.setText("The contest ended");
+
+            }
+      else if (!contestStatusInfoDTO.getIsUboatSettingsCompleted()) {
+            uBoatIsNotReadyLabel.setText("The UBoat is not ready yet");
+        } else if (contestStatusInfoDTO.getContestStatus().equals("Wait..") && !contestStatusInfoDTO.isContestEnded()) {
+            uBoatIsNotReadyLabel.setText("The contest is not available yet, not all the needed allies teams registered.");
+        } else {
+            uBoatIsNotReadyLabel.setText("The contest started");
+        }
+        });
     }
 
     @Override
@@ -573,11 +592,7 @@ public class AlliesContestController implements Closeable {
                     }
                 }*/
                     /*else{*/
-                    if (dmAmountOfMissionsInfoDTO.getAmountOfCreatedMissions() == 0l) {
-                        uBoatIsNotReadyLabel.setText("The uboat is not ready yet");
-                    } else {
-                        uBoatIsNotReadyLabel.setText("");
-                    }
+
                     dmAmountOfCreatedMissionsLabel.setText("The amount of created missions: "
                             + displayTextWithCommas(dmAmountOfMissionsInfoDTO.getAmountOfCreatedMissions()));
               /*  totalAmountOfCreatedMissionsLabel.setText("The maximum amount of missions: "

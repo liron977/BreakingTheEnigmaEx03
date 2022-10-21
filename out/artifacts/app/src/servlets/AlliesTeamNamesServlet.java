@@ -19,6 +19,7 @@ public class AlliesTeamNamesServlet extends HttpServlet {
             UserManager userInfoManager = ServletUtils.getUserManager(getServletContext());
             List<String> alliesTeamsNamesList=userInfoManager.getListOfUsersByRole("allies");
             if (alliesTeamsNamesList != null) {
+                response.setStatus(HttpServletResponse.SC_OK);
                 Gson gson = new Gson();
                 String json = gson.toJson(alliesTeamsNamesList);
                 out.println(json);

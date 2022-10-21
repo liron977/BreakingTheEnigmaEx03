@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.alliesContest.AlliesContestController">
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="432.0" prefWidth="1068.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.alliesContest.AlliesContestController">
   <content>
       <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0">
          <children>
@@ -34,16 +34,16 @@
             <Separator orientation="VERTICAL" prefHeight="200.0" />
             <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Label fx:id="uBoatIsNotReadyLabel" />
+                  <Label id="BoldLighterLabel" fx:id="uBoatIsNotReadyLabel" />
                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="21.0" prefWidth="635.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Label fx:id="dmAmountOfCreatedMissionsLabel" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS" />
-                        <Label fx:id="amountOfDoneMissions" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+                        <Label id="SmallLighterLabel" fx:id="dmAmountOfCreatedMissionsLabel" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS" />
+                        <Label id="SmallLighterLabel" fx:id="amountOfDoneMissions" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="30.0" />
                            </HBox.margin>
                         </Label>
-                        <Label fx:id="totalAmountOfCreatedMissionsLabel" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+                        <Label id="SmallLighterLabel" fx:id="totalAmountOfCreatedMissionsLabel" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="30.0" />
                            </HBox.margin>
@@ -55,9 +55,9 @@
                   </HBox>
                   <TableView fx:id="activeTeamsDetailsTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="111.0" prefWidth="635.0" VBox.vgrow="ALWAYS">
                     <columns>
-                      <TableColumn fx:id="alliesTeamNameColumn" prefWidth="146.0" text="Team Name" />
-                      <TableColumn fx:id="agentsAmountColumn" prefWidth="123.33334350585938" text="Agents Amount" />
-                        <TableColumn fx:id="missionSizeColumn" prefWidth="325.3333435058594" text="Mission Size" />
+                      <TableColumn fx:id="alliesTeamNameColumn" prefWidth="216.66674292087555" text="Team Name" />
+                      <TableColumn fx:id="agentsAmountColumn" prefWidth="155.9999542236328" text="Agents Amount" />
+                        <TableColumn fx:id="missionSizeColumn" prefWidth="301.9999694824219" text="Mission Size" />
                     </columns>
                      <VBox.margin>
                         <Insets />
@@ -80,7 +80,7 @@
                       <TableColumn fx:id="agentNameColumn" prefWidth="75.0" text="Agent Name" />
                       <TableColumn fx:id="amountOfCandidatesStringsColumn" prefWidth="190.66669464111328" text="Amount Of Candidates Strings" />
                         <TableColumn fx:id="amountOfMissionsToExecuteColumn" prefWidth="194.66668701171875" text="Amount Of Missions To Execute" />
-                        <TableColumn fx:id="amountOfMissionsReceivedColumn" prefWidth="175.99996948242188" text="Amount Of Missions Received" />
+                        <TableColumn fx:id="amountOfMissionsReceivedColumn" prefWidth="216.66665649414062" text="Amount Of Missions Received" />
                     </columns>
                   </TableView>
                </children>

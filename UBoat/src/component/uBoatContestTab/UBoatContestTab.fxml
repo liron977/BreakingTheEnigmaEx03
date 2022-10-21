@@ -13,14 +13,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="493.0" prefWidth="852.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.uBoatContestTab.UBoatContestTabController">
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="490.0" prefWidth="1068.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.uBoatContestTab.UBoatContestTabController">
    <content>
       <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="477.0" prefWidth="830.0" spacing="5.0">
          <children>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
                <children>
                   <Label id="GeneralLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Candidates" VBox.vgrow="ALWAYS" />
-                  <TableView fx:id="contestCandidatesTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="448.0" prefWidth="405.0" VBox.vgrow="SOMETIMES">
+                  <TableView fx:id="contestCandidatesTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="460.0" prefWidth="190.0" VBox.vgrow="SOMETIMES">
                     <columns>
                       <TableColumn fx:id="stringColumn" maxWidth="110.0" minWidth="-Infinity" prefWidth="109.99999749660492" text="String" />
                       <TableColumn fx:id="alliesNameColumn" maxWidth="130.0" minWidth="-Infinity" prefWidth="131.3333511352539" text="Allies Team Name" />

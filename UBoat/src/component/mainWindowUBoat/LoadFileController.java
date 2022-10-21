@@ -240,7 +240,7 @@ public class LoadFileController {
             });}
         else{
             isMachineDefined.set(false);
-          /*  Platform.runLater(() -> {
+            Platform.runLater(() -> {
                 try {
                      String message = "Load status: error loading " +response.body().string();
                     alert.setContentText(message);
@@ -248,7 +248,7 @@ public class LoadFileController {
                     alert.showAndWait();
                     loadFileButton.setDisable(false);
                 } catch (IOException e) {}
-            });*/}
+            });}
         return (response.code()==200);
     }
     public void initValues(){
