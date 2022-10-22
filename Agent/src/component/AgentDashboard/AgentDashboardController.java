@@ -9,8 +9,6 @@ import engine.theEnigmaEngine.SchemaGenerated;
 import engine.theEnigmaEngine.TheMachineEngine;
 import engine.theEnigmaEngine.UBoatBattleField;
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.StringExpression;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -89,6 +87,7 @@ public class AgentDashboardController implements Closeable {
     private Label currentAmountOfMissionsInTheQueue;
     @FXML
     private Label amountOfCandidatesStrings;
+
 
     private final String JAXB_XML_GAME_PACKAGE_NAME = "schemaGenerated";
     private SimpleBooleanProperty isMissionEndedProperty;

@@ -5,6 +5,7 @@ import bruteForce.AgentInfoDTO;
 import bruteForce.AlliesDTO;
 import bruteForce.UBoatContestInfoWithCheckBoxDTO;
 import component.alliesContest.AlliesThreadTask;
+import component.bonus.CreateAgentFromAlliesController;
 import component.mainWindowAllies.MainWindowAlliesController;
 import constants.Constants;
 import javafx.application.Platform;
@@ -17,8 +18,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import machineDTO.TheMachineEngineDTO;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
@@ -26,6 +31,7 @@ import utils.http.HttpClientUtil;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -39,11 +45,11 @@ public class AlliesDashboardController implements Closeable {
     private TimerTask agentsTableViewRefresher;
     private Timer uBoatContestsRefresherTimer;
     private TimerTask uBoatContestsRefresher;
-    private  SimpleBooleanProperty autoUpdate;
-    private  IntegerProperty totalAgentsAmount;
-    private  IntegerProperty totalUBoatContestsAmount;
+    private SimpleBooleanProperty autoUpdate;
+    private IntegerProperty totalAgentsAmount;
+    private IntegerProperty totalUBoatContestsAmount;
     private SimpleBooleanProperty isContestSelected;
-private  List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoWithCheckBoxDTOList;
+    private List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoWithCheckBoxDTOList;
     @FXML
     private TableView<UBoatContestInfoWithCheckBoxDTO> contestsDataTableView;
     @FXML
@@ -73,26 +79,28 @@ private  List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoWithCheckBoxDTOLi
     @FXML
     private TextField missionSizeTextField;
     AlliesThreadTask threadTask;
+    @FXML
+    private Button createAgentButton;
 
-    private  UBoatContestInfoWithCheckBoxDTO selectedContestDTO;
-@FXML
+    private UBoatContestInfoWithCheckBoxDTO selectedContestDTO;
+    @FXML
     private MainWindowAlliesController mainWindowAlliesController;
 
     AgentInfoDTO agentInfoDTO;
-    String alliesTeamName="";
+    String alliesTeamName = "";
     String selectedBattleField;
 
     @FXML
-    public void initialize(){
-        isContestSelected=new SimpleBooleanProperty(true);
+    public void initialize() {
+        isContestSelected = new SimpleBooleanProperty(true);
         readyButton.disableProperty().bind(isContestSelected);
-        selectedBattleField="";
+        selectedBattleField = "";
     }
 
     public AlliesDashboardController() {
         totalAgentsAmount = new SimpleIntegerProperty(0);
         totalUBoatContestsAmount = new SimpleIntegerProperty(0);
-        autoUpdate=new SimpleBooleanProperty(true);
+        autoUpdate = new SimpleBooleanProperty(true);
     }
 
     public void setAlliesTeamName(String alliesTeamName) {
@@ -102,6 +110,7 @@ private  List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoWithCheckBoxDTOLi
     public void setMainWindowAlliesController(MainWindowAlliesController mainWindowAlliesController) {
         this.mainWindowAlliesController = mainWindowAlliesController;
     }
+
     private ObservableList<AgentInfoDTO> getTeamsAgentsDataTableViewDTOList(List<AgentInfoDTO> agentInfoDTO) {
 
         ObservableList<AgentInfoDTO> agentInfoDTOList;
@@ -130,18 +139,21 @@ private  List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoWithCheckBoxDTOLi
 
         }
     }
+
     private void updateAgentsInfoList(List<AgentInfoDTO> agentInfoDTOList) {
         Platform.runLater(() -> {
-            ObservableList<AgentInfoDTO> agentInfoDTOObservableList =getTeamsAgentsDataTableViewDTOList(agentInfoDTOList);
+            ObservableList<AgentInfoDTO> agentInfoDTOObservableList = getTeamsAgentsDataTableViewDTOList(agentInfoDTOList);
             createAgentsInfoDTOTableView(agentInfoDTOObservableList);
             totalAgentsAmount.set(agentInfoDTOList.size());
         });
     }
-    private void createAgentsInfoDTOTableView(ObservableList<AgentInfoDTO> agentInfoDTOList ) {
+
+    private void createAgentsInfoDTOTableView(ObservableList<AgentInfoDTO> agentInfoDTOList) {
         teamsAgentsDataTableView.setItems(agentInfoDTOList);
         teamsAgentsDataTableView.getColumns().clear();
         teamsAgentsDataTableView.getColumns().addAll(missionsAmountColumn, threadsAmountColumn, agentNameColumn);
     }
+
     public void startAgentsTableViewRefresher() {
         agentsTableViewRefresher = new AgentsTablesViewRefresher(
                 this::updateAgentsInfoList,
@@ -150,9 +162,39 @@ private  List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoWithCheckBoxDTOLi
         timer = new Timer();
         timer.schedule(agentsTableViewRefresher, REFRESH_RATE, REFRESH_RATE);
     }
-/*    private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTableViewDTOList(List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTO) {
+
+    /*    private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTableViewDTOList(List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTO) {
+            ObservableList<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOList;
+            uBoatContestInfoDTOList = FXCollections.observableArrayList(uBoatContestInfoDTO);
+            battleFieldNameColumn.setCellValueFactory(
+                    new PropertyValueFactory<>("battleFieldName")
+            );
+            uBoatUserNameColumn.setCellValueFactory(
+                    new PropertyValueFactory<>("uBoatUserName")
+            );
+            contestStatusColumn.setCellValueFactory(
+                    new PropertyValueFactory<>("contestStatus")
+            );
+            contestLevelColumn.setCellValueFactory(
+                    new PropertyValueFactory<>("contestLevel")
+            );
+            amountOfNeededDecryptionTeamsColumn.setCellValueFactory(
+                    new PropertyValueFactory<>("amountOfNeededDecryptionTeams")
+            );
+            amountOfActiveDecryptionTeamsColumn.setCellValueFactory(
+                    new PropertyValueFactory<>("amountOfActiveDecryptionTeams")
+            );
+            selectedContestColumn.setCellValueFactory(
+                    new PropertyValueFactory<>("selectionContestColumn")
+            );
+            return uBoatContestInfoDTOList;
+        }*/
+    private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTableViewDTOList(UBoatContestInfoWithCheckBoxDTO uBoatContestInfoDTO) {
         ObservableList<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOList;
         uBoatContestInfoDTOList = FXCollections.observableArrayList(uBoatContestInfoDTO);
+        selectedContestColumn.setCellValueFactory(
+                new PropertyValueFactory<>("selectionContestColumn")
+        );
         battleFieldNameColumn.setCellValueFactory(
                 new PropertyValueFactory<>("battleFieldName")
         );
@@ -171,64 +213,37 @@ private  List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoWithCheckBoxDTOLi
         amountOfActiveDecryptionTeamsColumn.setCellValueFactory(
                 new PropertyValueFactory<>("amountOfActiveDecryptionTeams")
         );
-        selectedContestColumn.setCellValueFactory(
-                new PropertyValueFactory<>("selectionContestColumn")
-        );
-        return uBoatContestInfoDTOList;
-    }*/
-private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTableViewDTOList(UBoatContestInfoWithCheckBoxDTO uBoatContestInfoDTO) {
-    ObservableList<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOList;
-    uBoatContestInfoDTOList = FXCollections.observableArrayList(uBoatContestInfoDTO);
-    selectedContestColumn.setCellValueFactory(
-            new PropertyValueFactory<>("selectionContestColumn")
-    );
-    battleFieldNameColumn.setCellValueFactory(
-            new PropertyValueFactory<>("battleFieldName")
-    );
-    uBoatUserNameColumn.setCellValueFactory(
-            new PropertyValueFactory<>("uBoatUserName")
-    );
-    contestStatusColumn.setCellValueFactory(
-            new PropertyValueFactory<>("contestStatus")
-    );
-    contestLevelColumn.setCellValueFactory(
-            new PropertyValueFactory<>("contestLevel")
-    );
-    amountOfNeededDecryptionTeamsColumn.setCellValueFactory(
-            new PropertyValueFactory<>("amountOfNeededDecryptionTeams")
-    );
-    amountOfActiveDecryptionTeamsColumn.setCellValueFactory(
-            new PropertyValueFactory<>("amountOfActiveDecryptionTeams")
-    );
 
-    return uBoatContestInfoDTOList;
-}
+        return uBoatContestInfoDTOList;
+    }
+
     private void updateUBoatContestsList(List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOList) {
         Platform.runLater(() -> {
-            if(selectedContestDTO!=null){
+            if (selectedContestDTO != null) {
                 selectedContestDTO.setSelected(true);
             }
             boolean isDTDExistsInTableView;
-            ObservableList<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOListTemp = FXCollections.observableArrayList();;
-            for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO: uBoatContestInfoDTOList) {
-              checkBoxChangedListener(uBoatContestInfoWithCheckBoxDTO);
-                isDTDExistsInTableView=false;
-                int index=0;
-                    for (UBoatContestInfoWithCheckBoxDTO TableViewUBoatContestDTO : contestsDataTableView.getItems()) {
+            ObservableList<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOListTemp = FXCollections.observableArrayList();
+            ;
+            for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO : uBoatContestInfoDTOList) {
+                checkBoxChangedListener(uBoatContestInfoWithCheckBoxDTO);
+                isDTDExistsInTableView = false;
+                int index = 0;
+                for (UBoatContestInfoWithCheckBoxDTO TableViewUBoatContestDTO : contestsDataTableView.getItems()) {
 
-                        if (TableViewUBoatContestDTO.getBattleFieldName().equals(uBoatContestInfoWithCheckBoxDTO.getBattleFieldName())) {
-                            updateContestsDataTableViewRow(uBoatContestInfoWithCheckBoxDTO,index);
-                            isDTDExistsInTableView = true;
-                            break;
-                        }
-                        index++;
+                    if (TableViewUBoatContestDTO.getBattleFieldName().equals(uBoatContestInfoWithCheckBoxDTO.getBattleFieldName())) {
+                        updateContestsDataTableViewRow(uBoatContestInfoWithCheckBoxDTO, index);
+                        isDTDExistsInTableView = true;
+                        break;
                     }
-                    if (!isDTDExistsInTableView) {
-                        uBoatContestInfoDTOListTemp.addAll(getUBoatContestInfoTableViewDTOList(uBoatContestInfoWithCheckBoxDTO));
-                        contestsDataTableView.getItems().add(uBoatContestInfoWithCheckBoxDTO);
-                    }
+                    index++;
+                }
+                if (!isDTDExistsInTableView) {
+                    uBoatContestInfoDTOListTemp.addAll(getUBoatContestInfoTableViewDTOList(uBoatContestInfoWithCheckBoxDTO));
+                    contestsDataTableView.getItems().add(uBoatContestInfoWithCheckBoxDTO);
+                }
             }
-            uBoatContestInfoWithCheckBoxDTOList=contestsDataTableView.getItems();
+            uBoatContestInfoWithCheckBoxDTOList = contestsDataTableView.getItems();
  /*           if(contestsDataTableView.getItems()!=null) {
                 //todo : To check
                 for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO : contestsDataTableView.getItems()) {
@@ -242,40 +257,41 @@ private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTable
                 }
             }*/
             updateContest(uBoatContestInfoDTOList);
-           // totalUBoatContestsAmount.set(uBoatContestInfoDTOList.size());
+            // totalUBoatContestsAmount.set(uBoatContestInfoDTOList.size());
         });
     }
-    public void updateContest(List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOList){
-        List<UBoatContestInfoWithCheckBoxDTO> toRemove=new ArrayList<>();
-        ObservableList<UBoatContestInfoWithCheckBoxDTO>  contestsDataTableViewList=contestsDataTableView.getItems();
-       for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO:contestsDataTableViewList) {
-           boolean flag=false;
-           for (UBoatContestInfoWithCheckBoxDTO ubi2:uBoatContestInfoDTOList) {
-               if(ubi2.getBattleFieldName().equals(uBoatContestInfoWithCheckBoxDTO.getBattleFieldName())){
-                    flag=true;
-               }
-                  }
-           if(!flag){
-               toRemove.add(uBoatContestInfoWithCheckBoxDTO);
-           }
+
+    public void updateContest(List<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOList) {
+        List<UBoatContestInfoWithCheckBoxDTO> toRemove = new ArrayList<>();
+        ObservableList<UBoatContestInfoWithCheckBoxDTO> contestsDataTableViewList = contestsDataTableView.getItems();
+        for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO : contestsDataTableViewList) {
+            boolean flag = false;
+            for (UBoatContestInfoWithCheckBoxDTO ubi2 : uBoatContestInfoDTOList) {
+                if (ubi2.getBattleFieldName().equals(uBoatContestInfoWithCheckBoxDTO.getBattleFieldName())) {
+                    flag = true;
+                }
+            }
+            if (!flag) {
+                toRemove.add(uBoatContestInfoWithCheckBoxDTO);
+            }
         }
-        if(selectedContestDTO!=null) {
+        if (selectedContestDTO != null) {
      /*       if(toRemove.size()==0){
                 isContestSelected.setValue(false);
                 selectedContestDTO.removeSelection();
             }*/
             for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO : toRemove) {
                 if (uBoatContestInfoWithCheckBoxDTO.getBattleFieldName().
-                        equals(selectedContestDTO.getBattleFieldName())){
+                        equals(selectedContestDTO.getBattleFieldName())) {
                     isContestSelected.setValue(false);
                     selectedContestDTO.removeSelection();
-                    selectedContestDTO=null;
+                    selectedContestDTO = null;
                     checkboxWasNotSelected(uBoatContestInfoWithCheckBoxDTO);
                 }
 
             }
         }
-       //uBoatContestInfoDTOList.removeAll(toRemove);
+        //uBoatContestInfoDTOList.removeAll(toRemove);
         contestsDataTableViewList.removeAll(toRemove);
 
        /* contestsDataTableView.getItems().clear();
@@ -284,23 +300,24 @@ private ObservableList<UBoatContestInfoWithCheckBoxDTO> getUBoatContestInfoTable
             index++;
                 updateContestsDataTableViewRow(TableViewUBoatContestDTO,index);
             }*/
-        if(uBoatContestInfoDTOList.size()==0){
+        if (uBoatContestInfoDTOList.size() == 0) {
             contestsDataTableView.getItems().clear();
         }
 
     }
-private void updateContestsDataTableViewRow(UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO, int contestsDataTableViewRow ){
-    TableColumn statusTableColumn = contestsDataTableView.getColumns().get(3);
-    ObservableValue statusTableColumnObservableValue = statusTableColumn.getCellObservableValue(contestsDataTableViewRow);
-StringProperty statusStringProperty=(StringProperty) statusTableColumnObservableValue;
+
+    private void updateContestsDataTableViewRow(UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO, int contestsDataTableViewRow) {
+        TableColumn statusTableColumn = contestsDataTableView.getColumns().get(3);
+        ObservableValue statusTableColumnObservableValue = statusTableColumn.getCellObservableValue(contestsDataTableViewRow);
+        StringProperty statusStringProperty = (StringProperty) statusTableColumnObservableValue;
         (statusStringProperty).set(uBoatContestInfoWithCheckBoxDTO.getContestStatus().getValue());
 
-    TableColumn activeAlliesTableColumn = contestsDataTableView.getColumns().get(6);
-    ObservableValue activeAlliesObservableValue = activeAlliesTableColumn.getCellObservableValue(contestsDataTableViewRow);
+        TableColumn activeAlliesTableColumn = contestsDataTableView.getColumns().get(6);
+        ObservableValue activeAlliesObservableValue = activeAlliesTableColumn.getCellObservableValue(contestsDataTableViewRow);
 
-    IntegerProperty activeAlliesStringProperty=(IntegerProperty) activeAlliesObservableValue;
-    (activeAlliesStringProperty).set(uBoatContestInfoWithCheckBoxDTO.getAmountOfActiveDecryptionTeams());
-}
+        IntegerProperty activeAlliesStringProperty = (IntegerProperty) activeAlliesObservableValue;
+        (activeAlliesStringProperty).set(uBoatContestInfoWithCheckBoxDTO.getAmountOfActiveDecryptionTeams());
+    }
 
     private void checkBoxChangedListener(UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO) {
         uBoatContestInfoWithCheckBoxDTO.getSelectionContestColumn().setOnAction(event -> {
@@ -315,8 +332,8 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
         });
     }
 
-    private void checkboxWasNotSelected(UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO ) {
-        uBoatContestInfoWithCheckBoxDTOList=contestsDataTableView.getItems();
+    private void checkboxWasNotSelected(UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO) {
+        uBoatContestInfoWithCheckBoxDTOList = contestsDataTableView.getItems();
         uBoatContestInfoWithCheckBoxDTO.setSelected(false);
         for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTOFromList : uBoatContestInfoWithCheckBoxDTOList) {
             if (uBoatContestInfoWithCheckBoxDTOFromList.getIsSelected()) {
@@ -326,20 +343,21 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
         for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTOFromListToNotDisabled : uBoatContestInfoWithCheckBoxDTOList) {
             uBoatContestInfoWithCheckBoxDTOFromListToNotDisabled.getSelectionContestColumn().setDisable(false);
         }
-        selectedContestDTO=null;
+        selectedContestDTO = null;
         isContestSelected.setValue(true);
     }
-        private void checkboxWasSelected(UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO ){
-    isContestSelected.setValue(false);
-    if(selectedContestDTO!=null){
-        selectedContestDTO.setSelected(false);
-        selectedContestDTO.removeSelection();
 
-       // selectedContestDTO.setSelectionContestColumn(selectedContestDTO.get);
-    }
-            selectedContestDTO=uBoatContestInfoWithCheckBoxDTO;
-            mainWindowAlliesController.setConvertedString(selectedContestDTO.getConvertedString());
-        uBoatContestInfoWithCheckBoxDTOList=contestsDataTableView.getItems();
+    private void checkboxWasSelected(UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTO) {
+        isContestSelected.setValue(false);
+        if (selectedContestDTO != null) {
+            selectedContestDTO.setSelected(false);
+            selectedContestDTO.removeSelection();
+
+            // selectedContestDTO.setSelectionContestColumn(selectedContestDTO.get);
+        }
+        selectedContestDTO = uBoatContestInfoWithCheckBoxDTO;
+        mainWindowAlliesController.setConvertedString(selectedContestDTO.getConvertedString());
+        uBoatContestInfoWithCheckBoxDTOList = contestsDataTableView.getItems();
         uBoatContestInfoWithCheckBoxDTO.setSelected(true);
         for (UBoatContestInfoWithCheckBoxDTO uBoatContestInfoWithCheckBoxDTOFromList : uBoatContestInfoWithCheckBoxDTOList) {
             if (!uBoatContestInfoWithCheckBoxDTOFromList.getIsSelected()) {
@@ -349,26 +367,27 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
     }
 
 
-   /* private void createUBoatContestsInfoDTOTableView(ObservableList<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOList ) {
-        contestsDataTableView.setItems(uBoatContestInfoDTOList);
-*//*       // contestsDataTableView.getColumns().clear();
+    /* private void createUBoatContestsInfoDTOTableView(ObservableList<UBoatContestInfoWithCheckBoxDTO> uBoatContestInfoDTOList ) {
+         contestsDataTableView.setItems(uBoatContestInfoDTOList);
+ *//*       // contestsDataTableView.getColumns().clear();
         contestsDataTableView.getColumns().addAll(selectedContestColumn,battleFieldNameColumn,
                 uBoatUserNameColumn, contestStatusColumn,contestLevelColumn,
                 amountOfNeededDecryptionTeamsColumn,amountOfActiveDecryptionTeamsColumn);*//*
     }*/
     public void startUBoatContestsTableViewRefresher() {
         uBoatContestsRefresher = new UBoatContestsRefresher(
-                this::updateUBoatContestsList,autoUpdate);
+                this::updateUBoatContestsList, autoUpdate);
         uBoatContestsRefresherTimer = new Timer();
         uBoatContestsRefresherTimer.schedule(uBoatContestsRefresher, REFRESH_RATE, REFRESH_RATE);
     }
+
     @FXML
     void readyButtonOnAction(ActionEvent event) throws IOException {
-        if(selectedContestDTO!=null) {
+        if (selectedContestDTO != null) {
             mainWindowAlliesController.setSelectedBattleFieldName(selectedContestDTO.getBattleFieldName());
-            selectedBattleField=selectedContestDTO.getBattleFieldName();
-            if(isMissionSizeIsValid()) {
-                if(registerAllies()) {
+            selectedBattleField = selectedContestDTO.getBattleFieldName();
+            if (isMissionSizeIsValid()) {
+                if (registerAllies()) {
                     mainWindowAlliesController.alliesContestControllerDeleteValues();
                     mainWindowAlliesController.startContestStatusRefresher();
                     mainWindowAlliesController.changeToContestTab();
@@ -376,15 +395,16 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
             }
         }
     }
-    public void isAllActiveAlliesTeamsLoggedOut(){
+
+    public void isAllActiveAlliesTeamsLoggedOut() {
 
     }
-    private boolean isMissionSizeIsValid(){
-        if(selectedContestDTO==null){
+
+    private boolean isMissionSizeIsValid() {
+        if (selectedContestDTO == null) {
             displayErrorAlert("Please select a contest");
             return false;
-        }
-        else {
+        } else {
             String missionSizeString = missionSizeTextField.getText();
             TheMachineEngineDTO theMachineEngineDTO = getTheMachineEngineInfo();
             Long amountOfPossibleStartingPositionList = (long) Math.pow(theMachineEngineDTO.getKeyboardSize(), theMachineEngineDTO.getAmountOfUsedRotors());
@@ -420,30 +440,33 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
             }
         }
     }
-    public String displayTextWithCommas(Long amount){
-        StringBuilder amountWithCommas= new StringBuilder("");
-        int counter=0;
-        if(amount==0){
+
+    public String displayTextWithCommas(Long amount) {
+        StringBuilder amountWithCommas = new StringBuilder("");
+        int counter = 0;
+        if (amount == 0) {
             return "0";
         }
-        while (amount>0){
-            if((counter%3==0)&&(counter!=0)){
-                amountWithCommas=amountWithCommas.append(",");
+        while (amount > 0) {
+            if ((counter % 3 == 0) && (counter != 0)) {
+                amountWithCommas = amountWithCommas.append(",");
             }
             counter++;
-            amountWithCommas=amountWithCommas.append(amount%10);
-            amount=amount/10;
+            amountWithCommas = amountWithCommas.append(amount % 10);
+            amount = amount / 10;
         }
         return amountWithCommas.reverse().toString();
     }
-    private void displayErrorAlert(String errorMessage){
-      Alert alert = new Alert(Alert.AlertType.ERROR);
+
+    private void displayErrorAlert(String errorMessage) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setContentText(errorMessage + "\n");
         alert.getDialogPane().setExpanded(true);
         alert.setTitle("Error!");
         alert.showAndWait();
     }
-    private static boolean isNumeric(String str){
+
+    private static boolean isNumeric(String str) {
         return str != null && str.matches("[0-9.]+");
     }
 
@@ -452,57 +475,55 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
     }
 
     private boolean registerAllies() throws IOException {
-              AlliesDTO alliesDTO = new AlliesDTO(Integer.parseInt(missionSizeTextField.getText()), alliesTeamName);
-            String alliesDTOGson = Constants.GSON_INSTANCE.toJson(alliesDTO);
-            RequestBody body = RequestBody.create(
-                    MediaType.parse("application/json"), alliesDTOGson);
+        AlliesDTO alliesDTO = new AlliesDTO(Integer.parseInt(missionSizeTextField.getText()), alliesTeamName);
+        String alliesDTOGson = Constants.GSON_INSTANCE.toJson(alliesDTO);
+        RequestBody body = RequestBody.create(
+                MediaType.parse("application/json"), alliesDTOGson);
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            String finalUrl = HttpUrl
-                    .parse(Constants.REGISTER_ALLIES_TO_CONTEST)
-                    .newBuilder()
-                    .addQueryParameter("battlefield", selectedBattleField)
-                    .build()
-                    .toString();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        String finalUrl = HttpUrl
+                .parse(Constants.REGISTER_ALLIES_TO_CONTEST)
+                .newBuilder()
+                .addQueryParameter("battlefield", selectedBattleField)
+                .build()
+                .toString();
 
-            Request request = new Request.Builder()
-                    .url(finalUrl)
-                    .post(body)
-                    .build();
+        Request request = new Request.Builder()
+                .url(finalUrl)
+                .post(body)
+                .build();
 
-            Call call = HttpClientUtil.getOkHttpClient().newCall(request);
-            Response response = call.execute();
-            if (response.code() == 200) {
+        Call call = HttpClientUtil.getOkHttpClient().newCall(request);
+        Response response = call.execute();
+        if (response.code() == 200) {
 
-                Platform.runLater(() -> {
+            Platform.runLater(() -> {
 
-                    alert.setContentText("You registered to the contest " + selectedBattleField + " successfully");
-                    alert.getDialogPane().setExpanded(true);
-                    alert.showAndWait();
-                });
+                alert.setContentText("You registered to the contest " + selectedBattleField + " successfully");
+                alert.getDialogPane().setExpanded(true);
+                alert.showAndWait();
+            });
 
-                String stringToConvert=Constants.GSON_INSTANCE.fromJson(response.body().string(),String.class);
-                System.out.println("registerAllies");
-                mainWindowAlliesController.setMissionSize(Integer.valueOf(missionSizeTextField.getText()));
+            String stringToConvert = Constants.GSON_INSTANCE.fromJson(response.body().string(), String.class);
+            System.out.println("registerAllies");
+            mainWindowAlliesController.setMissionSize(Integer.valueOf(missionSizeTextField.getText()));
                 /* threadTask=new AlliesThreadTask(mainWindowAlliesController.getAlliesContestController(),stringToConvert,Integer.parseInt(missionSizeTextField.getText()),alliesTeamName);
                  mainWindowAlliesController.setThreadTask(threadTask);
                 System.out.println("before start");*/
-               // new Thread(threadTask).start();
+            // new Thread(threadTask).start();
 
+        } else {
+            if (response.code() == 409) {
+                alert.setContentText("The contest " + selectedBattleField + " is full, please select another one");
+                alert.getDialogPane().setExpanded(true);
+                alert.showAndWait();
+                return false;
+            } else if (response.code() == 401) {
+                alert.setContentText("The contest " + selectedBattleField + " is not available,not all the allies teams logged out");
+                alert.getDialogPane().setExpanded(true);
+                alert.showAndWait();
+                return false;
             } else {
-                if (response.code() == 409) {
-                    alert.setContentText("The contest " + selectedBattleField + " is full, please select another one");
-                    alert.getDialogPane().setExpanded(true);
-                    alert.showAndWait();
-                    return false;
-                }
-                else if (response.code() == 401) {
-                    alert.setContentText("The contest " + selectedBattleField + " is not available,not all the allies teams logged out");
-                    alert.getDialogPane().setExpanded(true);
-                    alert.showAndWait();
-                    return false;
-                }
-                else{
                    /* Platform.runLater(() -> {
                         {
                             Alert alertError = new Alert(Alert.AlertType.INFORMATION);
@@ -515,11 +536,12 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
                             alertError.showAndWait();
                         }
                     });*/
-                }
             }
-      return true;
+        }
+        return true;
     }
-    public TheMachineEngineDTO getTheMachineEngineInfo(){
+
+    public TheMachineEngineDTO getTheMachineEngineInfo() {
 
         String finalUrl = HttpUrl
                 .parse(Constants.GET_MACHINE_INFO)
@@ -566,8 +588,38 @@ StringProperty statusStringProperty=(StringProperty) statusTableColumnObservable
         alert.getDialogPane().setExpanded(true);
         alert.showAndWait();
     }
-    public void disableReadyButton(){
+
+    public void disableReadyButton() {
         isContestSelected.setValue(true);
     }
 
+    @FXML
+    void createAgentButtonOnAction(ActionEvent event) throws IOException {
+        loadCreateAgentButtonScreen(alliesTeamName);
+    }
+
+    private void loadCreateAgentButtonScreen(String alliesTeamName) {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        URL superScreenUrl = getClass().getResource("/component/bonus/CreateAgentFromAllies.fxml");
+        fxmlLoader.setLocation(superScreenUrl);
+        Stage stage = new Stage();
+        try {
+            Parent root1 = fxmlLoader.load(superScreenUrl.openStream());
+            CreateAgentFromAlliesController createAgentFromAlliesController = fxmlLoader.getController();
+            //  LoadFilleErrorController.setPrimaryStage(primaryStage);
+            //  primaryStage.setTitle("Enigma-UBoat: "+userName);
+            Scene scene = new Scene(root1);
+            stage.setTitle("Create Agent");
+            stage.setMinHeight(300f);
+            stage.setMinWidth(400f);
+            scene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
+            createAgentFromAlliesController.setAlliesName(alliesTeamName);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ignore) {
+            ignore.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
