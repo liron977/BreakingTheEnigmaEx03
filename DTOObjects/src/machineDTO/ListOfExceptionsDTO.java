@@ -11,4 +11,7 @@ public class ListOfExceptionsDTO implements Serializable {
     public List<Exception> getListOfException(){
         return errors;
     }
+    public void addException(Exception e){
+        this.errors.add(e);
+    }
 }

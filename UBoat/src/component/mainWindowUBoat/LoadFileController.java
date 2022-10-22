@@ -1,9 +1,13 @@
 package component.mainWindowUBoat;
+import bruteForce.AgentInfoDTO;
+import com.google.gson.reflect.TypeToken;
 import component.bonus.ChatAreaController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import machineDTO.ListOfErrorsDTO;
+import machineDTO.ListOfExceptionsDTO;
 import machineEngine.EngineManager;
 import machineEngine.EngineManagerInterface;
 import javafx.application.Platform;
@@ -22,6 +26,7 @@ import utils.http.HttpClientUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.EventObject;
@@ -239,16 +244,31 @@ public class LoadFileController {
               //  mainWindowUBoatController.setCodeCalibration();
             });}
         else{
+            ListOfErrorsDTO dtoFromGson=Constants.GSON_INSTANCE.fromJson(response.body().string(),ListOfErrorsDTO.class);
+           /* Type listOfErrorsDTO = new TypeToken<ArrayList<ListOfExceptionsDTO>>() {}.getType();
+            List<ListOfErrorsDTO> dtoFromGson=Constants.GSON_INSTANCE.fromJson(response.body().string(),listOfErrorsDTO);*/
             isMachineDefined.set(false);
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            String message="";
+            if(dtoFromGson!=null&&dtoFromGson.getListOfException().size()!=0) {
+                String errors = "";
+                for (String error : dtoFromGson.getListOfException()) {
+                    message = message.concat(error);
+                    message = message.concat("\n");
+                }
+            }
+            else {
+                 message =response.body().string();
+            }
+            String finalMessage = message;
             Platform.runLater(() -> {
-                try {
-                     String message = "Load status: error loading " +response.body().string();
-                    alert.setContentText(message);
-                    alert.getDialogPane().setExpanded(true);
-                    alert.showAndWait();
-                    loadFileButton.setDisable(false);
-                } catch (IOException e) {}
-            });}
+                errorAlert.setContentText(finalMessage);
+                errorAlert.getDialogPane().setExpanded(true);
+                errorAlert.showAndWait();
+
+            });
+            loadFileButton.setDisable(false);
+            }
         return (response.code()==200);
     }
     public void initValues(){

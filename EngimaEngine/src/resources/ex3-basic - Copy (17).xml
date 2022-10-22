@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CTE-Enigma xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Enigma-Ex3.xsd">
 	<CTE-Machine rotors-count="3">
-		<ABC>ABCDEFGHIJKLMNOPQRSTUVWXYZ !?'</ABC>
+		<ABC>hhv</ABC>
 		<CTE-Rotors>
 			<CTE-Rotor id="1" notch="17">
-				<CTE-Positioning left="A" right="V"/>
+				<CTE-Positioning left="A88" right="V"/>
 				<CTE-Positioning left="B" right="Y"/>
 				<CTE-Positioning left="C" right="'"/>
 				<CTE-Positioning left="D" right=" "/>

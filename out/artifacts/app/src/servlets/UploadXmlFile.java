@@ -1,5 +1,7 @@
 package servlets;
 
+import com.google.gson.Gson;
+import machineDTO.ListOfErrorsDTO;
 import machineEngine.EngineManager;
 import managers.uBoatEngine.MediatorForEngineManager;
 import jakarta.servlet.ServletException;
@@ -15,6 +17,8 @@ import utils.ServletUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class UploadXmlFile extends HttpServlet {
@@ -22,11 +26,35 @@ public class UploadXmlFile extends HttpServlet {
         Part xmlFile = request.getParts().stream().findFirst().get();
        PrintWriter out = response.getWriter();
         try {
-            if(checkIfXmlFileIsValidAndIfValidAddMachine(out,xmlFile.getInputStream(),xmlFile.getName())) {
-                response.setStatus(HttpServletResponse.SC_OK);
+            EngineManager engineManager = new EngineManager();
+            ListOfExceptionsDTO listOfExceptionsDTO=engineManager.loadFileByInputStream(xmlFile.getInputStream(),xmlFile.getName());
+            if (listOfExceptionsDTO.getListOfException().size()==0) {
+                MediatorForEngineManager mediatorsManager = ServletUtils.getMediatorForEngineManager(getServletContext());
+                String battleName = engineManager.getBattleName().trim();
+                if (mediatorsManager.isBattleExists(battleName)) {
+                    listOfExceptionsDTO.addException(new Exception("The battle name already exists"));
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                }
+                else {
+                    mediatorsManager.addEngineManger(battleName, engineManager);
+                    UBoatAvailableContestsManager uBoatAvailableContestsManger = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
+                    uBoatAvailableContestsManger.addUBoatAvailableContest(engineManager, engineManager.getBattleName());
+                    out.println(battleName.trim());
+                    out.flush();
+                    response.setStatus(HttpServletResponse.SC_OK);
+                }
             }
             else {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                List<String> errorsList=new ArrayList<>();
+                for (Exception exception : listOfExceptionsDTO.getListOfException()) {
+                    errorsList.add(exception.getMessage());
+                }
+                ListOfErrorsDTO listOfErrorsDTO=new ListOfErrorsDTO(errorsList);
+                Gson gson = new Gson();
+                String json = gson.toJson(listOfErrorsDTO);
+                out.println(json);
+                out.flush();
             }
         }
         catch (Exception e){
@@ -52,9 +80,13 @@ public class UploadXmlFile extends HttpServlet {
             out.flush();
         }
         else {
-            for (Exception exception : listOfExceptionsDTO.getListOfException()) {
-                out.println(exception.getMessage());
+            List<String> errorsList=new ArrayList<>();
+          /*  for (Exception exception : listOfExceptionsDTO.getListOfException()) {
+                errorsList.add(exception.getMessage());
             }
+
+            out.println(json);
+            out.flush();*/
             return false;
         }
         UBoatAvailableContestsManager uBoatAvailableContestsManger = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
