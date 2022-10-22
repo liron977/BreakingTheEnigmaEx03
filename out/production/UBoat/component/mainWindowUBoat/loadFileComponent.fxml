@@ -11,7 +11,10 @@
    <children>
       <HBox alignment="CENTER" layoutX="135.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="585.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Label id="theEnigmaMachineTitle" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="497.0" text="UBoat Application" textAlignment="JUSTIFY" HBox.hgrow="ALWAYS" />
+            <Label id="theEnigmaMachineTitle" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="497.0" text="UBoat Application" textAlignment="JUSTIFY" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets left="87.0" />
+               </HBox.margin></Label>
             <Button id="chatButton" mnemonicParsing="false" onAction="#chatButtonOnAction" prefHeight="25.0" prefWidth="87.0" text="Chat">
                <HBox.margin>
                   <Insets right="5.0" />

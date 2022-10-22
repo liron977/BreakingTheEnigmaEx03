@@ -9,14 +9,17 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="556.0" prefWidth="828.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.AgentDashboard.AgentDashboardController">
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="566.0" prefWidth="902.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.AgentDashboard.AgentDashboardController">
   <content>
       <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" spacing="8.0">
          <children>
-            <HBox alignment="TOP_CENTER" prefHeight="24.0" prefWidth="798.0">
+            <HBox alignment="TOP_CENTER" prefHeight="10.0" prefWidth="802.0">
                <children>
-                  <Label id="applicationTitleLabel" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Agent Application" textAlignment="JUSTIFY" HBox.hgrow="ALWAYS" />
-                  <Button id="chatButton" alignment="CENTER" mnemonicParsing="false" onAction="#chatButtonOnAction" prefHeight="25.0" prefWidth="56.0" text="Chat" textAlignment="CENTER">
+                  <Label id="applicationTitleLabel" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="13.0" prefWidth="745.0" text="Agent Application" textAlignment="JUSTIFY" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets left="75.0" />
+                     </HBox.margin></Label>
+                  <Button id="chatButton" alignment="CENTER" mnemonicParsing="false" onAction="#chatButtonOnAction" prefHeight="25.0" prefWidth="91.0" text="Chat" textAlignment="CENTER">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -33,7 +36,7 @@
                </children>
             </HBox>
             <fx:include fx:id="contestInfo" maxWidth="1.7976931348623157E308" source="ContestInfo.fxml" VBox.vgrow="ALWAYS" />
-            <Label text="Candidates Strings" />
+            <Label id="lighterLabel" text="Candidates Strings" />
             <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
                <content>
                   <TableView fx:id="bruteForceResultTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="345.0" prefWidth="200.0">
@@ -51,13 +54,13 @@
                   <Insets left="8.0" right="8.0" />
                </VBox.margin>
             </ScrollPane>
-            <Label prefHeight="17.0" prefWidth="88.0" text="Missions Status" VBox.vgrow="NEVER" />
+            <Label id="SmallLighterLabel" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="17.0" prefWidth="114.0" text="Missions Status" />
             <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="791.0" spacing="20.0" VBox.vgrow="NEVER">
                <children>
-                  <Label fx:id="amountDoneMissionsPerAgentLabel" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" />
-                  <Label fx:id="currentAmountOfMissionsInTheQueue" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" />
-                  <Label fx:id="amountOfAskedMissionsLabel" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" />
-                  <Label fx:id="amountOfCandidatesStrings" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" />
+                  <Label id="SmallLighterLabel" fx:id="amountDoneMissionsPerAgentLabel" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" />
+                  <Label id="SmallLighterLabel" fx:id="currentAmountOfMissionsInTheQueue" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" />
+                  <Label id="SmallLighterLabel" fx:id="amountOfAskedMissionsLabel" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" />
+                  <Label id="SmallLighterLabel" fx:id="amountOfCandidatesStrings" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" />
                </children>
                <VBox.margin>
                   <Insets left="5.0" />

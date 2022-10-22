@@ -36,7 +36,7 @@
                </HBox.margin>
             </VBox>
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <VBox id="saveSettingsButton" alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="477.0" prefWidth="421.0" spacing="15.0" HBox.hgrow="ALWAYS">
+            <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="477.0" prefWidth="421.0" spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
                   <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="80.0" prefViewportHeight="240.0" prefViewportWidth="600.0" prefWidth="419.0">
                      <content>
@@ -50,7 +50,7 @@
                      </content>
                   </ScrollPane>
                   <fx:include fx:id="currentCodeConfiguration" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" source="../uBoatMachineTab/machineTab/CodeConfigurationTableView.fxml" VBox.vgrow="ALWAYS" />
-                  <HBox prefHeight="119.0" prefWidth="650.0" spacing="30.0" VBox.vgrow="ALWAYS">
+                  <HBox id="labelInDictionary" prefHeight="119.0" prefWidth="650.0" spacing="30.0" VBox.vgrow="ALWAYS">
                      <children>
                         <VBox spacing="10.0">
                            <children>
@@ -60,7 +60,7 @@
                                  </VBox.margin>
                               </Label>
                               <TextField fx:id="searchTextField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#searchTextFieldOnListener" prefHeight="25.0" prefWidth="275.0" />
-                              <ListView id="userInputBruteForce" fx:id="listView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#listViewClickOnItem" prefHeight="69.0" prefWidth="419.0" />
+                              <ListView fx:id="listView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#listViewClickOnItem" prefHeight="69.0" prefWidth="419.0" />
                            </children>
                         </VBox>
                         <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" minHeight="44.0" minWidth="330.0" prefHeight="66.0" prefWidth="330.0" spacing="30.0">
@@ -75,22 +75,35 @@
                                     </ScrollPane>
                                  </children>
                               </VBox>
-                              <Button id="saveSettingsButton" fx:id="decryptButton" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#decryptButtonOnAction" prefHeight="49.0" prefWidth="89.0" text="Decrypt">
+                              <VBox prefHeight="107.0" prefWidth="121.0" spacing="30.0">
                                  <HBox.margin>
-                                    <Insets top="17.0" />
+                                    <Insets top="25.0" />
                                  </HBox.margin>
-                              </Button>
+                                 <children>
+                                    <Button id="saveSettingsButton" fx:id="decryptButton" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#decryptButtonOnAction" prefHeight="29.0" prefWidth="121.0" text="Decrypt" />
+                                    <Button id="saveSettingsButton" fx:id="resetButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#resetButtonOnAction" prefHeight="29.0" prefWidth="121.0" text="Reset Configuration" />
+                                 </children>
+                              </VBox>
                            </children>
                            <HBox.margin>
                               <Insets right="2.0" />
                            </HBox.margin>
                         </HBox>
                      </children>
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
                   </HBox>
-                  <Label id="GeneralLabel" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="218.0" text="The converted string is:" />
-                  <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="37.0" prefWidth="419.0">
+                  <Label id="GeneralLabel" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="218.0" text="The converted string is:">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin></Label>
+                  <ScrollPane id="labelInDictionary" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="45.0" prefWidth="669.0">
                      <content>
-                        <TextArea fx:id="convertedStringTextArea" editable="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="24.0" prefWidth="417.0" />
+                        <TextArea fx:id="convertedStringTextArea" editable="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="653.0">
+                           <padding>
+                              <Insets top="5.0" />
+                           </padding></TextArea>
                      </content>
                   </ScrollPane>
                   <Button id="saveSettingsButton" fx:id="readyButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#readyButtonOnAction" text="Ready!">
@@ -102,7 +115,6 @@
                         <Insets bottom="2.0" left="2.0" right="2.0" />
                      </VBox.margin>
                      <children>
-                        <Button id="saveSettingsButton" fx:id="resetButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#resetButtonOnAction" prefHeight="25.0" prefWidth="175.0" text="Reset Configuration" />
                         <Button id="saveSettingsButton" fx:id="logoutButton" alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#logoutButtonOnAction" prefHeight="25.0" prefWidth="84.0" text="Logout">
                            <HBox.margin>
                               <Insets right="2.0" />

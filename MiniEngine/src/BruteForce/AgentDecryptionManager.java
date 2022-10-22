@@ -4,6 +4,7 @@ import MachineEngine.MachineEngine;
 import bruteForce.BruteForceResultDTO;
 import bruteForce.TheMissionInfoDTO;
 import engine.theEnigmaEngine.TheMachineEngine;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -29,16 +30,16 @@ public class AgentDecryptionManager {
     SimpleIntegerProperty amountOfDoneMissions;
 
     SimpleIntegerProperty amountOfMissionsInTheQueue;
-    SimpleIntegerProperty amountOfAskedMissionsProperty;
+    IntegerProperty amountOfAskedMissionsProperty;
     private SimpleBooleanProperty  isContestEnded;
     private String agentName;
     private Object dummyObject;
 
-public AgentDecryptionManager(Object dummyObject,SimpleIntegerProperty amountOfMissionsInTheQueue,SimpleIntegerProperty amountOfAskedMissionsProperty,SimpleIntegerProperty amountOfDoneMissions,UiAdapterInterface uiAdapterInterface,
-                              SimpleBooleanProperty isMissionEndedProperty,ThreadPoolExecutor threadPoolExecutor, TheMachineEngine theMachineEngine
+public AgentDecryptionManager(Object dummyObject, SimpleIntegerProperty amountOfMissionsInTheQueue, IntegerProperty amountOfAskedMissionsProperty, SimpleIntegerProperty amountOfDoneMissions, UiAdapterInterface uiAdapterInterface,
+                              SimpleBooleanProperty isMissionEndedProperty, ThreadPoolExecutor threadPoolExecutor, TheMachineEngine theMachineEngine
         , String alliesTeamName, List<TheMissionInfoDTO> theMissionInfoDTOList,
                               BlockingQueue<Runnable> missionsInfoBlockingQueue
-               , SimpleBooleanProperty  isContestEnded,String agentName){
+               , SimpleBooleanProperty  isContestEnded, String agentName){
    this.machineEngine=new MachineEngine(theMachineEngine);
    this.theMissionInfoDTOList=theMissionInfoDTOList;
    this.alliesTeamName=alliesTeamName;

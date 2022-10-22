@@ -79,12 +79,12 @@ public class AgentsInfoServlet extends HttpServlet {
         if(agentInfoDTOList==null){
             agentInfoDTOList=new ArrayList<>();
         }
-        for (AgentInfoDTO agentInfo:agentInfoDTOList) {
+    /*    for (AgentInfoDTO agentInfo:agentInfoDTOList) {
             System.out.println("***************get******************");
             System.out.println("getAmountOfCandidatesStrings: "+agentInfo.getAmountOfCandidatesStrings());
             System.out.println("getAmountOfMissionsToExecute: "+agentInfo.getAmountOfMissionsToExecute());
             System.out.println("getAmountOfReceivedMissions: "+agentInfo.getAmountOfReceivedMissions());
-        }
+        }*/
 
         return agentInfoDTOList;
     }

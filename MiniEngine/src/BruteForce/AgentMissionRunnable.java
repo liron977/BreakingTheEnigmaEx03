@@ -2,6 +2,7 @@ package BruteForce;
 
 import MachineEngine.MachineEngine;
 import bruteForce.BruteForceResultDTO;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import machineDTO.ConvertedStringDTO;
@@ -26,14 +27,14 @@ public class AgentMissionRunnable implements Runnable {
     SimpleIntegerProperty amountOfMissionsInTheQueue;
    // SimpleIntegerProperty amountOfDecipheringStringsProperty;
    SimpleIntegerProperty amountOfDoneMissions;
-    SimpleIntegerProperty amountOfAskedMissionsProperty;
+    IntegerProperty amountOfAskedMissionsProperty;
     SimpleBooleanProperty isContestEnded;
     private String agentName;
     private Object dummyObject;
-    public AgentMissionRunnable(Object dummyObject,SimpleIntegerProperty amountOfMissionsInTheQueue,SimpleIntegerProperty amountOfAskedMissionsProperty,String lastStartingPos,int missionNumber,UiAdapterInterface uiAdapterInterface,MachineEngine machineEngineCopy,
+    public AgentMissionRunnable(Object dummyObject, SimpleIntegerProperty amountOfMissionsInTheQueue, IntegerProperty amountOfAskedMissionsProperty, String lastStartingPos, int missionNumber, UiAdapterInterface uiAdapterInterface, MachineEngine machineEngineCopy,
                                 String stringToConvert, String alliesTeamName
             , String initialStartingPosition, int sizeOfMission
-    ,SimpleIntegerProperty amountOfDoneMissions,SimpleBooleanProperty  isContestEnded,
+    , SimpleIntegerProperty amountOfDoneMissions, SimpleBooleanProperty  isContestEnded,
                                 String agentName) {
 
         this.machineEngineCopy = machineEngineCopy;

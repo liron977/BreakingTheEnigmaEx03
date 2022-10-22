@@ -33,11 +33,11 @@ public class AgentsManager {
                 agent.setAmountOfMissionsToExecute(agentInfoDTO.getAmountOfMissionsToExecute());
                 agent.setAmountOfCandidatesStrings(agentInfoDTO.getAmountOfCandidatesStrings());
                 agent.setAmountOfReceivedMissions(agentInfoDTO.getAmountOfReceivedMissions());
-                System.out.println("***************update******************");
+            /*    System.out.println("***************update******************");
                 System.out.println("amountOfMissionsToExecute "+agent.getAmountOfMissionsToExecute());
                 System.out.println("amountOfCandidatesStrings "+agent.getAmountOfCandidatesStrings());
                 System.out.println("amountOfReceivedMissions "+agent.getAmountOfReceivedMissions());
-
+*/
                 return true;
             }
 

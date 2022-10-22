@@ -81,6 +81,7 @@
 }
 
 
+
 #saveSettingsButton{
 
     -fx-font-family: "Arial Narrow";
@@ -92,6 +93,7 @@
     /*-fx-font-weight: bold;*/
     -fx-font-size: 15;
 }
+
 #bigButton{
 
     -fx-font-family: "Arial Narrow";
@@ -114,6 +116,19 @@
 }
 #codeConfigurationTableView .scroll-pane > .scroll-bar > .thumb{
     -fx-background-color: #0f265e ;
+}
+#labelInDictionary .list-view .scroll-bar .thumb{
+    -fx-background-color: #0f265e ;
+}
+#labelInDictionary .list-view .list-cell{
+    -fx-text-fill: #0f265e;
+    -fx-font-size: 15;
+    -fx-font-family: "Arial Narrow";
+}
+#labelInDictionary .text-area{
+    -fx-text-fill: #0f265e;
+    -fx-font-size: 15;
+    -fx-font-family: "Arial Narrow";
 }
 .table-column{
     -fx-alignment: center;
@@ -178,7 +193,7 @@
 
 #applicationTitleLabel{
     -fx-font-family: Verdana;
-    /* -fx-font-weight: bold;*/
+     -fx-font-weight: bold;
     -fx-text-fill: #0f265e;
     -fx-font-size: 22;
     -fx-text-alignment: center;

@@ -9,7 +9,10 @@ import engine.theEnigmaEngine.SchemaGenerated;
 import engine.theEnigmaEngine.TheMachineEngine;
 import engine.theEnigmaEngine.UBoatBattleField;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringExpression;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
@@ -91,7 +94,7 @@ public class AgentDashboardController implements Closeable {
     private SimpleBooleanProperty isMissionEndedProperty;
     private List<BruteForceResultDTO> resultDTOList;
     private List<BruteForceResultDTO> resultDTOListForAgent;
-    private SimpleIntegerProperty amountOfAskedMissionsProperty;
+    private IntegerProperty amountOfAskedMissionsProperty;
     private SimpleIntegerProperty amountOfDoneMissions;
     private SimpleIntegerProperty amountOfMissionsInTheQueue;
     private AgentInfoDTO agentInfoDTO;
@@ -134,20 +137,24 @@ public class AgentDashboardController implements Closeable {
         isMissionsEnded=true;
         isThreadTaskCreatedProperty=new SimpleBooleanProperty(false);
         bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
+       /* StringExpression amountOfAskedMissionsInString=Bindings.concat("Amount Of Asked Missions : ",amountOfAskedMissionsProperty.asString());
+        amountOfAskedMissionsLabel.textProperty().bind(amountOfAskedMissionsInString);
+*/
         bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);
         amountOfMissionsInTheQueue.addListener((observ)->updateMissionsStatus());
         amountOfCandidatesStrings.textProperty().addListener((observ)->{
             if(!String.valueOf(agentInfoDTO.getAmountOfCandidatesStrings()).equals(amountOfCandidatesStrings.getText()))
         {
             updateMissionsStatus();
-        }
+       }
         });
     }
     public void setIsThreadTaskCreatedProperty(Boolean value){
         this.isThreadTaskCreatedProperty.setValue(value);
     }
     public void initMissionsStatusLabel(){
-        amountOfAskedMissionsLabel.setText("Amount Of Asked Missions :0");
+       // amountOfAskedMissionsProperty.set(0);
+        amountOfAskedMissionsLabel.setText("Amount Of Asked Missions : 0");
         amountDoneMissionsPerAgentLabel.setText("Amount Of Done Missions :0");
         currentAmountOfMissionsInTheQueue.setText("Amount Of Missions In The Queue :0");
         amountOfCandidatesStrings.setText("Amount Of Candidates : 0");
@@ -293,16 +300,18 @@ public class AgentDashboardController implements Closeable {
                 if (response.code() == 200) {
                     Type theMissionInfoList = new TypeToken<ArrayList<TheMissionInfoDTO>>() {
                     }.getType();
-                    List<TheMissionInfoDTO> theMissionInfoListFromGson = null;
+                    List<TheMissionInfoDTO> theMissionInfoListFromGson = new ArrayList<>();
                     try {
                         theMissionInfoListFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
                         List<TheMissionInfoDTO> finalTheMissionInfoListFromGson = theMissionInfoListFromGson;
-                        Platform.runLater(() -> {
+
+                      Platform.runLater(() -> {
                        /*     System.out.println("****************** in run latter");
                             System.out.println(amountOfAskedMissionsProperty.getValue()+" amountOfAskedMissionsProperty.setValue(amountOfAskedMissionsProperty.getValue() + finalTheMissionInfoListFromGson.size());\n");
                             System.out.println(finalTheMissionInfoListFromGson.size()+" finalTheMissionInfoListFromGson.size());\n");
                             System.out.println("****************** done run latter");*/
-                            amountOfAskedMissionsProperty.setValue(amountOfAskedMissionsProperty.getValue() + finalTheMissionInfoListFromGson.size());
+                           // amountOfAskedMissionsProperty.setValue(amountOfAskedMissionsProperty.getValue() + finalTheMissionInfoListFromGson.size());
+                            amountOfAskedMissionsProperty.set(amountOfAskedMissionsProperty.getValue() + finalTheMissionInfoListFromGson.size());
                             amountOfAskedMissionsLabel.setText("Amount Of Asked Missions : " + displayTextWithCommas(amountOfAskedMissionsProperty.getValue()));
                         });
                         TheMachineEngine theMachineEngine = getTheMachineEngineInputstream();
@@ -319,6 +328,7 @@ public class AgentDashboardController implements Closeable {
                         threadPoolExecutor.shutdown();
                         threadPoolExecutor.awaitTermination(Integer.MAX_VALUE, TimeUnit.HOURS);
                         setThreadPoolSize(amountOfThreads);
+
                         isMissionsEnded = false;
                         this.isMissionsEnded=isMissionsEnded;
                     } catch (IOException e) {
@@ -613,6 +623,7 @@ return isMissionsEnded;
             }
         }
      if (!isContestEnded.getValue()) {
+         updateMissionsStatus();
          Platform.runLater(() -> {
                 this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());
                 this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
@@ -702,7 +713,7 @@ private void updateAgentStatus(){
         contestInfo.getItems().clear();
         bruteForceResultTableView.getItems().clear();
         amountDoneMissionsPerAgentLabel.setText("");
-        amountOfAskedMissionsLabel.setText("");
+       // amountOfAskedMissionsLabel.setText("");
 
         //isPopDisplayedForFirstTime =false;
         isContestActive=false;
