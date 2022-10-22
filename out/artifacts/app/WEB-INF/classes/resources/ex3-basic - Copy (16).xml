@@ -214,7 +214,6 @@
 				<CTE-Reflect input="15" output="21"/>
 				<CTE-Reflect input="11" output="17"/>
 				<CTE-Reflect input="8" output="22"/>
-				<CTE-Reflect input="29" output="19"/>
 			</CTE-Reflector>
 		</CTE-Reflectors>
 	</CTE-Machine>
