@@ -48,9 +48,7 @@ public class AlliesTeamsRefresher extends TimerTask {
             }
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                Platform.runLater(() -> {
-                    showAlliesTeamNamesErrors.accept("");
-                });
+
                 //String jsonArrayOfUsersNames = response.body().string();
                 try {
                     Type alliesTeamNamesListType = new TypeToken<ArrayList<String>>() {
