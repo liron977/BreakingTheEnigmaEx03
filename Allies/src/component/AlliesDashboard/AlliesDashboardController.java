@@ -599,6 +599,7 @@ public class AlliesDashboardController implements Closeable {
     }
 
     private void loadCreateAgentButtonScreen(String alliesTeamName) {
+
         FXMLLoader fxmlLoader = new FXMLLoader();
         URL superScreenUrl = getClass().getResource("/component/bonus/CreateAgentFromAllies.fxml");
         fxmlLoader.setLocation(superScreenUrl);
@@ -614,6 +615,7 @@ public class AlliesDashboardController implements Closeable {
             stage.setMinWidth(400f);
             scene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
             createAgentFromAlliesController.setAlliesName(alliesTeamName);
+            createAgentFromAlliesController.setPrimaryStageAndLoadInTheBackgroundSuperScreen(stage);
             stage.setScene(scene);
             stage.show();
         } catch (IOException ignore) {

@@ -215,7 +215,6 @@ public class CreateAgentFromAlliesController {
                         //mainWindowAlliesController.setAlliesTeamName(alliesTeamName);
                         Platform.runLater(() -> {
                             loadSuperScreen();
-                         Stage primaryStage =new Stage();
                             primaryStage.setScene(mainWindowAlliesControllerScene);
                             primaryStage.centerOnScreen();
                             primaryStage.show();

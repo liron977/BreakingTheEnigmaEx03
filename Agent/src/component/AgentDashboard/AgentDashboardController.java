@@ -303,14 +303,13 @@ public class AgentDashboardController implements Closeable {
                     try {
                         theMissionInfoListFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
                         List<TheMissionInfoDTO> finalTheMissionInfoListFromGson = theMissionInfoListFromGson;
-
+                        amountOfAskedMissionsProperty.set(amountOfAskedMissionsProperty.getValue() + finalTheMissionInfoListFromGson.size());
                       Platform.runLater(() -> {
                        /*     System.out.println("****************** in run latter");
                             System.out.println(amountOfAskedMissionsProperty.getValue()+" amountOfAskedMissionsProperty.setValue(amountOfAskedMissionsProperty.getValue() + finalTheMissionInfoListFromGson.size());\n");
                             System.out.println(finalTheMissionInfoListFromGson.size()+" finalTheMissionInfoListFromGson.size());\n");
                             System.out.println("****************** done run latter");*/
                            // amountOfAskedMissionsProperty.setValue(amountOfAskedMissionsProperty.getValue() + finalTheMissionInfoListFromGson.size());
-                            amountOfAskedMissionsProperty.set(amountOfAskedMissionsProperty.getValue() + finalTheMissionInfoListFromGson.size());
                             amountOfAskedMissionsLabel.setText("Amount Of Asked Missions : " + displayTextWithCommas(amountOfAskedMissionsProperty.getValue()));
                         });
                         TheMachineEngine theMachineEngine = getTheMachineEngineInputstream();
