@@ -1,6 +1,8 @@
 package bruteForce;
 
-public class CurrentAlliesStatus {
+import java.io.Serializable;
+
+public class CurrentAlliesStatus  implements Serializable {
 
   private String alliesName;
   private boolean isContestEnded;

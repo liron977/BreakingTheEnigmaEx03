@@ -3,11 +3,13 @@ package servlets;
 import bruteForce.TheMissionInfoDTO;
 import constants.ParametersConstants;
 import engine.theEnigmaEngine.Allies;
+import engine.theEnigmaEngine.TheMachineEngine;
 import engine.theEnigmaEngine.UBoatBattleField;
 import machineEngine.EngineManager;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import machineEngine.MiniEngineManager;
 import managers.bruteForce.AlliesMissionsManager;
 import managers.uBoatEngine.AlliesManager;
 import managers.uBoatEngine.UBoatAvailableContestsManager;
@@ -28,36 +30,42 @@ public class DMCreateMissionsServlet extends HttpServlet {
         UBoatAvailableContestsManager uBoatAvailableContestsManager = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
         EngineManager engineManager = uBoatAvailableContestsManager.getEngineMangerByAlliesTeamName(theAlliesTeamName);
         String stringToConvert = engineManager.getConvertedString();
+        MiniEngineManager miniEngineManager;
+        synchronized (getServletContext()) {
+            TheMachineEngine theMachineEngineCopy = engineManager.getTheMachineEngine().cloneTheMachineEngine();
+             miniEngineManager = new MiniEngineManager();
+            miniEngineManager.setTheMachineEngine(theMachineEngineCopy);
+        }
         Allies alies = alliesManager.getAlliesByAlliesTeamName(theAlliesTeamName);
          if(engineManager!=null) {
             try {
-                createMission(engineManager, theAlliesTeamName, stringToConvert);
+                createMission(miniEngineManager,engineManager, theAlliesTeamName, stringToConvert);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    public void createMission(EngineManager engineManager,String theAlliesTeamName,String stringToConvert) throws Exception {
+    public void createMission(MiniEngineManager miniEngineManager,EngineManager engineManager,String theAlliesTeamName,String stringToConvert) throws Exception {
         UBoatBattleField battleField = engineManager.getBattleField();
         String level = battleField.getLevel();
         int sizeOfMission = battleField.getAlliesSizeOfMission(theAlliesTeamName);
      // engineManager.maxAmountOfMissionscalculation(level, sizeOfMission);
 
-        Long amountOfSubListsToCreate = calculateAmountOfMissionsToCreate(engineManager, sizeOfMission);
+        Long amountOfSubListsToCreate = calculateAmountOfMissionsToCreate(miniEngineManager, sizeOfMission);
         updateTotalAmountOfMissions(engineManager,sizeOfMission,theAlliesTeamName);
            if (level.equals("Easy")) {
-            createLowLevelMission(0,engineManager, amountOfSubListsToCreate, sizeOfMission,theAlliesTeamName,stringToConvert);
+            createLowLevelMission(miniEngineManager,0,engineManager, amountOfSubListsToCreate, sizeOfMission,theAlliesTeamName,stringToConvert);
         } else if (level.equals("Medium")) {
-            createMediumLevelMission(0,engineManager, amountOfSubListsToCreate, sizeOfMission,theAlliesTeamName,stringToConvert);
+            createMediumLevelMission(miniEngineManager,0,engineManager, amountOfSubListsToCreate, sizeOfMission,theAlliesTeamName,stringToConvert);
         } else if (level.equals("Hard")) {
-            createHighLevelMission(0,engineManager, amountOfSubListsToCreate, sizeOfMission,theAlliesTeamName,stringToConvert);
+            createHighLevelMission(miniEngineManager,0,engineManager, amountOfSubListsToCreate, sizeOfMission,theAlliesTeamName,stringToConvert);
         } else {
-            createImpossibleLevelMission(engineManager, amountOfSubListsToCreate, sizeOfMission,theAlliesTeamName,stringToConvert);
+            createImpossibleLevelMission(miniEngineManager,engineManager, amountOfSubListsToCreate, sizeOfMission,theAlliesTeamName,stringToConvert);
         }
     }
 
-    public void createLowLevelMission(Integer missionsCounter,EngineManager engineManager,
+    public void createLowLevelMission(MiniEngineManager miniEngineManager,Integer missionsCounter,EngineManager engineManager,
                                       Long amountOfSubListsToCreate,int sizeOfMission
             ,String theAlliesTeamName,String stringToConvert) throws Exception {
        // BlockingQueue<bruteForce.TheMissionInfo> theMissionInfoBlockingQueuelockingQueue = new LinkedBlockingQueue<bruteForce.TheMissionInfo>(1000);
@@ -66,20 +74,20 @@ public class DMCreateMissionsServlet extends HttpServlet {
        // BlockingQueue<bruteForce.TheMissionInfo> theMissionInfoBlockingQueuelockingQueue=alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName);
        // int missionsCounter = 0;
         boolean isAddedToBlockingQueue=false;
-       String initialStartingPosition= engineManager.getInitialStartingPosition();
+       String initialStartingPosition= miniEngineManager.getInitialStartingPosition();
         int missionIndex = 0;
         System.out.println(amountOfSubListsToCreate+"amountOfSubListsToCreate");
         for (int i = 0; i < amountOfSubListsToCreate&&!engineManager.getIsContestEnded(); i++) {
             missionsCounter++;
             missionIndex = i;
-            TheMissionInfoDTO theMissionInfo =new TheMissionInfoDTO(initialStartingPosition, sizeOfMission, /*engineManagerCopy,*/stringToConvert,engineManager.getMachineUsedRotorsIdArray(),engineManager.getMachineReflectorId());
+            TheMissionInfoDTO theMissionInfo =new TheMissionInfoDTO(initialStartingPosition, sizeOfMission, /*engineManagerCopy,*/stringToConvert,miniEngineManager.getMachineUsedRotorsIdArray(),miniEngineManager.getMachineReflectorId());
 
             isAddedToBlockingQueue = alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName, theMissionInfo);
             System.out.println("***********************************");
             System.out.println("missions in blocking queue: "+alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size());
             System.out.println("***********************************");
             while (!isAddedToBlockingQueue) {
-                if(alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size()<=1000) {
+                if(alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size()<1000) {
                     isAddedToBlockingQueue = alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName, theMissionInfo);
                 }
             }
@@ -88,44 +96,99 @@ public class DMCreateMissionsServlet extends HttpServlet {
                 //missionsCounter=missionsCounter.intValue()+1;
             }
       /*      System.out.println(missionsCounter.intValue());*/
-            initialStartingPosition = engineManager.getNextStartingPositionByString(sizeOfMission);
+            initialStartingPosition = miniEngineManager.getNextStartingPositionByString(sizeOfMission);
         }
         System.out.println(missionsCounter+"missionsCounter");
     }
 
-    public void createMediumLevelMission(Integer missionsCounter,EngineManager engineManager,
+    public void createMediumLevelMission(MiniEngineManager miniEngineManager,Integer missionsCounter,EngineManager engineManager,
                                          Long amountOfSubListsToCreate,int sizeOfMission
             ,String theAlliesTeamName,String stringToConvert) throws Exception {
         int countr=0;
-        for (String reflectorId : engineManager.getTheMachineEngine().getReflectorsSet().getReflectorsId()) {
+        for (String reflectorId : miniEngineManager.getTheMachineEngine().getReflectorsSet().getReflectorsId()) {
             countr++;
             if(engineManager.getIsContestEnded()){
                 break;
             }
-            engineManager.chooseManuallyReflect(reflectorId);
-            createLowLevelMission(missionsCounter,engineManager,amountOfSubListsToCreate,sizeOfMission,theAlliesTeamName,stringToConvert);
+            miniEngineManager.chooseManuallyReflect(reflectorId);
+            createLowLevelMission(miniEngineManager,missionsCounter,engineManager,amountOfSubListsToCreate,sizeOfMission,theAlliesTeamName,stringToConvert);
         }
         System.out.println(countr+"countr");
 
     }
 
-    public void createHighLevelMission(Integer missionsCounter,EngineManager engineManager,
+    public void createHighLevelMission(MiniEngineManager miniEngineManager,Integer missionsCounter,EngineManager engineManager,
                                        Long amountOfSubListsToCreate,int sizeOfMission
             ,String theAlliesTeamName,String stringToConvert) throws Exception {
-        String[] concatRotorsPosition = engineManager.getTheMachineEngine().getUsedRotorsId();
+        String[] concatRotorsPosition = miniEngineManager.getTheMachineEngine().getUsedRotorsId();
         List<String[]> optionalRotorsPositionList = new ArrayList<>();
         getAllPermutationsOfRotorsPosition(concatRotorsPosition.length, concatRotorsPosition, optionalRotorsPositionList);
         for (String[] optionalRotorsPosition : optionalRotorsPositionList) {
             if(engineManager.getIsContestEnded()){
                 break;
             }
-            engineManager.getTheMachineEngine().updateUsedRotors(optionalRotorsPosition);
-            createMediumLevelMission(missionsCounter,engineManager,amountOfSubListsToCreate,sizeOfMission,theAlliesTeamName,stringToConvert);
+            miniEngineManager.getTheMachineEngine().updateUsedRotors(optionalRotorsPosition);
+            createMediumLevelMission(miniEngineManager,missionsCounter,engineManager,amountOfSubListsToCreate,sizeOfMission,theAlliesTeamName,stringToConvert);
         }
     }
+    public void createImpossibleLevelMission(MiniEngineManager miniEngineManager,EngineManager engineManager,
+                                             Long amountOfSubListsToCreate,int sizeOfMission
+            ,String theAlliesTeamName,String stringToConvert) throws Exception {
+       // threadPoolExecutor.prestartAllCoreThreads();
+        boolean isAddedToBlockingQueue=false;
+        AlliesMissionsManager alliesMissionsManager=ServletUtils.getAlliesMissionsManager(getServletContext());
+        AlliesManager alliesManager=ServletUtils.getAlliesManager(getServletContext());
+
+        int missionsCounter = 0;
+        List<String[]> optionalRotorsList = new ArrayList<>();
+        optionalRotorsList = getOptionalRotors(miniEngineManager);
+        for (String[] optionalRotors : optionalRotorsList) {
+            List<String[]> optionalRotorsPositionList = new ArrayList<>();
+            getAllPermutationsOfRotorsPosition(optionalRotors.length, optionalRotors, optionalRotorsPositionList);
+            for (String[] optionalRotorsPosition : optionalRotorsPositionList) {
+                miniEngineManager.getTheMachineEngine().updateUsedRotors(optionalRotorsPosition);
+                for (String reflectorId : miniEngineManager.getTheMachineEngine().getReflectorsSet().getReflectorsId()) {
+                    miniEngineManager.chooseManuallyReflect(reflectorId);
+                    String initialStartingPosition= miniEngineManager.getInitialStartingPosition();
+                    int missionIndex = 0;
+                  //  System.out.println(amountOfSubListsToCreate+"amountOfSubListsToCreate");
+                    for (int i = 0; i < amountOfSubListsToCreate&&!engineManager.getIsContestEnded(); i++) {
+                       // missionsCounter++;
+                        missionIndex = i;
+                        TheMissionInfoDTO theMissionInfo =new TheMissionInfoDTO(initialStartingPosition, sizeOfMission, /*engineManagerCopy,*/stringToConvert,miniEngineManager.getMachineUsedRotorsIdArray(),miniEngineManager.getMachineReflectorId());
+
+                        isAddedToBlockingQueue = alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName, theMissionInfo);
+                        if(isAddedToBlockingQueue){
+                            missionsCounter++;
+                            System.out.println("missionsCounter"+missionsCounter);
+
+                        }
+                           while (!isAddedToBlockingQueue) {
+                            if(alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size()<1000) {
+                                isAddedToBlockingQueue = alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName, theMissionInfo);
+                                if(isAddedToBlockingQueue){
+                                    missionsCounter++;
+                                    System.out.println("missionsCounter"+missionsCounter);
+                                }
+                            }
+                        }
+                        System.out.println("**************************************");
+                        if(theAlliesTeamName!=null&&alliesManager!=null) {
+                            alliesManager.increaseAmountOfCreatedMission(theAlliesTeamName);
+                            //missionsCounter=missionsCounter.intValue()+1;
+                        }
+                        /*      System.out.println(missionsCounter.intValue());*/
+                        initialStartingPosition = miniEngineManager.getNextStartingPositionByString(sizeOfMission);
+                    }
+                    }
+                }
+            }
+        }
 
 
-    public void createImpossibleLevelMission(EngineManager engineManager,
+
+
+   /* public void createImpossibleLevelMission(EngineManager engineManager,
                                              Long amountOfSubListsToCreate,int sizeOfMission
             ,String theAlliesTeamName,String stringToConvert) throws Exception {
         Integer missionsCounter = 0;
@@ -154,10 +217,10 @@ public class DMCreateMissionsServlet extends HttpServlet {
 
 
     }
-
-    public Long calculateAmountOfMissionsToCreate(EngineManager engineManager, int sizeOfMission) {
-        Long amountOfSubListsToCreate = (engineManager.getAmountOfPossibleStartingPositionList()) / sizeOfMission;
-        if (((engineManager.getAmountOfPossibleStartingPositionList()) % sizeOfMission) != 0) {
+*/
+    public Long calculateAmountOfMissionsToCreate(MiniEngineManager miniEngineManager, int sizeOfMission) {
+        Long amountOfSubListsToCreate = (miniEngineManager.getAmountOfPossibleStartingPositionList()) / sizeOfMission;
+        if (((miniEngineManager.getAmountOfPossibleStartingPositionList()) % sizeOfMission) != 0) {
             amountOfSubListsToCreate++;
         }
         return amountOfSubListsToCreate;
@@ -197,9 +260,9 @@ public class DMCreateMissionsServlet extends HttpServlet {
         input[a] = input[b];
         input[b] = tmp;
     }
-    public List<String[]> getOptionalRotors(EngineManager engineManager) {
+    public List<String[]> getOptionalRotors(MiniEngineManager miniEngineManager) {
         List<String[]> listOfOptionalRotors = new ArrayList<>();
-        List<int[]> listOfOptionalRotorsByInt = generate(engineManager.getTheMachineEngine().getMaxAmountOfRotors(), engineManager.getAmountOfUsedRotors());
+        List<int[]> listOfOptionalRotorsByInt = generate(miniEngineManager.getTheMachineEngine().getMaxAmountOfRotors(), miniEngineManager.getAmountOfUsedRotors());
         for (int i = 0; i < listOfOptionalRotorsByInt.size(); i++) {
             {
                 String[] rotors = new String[listOfOptionalRotorsByInt.get(i).length];

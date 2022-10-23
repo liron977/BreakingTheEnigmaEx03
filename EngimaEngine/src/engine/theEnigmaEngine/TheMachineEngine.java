@@ -2,7 +2,7 @@ package engine.theEnigmaEngine;
 
 import machineDTO.ConvertedStringDTO;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -294,4 +294,19 @@ public class TheMachineEngine implements Serializable {
           Reflector reflector=this.reflectorsSet.getReflectorById(selectedReflectorId);
           this.reflector=reflector;
         }
+
+    public TheMachineEngine cloneTheMachineEngine() {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(this);
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            return (TheMachineEngine) ois.readObject();
+        } catch (IOException e) {
+            return null;
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
+    }
 }
