@@ -248,26 +248,59 @@ public class LoadFileController {
            /* Type listOfErrorsDTO = new TypeToken<ArrayList<ListOfExceptionsDTO>>() {}.getType();
             List<ListOfErrorsDTO> dtoFromGson=Constants.GSON_INSTANCE.fromJson(response.body().string(),listOfErrorsDTO);*/
             isMachineDefined.set(false);
-            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            Alert errorAlert = new Alert(Alert.AlertType.INFORMATION);
             String message="";
+            int counter=0;
+            loadFileButton.setDisable(false);
             if(dtoFromGson!=null&&dtoFromGson.getListOfException().size()!=0) {
                 String errors = "";
                 for (String error : dtoFromGson.getListOfException()) {
                     message = message.concat(error);
                     message = message.concat("\n");
                 }
+                if(message.length()<80){
+                    String finalMessage = message;
+                    errorAlert.setContentText(finalMessage);
+                    errorAlert.getDialogPane().setExpanded(true);
+                    errorAlert.showAndWait();
+                }
+                else {
+                    loadSuperScreen(message);
+                }
+              /*  counter = dtoFromGson.getListOfException().size();
+                for (int i = 0; i < counter; i++) {
+                    message = message.concat(dtoFromGson.getListOfException().get(i));
+                   // message = message.concat("\n");
+                     if (i % 3 == 0) {
+                        String finalMessage = message;
+                        //Platform.runLater(() -> {
+                            errorAlert.setContentText(finalMessage);
+                            errorAlert.getDialogPane().setExpanded(true);
+                            errorAlert.showAndWait();
+                        message="";
+                      //  });
+                     }
+
+                }*/
+                  /*  for (String error : dtoFromGson.getListOfException()) {
+                        message = message.concat(error);
+                        message = message.concat("\n");
+
+             }       }*/
             }
             else {
                  message =response.body().string();
             }
-            String finalMessage = message;
-            Platform.runLater(() -> {
-                errorAlert.setContentText(finalMessage);
-                errorAlert.getDialogPane().setExpanded(true);
-                errorAlert.showAndWait();
+//            String finalMessage = message;
+//            for(int i=0;i<counter;i++)
+//            {
+//            Platform.runLater(() -> {
+//                errorAlert.setContentText(finalMessage);
+//                errorAlert.getDialogPane().setExpanded(true);
+//                errorAlert.showAndWait();
+//
+//            });
 
-            });
-            loadFileButton.setDisable(false);
             }
         return (response.code()==200);
     }
@@ -374,5 +407,29 @@ void chatButtonOnAction(ActionEvent event) throws IOException {
     stage.setScene(scene);
     stage.show();
 }
+    private void loadSuperScreen(String msg){
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        URL superScreenUrl = getClass().getResource("/component/mainWindowUBoat/LoadFilleError.fxml");
+        fxmlLoader.setLocation(superScreenUrl);
+        Stage stage=new Stage();
+        try {
+            Parent root1 = fxmlLoader.load(superScreenUrl.openStream());
+            LoadFilleErrorController loadFilleErrorController =fxmlLoader.getController();
+          //  LoadFilleErrorController.setPrimaryStage(primaryStage);
+            //  primaryStage.setTitle("Enigma-UBoat: "+userName);
+            Scene scene = new Scene(root1);
+            stage.setTitle("Load file errors");
+            stage.setMinHeight(300f);
+            stage.setMinWidth(400f);
+            scene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
+            loadFilleErrorController.setErrorMessage(msg);
+            stage.setScene(scene);
+            stage.show();
+        }
+        catch (IOException ignore) {
+            ignore.printStackTrace();} catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

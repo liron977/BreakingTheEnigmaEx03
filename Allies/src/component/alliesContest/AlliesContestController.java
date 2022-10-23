@@ -255,9 +255,8 @@ public class AlliesContestController implements Closeable {
     private void updateBruteForceResultsTableView(BruteForceResultAndVersion bruteForceResultAndVersionWithVersion) {
         if (bruteForceResultAndVersionWithVersion != null) {
             if (bruteForceResultAndVersionWithVersion.getVersion() != contestResultsInfoVersion.get()) {
-
+                contestResultsInfoVersion.set(bruteForceResultAndVersionWithVersion.getVersion());
                 Platform.runLater(() -> {
-                    contestResultsInfoVersion.set(bruteForceResultAndVersionWithVersion.getVersion());
                     updateBruteForceResultInfoList(bruteForceResultAndVersionWithVersion.getEntries());
                 });
             }

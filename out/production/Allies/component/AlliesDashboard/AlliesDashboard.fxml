@@ -13,7 +13,10 @@
   <content>
       <VBox id="dashboardTable" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="1049.0" spacing="10.0">
          <children>
-            <Label id="GeneralLabel" text="Contests Data" VBox.vgrow="NEVER" />
+            <Label id="GeneralLabel" text="Contests Data" VBox.vgrow="NEVER">
+               <graphic>
+                  <Button fx:id="createAgentButton" mnemonicParsing="false" onAction="#createAgentButtonOnAction" text="Button" />
+               </graphic></Label>
             <TableView fx:id="contestsDataTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="153.0" prefWidth="993.0" VBox.vgrow="ALWAYS">
               <columns>
                   <TableColumn id="columnLabel" fx:id="selectedContestColumn" prefWidth="172.66669178009033" text="Select" />

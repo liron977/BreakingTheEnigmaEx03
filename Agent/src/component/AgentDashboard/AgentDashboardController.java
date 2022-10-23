@@ -9,8 +9,6 @@ import engine.theEnigmaEngine.SchemaGenerated;
 import engine.theEnigmaEngine.TheMachineEngine;
 import engine.theEnigmaEngine.UBoatBattleField;
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.StringExpression;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -89,6 +87,7 @@ public class AgentDashboardController implements Closeable {
     private Label currentAmountOfMissionsInTheQueue;
     @FXML
     private Label amountOfCandidatesStrings;
+
 
     private final String JAXB_XML_GAME_PACKAGE_NAME = "schemaGenerated";
     private SimpleBooleanProperty isMissionEndedProperty;
@@ -304,14 +303,13 @@ public class AgentDashboardController implements Closeable {
                     try {
                         theMissionInfoListFromGson = Constants.GSON_INSTANCE.fromJson(response.body().string(), theMissionInfoList);
                         List<TheMissionInfoDTO> finalTheMissionInfoListFromGson = theMissionInfoListFromGson;
-
+                        amountOfAskedMissionsProperty.set(amountOfAskedMissionsProperty.getValue() + finalTheMissionInfoListFromGson.size());
                       Platform.runLater(() -> {
                        /*     System.out.println("****************** in run latter");
                             System.out.println(amountOfAskedMissionsProperty.getValue()+" amountOfAskedMissionsProperty.setValue(amountOfAskedMissionsProperty.getValue() + finalTheMissionInfoListFromGson.size());\n");
                             System.out.println(finalTheMissionInfoListFromGson.size()+" finalTheMissionInfoListFromGson.size());\n");
                             System.out.println("****************** done run latter");*/
                            // amountOfAskedMissionsProperty.setValue(amountOfAskedMissionsProperty.getValue() + finalTheMissionInfoListFromGson.size());
-                            amountOfAskedMissionsProperty.set(amountOfAskedMissionsProperty.getValue() + finalTheMissionInfoListFromGson.size());
                             amountOfAskedMissionsLabel.setText("Amount Of Asked Missions : " + displayTextWithCommas(amountOfAskedMissionsProperty.getValue()));
                         });
                         TheMachineEngine theMachineEngine = getTheMachineEngineInputstream();
