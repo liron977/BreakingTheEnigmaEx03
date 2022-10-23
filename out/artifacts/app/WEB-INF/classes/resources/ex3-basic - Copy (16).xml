@@ -214,6 +214,7 @@
 				<CTE-Reflect input="15" output="21"/>
 				<CTE-Reflect input="11" output="17"/>
 				<CTE-Reflect input="8" output="22"/>
+                                <CTE-Reflect input="29" output="19"/>
 			</CTE-Reflector>
 		</CTE-Reflectors>
 	</CTE-Machine>
@@ -224,5 +225,5 @@
 		</Words>
 		</CTE-Dictionary>
 	</CTE-Decipher>	
-	<CTE-Battlefield battle-name="pearl harbour" allies="2" level="Easy"/>
+	<CTE-Battlefield battle-name="pearl harbour" allies="4" level="Easy"/>
 </CTE-Enigma>

@@ -25,6 +25,7 @@ public class UploadXmlFile extends HttpServlet {
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Part xmlFile = request.getParts().stream().findFirst().get();
        PrintWriter out = response.getWriter();
+       boolean isFileValid=false;
         try {
             EngineManager engineManager = new EngineManager();
             ListOfExceptionsDTO listOfExceptionsDTO=engineManager.loadFileByInputStream(xmlFile.getInputStream(),xmlFile.getName());
@@ -36,6 +37,7 @@ public class UploadXmlFile extends HttpServlet {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 }
                 else {
+                    isFileValid=true;
                     mediatorsManager.addEngineManger(battleName, engineManager);
                     UBoatAvailableContestsManager uBoatAvailableContestsManger = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
                     uBoatAvailableContestsManger.addUBoatAvailableContest(engineManager, engineManager.getBattleName());
@@ -44,7 +46,7 @@ public class UploadXmlFile extends HttpServlet {
                     response.setStatus(HttpServletResponse.SC_OK);
                 }
             }
-            else {
+           if(!isFileValid){
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 List<String> errorsList=new ArrayList<>();
                 for (Exception exception : listOfExceptionsDTO.getListOfException()) {

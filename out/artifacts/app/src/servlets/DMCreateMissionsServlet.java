@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class DMCreateMissionsServlet extends HttpServlet {
     @Override
@@ -41,6 +42,7 @@ public class DMCreateMissionsServlet extends HttpServlet {
             try {
                 createMission(miniEngineManager,engineManager, theAlliesTeamName, stringToConvert);
             } catch (Exception e) {
+                System.out.println("Exeption");
                 throw new RuntimeException(e);
             }
         }
@@ -122,15 +124,18 @@ public class DMCreateMissionsServlet extends HttpServlet {
             ,String theAlliesTeamName,String stringToConvert) throws Exception {
         String[] concatRotorsPosition = miniEngineManager.getTheMachineEngine().getUsedRotorsId();
         List<String[]> optionalRotorsPositionList = new ArrayList<>();
+        int counter=0;
         getAllPermutationsOfRotorsPosition(concatRotorsPosition.length, concatRotorsPosition, optionalRotorsPositionList);
         for (String[] optionalRotorsPosition : optionalRotorsPositionList) {
             if(engineManager.getIsContestEnded()){
                 break;
             }
+            counter++;
             miniEngineManager.getTheMachineEngine().updateUsedRotors(optionalRotorsPosition);
             createMediumLevelMission(miniEngineManager,missionsCounter,engineManager,amountOfSubListsToCreate,sizeOfMission,theAlliesTeamName,stringToConvert);
         }
     }
+
     public void createImpossibleLevelMission(MiniEngineManager miniEngineManager,EngineManager engineManager,
                                              Long amountOfSubListsToCreate,int sizeOfMission
             ,String theAlliesTeamName,String stringToConvert) throws Exception {
