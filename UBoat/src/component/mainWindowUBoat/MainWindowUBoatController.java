@@ -193,4 +193,7 @@ public void changeToMachineTab(){
         //contestTabController.startContestTableViewRefresher();
        // contestTabController.startContestStatusRefresher();
     }
+    public void setDisableUBoatMachineTabButton(boolean value){
+    this.uBoatMachineTabButton.setDisable(value);
+    }
     }

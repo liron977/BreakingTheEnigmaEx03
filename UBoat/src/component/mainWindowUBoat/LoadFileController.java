@@ -289,7 +289,7 @@ public class LoadFileController {
              }       }*/
             }
             else {
-                 message =response.body().string();
+                    message = response.body().string();
             }
 //            String finalMessage = message;
 //            for(int i=0;i<counter;i++)

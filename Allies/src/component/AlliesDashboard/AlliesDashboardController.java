@@ -26,7 +26,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import machineDTO.TheMachineEngineDTO;
 import okhttp3.*;
-import org.jetbrains.annotations.NotNull;
 import utils.http.HttpClientUtil;
 
 import java.io.Closeable;
@@ -601,7 +600,7 @@ public class AlliesDashboardController implements Closeable {
     private void loadCreateAgentButtonScreen(String alliesTeamName) {
 
         FXMLLoader fxmlLoader = new FXMLLoader();
-        URL superScreenUrl = getClass().getResource("/component/bonus/CreateAgentFromAllies.fxml");
+        URL superScreenUrl = getClass().getResource("/bonus/CreateAgentFromAllies.fxml");
         fxmlLoader.setLocation(superScreenUrl);
         Stage stage = new Stage();
         try {

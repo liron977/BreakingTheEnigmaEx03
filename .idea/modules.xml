@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/Allies/Allies.iml" filepath="$PROJECT_DIR$/Allies/Allies.iml" />
       <module fileurl="file://$PROJECT_DIR$/Application/Application.iml" filepath="$PROJECT_DIR$/Application/Application.iml" />
       <module fileurl="file://$PROJECT_DIR$/BreakingTheEnigmaEx03.iml" filepath="$PROJECT_DIR$/BreakingTheEnigmaEx03.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CreateAgentBonus/CreateAgentBonus.iml" filepath="$PROJECT_DIR$/CreateAgentBonus/CreateAgentBonus.iml" />
       <module fileurl="file://$PROJECT_DIR$/DTOObjects/DTOObjects.iml" filepath="$PROJECT_DIR$/DTOObjects/DTOObjects.iml" />
       <module fileurl="file://$PROJECT_DIR$/EngimaEngine/EngimaEngine.iml" filepath="$PROJECT_DIR$/EngimaEngine/EngimaEngine.iml" />
       <module fileurl="file://$PROJECT_DIR$/EnigmaUI/EnigmaUI.iml" filepath="$PROJECT_DIR$/EnigmaUI/EnigmaUI.iml" />

@@ -115,6 +115,7 @@
                         <Insets bottom="2.0" left="2.0" right="2.0" />
                      </VBox.margin>
                      <children>
+                        <Label id="BoldLighterLabel" fx:id="contestStatusLabel" prefHeight="17.0" prefWidth="279.0" />
                         <Button id="saveSettingsButton" fx:id="logoutButton" alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#logoutButtonOnAction" prefHeight="25.0" prefWidth="84.0" text="Logout">
                            <HBox.margin>
                               <Insets right="2.0" />

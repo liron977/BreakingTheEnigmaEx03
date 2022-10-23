@@ -25,11 +25,11 @@ public class AgentMissionsStatusServlet extends HttpServlet {
       boolean isUpdateSucceededInAgentManager=agentsManager.updateAgentMissionStatus(dtoFromGson);
     if(isUpdateSucceededInAlliesManager&&isUpdateSucceededInAgentManager) {
         response.setStatus(HttpServletResponse.SC_OK);
-        System.out.println("AgentMissionsStatusServlet-ok");
+       // System.out.println("AgentMissionsStatusServlet-ok");
     }
     else{
         response.setStatus(HttpServletResponse.SC_CONFLICT);
-        System.out.println("AgentMissionsStatusServlet-failed");
+       // System.out.println("AgentMissionsStatusServlet-failed");
 
 
     }

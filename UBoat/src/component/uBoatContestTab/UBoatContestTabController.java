@@ -106,6 +106,8 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
     private Button logoutButton;
     @FXML
     private Button resetButton;
+    @FXML
+    private Label contestStatusLabel;
 
     BruteForceSettingsDTO bruteForceSettingsDTO;
     Mediator mediator;
@@ -149,6 +151,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         this.contestResultsInfoVersion =new SimpleIntegerProperty();
         isContestEnded=new SimpleBooleanProperty(false);
         alliesWinnerTeamName="";
+        contestStatusLabel.setText("");
         isMessageDisplayedForFirstTime=false;
         logoutButton.setVisible(false);//todo remove from note
         this.dictionary=new ArrayList<>();
@@ -597,6 +600,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                 if (convertedStringProcessDTO.getExceptionList().size()==0) {
                     Platform.runLater(() -> {
                         {
+                            mainWindowUBoatController.setDisableUBoatMachineTabButton(true);
                             stringToConvertTextArea.setText(convertedStringProcessDTO.getStringToConvertWithoutExcludedSignals());
                             convertedStringTextArea.setText(convertedStringProcessDTO.getConvertedString());
                             currentCodeConfigurationController.setCurrentCodeConfiguration();
@@ -664,6 +668,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                 } else {
                     startContestTableViewRefresher();
                     readyButton.setDisable(true);
+                 // mainWindowUBoatController.setDisableUBoatMachineTabButton(true);
 
                     Platform.runLater(() -> {
                         {
@@ -785,6 +790,9 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
             Platform.runLater(() -> {
                 this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());
                 this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
+                if(contestStatusInfoDTO.getContestStatus().equals("Active")){
+                    contestStatusLabel.setText("The contest started!");
+                }
                 // this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
                 if (isContestEnded.getValue()&&!isMessageDisplayedForFirstTime) {
                     isMessageDisplayedForFirstTime=true;
@@ -795,8 +803,9 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                     alert.getDialogPane().setExpanded(true);
                    // alert.showAndWait();
                     //activeTeamsDetailsTableView.getItems().clear();
-
+                    contestStatusLabel.setText("");
                     readyButton.setDisable(false);
+                   // mainWindowUBoatController.setDisableUBoatMachineTabButton(false);
                     logoutButton.setVisible(true);
                     Optional<ButtonType> result=alert.showAndWait();
                     if(result.get()==ButtonType.OK) {
@@ -812,7 +821,9 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
+                    mainWindowUBoatController.setDisableUBoatMachineTabButton(false);
                     readyButton.setDisable(false);
+                   // mainWindowUBoatController.setDisableUBoatMachineTabButton(false);
                     //mainWindowUBoatController.changeToMachineTab();
                 }});
         }
@@ -850,7 +861,6 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                 } else {
 
                 }
-
             } catch (IOException e) {
             }
 
@@ -975,6 +985,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         isMessageDisplayedForFirstTime=false;
         isContestEnded.set(false);
         readyButton.setDisable(false);
+       // mainWindowUBoatController.setDisableUBoatMachineTabButton(false);
         if (BruteForceResultTableViewRefresher!=null&&contestStatusRefresher!=null&&alliesRegisteredTeamsRefresher != null && timer!= null && BruteForceResultTableViewRefresherTimer!= null) {
            /* alliesRegisteredTeamsRefresher.cancel();
             alliesRegisteredTeamsRefresher.cancel();*/

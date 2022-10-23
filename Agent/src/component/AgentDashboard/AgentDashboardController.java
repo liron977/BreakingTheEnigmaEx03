@@ -277,9 +277,13 @@ public class AgentDashboardController implements Closeable {
     }
 
     public boolean getMissions() {
+        System.out.println("Get missions");
         boolean isMissionsEnded = false;
        // this.isMissionsEnded=isMissionsEnded;
+        System.out.println(!isContestEnded.getValue()+"!isContestEnded.getValue(");
+        System.out.println(!isContestActive+"!isContestActive");
         if(!isContestEnded.getValue()&&isContestActive) {
+            System.out.println("Get missions in the loop");
             isMissionsEnded = false;
             this.isMissionsEnded=isMissionsEnded;
             System.out.println("Im here");
