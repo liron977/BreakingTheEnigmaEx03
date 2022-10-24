@@ -38,7 +38,7 @@ public class XmlBattlefieldValidator implements Validator, Serializable {
         (!enigmaDescriptor.getCTEBattlefield().getLevel().equals("Hard"))&&
         (!enigmaDescriptor.getCTEBattlefield().getLevel().equals("Insane"))))
         {
-            exceptionList.add(new Exception("The file is not valid,please legal level:[Easy,Medium,Hard,Impossible]"));
+            exceptionList.add(new Exception("The file is not valid,please legal level:[Easy,Medium,Hard,Insane]"));
         }
 
     }
