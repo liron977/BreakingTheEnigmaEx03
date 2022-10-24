@@ -25,6 +25,7 @@ public class DMCreateMissionsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
       //  Thread.currentThread().setName("DMCreateMissionsServlet");
+        System.out.println("in DMCreateMissionsServlet");
         AlliesManager alliesManager = ServletUtils.getAlliesManager(getServletContext());
         String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
         System.out.println(theAlliesTeamName+"DMCreateMissionsServlet ");
@@ -38,7 +39,7 @@ public class DMCreateMissionsServlet extends HttpServlet {
             miniEngineManager.setTheMachineEngine(theMachineEngineCopy);
         }
         Allies alies = alliesManager.getAlliesByAlliesTeamName(theAlliesTeamName);
-         if(engineManager!=null) {
+         if(miniEngineManager!=null) {
             try {
                 createMission(miniEngineManager,engineManager, theAlliesTeamName, stringToConvert);
             } catch (Exception e) {
@@ -53,7 +54,8 @@ public class DMCreateMissionsServlet extends HttpServlet {
         String level = battleField.getLevel();
         int sizeOfMission = battleField.getAlliesSizeOfMission(theAlliesTeamName);
      // engineManager.maxAmountOfMissionscalculation(level, sizeOfMission);
-
+        AlliesManager alliesManager=ServletUtils.getAlliesManager(getServletContext());
+        alliesManager.clearAmountOfCreatedMissions(theAlliesTeamName);
         Long amountOfSubListsToCreate = calculateAmountOfMissionsToCreate(miniEngineManager, sizeOfMission);
         updateTotalAmountOfMissions(engineManager,sizeOfMission,theAlliesTeamName);
            if (level.equals("Easy")) {
@@ -78,24 +80,31 @@ public class DMCreateMissionsServlet extends HttpServlet {
         boolean isAddedToBlockingQueue=false;
        String initialStartingPosition= miniEngineManager.getInitialStartingPosition();
         int missionIndex = 0;
-        System.out.println(amountOfSubListsToCreate+"amountOfSubListsToCreate");
+
+        System.out.println(amountOfSubListsToCreate+" amountOfSubListsToCreate");
+        System.out.println(Thread.currentThread().getId()+" Thread.currentThread().getId()");
+        System.out.println(Thread.currentThread().getName()+" Thread.currentThread().getName()");
+        //System.out.println(alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size()+"alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size()");
         for (int i = 0; i < amountOfSubListsToCreate&&!engineManager.getIsContestEnded(); i++) {
             missionsCounter++;
             missionIndex = i;
             TheMissionInfoDTO theMissionInfo =new TheMissionInfoDTO(initialStartingPosition, sizeOfMission, /*engineManagerCopy,*/stringToConvert,miniEngineManager.getMachineUsedRotorsIdArray(),miniEngineManager.getMachineReflectorId());
-
+            System.out.println(initialStartingPosition+" initialStartingPosition");
             isAddedToBlockingQueue = alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName, theMissionInfo);
             System.out.println("***********************************");
             System.out.println("missions in blocking queue: "+alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size());
             System.out.println("***********************************");
-            while (!isAddedToBlockingQueue) {
+            while (!isAddedToBlockingQueue&&!engineManager.getIsContestEnded()) {
                 if(alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size()<1000) {
                     isAddedToBlockingQueue = alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName, theMissionInfo);
                 }
             }
+            if(engineManager.getIsContestEnded()){
+                break;
+            }
             if(theAlliesTeamName!=null&&alliesManager!=null) {
                 alliesManager.increaseAmountOfCreatedMission(theAlliesTeamName);
-                //missionsCounter=missionsCounter.intValue()+1;
+
             }
       /*      System.out.println(missionsCounter.intValue());*/
             initialStartingPosition = miniEngineManager.getNextStartingPositionByString(sizeOfMission);
@@ -168,7 +177,7 @@ public class DMCreateMissionsServlet extends HttpServlet {
                             System.out.println("missionsCounter"+missionsCounter);
 
                         }
-                           while (!isAddedToBlockingQueue) {
+                           while (!isAddedToBlockingQueue&&!engineManager.getIsContestEnded()) {
                             if(alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size()<1000) {
                                 isAddedToBlockingQueue = alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName, theMissionInfo);
                                 if(isAddedToBlockingQueue){
@@ -176,6 +185,9 @@ public class DMCreateMissionsServlet extends HttpServlet {
                                     System.out.println("missionsCounter"+missionsCounter);
                                 }
                             }
+                        }
+                        if(engineManager.getIsContestEnded()){
+                            break;
                         }
                         System.out.println("**************************************");
                         if(theAlliesTeamName!=null&&alliesManager!=null) {

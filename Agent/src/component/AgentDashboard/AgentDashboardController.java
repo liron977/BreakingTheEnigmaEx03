@@ -341,7 +341,7 @@ public class AgentDashboardController implements Closeable {
 
                 }
                 if (response.code() != 200) {
-                 //   System.out.println("response.code()"+response.code());
+                   System.out.println("response.code()"+response.code());
 
                     if (response.code() == 409) {
                         isMissionsEnded = true;

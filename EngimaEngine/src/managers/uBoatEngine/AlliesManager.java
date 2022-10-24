@@ -77,4 +77,10 @@ public class AlliesManager {
         }
         return Long.valueOf(-1);
     }
+    public void clearAmountOfCreatedMissions(String alliesTeamName) {
+        Allies allies= getAlliesByAlliesTeamName(alliesTeamName);
+        if(allies!=null){
+            allies.setAmountOfCreatedMissions(0);
+        }
+    }
 }

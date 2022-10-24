@@ -69,6 +69,7 @@ public class Allies implements Serializable {
     }
     public void increaseAmountOfCreatedMissions(){
         this.amountOfCreatedMissions=this.amountOfCreatedMissions+1;
+        System.out.println(  this.amountOfCreatedMissions+"  this.amountOfCreatedMissions");
     }
 
     public void setTotalAmountOfMissionToCreate(Long totalAmountOfMissionToCreate) {
@@ -114,7 +115,7 @@ public class Allies implements Serializable {
         for (AlliesAgent agent:alliesAgents ) {
             agentsAmount--;
         }
-
+        System.out.println("In clearAlliesValues");
     totalAmountOfMissionToCreate=0L;
     amountOfCreatedMissions=0;
     battlefieldName="";

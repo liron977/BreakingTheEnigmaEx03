@@ -12,7 +12,6 @@ public class AlliesMissionsManager {
 
     private final Map<String, BlockingQueue<TheMissionInfoDTO>> alliesMissionsManagerMap;
 
-    int counter=0;
     public AlliesMissionsManager() {
         alliesMissionsManagerMap = new HashMap<>();
     }
@@ -32,10 +31,6 @@ public class AlliesMissionsManager {
         }
         isAddedToBlockingQueue= missionInfoBlockingQueue.offer(theMissionInfo);
         alliesMissionsManagerMap.put(alliesTeamName, missionInfoBlockingQueue);
-        if(isAddedToBlockingQueue){
-            counter++;
-            System.out.println(counter+"FINAL MISSIONS AMOUNT!!!!!");
-        }
         return isAddedToBlockingQueue;
         }
     public synchronized TheMissionInfoDTO getMissionFromBlockingQueue(String alliesTeamName) throws InterruptedException {

@@ -488,20 +488,13 @@ public class AlliesContestController implements Closeable {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                    } else if (result.get() == ButtonType.CANCEL) {
-                        try {
-                            close();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
                     }
 
-                    //alert.showAndWait();
-                    try {
+                  /*  try {
                         close();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
-                    }
+                    }*/
                 }
             });
         }
@@ -531,6 +524,7 @@ public class AlliesContestController implements Closeable {
                 && agentsTableViewTimer != null
                 && alliesBruteForceResultTableViewRefresherTimer != null
                 &&amountOfCreatedMissionsRefresher!=null) {
+            System.out.println("close"+"close");
             contestStatusRefresher.cancel();
             agentsTableViewRefresher.cancel();
             alliesRegisteredTeamsRefresher.cancel();
