@@ -232,7 +232,7 @@ public class CreateAgentFromAlliesController {
     private void loadSuperScreen(){
         FXMLLoader fxmlLoader = new FXMLLoader();
         Stage primaryStage=new Stage();
-        URL superScreenUrl = getClass().getResource("/component/AgentDashboard/AgentDashboard.fxml");
+        URL superScreenUrl = getClass().getResource("/component/bonus/CreateAgentFromAllies.fxml");
         fxmlLoader.setLocation(superScreenUrl);
         try {
             Parent root1 = fxmlLoader.load(superScreenUrl.openStream());

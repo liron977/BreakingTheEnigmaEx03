@@ -600,7 +600,8 @@ public class AlliesDashboardController implements Closeable {
     private void loadCreateAgentButtonScreen(String alliesTeamName) {
 
         FXMLLoader fxmlLoader = new FXMLLoader();
-        URL superScreenUrl = getClass().getResource("/bonus/CreateAgentFromAllies.fxml");
+
+        URL superScreenUrl = getClass().getResource("/component/bonus/CreateAgentFromAllies.fxml");
         fxmlLoader.setLocation(superScreenUrl);
         Stage stage = new Stage();
         try {
