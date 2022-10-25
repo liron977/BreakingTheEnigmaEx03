@@ -594,7 +594,9 @@ public class AlliesDashboardController implements Closeable {
 
     @FXML
     void createAgentButtonOnAction(ActionEvent event) throws IOException {
-        loadCreateAgentButtonScreen(alliesTeamName);
+        ProcessBuilder pb=new ProcessBuilder("AgentRun.bat");
+        pb.start();
+       // loadCreateAgentButtonScreen(alliesTeamName);
     }
 
     private void loadCreateAgentButtonScreen(String alliesTeamName) {
