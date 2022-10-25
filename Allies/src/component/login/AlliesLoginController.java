@@ -26,7 +26,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.Response;
-import uiMediator.Mediator;
+
 import constants.Constants;
 import utils.http.HttpClientUtil;
 
@@ -51,7 +51,7 @@ public class AlliesLoginController {
     private Stage primaryStage;
     private Scene mainWindowAlliesControllerScene;
     private SimpleDoubleProperty amountOfThreadsProperty;
-    private Mediator mediator;
+
 
 
 
@@ -145,9 +145,8 @@ public class AlliesLoginController {
             mainWindowAlliesControllerScene = new Scene(root1);
             primaryStage.setMinHeight(300f);
             primaryStage.setMinWidth(400f);
-            mainWindowAlliesControllerScene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
-            EngineManagerInterface engineManager=new EngineManager();
-            Mediator mediator=new Mediator(engineManager);
+            mainWindowAlliesControllerScene.getStylesheets().add(getClass().getResource("/utils/CSS/BlueStyle.css").toExternalForm());
+
             //sController.setMediator(mediator);
 
         }
@@ -167,8 +166,5 @@ public class AlliesLoginController {
         primaryStage=primaryStageIn;
        loadSuperScreen();
     }
-    public void setMediator(Mediator mediator) throws Exception {
-        this.mediator = mediator;
-       // loadFileComponentController.setMediator(mediator);
-    }
+
 }

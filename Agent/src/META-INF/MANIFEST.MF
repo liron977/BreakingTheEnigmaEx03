@@ -1,4 +1,5 @@
 Manifest-Version: 1.0
 Main-Class: main.AgentMain
-Class-Path: DTOObjects.jar MiniEngine.jar clientUtils.jar
+Class-Path: DTOObjects.jar MiniEngine.jar clientUtils.jar EngimaEngine.j
+ ar
 

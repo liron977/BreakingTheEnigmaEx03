@@ -41,7 +41,7 @@ public class HttpClientUtil {
 
     static {
         HTTP_CLIENT = (new OkHttpClient.Builder()).cookieJar(simpleCookieManager).followRedirects(false).build();
-        Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);
-
+ /*       Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);
+*/
     }
 }

@@ -282,7 +282,7 @@ public class AgentLoginController {
             mainWindowAlliesControllerScene = new Scene(root1);
             primaryStage.setMinHeight(300f);
             primaryStage.setMinWidth(400f);
-            mainWindowAlliesControllerScene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
+            mainWindowAlliesControllerScene.getStylesheets().add(getClass().getResource("/utils/CSS/BlueStyle.css").toExternalForm());
         }
         catch (IOException ignore) {
             ignore.printStackTrace();} catch (Exception e) {

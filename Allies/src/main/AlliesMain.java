@@ -26,7 +26,7 @@ public class AlliesMain extends Application {
         Scene scene = new Scene(root);
         primaryStage.setMinHeight(300f);
         primaryStage.setMinWidth(400f);
-        scene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/utils/CSS/BlueStyle.css").toExternalForm());
         scene.getStylesheets().add("");
         primaryStage.setScene(scene);
         primaryStage.show();

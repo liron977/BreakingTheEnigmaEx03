@@ -23,7 +23,6 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.Response;
-import uiMediator.Mediator;
 import constants.Constants;
 import utils.http.HttpClientUtil;
 
@@ -49,7 +48,7 @@ public class UBoatLoginController {
     private Stage primaryStage;
     private Scene sControllerScene;
     private SimpleDoubleProperty amountOfThreadsProperty;
-    private Mediator mediator;
+/*    private Mediator mediator;*/
     private LoadFileController loadFileController;
 
     public UBoatLoginController() {
@@ -131,10 +130,10 @@ public class UBoatLoginController {
             sControllerScene = new Scene(root1);
             primaryStage.setMinHeight(300f);
             primaryStage.setMinWidth(400f);
-            sControllerScene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
-            EngineManagerInterface engineManager=new EngineManager();
+            sControllerScene.getStylesheets().add(getClass().getResource("/utils/CSS/BlueStyle.css").toExternalForm());
+         /*   EngineManagerInterface engineManager=new EngineManager();
             Mediator mediator=new Mediator(engineManager);
-            mainWindowUBoatController.setMediator(mediator);
+            mainWindowUBoatController.setMediator(mediator);*/
 
         }
         catch (IOException ignore) {
@@ -153,8 +152,8 @@ public class UBoatLoginController {
         primaryStage=primaryStageIn;
        loadSuperScreen();
     }
-    public void setMediator(Mediator mediator) throws Exception {
+   /* public void setMediator(Mediator mediator) throws Exception {
         this.mediator = mediator;
        // loadFileComponentController.setMediator(mediator);
-    }
+    }*/
 }
