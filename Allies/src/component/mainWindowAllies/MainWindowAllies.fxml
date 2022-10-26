@@ -19,6 +19,11 @@
             <HBox alignment="CENTER">
                <children>
                   <Label id="applicationTitleLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Allies" HBox.hgrow="ALWAYS" />
+                  <Button id="chatButton" fx:id="createAgentButton" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createAgentButtonOnAction" text="Add Agent">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin>
+                  </Button>
                   <Button id="chatButton" fx:id="chatButton" mnemonicParsing="false" onAction="#chatButtonOnAction" text="Chat">
                      <HBox.margin>
                         <Insets right="2.0" top="2.0" />

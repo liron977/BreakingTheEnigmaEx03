@@ -78,8 +78,7 @@ public class AlliesDashboardController implements Closeable {
     @FXML
     private TextField missionSizeTextField;
     AlliesThreadTask threadTask;
-    @FXML
-    private Button createAgentButton;
+
 
     private UBoatContestInfoWithCheckBoxDTO selectedContestDTO;
     @FXML
@@ -592,10 +591,10 @@ public class AlliesDashboardController implements Closeable {
         isContestSelected.setValue(true);
     }
 
-    @FXML
+    /*@FXML
     void createAgentButtonOnAction(ActionEvent event) throws IOException {
-       /*   ProcessBuilder pb=new ProcessBuilder("AgentRun.bat");
-        pb.start();*/
+       *//*   ProcessBuilder pb=new ProcessBuilder("AgentRun.bat");
+        pb.start();*//*
 
         ProcessBuilder pb = new ProcessBuilder();
         java.util.Map<String, String> env = pb.environment();
@@ -608,7 +607,7 @@ public class AlliesDashboardController implements Closeable {
 
         // loadCreateAgentButtonScreen(alliesTeamName);
     }
-
+*/
     private void loadCreateAgentButtonScreen(String alliesTeamName) {
 
         FXMLLoader fxmlLoader = new FXMLLoader();

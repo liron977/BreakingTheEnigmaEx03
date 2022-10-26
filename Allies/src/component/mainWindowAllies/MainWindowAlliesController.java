@@ -27,7 +27,8 @@ public class MainWindowAlliesController {
     @FXML
     ScrollPane alliesContest;
 
-
+    @FXML
+    private Button createAgentButton;
     @FXML
     AlliesDashboardController alliesDashboardController;
 
@@ -58,6 +59,24 @@ public class MainWindowAlliesController {
 
         }
     }
+
+    @FXML
+    void createAgentButtonOnAction(ActionEvent event) throws IOException {
+       /*   ProcessBuilder pb=new ProcessBuilder("AgentRun.bat");
+        pb.start();*/
+
+        ProcessBuilder pb = new ProcessBuilder();
+        java.util.Map<String, String> env = pb.environment();
+
+        env.put("alliesTeamName", alliesTeamName);
+
+        pb.command("AgentRun.bat", "/c", "echo", "%mode%");
+
+        pb.inheritIO().start();
+
+        // loadCreateAgentButtonScreen(alliesTeamName);
+    }
+
     @FXML
     void chatButtonOnAction(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
