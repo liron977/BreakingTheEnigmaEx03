@@ -69,13 +69,13 @@ public class Allies implements Serializable {
     }
     public void increaseAmountOfCreatedMissions(){
         this.amountOfCreatedMissions=this.amountOfCreatedMissions+1;
-        System.out.println(  this.amountOfCreatedMissions+"  this.amountOfCreatedMissions");
+       // System.out.println(  this.amountOfCreatedMissions+"  this.amountOfCreatedMissions");
     }
 
     public void setTotalAmountOfMissionToCreate(Long totalAmountOfMissionToCreate) {
         this.totalAmountOfMissionToCreate = totalAmountOfMissionToCreate;
         this.maxAmountOfMissions=totalAmountOfMissionToCreate;
-        System.out.println( this.maxAmountOfMissions+"this.maxAmountOfMissions");
+       // System.out.println( this.maxAmountOfMissions+"this.maxAmountOfMissions");
 
     }
 
@@ -115,7 +115,7 @@ public class Allies implements Serializable {
         for (AlliesAgent agent:alliesAgents ) {
             agentsAmount--;
         }
-        System.out.println("In clearAlliesValues");
+       // System.out.println("In clearAlliesValues");
     totalAmountOfMissionToCreate=0L;
     amountOfCreatedMissions=0;
     battlefieldName="";

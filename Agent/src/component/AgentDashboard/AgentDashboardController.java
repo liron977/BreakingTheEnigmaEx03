@@ -211,9 +211,6 @@ public class AgentDashboardController implements Closeable {
         agentInfoDTO.setAmountOfMissionsToExecute(amountOfMissionsInTheQueue.getValue());
         agentInfoDTO.setAmountOfReceivedMissions(amountOfAskedMissionsProperty.getValue());
         agentInfoDTO.setAmountOfCandidatesStrings(bruteForceResultsDTOObservableList.size());
-        System.out.println("candidates: "+agentInfoDTO.getAmountOfCandidatesStrings());
-        System.out.println("amountOfAskedMissionsProperty: "+agentInfoDTO.getAmountOfReceivedMissions());
-        System.out.println("amountOfMissionsInTheQueue: "+agentInfoDTO.getAmountOfMissionsToExecute());
         String agentInfoDTOGson = Constants.GSON_INSTANCE.toJson(agentInfoDTO);
         RequestBody body = RequestBody.create(
                 MediaType.parse("application/json"), agentInfoDTOGson);
@@ -278,16 +275,11 @@ public class AgentDashboardController implements Closeable {
     }
 
     public boolean getMissions() {
-        System.out.println("Get missions");
         boolean isMissionsEnded = false;
        // this.isMissionsEnded=isMissionsEnded;
-        System.out.println(!isContestEnded.getValue()+"!isContestEnded.getValue(");
-        System.out.println(!isContestActive+"!isContestActive");
         if(!isContestEnded.getValue()&&isContestActive) {
-            System.out.println("Get missions in the loop");
             isMissionsEnded = false;
             this.isMissionsEnded=isMissionsEnded;
-            System.out.println("Im here");
             String finalUrl = HttpUrl
                     .parse(Constants.AGENT_GET_MISSIONS)
                     .newBuilder()
@@ -342,7 +334,7 @@ public class AgentDashboardController implements Closeable {
 
                 }
                 if (response.code() != 200) {
-                   System.out.println("response.code()"+response.code());
+                   //System.out.println("response.code()"+response.code());
 
                     if (response.code() == 409) {
                         isMissionsEnded = true;
@@ -350,7 +342,7 @@ public class AgentDashboardController implements Closeable {
                       /*  Platform.runLater(() -> {
                             {*/
                                 if(isContestEnded.getValue()){
-                                    System.out.println(" isMissionsEnded = true; 409");
+                                    //System.out.println(" isMissionsEnded = true; 409");
                                    return true;
                                 }
                                /* String message = "The Missions ended";
@@ -367,7 +359,7 @@ public class AgentDashboardController implements Closeable {
                        /* });*/
                     }
                     if (response.code() == 410) {
-                        System.out.println(" isMissionsEnded = true; 410");
+                        //System.out.println(" isMissionsEnded = true; 410");
                         isMissionsEnded = true;
                         this.isMissionsEnded=isMissionsEnded;
                         return true;
@@ -610,7 +602,6 @@ return isMissionsEnded;
                   //  Platform.runLater(() -> {
                       //  try {
                         isMessageDisplayedForFirstTime=true;
-                            System.out.println("updateContestStatus");
                             initValues();
                            updateAgentStatus();
                         try {
@@ -631,9 +622,8 @@ return isMissionsEnded;
                 this.isContestEnded.setValue(contestStatusInfoDTO.isContestEnded());
                 this.alliesWinnerTeamName = contestStatusInfoDTO.getAlliesWinnerTeamName();
                 this.isContestActive=contestStatusInfoDTO.isContestActive();
-             System.out.println("before isMessageDisplayedForFirstTime"+" "+this.isContestEnded.getValue()+" "+this.isContestActive+" "+isPopDisplayedForFirstTime );
                 if (isContestEnded.getValue()&&!isPopDisplayedForFirstTime&&(!alliesWinnerTeamName.equals(""))) {
-                    System.out.println("isMessageDisplayedForFirstTime =true");
+                   /* System.out.println("isMessageDisplayedForFirstTime =true");*/
                     isPopDisplayedForFirstTime = true;
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.initModality(Modality.NONE);
@@ -711,7 +701,6 @@ private void updateAgentStatus(){
     }
     public void initValues(){
         Platform.runLater(() -> {
-        System.out.println("in the initValues");
         setThreadPoolSize(amountOfThreads);
         listOfPossiblePosition=new ArrayList<>();
         contestInfo.getItems().clear();
@@ -748,14 +737,14 @@ private void updateAgentStatus(){
     public void checkIfNewContest(Boolean shouldStartNewContest){
 
         if(shouldStartNewContest&&!isStartedContestAlready){
-            System.out.println("Refresher started");
+            //System.out.println("Refresher started");
             startContestStatusRefresher();
             //startContestTableViewRefresher();
             if(!isThreadTaskCreatedProperty.getValue()) {
                /* bruteForceResultsDTOObservableList=getTeamsAgentsDataTableViewDTOList(resultDTOList);
                 bruteForceResultTableView.setItems(bruteForceResultsDTOObservableList);*/
                 AgentThreadTask agentThreadTask = new AgentThreadTask(this);
-                System.out.println("new thread task");
+                //System.out.println("new thread task");
                 new Thread(agentThreadTask).start();
               //  isPopDisplayedForFirstTime = false;
                 isStartedContestAlready = true;
@@ -775,7 +764,7 @@ private void updateAgentStatus(){
         }
         isMessageDisplayedForFirstTime = false;
         isPopDisplayedForFirstTime = false;
-        System.out.println("done close");
+        //System.out.println("done close");
     }
     @FXML
     void chatButtonOnAction(ActionEvent event) throws IOException {

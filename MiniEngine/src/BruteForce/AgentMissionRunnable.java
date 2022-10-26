@@ -96,9 +96,9 @@ public class AgentMissionRunnable implements Runnable {
         synchronized (dummyObject){
             if(resultsList.size()>0) {
                 uiAdapterInterface.saveResultsOnServer(resultsList);
-                for (BruteForceResultDTO str:resultsList) {
+                /*for (BruteForceResultDTO str:resultsList) {
                     System.out.println(str.getConvertedString());
-                }
+                }*/
 
             }
           //  System.out.println("publishResults. thread: "+Thread.currentThread().getName());
@@ -109,10 +109,10 @@ public class AgentMissionRunnable implements Runnable {
             System.out.println(amountOfMissionsInTheQueue.getValue()+" amountOfMissionsInTheQueue.setValue(amountOfAskedMissionsProperty.getValue()-amountOfDoneMissions.getValue());\n");
             System.out.println(amountOfAskedMissionsProperty.getValue()+" amountOfMissionsInTheQueue.setValue(amountOfAskedMissionsProperty.getValue()\n");
             System.out.println(amountOfDoneMissions.getValue()+"  -amountOfDoneMissions.getValue());\n");*/
-            if(amountOfMissionsInTheQueue.getValue()<0){
+           /* if(amountOfMissionsInTheQueue.getValue()<0){
                 int r=0;
                 System.out.println(amountOfMissionsInTheQueue.getValue());
-            }
+            }*/
             uiAdapterInterface.updateAmountMissionsInTheQueuePerAgent(amountOfMissionsInTheQueue.getValue());
            // System.out.println("***************** done publishResults");
 

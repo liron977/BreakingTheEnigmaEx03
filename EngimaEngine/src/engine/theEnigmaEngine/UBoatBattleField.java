@@ -83,7 +83,7 @@ public void setIsAlliesConfirmedGameOver(){
        alliesActiveTeamsAmount=getAlliesActiveTeamsAmount();
        if(alliesActiveTeamsAmount<alliesNeededTeamsAmount){
            alliesRegisteredToContest.add(allies);
-           System.out.println("added "+allies.getAlliesName());
+           //System.out.println("added "+allies.getAlliesName());
            isCrrentAlliesStatusListAlreayUpdated=false;
            currentAlliesStatusList.add(new CurrentAlliesStatus(allies.getAlliesName(),false));
            alliesActiveTeamsAmount++;
@@ -204,7 +204,7 @@ public int getAlliesActiveTeamsAmount() {
 
         this.contestStatus="Wait..";
         this.isContestEnded=false;
-        System.out.println( " this.isContestEnded=false");
+       // System.out.println( " this.isContestEnded=false");
         this.alliesWinnwerTeamName="";
 
 
@@ -275,7 +275,7 @@ public int getAlliesActiveTeamsAmount() {
     public void updateCurrentAlliesStatusListAtTheEndOfContest() {
         if (!isCrrentAlliesStatusListAlreayUpdated) {
             for (CurrentAlliesStatus currentAlliesStatus : currentAlliesStatusList) {
-                System.out.println(currentAlliesStatus.getAlliesName());
+                //System.out.println(currentAlliesStatus.getAlliesName());
                 currentAlliesStatus.setContestEnded(true);
             }
             isCrrentAlliesStatusListAlreayUpdated = true;
@@ -303,7 +303,7 @@ public int getAlliesActiveTeamsAmount() {
                 for (Allies allies:alliesRegisteredToContest ) {
                     if(allies.getAlliesName().equals(theAlliesTeamName)){
                         alliesRegisteredToContestToRemove.add(allies);
-                        System.out.println("removed "+theAlliesTeamName);
+                       // System.out.println("removed "+theAlliesTeamName);
 
                     }
                 }

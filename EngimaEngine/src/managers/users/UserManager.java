@@ -12,11 +12,11 @@ public class UserManager {
     }
     public synchronized void removeUser(String username) {
         try {
-            System.out.println("in the try");
+           // System.out.println("in the try");
             usersMap.remove(username);
 
         } catch (Exception e){
-            System.out.println("did no delete");
+            //System.out.println("did no delete");
         }
     }
     public synchronized Map<String,String> getUsers() {

@@ -30,7 +30,6 @@ public class AgentMain extends Application {
                 alliesTeamName = map.getValue();
                agentLoginController.setAlliesName(alliesTeamName);
               }
-                System.out.println(alliesTeamName + "Agent app");
             }
         }
       if(alliesTeamName.isEmpty()) {

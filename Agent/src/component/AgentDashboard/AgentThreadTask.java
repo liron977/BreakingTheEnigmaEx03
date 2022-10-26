@@ -26,7 +26,7 @@ public class AgentThreadTask extends Task<Boolean> {
             isMissionsEnded=agentDashboardController.getMissions();
             setIsThreadTaskCreated(true);
         }
-        System.out.println(Boolean.TRUE+"Boolean.TRUE");
+       // System.out.println(Boolean.TRUE+"Boolean.TRUE");
         setIsThreadTaskCreated(false);
         return Boolean.TRUE;
 

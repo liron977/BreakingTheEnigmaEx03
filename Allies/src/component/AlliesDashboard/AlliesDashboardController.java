@@ -504,7 +504,7 @@ public class AlliesDashboardController implements Closeable {
             });
 
             String stringToConvert = Constants.GSON_INSTANCE.fromJson(response.body().string(), String.class);
-            System.out.println("registerAllies");
+           // System.out.println("registerAllies");
             mainWindowAlliesController.setMissionSize(Integer.valueOf(missionSizeTextField.getText()));
                 /* threadTask=new AlliesThreadTask(mainWindowAlliesController.getAlliesContestController(),stringToConvert,Integer.parseInt(missionSizeTextField.getText()),alliesTeamName);
                  mainWindowAlliesController.setThreadTask(threadTask);

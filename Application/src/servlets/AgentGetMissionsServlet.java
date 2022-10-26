@@ -30,7 +30,7 @@ public class AgentGetMissionsServlet extends HttpServlet {
             String amountOfMissionsString = request.getParameter(ParametersConstants.AMOUNT_OF_MISSIONS_PER_AGENT);
             int amountOfMissions = Integer.parseInt(amountOfMissionsString);//todo
 
-            System.out.println(amountOfMissions+"amountOfMissions");
+            //System.out.println(amountOfMissions+"amountOfMissions");
             List<TheMissionInfoDTO> theMissionInfoList = new ArrayList<>();
             UBoatAvailableContestsManager uBoatAvailableContestsManager = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
             EngineManager engineManager = uBoatAvailableContestsManager.getEngineMangerByAlliesTeamName(theAlliesTeamName);
@@ -51,7 +51,7 @@ public class AgentGetMissionsServlet extends HttpServlet {
                             response.setStatus(HttpServletResponse.SC_GONE);
                         } else {
                            // synchronized (getServletContext()) {
-                                System.out.println("***************** in servlet");
+                               // System.out.println("***************** in servlet");
                                 int counter = 0;
                                 while (counter < amountOfMissions) {
                                     try {
@@ -60,11 +60,11 @@ public class AgentGetMissionsServlet extends HttpServlet {
                                         // System.out.println(alliesMissionsManager.getCurrentAmountOfCreatedMissions(theAlliesTeamName) + "getMissionsBlockingQueueByAlliesTeamName");
 
                                         if (theMissionInfo == null) {
-                                            System.out.println("theMissionInfo == null)");
+                                           // System.out.println("theMissionInfo == null)");
                                             break;
                                         } else {
                                             counter++;
-                                            System.out.println(counter + "counter");
+                                           // System.out.println(counter + "counter");
                                             alliesManager.decreaseMaxAmountOfMissions(theAlliesTeamName);
                                             //  System.out.println(alliesManager.getMaxAmountOfMissions(theAlliesTeamName) + "getMaxAmountOfMissions");
                                             theMissionInfoList.add(theMissionInfo);
@@ -75,7 +75,7 @@ public class AgentGetMissionsServlet extends HttpServlet {
                                         System.out.println(e.getMessage());
                                     }
                                // }
-                                System.out.println("***************** done servlet");
+                               // System.out.println("***************** done servlet");
                             }
 
                             response.setStatus(HttpServletResponse.SC_OK);

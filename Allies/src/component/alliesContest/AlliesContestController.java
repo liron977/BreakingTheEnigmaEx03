@@ -457,10 +457,10 @@ public class AlliesContestController implements Closeable {
         displayMessageInContestStatusLabel(contestStatusInfoDTO);
 
         if (contestStatusInfoDTO.isUboatSettingsCompleted() && !isMissionsCreated) {
-            System.out.println("new thread task");
+            //System.out.println("new thread task");
             threadTask = new AlliesThreadTask(convertedString, missionSize, alliesTeamName);
            // mainWindowAlliesController.setThreadTask(threadTask);
-            System.out.println("before start");
+            //System.out.println("before start");
             new Thread(threadTask).start();
             isMissionsCreated = true;
             /* isUboatSettingsCompleted = contestStatusInfoDTO.isUboatSettingsCompleted();*/

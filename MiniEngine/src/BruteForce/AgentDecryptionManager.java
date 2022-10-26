@@ -63,8 +63,6 @@ public AgentDecryptionManager(Object dummyObject, SimpleIntegerProperty amountOf
     int missionsCounter=0;
     String lastStartingPos=machineEngine.getLastStartingPos();
         threadPoolExecutor.prestartAllCoreThreads();
-        System.out.println("****************** in createMission");
-        System.out.println(theMissionInfoDTOList.size()+"theMissionInfoDTOList");
         for (TheMissionInfoDTO theMissionInfoDTO : theMissionInfoDTOList) {
             if (isContestEnded.getValue()) {
                 break;
@@ -85,7 +83,7 @@ public AgentDecryptionManager(Object dummyObject, SimpleIntegerProperty amountOf
             }
         threadPoolExecutor.shutdown();
         threadPoolExecutor.awaitTermination(Integer.MAX_VALUE, TimeUnit.HOURS);
-        System.out.println("****************** done createMission");
+
 
     }
 

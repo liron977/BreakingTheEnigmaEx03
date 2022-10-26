@@ -88,7 +88,7 @@ public void setStringToConvert(String stringToConvert){
                     });*/
                 }
             } else {
-                System.out.println("thread task 200");
+                //System.out.println("thread task 200");
                 String res = response.body().string();
            /*     Platform.runLater(() -> {
                     {
@@ -98,7 +98,7 @@ public void setStringToConvert(String stringToConvert){
             }
         } catch (IOException e) {
         }
-        System.out.println("Thread Boolean.TRUE");
+        //System.out.println("Thread Boolean.TRUE");
         return Boolean.TRUE;
     }
 }
