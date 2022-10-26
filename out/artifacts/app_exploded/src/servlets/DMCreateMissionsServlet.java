@@ -25,10 +25,10 @@ public class DMCreateMissionsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
       //  Thread.currentThread().setName("DMCreateMissionsServlet");
-        System.out.println("in DMCreateMissionsServlet");
+      //  System.out.println("in DMCreateMissionsServlet");
         AlliesManager alliesManager = ServletUtils.getAlliesManager(getServletContext());
         String theAlliesTeamName = request.getParameter(ParametersConstants.ALLIES_TEAM_NAME);
-        System.out.println(theAlliesTeamName+"DMCreateMissionsServlet ");
+       // System.out.println(theAlliesTeamName+"DMCreateMissionsServlet ");
         UBoatAvailableContestsManager uBoatAvailableContestsManager = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
         EngineManager engineManager = uBoatAvailableContestsManager.getEngineMangerByAlliesTeamName(theAlliesTeamName);
         String stringToConvert = engineManager.getConvertedString();
@@ -43,7 +43,7 @@ public class DMCreateMissionsServlet extends HttpServlet {
             try {
                 createMission(miniEngineManager,engineManager, theAlliesTeamName, stringToConvert);
             } catch (Exception e) {
-                System.out.println("Exeption");
+                //System.out.println("Exeption");
                 throw new RuntimeException(e);
             }
         }
@@ -81,20 +81,20 @@ public class DMCreateMissionsServlet extends HttpServlet {
        String initialStartingPosition= miniEngineManager.getInitialStartingPosition();
         int missionIndex = 0;
 
-        System.out.println(amountOfSubListsToCreate+" amountOfSubListsToCreate");
+        /*System.out.println(amountOfSubListsToCreate+" amountOfSubListsToCreate");
         System.out.println(Thread.currentThread().getId()+" Thread.currentThread().getId()");
-        System.out.println(Thread.currentThread().getName()+" Thread.currentThread().getName()");
+        System.out.println(Thread.currentThread().getName()+" Thread.currentThread().getName()");*/
         //System.out.println(alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size()+"alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size()");
         for (int i = 0; i < amountOfSubListsToCreate&&!engineManager.getIsContestEnded(); i++) {
             missionsCounter++;
             missionIndex = i;
             TheMissionInfoDTO theMissionInfo =new TheMissionInfoDTO(initialStartingPosition, sizeOfMission, /*engineManagerCopy,*/stringToConvert,miniEngineManager.getMachineUsedRotorsIdArray(),miniEngineManager.getMachineReflectorId());
-            System.out.println(initialStartingPosition+" initialStartingPosition");
+            //System.out.println(initialStartingPosition+" initialStartingPosition");
             isAddedToBlockingQueue = alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName, theMissionInfo);
-            System.out.println("***********************************");
+            /*System.out.println("***********************************");
             System.out.println("missions in blocking queue: "+alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size());
             System.out.println("***********************************");
-            while (!isAddedToBlockingQueue&&!engineManager.getIsContestEnded()) {
+         */   while (!isAddedToBlockingQueue&&!engineManager.getIsContestEnded()) {
                 if(alliesMissionsManager.getMissionsBlockingQueueByAlliesTeamName(theAlliesTeamName).size()<1000) {
                     isAddedToBlockingQueue = alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName, theMissionInfo);
                 }
@@ -109,7 +109,7 @@ public class DMCreateMissionsServlet extends HttpServlet {
       /*      System.out.println(missionsCounter.intValue());*/
             initialStartingPosition = miniEngineManager.getNextStartingPositionByString(sizeOfMission);
         }
-        System.out.println(missionsCounter+"missionsCounter");
+        //System.out.println(missionsCounter+"missionsCounter");
     }
 
     public void createMediumLevelMission(MiniEngineManager miniEngineManager,Integer missionsCounter,EngineManager engineManager,
@@ -174,7 +174,7 @@ public class DMCreateMissionsServlet extends HttpServlet {
                         isAddedToBlockingQueue = alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName, theMissionInfo);
                         if(isAddedToBlockingQueue){
                             missionsCounter++;
-                            System.out.println("missionsCounter"+missionsCounter);
+                           // System.out.println("missionsCounter"+missionsCounter);
 
                         }
                            while (!isAddedToBlockingQueue&&!engineManager.getIsContestEnded()) {
@@ -182,14 +182,14 @@ public class DMCreateMissionsServlet extends HttpServlet {
                                 isAddedToBlockingQueue = alliesMissionsManager.addMissionInfoIntoMissionBlockingQueue(theAlliesTeamName, theMissionInfo);
                                 if(isAddedToBlockingQueue){
                                     missionsCounter++;
-                                    System.out.println("missionsCounter"+missionsCounter);
+                                    //System.out.println("missionsCounter"+missionsCounter);
                                 }
                             }
                         }
                         if(engineManager.getIsContestEnded()){
                             break;
                         }
-                        System.out.println("**************************************");
+                       // System.out.println("**************************************");
                         if(theAlliesTeamName!=null&&alliesManager!=null) {
                             alliesManager.increaseAmountOfCreatedMission(theAlliesTeamName);
                             //missionsCounter=missionsCounter.intValue()+1;
