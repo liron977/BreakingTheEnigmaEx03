@@ -9,6 +9,8 @@ import component.AgentDashboard.AgentThreadTask;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -288,6 +290,12 @@ public class AgentLoginController {
             ignore.printStackTrace();} catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+    public void setAlliesName(String alliesName){
+        ObservableList<String> alliesNameObservableList;
+        alliesNameObservableList = FXCollections.observableArrayList(alliesName);
+        alliesTeamComboBox.setItems(alliesNameObservableList);
+        alliesTeamComboBox.setValue(alliesName);
     }
     private void displayErrors(String text) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

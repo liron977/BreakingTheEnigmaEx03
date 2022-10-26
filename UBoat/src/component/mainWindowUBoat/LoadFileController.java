@@ -402,7 +402,7 @@ void chatButtonOnAction(ActionEvent event) throws IOException {
     Scene scene = new Scene(root);
     stage.setMinHeight(300f);
     stage.setMinWidth(400f);
-    scene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
+    scene.getStylesheets().add(getClass().getResource("/utils/CSS/BlueStyle.css").toExternalForm());
     scene.getStylesheets().add("");
     stage.setScene(scene);
     stage.show();
@@ -421,7 +421,7 @@ void chatButtonOnAction(ActionEvent event) throws IOException {
             stage.setTitle("Load file errors");
             stage.setMinHeight(300f);
             stage.setMinWidth(400f);
-            scene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/utils/CSS/BlueStyle.css").toExternalForm());
             loadFilleErrorController.setErrorMessage(msg);
             stage.setScene(scene);
             stage.show();

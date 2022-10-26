@@ -791,7 +791,7 @@ private void updateAgentStatus(){
         Scene scene = new Scene(root);
         stage.setMinHeight(300f);
         stage.setMinWidth(400f);
-        scene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/utils/CSS/BlueStyle.css").toExternalForm());
         scene.getStylesheets().add("");
         stage.setScene(scene);
         stage.show();

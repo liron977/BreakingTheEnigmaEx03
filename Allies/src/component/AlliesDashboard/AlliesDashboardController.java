@@ -594,9 +594,19 @@ public class AlliesDashboardController implements Closeable {
 
     @FXML
     void createAgentButtonOnAction(ActionEvent event) throws IOException {
-        ProcessBuilder pb=new ProcessBuilder("AgentRun.bat");
-        pb.start();
-       // loadCreateAgentButtonScreen(alliesTeamName);
+       /*   ProcessBuilder pb=new ProcessBuilder("AgentRun.bat");
+        pb.start();*/
+
+        ProcessBuilder pb = new ProcessBuilder();
+        java.util.Map<String, String> env = pb.environment();
+
+        env.put("alliesTeamName", alliesTeamName);
+
+        pb.command("AgentRun.bat", "/c", "echo", "%mode%");
+
+        pb.inheritIO().start();
+
+        // loadCreateAgentButtonScreen(alliesTeamName);
     }
 
     private void loadCreateAgentButtonScreen(String alliesTeamName) {
@@ -615,7 +625,7 @@ public class AlliesDashboardController implements Closeable {
             stage.setTitle("Create Agent");
             stage.setMinHeight(300f);
             stage.setMinWidth(400f);
-            scene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/utils/CSS/BlueStyle.css").toExternalForm());
             createAgentFromAlliesController.setAlliesName(alliesTeamName);
             createAgentFromAlliesController.setPrimaryStageAndLoadInTheBackgroundSuperScreen(stage);
             stage.setScene(scene);
