@@ -80,7 +80,7 @@ public class MainWindowAlliesController {
     @FXML
     void chatButtonOnAction(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
-Stage stage=new Stage();
+        Stage stage=new Stage();
         URL url = getClass().getResource("/component/bonus/chat-area.fxml");
         //URL url = getClass().getResource("/component/mainWindowUBoat/MainWindowUBoat.fxml");
         fxmlLoader.setLocation(url);
