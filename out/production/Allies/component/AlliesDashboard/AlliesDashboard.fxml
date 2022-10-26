@@ -7,16 +7,22 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="486.0" prefWidth="1044.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.AlliesDashboard.AlliesDashboardController">
   <content>
-      <VBox id="dashboardTable" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="1049.0" spacing="10.0">
+      <VBox id="dashboardTable" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="483.0" prefWidth="1025.0" spacing="10.0">
          <children>
-            <Label id="GeneralLabel" text="Contests Data" VBox.vgrow="NEVER">
-               <graphic>
-                  <Button fx:id="createAgentButton" mnemonicParsing="false" onAction="#createAgentButtonOnAction" text="Button" />
-               </graphic></Label>
+            <HBox alignment="CENTER" VBox.vgrow="NEVER">
+               <children>
+                  <Label id="GeneralLabel" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="943.0" text="Contests Data" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets left="25.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
             <TableView fx:id="contestsDataTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="153.0" prefWidth="993.0" VBox.vgrow="ALWAYS">
               <columns>
                   <TableColumn id="columnLabel" fx:id="selectedContestColumn" prefWidth="172.66669178009033" text="Select" />

@@ -23,6 +23,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import machineDTO.TheMachineEngineDTO;
 import okhttp3.*;
@@ -496,7 +497,7 @@ public class AlliesDashboardController implements Closeable {
         if (response.code() == 200) {
 
             Platform.runLater(() -> {
-
+                alert.initModality(Modality.NONE);
                 alert.setContentText("You registered to the contest " + selectedBattleField + " successfully");
                 alert.getDialogPane().setExpanded(true);
                 alert.showAndWait();

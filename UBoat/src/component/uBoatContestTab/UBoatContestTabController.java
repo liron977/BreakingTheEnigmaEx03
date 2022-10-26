@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import machineEngine.EngineManager;
 import javafx.application.Platform;
@@ -803,26 +804,27 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                     alert.getDialogPane().setExpanded(true);
                    // alert.showAndWait();
                     //activeTeamsDetailsTableView.getItems().clear();
-                    contestStatusLabel.setText("");
-                    readyButton.setDisable(false);
+
+                   // readyButton.setDisable(false);
                    // mainWindowUBoatController.setDisableUBoatMachineTabButton(false);
-                    logoutButton.setVisible(true);
+                    //logoutButton.setVisible(true);
+                    contestStatusLabel.setText("");
+                    alert.initModality(Modality.NONE);
                     Optional<ButtonType> result=alert.showAndWait();
                     if(result.get()==ButtonType.OK) {
                         clearContestValues();
+                        mainWindowUBoatController.setDisableUBoatMachineTabButton(false);
+                        readyButton.setDisable(false);
+                        logoutButton.setVisible(true);
+
                         try {
                             close();
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
                     }
-                    try {
-                        close();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    mainWindowUBoatController.setDisableUBoatMachineTabButton(false);
-                    readyButton.setDisable(false);
+
+
                    // mainWindowUBoatController.setDisableUBoatMachineTabButton(false);
                     //mainWindowUBoatController.changeToMachineTab();
                 }});

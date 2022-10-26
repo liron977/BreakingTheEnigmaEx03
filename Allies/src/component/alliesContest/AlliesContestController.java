@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import okhttp3.*;
 import constants.Constants;
 import utils.http.HttpClientUtil;
@@ -469,6 +470,7 @@ public class AlliesContestController implements Closeable {
                     isMessageDisplayedForFirstTime = true;
                     isMissionsCreated = false;
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.initModality(Modality.NONE);
                     String message = "The contest ended" + "\n" + "The winning team is " + alliesWinnerTeamName;
                     alert.setContentText(message);
                     alert.setTitle("Allies");
