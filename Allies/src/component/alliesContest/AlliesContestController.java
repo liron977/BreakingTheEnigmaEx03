@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -117,6 +118,8 @@ public class AlliesContestController implements Closeable {
     // ObservableList<AgentInfoDTO> agentInfoDTOObservableList;
     @FXML
     private Label uBoatIsNotReadyLabel;
+    @FXML
+    private Button clearButton;
     private boolean isMessageUboatDontExistDisplayed;
     private List<String> agentsNamesList;
     private TimerTask notAvailableAgentsRefresher;
@@ -137,6 +140,7 @@ public class AlliesContestController implements Closeable {
         missionSize = 0;
         isMessageUboatDontExistDisplayed=false;
         agentsNamesList=new ArrayList<>();
+        clearButton.setVisible(false);
 
     }
     public void initNotAvailableAgentsValues(){
@@ -470,7 +474,7 @@ public class AlliesContestController implements Closeable {
                     isMessageDisplayedForFirstTime = true;
                     isMissionsCreated = false;
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.initModality(Modality.NONE);
+                   // alert.initModality(Modality.NONE);
                     String message = "The contest ended" + "\n" + "The winning team is " + alliesWinnerTeamName;
                     alert.setContentText(message);
                     alert.setTitle("Allies");
@@ -478,7 +482,8 @@ public class AlliesContestController implements Closeable {
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.get() == ButtonType.OK) {
                         isMissionsCreated = false;
-                        try {
+                        clearButton.setVisible(true);
+             /*           try {
                             setConfirmed();
                             close();
                         } catch (IOException e) {
@@ -489,7 +494,7 @@ public class AlliesContestController implements Closeable {
                             mainWindowAlliesController.changeToAlliesDashboardTab();
                         } catch (IOException e) {
                             throw new RuntimeException(e);
-                        }
+                        }*/
                     }
 
                   /*  try {
@@ -574,7 +579,9 @@ public void cancelNotAvailableAgentsRefresher() {
                         amountOfCreatedMissionsRefresher.cancel();*/
                         mainWindowAlliesController.disableReadyButton();
                         try {
+                            setConfirmed();
                             close();
+                            deleteValues();
                             mainWindowAlliesController.changeToAlliesDashboardTab();
                         } catch (IOException e) {
                             throw new RuntimeException(e);
@@ -636,6 +643,7 @@ public void cancelNotAvailableAgentsRefresher() {
     }
 
     public void deleteValues() {
+        clearButton.setVisible(false);
         activeTeamsDetailsTableView.getItems().clear();
         contestCandidatesTableView.getItems().clear();
         dmAmountOfCreatedMissionsLabel.setText("0");
@@ -652,12 +660,14 @@ public void cancelNotAvailableAgentsRefresher() {
         isContestEnded.setValue(false);
         alliesWinnerTeamName = "";
         isMessageDisplayedForFirstTime = false;
+
        // notAvailableAgentsMessageDisplayed=false;
        // notAvailableAgentsLabel.setText("");
         // isMissionsCreated=false;
         //  agentInfoDTOObservableList= FXCollections.observableArrayList();
     }
     public void reset(){
+        clearButton.setVisible(false);
         activeTeamsDetailsTableView.getItems().clear();
         contestCandidatesTableView.getItems().clear();
         dmAmountOfCreatedMissionsLabel.setText("0");
@@ -799,6 +809,17 @@ public void cancelNotAvailableAgentsRefresher() {
                 alliesTeamName);
         notAvailableAgentsRefresherTimer = new Timer();
         notAvailableAgentsRefresherTimer.schedule(notAvailableAgentsRefresher, REFRESH_RATE, REFRESH_RATE);
+    }
+    @FXML
+    void clearButtonOnAction(ActionEvent event) throws IOException {
+        try {
+            setConfirmed();
+            close();
+            deleteValues();
+            mainWindowAlliesController.changeToAlliesDashboardTab();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     private void updateNotAvailableAgents(List<String> notAvailableAgentsList) {
         Platform.runLater(() -> {

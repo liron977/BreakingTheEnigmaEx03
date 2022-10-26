@@ -64,9 +64,8 @@ public class AlliesRegisteredTeamsInfoTablesViewRefresher extends TimerTask {
                 if((dtoFromGson!=null) && (dtoFromGson.size()!=0)) {
                     updateRegisteredAlliesInfoList.accept((dtoFromGson));
                 }
-                if(dtoFromGson.size()==0){
-                clearTableViewValues.accept(0);
-
+               else if((dtoFromGson==null)||(dtoFromGson.size()==0)) {
+                    clearTableViewValues.accept(0);
                 }
             }
         });
