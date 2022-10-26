@@ -23,7 +23,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import machineDTO.TheMachineEngineDTO;
 import okhttp3.*;
@@ -79,7 +78,8 @@ public class AlliesDashboardController implements Closeable {
     @FXML
     private TextField missionSizeTextField;
     AlliesThreadTask threadTask;
-
+    @FXML
+    private Button createAgentButton;
 
     private UBoatContestInfoWithCheckBoxDTO selectedContestDTO;
     @FXML
@@ -497,7 +497,7 @@ public class AlliesDashboardController implements Closeable {
         if (response.code() == 200) {
 
             Platform.runLater(() -> {
-                alert.initModality(Modality.NONE);
+
                 alert.setContentText("You registered to the contest " + selectedBattleField + " successfully");
                 alert.getDialogPane().setExpanded(true);
                 alert.showAndWait();
@@ -592,23 +592,11 @@ public class AlliesDashboardController implements Closeable {
         isContestSelected.setValue(true);
     }
 
-    /*@FXML
+    @FXML
     void createAgentButtonOnAction(ActionEvent event) throws IOException {
-       *//*   ProcessBuilder pb=new ProcessBuilder("AgentRun.bat");
-        pb.start();*//*
-
-        ProcessBuilder pb = new ProcessBuilder();
-        java.util.Map<String, String> env = pb.environment();
-
-        env.put("alliesTeamName", alliesTeamName);
-
-        pb.command("AgentRun.bat", "/c", "echo", "%mode%");
-
-        pb.inheritIO().start();
-
-        // loadCreateAgentButtonScreen(alliesTeamName);
+        loadCreateAgentButtonScreen(alliesTeamName);
     }
-*/
+
     private void loadCreateAgentButtonScreen(String alliesTeamName) {
 
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -625,7 +613,7 @@ public class AlliesDashboardController implements Closeable {
             stage.setTitle("Create Agent");
             stage.setMinHeight(300f);
             stage.setMinWidth(400f);
-            scene.getStylesheets().add(getClass().getResource("/utils/CSS/BlueStyle.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/utils/CSS//BlueStyle.css").toExternalForm());
             createAgentFromAlliesController.setAlliesName(alliesTeamName);
             createAgentFromAlliesController.setPrimaryStageAndLoadInTheBackgroundSuperScreen(stage);
             stage.setScene(scene);
