@@ -798,6 +798,7 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                 if (isContestEnded.getValue()&&!isMessageDisplayedForFirstTime) {
                     isMessageDisplayedForFirstTime=true;
                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.initModality(Modality.NONE);
                     String message = "The contest ended" + "\n" + "The winning team is " + alliesWinnerTeamName;
                     alert.setContentText(message);
                     alert.setTitle("UBoat");
@@ -809,7 +810,6 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
                    // mainWindowUBoatController.setDisableUBoatMachineTabButton(false);
                     //logoutButton.setVisible(true);
                     contestStatusLabel.setText("");
-                    alert.initModality(Modality.NONE);
                     Optional<ButtonType> result=alert.showAndWait();
                     if(result.get()==ButtonType.OK) {
                         clearContestValues();
