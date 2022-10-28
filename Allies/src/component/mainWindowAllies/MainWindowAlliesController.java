@@ -70,11 +70,10 @@ public class MainWindowAlliesController {
 
         env.put("alliesTeamName", alliesTeamName);
 
-        pb.command("AgentRun.bat", "/c", "echo", "%mode%");
+        pb.command("AddAgentBonus.bat", "/c", "echo", "%mode%");
 
         pb.inheritIO().start();
 
-        // loadCreateAgentButtonScreen(alliesTeamName);
     }
 
     @FXML
