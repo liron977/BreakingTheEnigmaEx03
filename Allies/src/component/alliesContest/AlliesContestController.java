@@ -481,7 +481,7 @@ public class AlliesContestController implements Closeable {
                     alert.getDialogPane().setExpanded(true);
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.get() == ButtonType.OK) {
-                        isMissionsCreated = false;
+                       /* isMissionsCreated = false;*/
                         clearButton.setVisible(true);
              /*           try {
                             setConfirmed();
@@ -813,6 +813,7 @@ public void cancelNotAvailableAgentsRefresher() {
     @FXML
     void clearButtonOnAction(ActionEvent event) throws IOException {
         try {
+            isMissionsCreated = false;
             setConfirmed();
             close();
             deleteValues();

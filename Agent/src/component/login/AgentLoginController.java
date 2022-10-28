@@ -99,12 +99,13 @@ public class AgentLoginController {
     }
         private void updateAlliesTeamNamesComboBox(List<String> agentInfoDTOList) {
         Platform.runLater(() -> {
+          /*  List<String> alliesTeamComboBox
             for (String s: alliesTeamComboBox.getItems()) {
                 if(!agentInfoDTOList.contains(s))
                 {
                     alliesTeamComboBox.getItems().remove(s);
                 }
-            }
+            }*/
             for (String str:agentInfoDTOList) {
                if(!alliesTeamComboBox.getItems().contains(str)) {
                    alliesTeamComboBox.getItems().add(str);

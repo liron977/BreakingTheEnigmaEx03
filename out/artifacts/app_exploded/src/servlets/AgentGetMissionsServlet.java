@@ -30,17 +30,14 @@ public class AgentGetMissionsServlet extends HttpServlet {
             String amountOfMissionsString = request.getParameter(ParametersConstants.AMOUNT_OF_MISSIONS_PER_AGENT);
             int amountOfMissions = Integer.parseInt(amountOfMissionsString);//todo
 
-            //System.out.println(amountOfMissions+"amountOfMissions");
             List<TheMissionInfoDTO> theMissionInfoList = new ArrayList<>();
             UBoatAvailableContestsManager uBoatAvailableContestsManager = ServletUtils.getUBoatAvailableContestsManager(getServletContext());
             EngineManager engineManager = uBoatAvailableContestsManager.getEngineMangerByAlliesTeamName(theAlliesTeamName);
-            /*System.out.println(theAlliesTeamName+"AgentGetMissionsServlet");*/
 
             if (engineManager != null) {
                 if (!engineManager.isAlliesExists(theAlliesTeamName)) {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 } else {
-                    //System.out.println(engineManager.getMaxAmountOfMissions()+"engineManager.getMaxAmountOfMissions()");
                     if (alliesManager.getMaxAmountOfMissions(theAlliesTeamName) == -1) {
                         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     } else {
@@ -50,23 +47,17 @@ public class AgentGetMissionsServlet extends HttpServlet {
                         } else if (engineManager.getIsContestEnded()) {
                             response.setStatus(HttpServletResponse.SC_GONE);
                         } else {
-                           // synchronized (getServletContext()) {
-                               // System.out.println("***************** in servlet");
-                                int counter = 0;
+                                  int counter = 0;
                                 while (counter < amountOfMissions) {
                                     try {
-                                        //synchronized (getServletContext()) {
                                         TheMissionInfoDTO theMissionInfo = alliesMissionsManager.getMissionFromBlockingQueue(theAlliesTeamName);
-                                        // System.out.println(alliesMissionsManager.getCurrentAmountOfCreatedMissions(theAlliesTeamName) + "getMissionsBlockingQueueByAlliesTeamName");
 
                                         if (theMissionInfo == null) {
-                                           // System.out.println("theMissionInfo == null)");
+
                                             break;
                                         } else {
                                             counter++;
-                                           // System.out.println(counter + "counter");
                                             alliesManager.decreaseMaxAmountOfMissions(theAlliesTeamName);
-                                            //  System.out.println(alliesManager.getMaxAmountOfMissions(theAlliesTeamName) + "getMaxAmountOfMissions");
                                             theMissionInfoList.add(theMissionInfo);
                                         }
                                     } catch (InterruptedException e) {
@@ -74,9 +65,7 @@ public class AgentGetMissionsServlet extends HttpServlet {
                                     } catch (Exception e) {
                                         System.out.println(e.getMessage());
                                     }
-                               // }
-                               // System.out.println("***************** done servlet");
-                            }
+                                   }
 
                             response.setStatus(HttpServletResponse.SC_OK);
                             Gson gson = new Gson();
@@ -88,7 +77,6 @@ public class AgentGetMissionsServlet extends HttpServlet {
                     }
                 }
             }
-           // System.out.println("engine is null");
         }
         catch (Exception e) {
             throw new RuntimeException(e);
