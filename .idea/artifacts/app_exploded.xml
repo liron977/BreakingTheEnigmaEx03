@@ -14,7 +14,6 @@
           <element id="library" level="project" name="google-gson-2" />
           <element id="library" level="project" name="okHttp" />
           <element id="file-copy" path="$PROJECT_DIR$/3rd/AnimateFX-1.2.0.jar" />
-          <element id="file-copy" path="$PROJECT_DIR$/../../../../AnimateFX-1.2.0.jar" />
         </element>
       </element>
     </root>

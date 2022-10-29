@@ -726,7 +726,9 @@ public class UBoatContestTabController implements EventsHandler, Closeable {
         startAlliesInfoTableViewTimer.schedule(alliesRegisteredTeamsRefresher, REFRESH_RATE, REFRESH_RATE);
     }
     public void clearTableViewValues(Integer i){
-        activeTeamsDetailsTableView.getItems().clear();
+      /* if(!activeTeamsDetailsTableView.getItems().isEmpty()){*/
+           activeTeamsDetailsTableView.getItems().clear();
+      /* }*/
 
     }
     private void updateBruteForceResultsTableView(BruteForceResultAndVersion bruteForceResultAndVersionWithVersion) {

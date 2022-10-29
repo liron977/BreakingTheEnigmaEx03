@@ -63,13 +63,13 @@ public AgentDecryptionManager(Object dummyObject, SimpleIntegerProperty amountOf
     int missionsCounter=0;
     String lastStartingPos=machineEngine.getLastStartingPos();
         threadPoolExecutor.prestartAllCoreThreads();
-        System.out.println("**********new List*************");
+        /*System.out.println("**********new List*************");
         for (TheMissionInfoDTO theMissionInfoDTO:theMissionInfoDTOList) {
             System.out.println("getInitialStartingPosition "+theMissionInfoDTO.getInitialStartingPosition());
 
         }
         System.out.println("********************************");
-
+*/
         for (TheMissionInfoDTO theMissionInfoDTO : theMissionInfoDTOList) {
             if (isContestEnded.getValue()) {
                 break;

@@ -108,7 +108,7 @@ public class DMCreateMissionsServlet extends HttpServlet {
             }
       /*      System.out.println(missionsCounter.intValue());*/
             initialStartingPosition = miniEngineManager.getNextStartingPositionByString(sizeOfMission);
-            System.out.println("initialStartingPosition "+initialStartingPosition);
+            //  System.out.println("initialStartingPosition "+initialStartingPosition);
         }
         //System.out.println(missionsCounter+"missionsCounter");
     }

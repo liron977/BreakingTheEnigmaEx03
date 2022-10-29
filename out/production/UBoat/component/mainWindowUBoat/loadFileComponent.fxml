@@ -15,7 +15,7 @@
                <HBox.margin>
                   <Insets left="87.0" />
                </HBox.margin></Label>
-            <Button id="chatButton" mnemonicParsing="false" onAction="#chatButtonOnAction" prefHeight="25.0" prefWidth="87.0" text="Chat">
+            <Button id="chatButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#chatButtonOnAction" prefHeight="25.0" prefWidth="87.0" text="Chat">
                <HBox.margin>
                   <Insets right="5.0" />
                </HBox.margin>
